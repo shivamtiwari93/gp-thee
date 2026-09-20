@@ -23,8 +23,9 @@ def build(V, T, d, L):
     m["head"].weight = m["tok"].weight  # weight tying: the output layer reuses the token embedding
     return m
 
-for name, V, T, d, L in [("chars, V=100", 100, 256, 384, 6), ("BPE, V=2048", 2048, 256, 384, 6),
-                         ("small 6L/256d, V=100", 100, 256, 256, 6), ("stretch 12L/512d, V=2048, T=512", 2048, 512, 512, 12)]:
+# The size experiment changes ONE thing, the model's shape; tokenizer and context stay fixed.
+for name, V, T, d, L in [("GP-Thee: 6L/384d, chars V=100", 100, 256, 384, 6), ("same, BPE vocabulary V=2048", 2048, 256, 384, 6),
+                         ("smaller: 6L/256d, chars", 100, 256, 256, 6), ("larger: 12L/512d, chars", 100, 256, 512, 12)]:
     m = build(V, T, d, L)
     pytorch = sum(p.numel() for p in m.parameters())   # .parameters() de-duplicates the tied weight
     hand = 12 * d * d * L + (2 * L + 1) * d + V * d + T * d

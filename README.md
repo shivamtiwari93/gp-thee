@@ -45,6 +45,8 @@ brew install uv                              # the only thing you install by han
 git clone https://github.com/shivamtiwari93/gp-thee && cd gp-thee
 uv sync                                      # Python 3.14 + PyTorch 2.14, from the lockfile
 uv run python scripts/download_data.py       # confirms the corpus checksum
+uv run python scripts/smoke_test_gpu.py      # Mac only: GPU answers match the CPU's
+uv run python scripts/count_params.py        # the 10M arithmetic, checked against PyTorch
 ```
 
 More steps are added here as they are built.

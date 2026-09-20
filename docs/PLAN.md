@@ -28,7 +28,7 @@ Shakespeare is the only text in the universe. That bans pretrained weights, pret
 | 9. Evaluate | bits per character against baselines (unigram, character 5-gram, bzip2/xz) | the model beats the 5-gram and the compressors |
 | 10. Memorisation | share of 50-character windows copied verbatim from training text | reported per checkpoint and temperature |
 | 11. Sample | `sample.py`, and a "speak as a character" dialogue wrapper | fixed 10-prompt suite regenerated per checkpoint |
-| 12. Experiments | tokenizer size, model size (about 5M / 11M / 39M), dropout, one variable at a time, 3 seeds each | results table |
+| 12. Experiments | tokenizer size, model size (about 5M / 11M / 38M, same tokenizer and context), dropout, one variable at a time, 3 seeds each | results table |
 
 Optional later: a port to Apple's MLX, modern architecture tweaks (RoPE, RMSNorm, SwiGLU), an ensemble.
 

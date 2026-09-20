@@ -26,7 +26,7 @@ Read with `system_profiler SPHardwareDataType SPDisplaysDataType` and `sysctl`.
 | OS | macOS 26.5.2 |
 | Python | 3.14.6 (Homebrew); no ML libraries installed |
 
-A 10-million-parameter model with its optimizer state needs well under 1 GB. The machine is not the constraint. The size of the corpus is.
+A 10-million-parameter model with its optimizer state needs well under 1 GB. The machine is not the constraint. The size of the corpus is. *(The first sentence is true but misleading: a training step also holds 1 to 5 GB of intermediate results. Corrected in Entry 8.)*
 
 ## Entry 2. Research (2026-09-20)
 
@@ -65,7 +65,7 @@ Why PyTorch first: at this scale both frameworks finish in minutes, so speed doe
 Corrections from fact-checking:
 
 - A widely quoted "MLX is 2.1x faster than PyTorch" benchmark dates from mid-2024 (MLX 0.14 against PyTorch 2.3). Which is faster on an M5 Max today is unknown.
-- Known PyTorch MPS bugs on M5 chips (non-deterministic half-precision matrix multiply, fixed in 2.13; corrupted attention output on macOS 26, fixed in 2.14) mean: pin `torch==2.14.0`, and check CPU against GPU results on one batch before trusting a long run.
+- *(This bullet is partly wrong; see Entry 8 for the verified list.)* Known PyTorch MPS bugs on M5 chips (non-deterministic half-precision matrix multiply, fixed in 2.13; corrupted attention output on macOS 26, fixed in 2.14) mean: pin `torch==2.14.0`, and check CPU against GPU results on one batch before trusting a long run.
 
 Expected time per baseline training run on this machine: about 10 to 30 minutes (*estimate*, extrapolated from a published M3 Max run of 30 to 37 minutes).
 
@@ -182,3 +182,44 @@ Entry 2d computed the model size by hand. To make sure the formula is right, a s
 | stretch: 12 layers, width 512, vocabulary 2048, context 512 | 39,072,256 | 39,072,256 | yes |
 
 The formula: `12·d²·L + (2L+1)·d + V·d + T·d`. It is exact here because the design has no bias terms and the output layer shares its weights with the token embedding. nanoGPT reports 10.65M for this shape because it uses a 65-character vocabulary and leaves position embeddings out of its headline count: `10,616,832 + 4,992 + 65×384 = 10,646,784`.
+
+## Entry 8. Blog part 1, and what reviewing it caught (2026-09-20)
+
+Wrote [blog/01-prerequisites-and-setup.md](../blog/01-prerequisites-and-setup.md), then had it reviewed by three independent agents: a fact-checker, a senior-ML-engineer lens, and a newcomer reading it cold. 67 issues came back. Most were missing definitions. Five were real errors, and every one of them was then checked first-hand before the post was changed.
+
+**1. "Everything needed to train it fits in under 1 GB." Wrong by about five times.** The arithmetic for weights, gradients and the two AdamW averages is right: 4 copies × 43 MB = 172 MB (*measured*: 174 MB). But a training step also keeps every intermediate result of the forward pass until the backward pass has used it, and that dominates. A rough probe of this exact shape (fp32, dropout 0.2, AdamW, PyTorch's fused attention), all *measured*:
+
+| Batch | Live after the forward pass | Allocated by the GPU driver |
+|---|---|---|
+| 16 × 256 | 1.3 GB | 2.3 GB |
+| 64 × 256 (nanoGPT's batch) | 4.8 GB | 5.5 GB |
+
+Still trivial on 128 GB, but the claim was wrong, and it was wrong in Entry 1 too.
+
+**2. The PyTorch bug list was partly wrong.** Entry 2b cited "corrupted attention output on macOS 26, fixed in 2.14". That is PR [#191794](https://github.com/pytorch/pytorch/pull/191794), which repaired a feature that had landed in the same development cycle, so it probably never shipped in a release. The verified list, read directly from the issue tracker:
+
+| Issue | What | Affected |
+|---|---|---|
+| [#193487](https://github.com/pytorch/pytorch/issues/193487) | fp32 matrix multiply with a transposed left side silently wrong by 10 to 30%, depending on allocator state | 2.7 to 2.13.0; masked, not root-fixed, in 2.14; still open |
+| [#195910](https://github.com/pytorch/pytorch/issues/195910) | causal attention in fp16/bf16 lets 3 of every 4 positions see future tokens | 2.12.1 and earlier; fixed in 2.13 |
+| [#180776](https://github.com/pytorch/pytorch/issues/180776) | `F.linear` in fp16/bf16 gives different results on repeated calls, M5 chips | workaround in 2.13 |
+
+These are better reasons for pinning 2.14.0 than the ones originally given, and the first two hit exactly what a GPT does.
+
+**3. "A 2048-entry vocabulary adds 786,432 parameters."** It *replaces* the 38,400-parameter character table, so the net increase is 748,032. The prose disagreed with its own table.
+
+**4. "`uv sync` gets the same Python."** Only to the minor version. `.python-version` says `3.14`; the patch release (we ran 3.14.7) is not pinned.
+
+**5. "Floating-point arithmetic on two devices almost never agrees to the last bit."** Too broad. Single operations are rounded identically everywhere. Long sums differ when the order of addition differs.
+
+New scripts that came out of this:
+
+- `scripts/smoke_test_gpu.py` replaces the interactive test from Entry 5. It adds the transposed multiply from #193487, causal attention in the model's real shape, a future-leak test (change the last token; no earlier position may change), and a control that must show a difference, so the comparison is proven able to fail. All pass (*measured*): multiplies bit-identical; LayerNorm/Linear/GELU differ by 1.7e-6; attention by 7.2e-7; leak exactly 0; control 0.16; 50 multiplies take 68 ms on the GPU and 479 ms on the CPU.
+- `scripts/explain_bit_identical.py` answers why the multiply matches bit for bit. Recomputing 60 outputs one product at a time, in index order, with a fused multiply-add, matches both devices 60 out of 60. Reverse order matches 1 of 60; multiply-then-add matches 5 of 60 (*measured*). So Apple's CPU library and GPU kernel add in the same order with the same instruction.
+- `scripts/count_params.py`: the "larger" configuration is now 12 layers, width 512 with the *same* tokenizer and context, 37,943,808 parameters. The earlier 39M row also changed vocabulary and context, which would have confounded the size experiment.
+
+Also checked: of PyTorch's nine dependencies, `import torch` loads only `typing-extensions`; one training step adds `sympy` and `mpmath`; the other six stay idle (*measured*).
+
+**A naming point to settle at release.** 10,758,528 rounds to 11M, not 10M. `GP-Thee-10M` is kept as a round label for now, with the exact count to go on the model card. The final count depends on the tokenizer chosen, so the name is decided when the model is.
+
+Lesson: the errors were not in the code. They were in sentences written from memory of what "should" be true. Every one of them was cheap to check.
