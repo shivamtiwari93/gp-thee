@@ -1,0 +1,117 @@
+# Build log
+
+A chronological record of how GP-Thee was built: what was done, the exact commands, the numbers, the decisions and the reasons, and the mistakes. Newest entries are at the bottom.
+
+Numbers marked *measured* were measured directly. Numbers marked *estimate* were extrapolated and have not been checked on this machine.
+
+---
+
+## Entry 0. The premise (2026-09-20)
+
+Build a language model from scratch where the complete works of Shakespeare are the only text that exists. No pretrained weights, no pretrained tokenizer, no outside text.
+
+Why this is a good learning project: the corpus is about 5 MB, so every experiment takes minutes on a laptop, and the whole pipeline (data, tokenizer, model, training, evaluation, sampling) is small enough to read end to end.
+
+## Entry 1. The hardware (2026-09-20)
+
+Read with `system_profiler SPHardwareDataType SPDisplaysDataType` and `sysctl`.
+
+| | |
+|---|---|
+| Machine | MacBook Pro (Mac17,7), Apple M5 Max |
+| CPU | 18 cores (6 super + 12 performance) |
+| GPU | 40 cores, Metal 4 |
+| Memory | 128 GB unified (shared by CPU and GPU) |
+| Free disk | about 1.6 TB |
+| OS | macOS 26.5.2 |
+| Python | 3.14.6 (Homebrew); no ML libraries installed |
+
+A 10-million-parameter model with its optimizer state needs well under 1 GB. The machine is not the constraint. The size of the corpus is.
+
+## Entry 2. Research (2026-09-20)
+
+Before writing code, four questions were researched in parallel, each by one agent, and each agent's findings were then attacked by a separate fact-checking agent. A final agent looked for gaps and contradictions. Nine agents in total. The corrections below came from that checking step, which is why they are worth recording.
+
+### 2a. Is there a dataset?
+
+Yes. **Project Gutenberg eBook #100**, one plain-text file.
+
+- 5,422,721 bytes; about 963,000 words; 5.36 million characters; 100 distinct characters (*measured*).
+- 44 works: the Sonnets (all 154 counted), 38 plays including *Pericles* and *The Two Noble Kinsmen*, and 5 poems.
+- Public domain in the United States.
+- Structure is preserved: `ACT` and `SCENE` headings, a cast list per play, speaker names in capitals on their own line (`HAMLET.`), stage directions in brackets (`[_Exit._]`).
+
+Alternatives that were checked and rejected:
+
+| Source | Why not |
+|---|---|
+| Karpathy's "tiny shakespeare" (1.1 MB) | About 21% of the works. No sonnets, no *Hamlet*, no *Macbeth*. Useful only as a quick test file. |
+| Hugging Face "complete works" datasets | Each had a defect: shuffled rows with wrong labels, a 1990s edition with a copyright notice embedded 221 times, 36 plays only, or 80-character windows. |
+| Folger Shakespeare | Cleaner text, but licensed CC BY-NC (non-commercial), and missing two poems. Wrong choice for a project that will be published. |
+| Kaggle "Shakespeare plays" CSV | 36 plays, no poems, unknown licence, 6,237 stage directions attributed to the wrong speaker. |
+
+Things inside the Gutenberg file that are not Shakespeare and must be cleaned: the marker lines, a title block, a 44-entry table of contents, 38 per-play contents lists, the word `FINIS` (twice), and verse line numbers stuck to the end of 293 lines of *Venus and Adonis*.
+
+**A bug caught before it happened.** The first proposed regex for those line numbers was `` {2,}\d+$``. The fact-checker ran it and found it matches 447 lines, not 293: it also deletes all 154 sonnet numbers. The correct pattern is `(?<=\S) {2,}\d+$`. Lesson: cleaning scripts need assertions on how many lines each rule touches.
+
+**An authorship wrinkle.** *The Passionate Pilgrim* was published under Shakespeare's name, but only about five of its twenty poems are thought to be his. Two of its poems are also Sonnets 138 and 144, and three come from *Love's Labour's Lost*. So those works must stay together on the same side of the train/validation split, or held-out text leaks into training.
+
+### 2b. Which software?
+
+**PyTorch on the Mac GPU backend (MPS)**, in a `uv`-managed environment. Both PyTorch 2.14 and Apple's MLX 0.32 publish Python 3.14 wheels for this Mac (*verified on PyPI*), so no second Python is needed.
+
+Why PyTorch first: at this scale both frameworks finish in minutes, so speed does not decide it. PyTorch has the canonical line-by-line reference for this exact task (nanoGPT), is easy to debug, and the skills carry over to other hardware. MLX is the planned second pass.
+
+Corrections from fact-checking:
+
+- A widely quoted "MLX is 2.1x faster than PyTorch" benchmark dates from mid-2024 (MLX 0.14 against PyTorch 2.3). Which is faster on an M5 Max today is unknown.
+- Known PyTorch MPS bugs on M5 chips (non-deterministic half-precision matrix multiply, fixed in 2.13; corrupted attention output on macOS 26, fixed in 2.14) mean: pin `torch==2.14.0`, and check CPU against GPU results on one batch before trusting a long run.
+
+Expected time per baseline training run on this machine: about 10 to 30 minutes (*estimate*, extrapolated from a published M3 Max run of 30 to 37 minutes).
+
+### 2c. How big should the model be?
+
+About **10 million parameters**: 6 layers, 6 attention heads, width 384, context of 256 tokens. This is the nanoGPT "baby GPT" shape.
+
+The reasoning: the corpus is tiny, so the risk is memorisation, not lack of capacity. Research on training with repeated data (Muennighoff et al., 2023) supports models far larger than the classic "20 tokens per parameter" rule when you train for many passes with dropout and weight decay, which lands at roughly 5 to 12 million parameters for 5 million characters. Published replications of this shape on the 1 MB subset show validation loss bottoming out early and then getting worse, so the best checkpoint must be kept and training stopped early.
+
+Open points the research did not settle, to be answered by experiment: the best tokenizer vocabulary size (candidates: characters, 1024, 2048, 4096), how many passes over the data help, and whether a 39-million-parameter model gains anything.
+
+### 2d. How do we know it is 10 million before training?
+
+Because the parameter count is arithmetic on the architecture. Nothing about it is learned. For a GPT with width `d`, `L` layers, vocabulary `V` and context `T`:
+
+- Attention, per layer: `4·d²` (three `d×d` matrices for queries, keys and values, one for the output).
+- Feed-forward, per layer: `8·d²` (`d → 4d → d`).
+- So each layer has about `12·d²` weights.
+- Token embeddings: `V·d` (shared with the output layer). Position embeddings: `T·d`.
+
+With `d = 384`, `L = 6`:
+
+```
+12 × 384² × 6      = 10,616,832   transformer layers
+13 × 384           =      4,992   layer-norm weights (2 per layer + 1 final)
+100 × 384          =     38,400   token embeddings (100 characters)
+256 × 384          =     98,304   position embeddings
+                     ----------
+                     10,758,528   ≈ 10.8M
+```
+
+Training changes the *values* of these numbers, never how many there are. A BPE tokenizer with 2048 entries would add `2048 × 384 ≈ 0.8M`. So the repo is named `gp-thee`, and each released checkpoint is named by its real count, for example `GP-Thee-10M`. The code will print the count, and a test will check it against this calculation.
+
+## Entry 3. Scaffold (2026-09-20)
+
+```bash
+brew install uv                       # uv 0.12.17
+cd ~/Documents/GitHub
+uv init --package --name gp-thee --python 3.14 --vcs git gp-thee
+```
+
+Why `uv` with its own Python rather than Homebrew's: Homebrew will move to Python 3.15, which would break an environment built on it mid-project. `uv` pins the interpreter and writes a lockfile, so the environment is reproducible.
+
+Decisions:
+
+- **Raw data is not committed.** The raw file carries Project Gutenberg marker lines and the name is trademarked. A download script re-creates it and verifies its SHA-256. The cleaned corpus, which is only public-domain Shakespeare, will be committed.
+- **Weights are not committed.** They go on Hugging Face.
+- **MIT licence** for code and weights.
+- **Public from the first commit**, so the history itself is part of the record.

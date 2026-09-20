@@ -1,0 +1,19 @@
+[project]
+name = "gp-thee"
+version = "0.1.0"
+description = "A GPT trained from scratch on nothing but the complete works of Shakespeare. An educational project."
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "Shivam Tiwari" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+[build-system]
+requires = ["uv_build>=0.12.17,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv]
+# Use uv's own CPython, not Homebrew's, so a Homebrew upgrade cannot break the environment.
+python-preference = "only-managed"
