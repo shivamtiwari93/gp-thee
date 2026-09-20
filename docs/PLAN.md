@@ -47,4 +47,4 @@ A 5-slide PDF and a post, using the real charts and samples.
 
 ## Naming
 
-The repo is `gp-thee`. Each released checkpoint carries its parameter count: the first is `GP-Thee-11M` (10,758,528 parameters). The count is fixed by the architecture, so it is known before training; see the build log.
+The repo is `gp-thee`. Each released checkpoint carries its parameter count: the first is `GP-Thee-11M` (10,757,376 parameters with the cleaned 97-character alphabet). The count is fixed by the architecture, so it is known before training; see the build log.

@@ -56,6 +56,7 @@ More steps are added here as they are built.
 ## Read along
 
 1. [Prerequisites and setup](blog/01-prerequisites-and-setup.md): the starting point, the tools and why, and how we know the model has 10.8 million parameters before training it.
+2. [The data](blog/02-the-data.md): finding the corpus, the traps hidden in it, cleaning 0.75% of it, auditing the result twice, and why these five works are held out.
 
 ## Data and licence
 

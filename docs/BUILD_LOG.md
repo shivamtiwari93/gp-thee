@@ -249,7 +249,7 @@ Other traps the map found, each of which would have damaged the corpus silently:
 - **Blank lines cannot find the works.** 308 runs of four blank lines exist; only 42 sit between works. 252 lines have the exact shape of a work heading; only 45 are.
 - **A play's contents list cannot be told from its real headings by appearance.** 85 of the contents lists' `ACT` lines are byte-identical to the real ones. Position is the only reliable rule: from the line `Contents` to the line before `Dramatis Personæ`.
 - **Italic markers cannot be paired line by line.** The 9,702 underscores balance perfectly over the whole file, but 264 italic spans cross line boundaries, one of them 29 lines long.
-- **Only four pairs of works share any passage of 50+ characters.** *The Passionate Pilgrim* with the Sonnets (its poems I and II are Sonnets 138 and 144) and with *Love's Labour's Lost* (three poems); *2 Henry IV* with *Richard II* (one quotation); *Lucrece* with *Venus* (the dedication header). That decides which works can be held out for validation.
+- **Only four pairs of works share any of Shakespeare's own text of 50+ characters** *(wording corrected in Entry 11: counting editor's headings, 23 works share something)*. *The Passionate Pilgrim* with the Sonnets (its poems I and II are Sonnets 138 and 144) and with *Love's Labour's Lost* (three poems); *2 Henry IV* with *Richard II* (one quotation); *Lucrece* with *Venus* (the dedication header). That decides which works can be held out for validation.
 
 ### Step 2. The script
 
@@ -333,3 +333,35 @@ The conclusion survived (a last-10% split is badly lopsided here) and got strong
 **The cost of this split, and how it is paid once.** The measured model never reads *Romeo and Juliet*. The released model, GP-Thee-11M, will be retrained on all 44 works for the number of steps the measured run finds best. Its own score cannot be measured, since nothing is left to measure it on, and the write-up will say so.
 
 Blog part 2, [the data](../blog/02-the-data.md), covers Entries 2a, 9 and 10.
+
+## Entry 11. Blog part 2, and what reviewing it caught (2026-09-20)
+
+Wrote [blog/02-the-data.md](../blog/02-the-data.md) and put it through the same three reviews as part 1: a fact-checker told to re-measure everything, an ML-methodology lens on the split section, and a newcomer reading it cold. 67 issues. Every disputed number was then re-measured first-hand before the post changed.
+
+**The split section claimed more than the split delivers.** This was the section the project owner had specifically asked to be explained well, and it had three real gaps.
+
+1. *"Cover every genre."* Only across the two sets together. Validation has no history, romance or poetry; test has no comedy or tragedy. The post criticised the last-10% split for having no tragedy or history and then had the same kind of gap in its own test set. The honest framing: every genre is graded somewhere; the final exam is on kinds of play that were never tuned on, which makes it stricter; and validation and test are scores on different texts, so they cannot be compared with each other. Scores will be reported per work.
+2. *"His alone."* Too strong for two of the five. Laurie Maguire and Emma Smith (Oxford, 2012) argued for Thomas Middleton's hand in *All's Well That Ends Well*, and the New Oxford Shakespeare (2016) accepted the joint attribution. Brian Vickers (2007) attributed *A Lover's Complaint* to John Davies of Hereford, and the RSC Complete Works of 2007 left it out; MacDonald P. Jackson called that omission a mistake. Both checked against sources. Both are disputed, mainstream editions print both works as his, and the split stands, but the post and the script now say so.
+3. *The four criteria do not pick five works.* They leave 11 comedies, 9 tragedies, 6 histories, 3 romances and 2 poems. The post never said how the five were chosen from those, and nor did this log. The real reasons, recorded here:
+   - **The poem was forced.** The only other eligible poem, *The Phoenix and the Turtle*, is 2,071 characters.
+   - ***King John* is the only eligible history that stands alone.** The other five belong to sequences that share characters with plays in training.
+   - ***All's Well* and *Romeo and Juliet* have the cleanest record.** The duplicate-text map (Entry 9, step 1) also ran a stricter search: no 40-character run of dialogue and no run of 8 identical words shared with any other work. Eight works passed. Setting aside the collaborations, that is exactly one comedy, one tragedy, two romances and two poems. Validation is consulted most, so it got the two cleanest plays.
+   - ***The Tempest* over *Cymbeline*** (both passed) was a judgement call: the shorter one, leaving more text for training.
+   - None of the five shares a character with a training play, though names recur: training has another Helena (*A Midsummer Night's Dream*), another Juliet (*Measure for Measure*) and four Antonios (*measured* from speaker labels).
+
+**Facts corrected, each re-measured:**
+
+| The draft said | Measured |
+|---|---|
+| 308 runs of four or more blank lines | 311 (308 of exactly four, 2 of five, 1 of six); 42 separate works, and the 43rd gap has three |
+| Seven works share text with another work | 23 of the 44 share a 50-character run with some other work. Seven share Shakespeare's own words; the other 16 share only an editor's scene heading or cast-list line. Entry 9's "only four pairs" was true of his text, not of the files. |
+| The audit raised the authorship question | Entry 2a raised it at the research stage |
+| *King John* shares a 63-character run | 63 as stored, including a stray letter and spaces; the phrase itself is 60 characters, and begins with the `Exeunt` of the previous scene |
+| The mutation tests corrupted the input | They did, with the checksum test switched off; otherwise every corruption dies on the first line and the other checks are never exercised |
+| "Four of the five share nothing at all" | No run of 50 characters. Shorter windows find stock phrases and headings, as they should. |
+
+**Added because a reader would need them:** a definition of the loss; that the test set is never used to make a choice (not merely "looked at once"); the term *data leakage*; that speaker names never seen in training are 2.98% of validation characters and 3.62% of test characters (*measured*), so held-out loss will be higher than tutorial numbers and is not comparable with nanoGPT's 1.47; the caveats owed on retraining the released model on all 44 works (its quality is an expectation, not a measurement; the same number of steps on 10% more text means slightly fewer passes; nothing is left to catch a bad run); two kinds of noise in a small exam, and that only one of them is fixed by repeating runs.
+
+**The alphabet closes part 1's loop.** Cleaning removed three characters (asterisk, tab, straight apostrophe), so the vocabulary is 97, not 100, and the character-level model has 10,757,376 parameters, not 10,758,528 (`scripts/count_params.py`, checked against PyTorch). Still GP-Thee-11M. All 97 occur in the 39 training works; validation uses 72 and test 75 (*measured*). The 23 characters seen fewer than 50 times total 490 occurrences, 0.009% of the text.
+
+Lesson, third time: the prose is where the errors are. The scripts had assertions and audits. The sentences about them had only the author. Treat a claim in the write-up like a line of code: it does not ship until something has tried to break it.

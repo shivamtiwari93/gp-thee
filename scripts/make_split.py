@@ -21,13 +21,26 @@ Why WHOLE works, and not random chunks or the last 10% of the file:
     The Winter's Tale, and all five poems: 53% romance, 33% poetry, and not one tragedy or history
     (measured). It also includes The Passionate Pilgrim, whose poems reappear in the training text.
 
-How the five held-out works were chosen:
-  1. One per genre across the two sets: a comedy and a tragedy for validation; a history, a romance and
-     a poem for test.
-  2. Only works that are Shakespeare's alone. A score on a scene John Fletcher wrote would not measure
-     what we care about.
-  3. Only works that share no passage with any other work. Measured below, not assumed.
-  4. About 5% of the corpus each: enough text for a stable score, little enough to leave 90% for training.
+The criteria:
+  1. Leave no genre ungraded: a comedy and a tragedy for validation; a history, a romance and a poem for
+     test. The price: neither set looks like the whole corpus, and the two scores cannot be compared
+     with each other. So scores are also reported per work.
+  2. His, by the mainstream view: none of the suspected collaborations. A score on a scene John Fletcher
+     wrote would not measure what we care about. (Two of the five have had doubters all the same:
+     Middleton's hand has been argued in All's Well, and A Lover's Complaint has been given to John
+     Davies of Hereford. Both claims are disputed and most editions print both works as his.)
+  3. No passage of Shakespeare's own words shared with any other work. Measured below, not assumed.
+  4. About 5% of the corpus each: enough characters for a steady average, and 90% left for training.
+
+From the criteria to five titles (they leave 11 comedies, 9 tragedies, 6 histories, 3 romances, 2 poems):
+  * The poem was forced: the only other eligible one, The Phoenix and the Turtle, is 2,071 characters.
+  * King John is the only eligible history that stands alone; the rest belong to sequences that share
+    characters with plays in training.
+  * All's Well and Romeo and Juliet are the only eligible comedy and tragedy that passed a stricter
+    search made when the file was mapped: no 40-character run of dialogue and no run of 8 identical
+    words shared with any other work. Validation is consulted most, so it got the cleanest plays.
+  * The Tempest over Cymbeline (both passed that search) was a judgement call: the shorter one.
+  The choice was made once, before any model existed.
 
 The model we MEASURE never reads Romeo and Juliet. The model we RELEASE is retrained on all 44 works,
 for the number of steps the measured run found best, so it knows every play.

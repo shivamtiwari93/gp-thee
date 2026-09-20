@@ -24,8 +24,9 @@ def build(V, T, d, L):
     return m
 
 # The size experiment changes ONE thing, the model's shape; tokenizer and context stay fixed.
-for name, V, T, d, L in [("GP-Thee: 6L/384d, chars V=100", 100, 256, 384, 6), ("same, BPE vocabulary V=2048", 2048, 256, 384, 6),
-                         ("smaller: 6L/256d, chars", 100, 256, 256, 6), ("larger: 12L/512d, chars", 100, 256, 512, 12)]:
+# V=100 was the raw file (blog part 1). Cleaning removed three characters (blog part 2), so V=97.
+for name, V, T, d, L in [("GP-Thee-11M: 6L/384d, chars V=97", 97, 256, 384, 6), ("same, raw-file alphabet V=100", 100, 256, 384, 6), ("same, BPE vocabulary V=2048", 2048, 256, 384, 6),
+                         ("smaller: 6L/256d, chars V=97", 97, 256, 256, 6), ("larger: 12L/512d, chars V=97", 97, 256, 512, 12)]:
     m = build(V, T, d, L)
     pytorch = sum(p.numel() for p in m.parameters())   # .parameters() de-duplicates the tied weight
     hand = 12 * d * d * L + (2 * L + 1) * d + V * d + T * d

@@ -59,7 +59,7 @@ This corpus is the 44 works of Project Gutenberg eBook #100: the traditional can
 - ***The Passionate Pilgrim*** (0.32% of the corpus) is a 1599 miscellany. Only 5 of its 20 poems are securely Shakespeare's, and those 5 are variants of Sonnets 138 and 144 and of three poems in *Love's Labour's Lost*. The rest are by Richard Barnfield, Bartholomew Griffin, Christopher Marlowe, Walter Raleigh and unknown authors.
 - **Six plays are widely thought to be collaborations**, about 14% of the corpus by words: *The Two Noble Kinsmen* and *Henry VIII* (with John Fletcher), *Pericles* (George Wilkins), *Timon of Athens* (Thomas Middleton), *Titus Andronicus* (George Peele) and *1 Henry VI*. *Macbeth* also carries passages usually given to Middleton.
 
-These attributions come from general scholarship, not from anything in the file. Pruning by attribution would need scene-level tables that scholars still argue over, and would cost a seventh of an already small corpus. So everything is kept, and none of these works is used to measure the model: the five validation and test works are his alone.
+These attributions come from general scholarship, not from anything in the file. Pruning by attribution would need scene-level tables that scholars still argue over, and would cost a seventh of an already small corpus. So everything is kept, and none of these works is used to measure the model. The five validation and test works are his by the mainstream view, though two have had doubters: Thomas Middleton's hand has been argued in *All's Well That Ends Well*, and *A Lover's Complaint* has been attributed to John Davies of Hereford. Both claims are disputed.
 
 ## How this was checked
 
