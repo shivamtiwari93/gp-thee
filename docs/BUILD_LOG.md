@@ -115,3 +115,41 @@ Decisions:
 - **Weights are not committed.** They go on Hugging Face.
 - **MIT licence** for code and weights.
 - **Public from the first commit**, so the history itself is part of the record.
+
+## Entry 4. The one download (2026-09-20)
+
+```bash
+uv run python scripts/download_data.py
+```
+
+```
+Fetching https://www.gutenberg.org/files/100/100-0.txt
+  5,422,721 bytes, sha256 a023115c2d4e2ee12221bdd780fdf2ac5a864fe225948656f51f8be462c7fffb
+Saved (read-only): data/raw/100-0.txt
+```
+
+Checked independently with `shasum -a 256` and `wc`: same hash, 196,022 lines, 963,478 words, 5,422,721 bytes (*measured*). The first and last lines are the Gutenberg `*** START` and `*** END` markers, as expected. `git status` shows nothing, so the ignore rule works.
+
+The script refuses to save a file whose checksum does not match. That matters because a blocked request can return an HTML error page with a success status, and a silently wrong corpus would poison everything after it.
+
+## Entry 5. PyTorch and the Mac GPU (2026-09-20)
+
+```bash
+uv add "torch==2.14.0" numpy
+```
+
+The version is pinned on purpose. Entry 2b lists two GPU bugs on M5 chips that were fixed in 2.13 and 2.14, so an accidental upgrade or downgrade mid-project could change results.
+
+Smoke test on the GPU backend (`mps`), all *measured*:
+
+| Check | Result |
+|---|---|
+| `torch.backends.mps.is_available()` | `True` |
+| 2048×2048 fp32 matrix multiply, GPU vs CPU | bit-identical |
+| Same multiply vs a float64 reference | max error 5.4e-4 on values averaging 36 (normal for fp32) |
+| LayerNorm → Linear → GELU, GPU vs CPU | max difference 1.9e-6 (normal float noise) |
+| 50 of those multiplies on the GPU | 69 ms |
+
+**A check on the check.** The first version of this test printed a GPU-vs-CPU difference of exactly `0.0`. Floating-point results from two different devices almost never match exactly, so that looked like a broken test (for example, comparing a tensor with itself). It was re-run against a float64 reference and with a second group of operations. The multiply really is bit-identical on this machine, and the second path shows the small differences you would expect. Worth the two minutes: a test that cannot fail tells you nothing.
+
+This is only a smoke test. The full CPU-vs-GPU parity check on a real training batch comes with the model, in step 6 of the plan.

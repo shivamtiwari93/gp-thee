@@ -6,7 +6,7 @@ Imagine the only text that ever existed was Shakespeare: 38 plays, 154 sonnets, 
 
 This is an educational project. The point is to show every step of building a language model, small enough that you can read all the code and re-run all of it yourself.
 
-> **Status: work in progress.** The project is scaffolded and the dataset is chosen. No model has been trained yet. Progress is tracked below and written up step by step in [docs/BUILD_LOG.md](docs/BUILD_LOG.md).
+> **Status: work in progress.** The environment is set up and the corpus is downloaded and verified. No model has been trained yet. Progress is tracked below and written up step by step in [docs/BUILD_LOG.md](docs/BUILD_LOG.md).
 
 ## What it will and will not be
 
@@ -16,7 +16,9 @@ GP-Thee is an in-character autocomplete, not an assistant. It should write convi
 
 - [x] Research: dataset, training stack, model sizing ([build log](docs/BUILD_LOG.md))
 - [x] Project scaffold
-- [ ] Download and clean the corpus
+- [x] Environment: uv, Python 3.14, PyTorch 2.14 on the Mac GPU
+- [x] Corpus downloaded and checksum-verified
+- [ ] Clean the corpus
 - [ ] Train / validation / test split (by whole works)
 - [ ] Tokenizer trained on Shakespeare only
 - [ ] The model (~10M parameter GPT)
