@@ -1,0 +1,82 @@
+{
+  "note": "Frozen before any training. Whole works only. See scripts/make_split.py for the reasoning.",
+  "leak_check": {
+    "window_chars": 50,
+    "normalisation": "lowercase, apostrophes deleted, non-letters to spaces, whitespace collapsed",
+    "accepted_overlaps": [
+      {
+        "held_out": "THE LIFE AND DEATH OF KING JOHN",
+        "other": "THE WINTER’S TALE",
+        "text": "e exeunt scene ii the same a room of state in the palace enter ",
+        "why": "an editor's scene heading plus 'Enter', not a line of the play"
+      }
+    ]
+  },
+  "sets": {
+    "train": {
+      "works": 39,
+      "chars": 4811336,
+      "share_of_chars": 0.9045,
+      "files": [
+        "works/01-the-sonnets.txt",
+        "works/03-the-tragedy-of-antony-and-cleopatra.txt",
+        "works/04-as-you-like-it.txt",
+        "works/05-the-comedy-of-errors.txt",
+        "works/06-the-tragedy-of-coriolanus.txt",
+        "works/07-cymbeline.txt",
+        "works/08-the-tragedy-of-hamlet-prince-of-denmark.txt",
+        "works/09-the-first-part-of-king-henry-the-fourth.txt",
+        "works/10-the-second-part-of-king-henry-the-fourth.txt",
+        "works/11-the-life-of-king-henry-the-fifth.txt",
+        "works/12-the-first-part-of-henry-the-sixth.txt",
+        "works/13-the-second-part-of-king-henry-the-sixth.txt",
+        "works/14-the-third-part-of-king-henry-the-sixth.txt",
+        "works/15-king-henry-the-eighth.txt",
+        "works/17-the-tragedy-of-julius-caesar.txt",
+        "works/18-the-tragedy-of-king-lear.txt",
+        "works/19-loves-labours-lost.txt",
+        "works/20-the-tragedy-of-macbeth.txt",
+        "works/21-measure-for-measure.txt",
+        "works/22-the-merchant-of-venice.txt",
+        "works/23-the-merry-wives-of-windsor.txt",
+        "works/24-a-midsummer-nights-dream.txt",
+        "works/25-much-ado-about-nothing.txt",
+        "works/26-the-tragedy-of-othello-the-moor-of-venice.txt",
+        "works/27-pericles-prince-of-tyre.txt",
+        "works/28-king-richard-the-second.txt",
+        "works/29-king-richard-the-third.txt",
+        "works/31-the-taming-of-the-shrew.txt",
+        "works/33-the-life-of-timon-of-athens.txt",
+        "works/34-the-tragedy-of-titus-andronicus.txt",
+        "works/35-troilus-and-cressida.txt",
+        "works/36-twelfth-night-or-what-you-will.txt",
+        "works/37-the-two-gentlemen-of-verona.txt",
+        "works/38-the-two-noble-kinsmen.txt",
+        "works/39-the-winters-tale.txt",
+        "works/41-the-passionate-pilgrim.txt",
+        "works/42-the-phoenix-and-the-turtle.txt",
+        "works/43-the-rape-of-lucrece.txt",
+        "works/44-venus-and-adonis.txt"
+      ]
+    },
+    "validation": {
+      "works": 2,
+      "chars": 274727,
+      "share_of_chars": 0.0516,
+      "files": [
+        "works/02-alls-well-that-ends-well.txt",
+        "works/30-the-tragedy-of-romeo-and-juliet.txt"
+      ]
+    },
+    "test": {
+      "works": 3,
+      "chars": 233161,
+      "share_of_chars": 0.0438,
+      "files": [
+        "works/16-the-life-and-death-of-king-john.txt",
+        "works/32-the-tempest.txt",
+        "works/40-a-lovers-complaint.txt"
+      ]
+    }
+  }
+}

@@ -297,3 +297,39 @@ Whole works only, chosen from plays that are his alone and share no passage with
 The model we *measure* never sees *Romeo and Juliet*. The model we *release* will be retrained on all 44 works, for the number of steps the measured run found best.
 
 Lesson: the most valuable hour of this step was spent reading the file, not writing the script. Every trap above is obvious once seen and invisible until then.
+
+## Entry 10. The split is frozen, and three decisions settled (2026-09-20)
+
+**Decisions by the project owner:**
+
+- The proposed split is approved, with the instruction that the blog must explain *why*.
+- *The Passionate Pilgrim* stays in the corpus, all twenty poems. The universe is the canon as published under Shakespeare's name.
+- The model is named **GP-Thee-11M**. Its 10,758,528 parameters round to 11 million, not 10. The arithmetic in Entry 2d renamed the model.
+
+**The split,** written by `scripts/make_split.py` to `data/processed/split.json`:
+
+| Set | Works | Characters | Share |
+|---|---|---|---|
+| Validation | *All's Well That Ends Well*, *Romeo and Juliet* | 274,727 | 5.2% |
+| Test | *King John*, *The Tempest*, *A Lover's Complaint* | 233,161 | 4.4% |
+| Train | the other 39 | 4,811,336 | 90.5% |
+
+Four criteria: every genre covered across the two held-out sets; works that are his alone; works that share no passage with any other work; about 5% each.
+
+**The third criterion is measured, not assumed.** The script reduces each held-out work to lowercase letters and single spaces, then looks for any 50-character run that also occurs in any of the other 43 works. Result (*measured*, 2.5 seconds): four of the five share nothing. *King John* shares one 63-character run with *The Winter's Tale*, which is a scene heading followed by "Enter" (`...exeunt scene ii the same a room of state in the palace enter`). The script accepts that overlap by name and fails on any other. It also fails if a held-out work is ever one of the seven that share text or the seven of doubtful authorship, and re-verifies every file against the manifest's checksums first.
+
+**A claim caught before it shipped.** The first draft of the script's docstring said the last 10% of the file was "the end of *The Two Noble Kinsmen*, all of *The Winter's Tale* and all five narrative poems". That came from an earlier reviewer's inference, labelled as unmeasured at the time, and it was wrong. Measured on the cleaned corpus, the last 10% by characters is 71% of *The Two Gentlemen of Verona*, all of *The Two Noble Kinsmen*, all of *The Winter's Tale* and all five poems:
+
+| Genre | Whole corpus | Last 10% |
+|---|---|---|
+| Tragedy | 29.1% | 0% |
+| History | 27.1% | 0% |
+| Comedy | 26.5% | 13.5% |
+| Romance | 12.2% | 53.5% |
+| Poetry | 5.1% | 33.0% |
+
+The conclusion survived (a last-10% split is badly lopsided here) and got stronger, but the stated facts were wrong. Same lesson as Entry 8: measure before writing the sentence.
+
+**The cost of this split, and how it is paid once.** The measured model never reads *Romeo and Juliet*. The released model, GP-Thee-11M, will be retrained on all 44 works for the number of steps the measured run finds best. Its own score cannot be measured, since nothing is left to measure it on, and the write-up will say so.
+
+Blog part 2, [the data](../blog/02-the-data.md), covers Entries 2a, 9 and 10.

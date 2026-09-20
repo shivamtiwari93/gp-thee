@@ -1,6 +1,6 @@
 # Building GP-Thee, part 1: prerequisites and setup
 
-*What we started with, what we installed and why, and how we know the model will have about 10 million parameters before we have trained anything.*
+*What we started with, what we installed and why, and how we know the model will have 10.8 million parameters before we have trained anything.*
 
 ## The premise
 
@@ -200,9 +200,9 @@ The corpus is Project Gutenberg's eBook #100, *The Complete Works of William Sha
 
 One decision is worth telling here because we got it wrong first. The initial plan kept the raw file out of the repository, because it carries Project Gutenberg's name and that name is a trademark. That was too cautious. As we read it (we are not lawyers), Project Gutenberg's licence allows free, no-charge redistribution of the file provided a specific notice, with a link to the full licence, is displayed with it. More importantly, an educational project that hides its dataset is missing the point, and Project Gutenberg revises its files from time to time, so a download script with a pinned checksum will eventually stop working. The file is now [in the repo](../data/raw/), unmodified, with the notice beside it.
 
-## How we know it is about 10 million parameters before training
+## How we know the parameter count before training
 
-This question came up when naming the project. If the model is going to be called GP-Thee-10M, how can we know the "10M" before we have trained anything?
+This question came up when naming the project. The working name was GP-Thee-10M. How can anyone know the "10M" before anything has been trained?
 
 Because the number of parameters is a property of the architecture, not of the training. Training changes the *values* of the parameters. It never changes how many there are. You choose the shape of the model, and the count follows by arithmetic.
 
@@ -276,7 +276,7 @@ parameters = 12·d²·L  +  (2L + 1)·d  +  V·d  +  T·d
 
 Notice where the bulk is. 98.7% of the parameters are in the blocks. The vocabulary barely registers. That will change when we move from single characters to a tokenizer whose 2048 tokens are fragments of words: the token embedding grows from 38,400 to `2048 × 384 = 786,432` parameters, which takes the total to 11,506,560, about 11.5 million.
 
-Because the count moves with choices like this, the repository is just `gp-thee`, and each released model carries its size in its name. `GP-Thee-10M` is a round label for this shape, the "ten-million-parameter" model. The exact figure, 10,758,528 with a character vocabulary, goes on the model card.
+Because the count moves with choices like this, the repository is just `gp-thee`, and each released model carries its size in its name. The arithmetic also corrected that name. 10,758,528 rounds to 11 million, not 10, so the working name GP-Thee-10M became `GP-Thee-11M`. The exact figure goes on the model card.
 
 ### Checking the arithmetic against PyTorch
 
@@ -295,7 +295,7 @@ uv run python scripts/count_params.py
 
 They agree to the last parameter. If you know nanoGPT, you may remember 10.65 million for this shape. That is the same model with a 65-character vocabulary, and nanoGPT leaves the position embedding out of its headline number: `10,616,832 + 4,992 + 65 × 384 = 10,646,784`.
 
-### What 10 million parameters costs
+### What 10.8 million parameters costs
 
 Each parameter is stored as a 32-bit float, PyTorch's default, which is 4 bytes.
 
@@ -305,7 +305,7 @@ Each parameter is stored as a 32-bit float, PyTorch's default, which is 4 bytes.
 
 An earlier draft of this post said the whole job fits in under 1 GB. That was wrong by a factor of five: it counted the four copies and forgot the intermediate results, which dominate. A reviewer caught it, and we then measured it. On a 128 GB machine 5 GB is nothing. On an 8 GB Mac it means choosing a smaller batch, not giving up.
 
-### Why 10 million, and not 100 thousand or 100 million
+### Why about 10 million, and not 100 thousand or 100 million
 
 This is the real design question, and we should be honest that our answer is a hypothesis to test, not a fact.
 

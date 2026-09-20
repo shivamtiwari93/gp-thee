@@ -19,9 +19,9 @@ GP-Thee is an in-character autocomplete, not an assistant. It should write convi
 - [x] Environment: uv, Python 3.14, PyTorch 2.14 on the Mac GPU
 - [x] Corpus downloaded and checksum-verified
 - [x] Corpus cleaned into 44 files, one per work, and audited twice ([what was removed and kept](data/processed/README.md))
-- [ ] Train / validation / test split (by whole works)
+- [x] Train / validation / test split, by whole works, frozen and leak-checked ([why these five works](scripts/make_split.py))
 - [ ] Tokenizer trained on Shakespeare only
-- [ ] The model (~10M parameter GPT)
+- [ ] The model: GP-Thee-11M, a 10.8M parameter GPT
 - [ ] Training, with correctness checks first
 - [ ] Evaluation: bits per character, baselines, memorisation report
 - [ ] Sampling and the "speak as a character" wrapper
@@ -46,15 +46,16 @@ git clone https://github.com/shivamtiwari93/gp-thee && cd gp-thee
 uv sync                                      # Python 3.14 + PyTorch 2.14, from the lockfile
 uv run python scripts/download_data.py       # confirms the corpus checksum
 uv run python scripts/prepare_data.py        # rebuilds data/processed/ from the raw file, byte for byte
+uv run python scripts/make_split.py          # re-checks the split: held-out works share no text with training
 uv run python scripts/smoke_test_gpu.py      # Mac only: GPU answers match the CPU's
-uv run python scripts/count_params.py        # the 10M arithmetic, checked against PyTorch
+uv run python scripts/count_params.py        # the parameter arithmetic, checked against PyTorch
 ```
 
 More steps are added here as they are built.
 
 ## Read along
 
-1. [Prerequisites and setup](blog/01-prerequisites-and-setup.md): the starting point, the tools and why, and how we know the model has 10 million parameters before training it.
+1. [Prerequisites and setup](blog/01-prerequisites-and-setup.md): the starting point, the tools and why, and how we know the model has 10.8 million parameters before training it.
 
 ## Data and licence
 
