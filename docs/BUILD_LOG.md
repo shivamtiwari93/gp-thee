@@ -111,7 +111,7 @@ Why `uv` with its own Python rather than Homebrew's: Homebrew will move to Pytho
 
 Decisions:
 
-- **Raw data is not committed.** The raw file carries Project Gutenberg marker lines and the name is trademarked. A download script re-creates it and verifies its SHA-256. The cleaned corpus, which is only public-domain Shakespeare, will be committed.
+- **Raw data is not committed.** The raw file carries Project Gutenberg marker lines and the name is trademarked. A download script re-creates it and verifies its SHA-256. The cleaned corpus, which is only public-domain Shakespeare, will be committed. *(Reversed the same day; see Entry 6.)*
 - **Weights are not committed.** They go on Hugging Face.
 - **MIT licence** for code and weights.
 - **Public from the first commit**, so the history itself is part of the record.
@@ -153,3 +153,32 @@ Smoke test on the GPU backend (`mps`), all *measured*:
 **A check on the check.** The first version of this test printed a GPU-vs-CPU difference of exactly `0.0`. Floating-point results from two different devices almost never match exactly, so that looked like a broken test (for example, comparing a tensor with itself). It was re-run against a float64 reference and with a second group of operations. The multiply really is bit-identical on this machine, and the second path shows the small differences you would expect. Worth the two minutes: a test that cannot fail tells you nothing.
 
 This is only a smoke test. The full CPU-vs-GPU parity check on a real training batch comes with the model, in step 6 of the plan.
+
+## Entry 6. A decision reversed: the raw corpus goes in the repo (2026-09-20)
+
+Entry 3 kept the raw file out of git because it carries Project Gutenberg's marker lines and the name is a trademark. That was too cautious, and it cost the project something real. The challenge that prompted the rethink: *why hide the dataset in an educational project? People should be able to see exactly what the model was trained on.*
+
+Reasons to commit it:
+
+- **Transparency.** The whole premise is "this file is the entire universe". A reader should be able to open that universe in one click.
+- **Reproducibility.** Project Gutenberg revises its files. Their server reports that this master file was last modified on 2025-08-24, and the auto-generated reader copy of the same eBook on 2026-09-01. When the master copy next changes, the pinned checksum stops matching and the download script can no longer rebuild this project. A committed copy cannot drift.
+- **It is 5.4 MB.** Git handles that without any special tooling.
+
+What the licence actually asks: the Project Gutenberg License allows free redistribution of their eBooks. If the name "Project Gutenberg" stays on the file, a specific notice with a link to the full licence must accompany it. So the file is committed byte-for-byte unchanged, and `data/raw/README.md` carries that notice, a link to the licence, and a statement that this project is not affiliated with Project Gutenberg. (This is a good-faith reading of the licence by a non-lawyer.)
+
+Changes: removed the `data/raw/*` rule from `.gitignore`; added `data/raw/README.md`; `scripts/download_data.py` now mainly verifies the committed copy and only fetches if the file is missing.
+
+Lesson: "is this allowed?" and "is this the cautious default?" are different questions. The first one has an answer you can look up.
+
+## Entry 7. The parameter arithmetic, checked against PyTorch (2026-09-20)
+
+Entry 2d computed the model size by hand. To make sure the formula is right, a skeleton with the same shape (embeddings, 6 blocks of attention and feed-forward, layer norms, tied output layer, no biases) was built in PyTorch and its parameters counted with `sum(p.numel() for p in model.parameters())`. Run it with `uv run python scripts/count_params.py`. All *measured*:
+
+| Configuration | PyTorch count | Hand formula | Match |
+|---|---|---|---|
+| 6 layers, width 384, 100 characters, context 256 | 10,758,528 | 10,758,528 | yes |
+| same, with a 2048-entry BPE vocabulary | 11,506,560 | 11,506,560 | yes |
+| smaller: 6 layers, width 256 | 4,813,056 | 4,813,056 | yes |
+| stretch: 12 layers, width 512, vocabulary 2048, context 512 | 39,072,256 | 39,072,256 | yes |
+
+The formula: `12·d²·L + (2L+1)·d + V·d + T·d`. It is exact here because the design has no bias terms and the output layer shares its weights with the token embedding. nanoGPT reports 10.65M for this shape because it uses a 65-character vocabulary and leaves position embeddings out of its headline count: `10,616,832 + 4,992 + 65×384 = 10,646,784`.

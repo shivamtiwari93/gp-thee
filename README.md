@@ -31,7 +31,8 @@ GP-Thee is an in-character autocomplete, not an assistant. It should write convi
 ## Layout
 
 ```
-data/        corpus provenance; raw download is git-ignored, cleaned text is committed
+data/        the corpus: raw/ is the untouched download, processed/ is generated from it
+blog/        the write-up, one section per milestone
 docs/        PLAN.md (roadmap) and BUILD_LOG.md (the detailed step-by-step record)
 scripts/     one-off commands such as the dataset download
 src/gp_thee/ the library: data prep, tokenizer, model, training, sampling
@@ -40,13 +41,18 @@ src/gp_thee/ the library: data prep, tokenizer, model, training, sampling
 ## Reproduce
 
 ```bash
-brew install uv
-uv sync
-uv run python scripts/download_data.py
+brew install uv                              # the only thing you install by hand
+git clone https://github.com/shivamtiwari93/gp-thee && cd gp-thee
+uv sync                                      # Python 3.14 + PyTorch 2.14, from the lockfile
+uv run python scripts/download_data.py       # confirms the corpus checksum
 ```
 
 More steps are added here as they are built.
 
+## Read along
+
+1. [Prerequisites and setup](blog/01-prerequisites-and-setup.md): the starting point, the tools and why, and how we know the model has 10 million parameters before training it.
+
 ## Data and licence
 
-The corpus is Project Gutenberg eBook #100, *The Complete Works of William Shakespeare*, which is in the public domain in the United States. Code and weights are released under the [MIT licence](LICENSE).
+The corpus is Project Gutenberg eBook #100, *The Complete Works of William Shakespeare*, which is in the public domain in the United States. The untouched file is in [data/raw](data/raw/), with the Project Gutenberg notice that accompanies it. This project is not affiliated with Project Gutenberg. Code and weights are released under the [MIT licence](LICENSE).

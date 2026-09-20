@@ -9,11 +9,6 @@ wheels/
 # Virtual environments
 .venv
 
-# Raw download. Not committed: it carries Project Gutenberg marker lines, and
-# scripts/download_data.py re-creates it byte-for-byte (checksum verified).
-data/raw/*
-!data/raw/.gitkeep
-
 # Training outputs. Weights are published on Hugging Face, not in git.
 checkpoints/
 runs/

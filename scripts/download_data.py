@@ -1,10 +1,14 @@
-"""Download the complete works of Shakespeare (Project Gutenberg eBook #100).
+"""Verify, or re-fetch, the complete works of Shakespeare (Project Gutenberg eBook #100).
 
-Run once:  uv run python scripts/download_data.py
+Run:  uv run python scripts/download_data.py
 
-The file is fetched a single time, verified against a known SHA-256, and stored
-read-only in data/raw/. Re-running is a no-op if a verified copy already exists.
+The corpus is committed to this repo at data/raw/100-0.txt, so normally this
+just confirms the SHA-256 of that copy. If the file is missing it is fetched a
+single time, verified against the known SHA-256, and stored read-only.
 Project Gutenberg blocks IPs it thinks are bots, so do not call this in a loop.
+Gutenberg also revises its files from time to time; if the checksum of a fresh
+download no longer matches, use the committed copy, which is what every result
+in this repo was produced from.
 
 Standard library only, so it works before any dependency is installed.
 """
