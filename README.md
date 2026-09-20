@@ -35,7 +35,7 @@ data/        the corpus: raw/ is the untouched download, processed/ is generated
 blog/        the write-up, one section per milestone
 docs/        PLAN.md (roadmap) and BUILD_LOG.md (the detailed step-by-step record)
 scripts/     one-off commands such as the dataset download
-src/gp_thee/ the library: tokenizer so far; model, training and sampling to come
+src/gp_thee/ the library: tokenizer and data loading so far; model, training and sampling to come
 tests/       run with `uv run pytest`
 ```
 
@@ -49,7 +49,7 @@ uv run python scripts/download_data.py       # confirms the corpus checksum
 uv run python scripts/prepare_data.py        # rebuilds data/processed/ from the raw file, byte for byte
 uv run python scripts/make_split.py          # re-checks the split: held-out works share no text with training
 uv run python scripts/build_tokenizers.py    # fits the tokenizers on the training works; writes data/tokens/
-uv run pytest                                # 48 tests
+uv run pytest                                # 51 tests
 uv run python scripts/smoke_test_gpu.py      # Mac only: GPU answers match the CPU's
 uv run python scripts/count_params.py        # the parameter arithmetic, checked against PyTorch
 ```
@@ -60,6 +60,7 @@ More steps are added here as they are built.
 
 1. [Prerequisites and setup](blog/01-prerequisites-and-setup.md): the starting point, the tools and why, and how we know the model has 10.8 million parameters before training it.
 2. [The data](blog/02-the-data.md): finding the corpus, the traps hidden in it, cleaning 0.75% of it, auditing the result twice, and why these five works are held out.
+3. [The tokenizer](blog/03-the-tokenizer.md): characters, then word fragments learned from the plays themselves; what the chunk rule costs and buys; how the vocabulary size will be chosen; and how the tests turned out weaker than the code.
 
 ## Data and licence
 

@@ -12,10 +12,10 @@ from pathlib import Path
 
 import pytest
 
+from gp_thee.data import corpus_alphabet, load_works
 from gp_thee.tokenizer import START, BPETokenizer, CharTokenizer, chunks, learn_merges, load
 
 ROOT = Path(__file__).resolve().parent.parent
-PROCESSED = ROOT / "data" / "processed"
 TOKENIZERS = ROOT / "data" / "tokenizers"
 NAMES = ["char", "bpe-1024", "bpe-1536", "bpe-2048", "bpe-4096"]
 
@@ -152,8 +152,19 @@ def test_saving_and_loading_loses_nothing(tmp_path):
 # ------------------------------------------------------------------------------------------ against the corpus
 @pytest.fixture(scope="module")
 def works():
-    split = json.loads((PROCESSED / "split.json").read_text(encoding="utf-8"))
-    return {name: [(PROCESSED / f).read_text(encoding="utf-8") for f in s["files"]] for name, s in split["sets"].items()}
+    return {name: load_works(name) for name in ("train", "validation")}  # never the test works
+
+
+def test_the_test_works_are_locked():
+    with pytest.raises(PermissionError, match="final evaluation"):
+        load_works("test")
+
+
+def test_any_work_can_be_encoded_without_opening_it(tokenizers):
+    # The alphabet of all 44 works was recorded at cleaning time. If every tokenizer knows all of it, and any
+    # string over the alphabet survives the round trip (tested below), then the test works do too, unread.
+    for tokenizer in tokenizers.values():
+        assert set(corpus_alphabet()) <= set(tokenizer.chars)
 
 
 @pytest.fixture(scope="module")
@@ -225,9 +236,16 @@ def test_the_alphabet_is_the_training_alphabet(works, tokenizers):
 
 def test_the_merges_come_from_the_training_works_only(works, tokenizers):
     # Learn again from the training works alone: the saved merges must come out, exactly and in order.
-    # This is sensitive. Fitting on all 44 works instead changes merge number 30, and 3,881 of the 3,998 differ.
+    # This is sensitive: see test_a_leak_would_be_noticed below.
     relearned = learn_merges(works["train"], len(tokenizers["bpe-4096"].merges))
     assert relearned == tokenizers["bpe-4096"].merges
+
+
+def test_a_leak_would_be_noticed(works, tokenizers):
+    # Let the validation works stand in for a leak (the test works stay closed, even for this).
+    # Fitting on 41 works instead of 39 changes the list early, so the test above would fail.
+    leaked = learn_merges(works["train"] + works["validation"], 200)
+    assert leaked != tokenizers["bpe-4096"].merges[:200]
 
 
 def test_smaller_vocabularies_are_prefixes_of_larger_ones(works, tokenizers):

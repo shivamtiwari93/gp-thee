@@ -386,7 +386,7 @@ All *measured*. Learning all 3,998 merges takes 5.7 seconds; the whole build, 10
 - **Chunks.** Merges are learned and applied inside chunks only: a word with the space before it, a run of punctuation, a run of newlines, indentation. The apostrophe counts as a letter, because here it nearly always is one (`’tis`, `o’er`, `lov’d`). Measured on the training works: of 23,019 apostrophes, well under 1% are closing quotation marks glued to a word (the auditor counted 75; a cruder upper bound of mine gives 148).
 - **START**, one special token placed before every work. It cannot be typed (the alphabet has no `<`, `|` or `>`), so `encode` can never produce it. It makes the character vocabulary 98, not 97, and the model 10,757,760 parameters, 384 more than blog part 2 said. Still GP-Thee-11M.
 - **One learning run, several sizes.** Merges are learned most-frequent-first, so the first 926 merges of bpe-4096 are bpe-1024. Tested.
-- **Fitted on the training works only.** The test that proves it re-learns the merges from the training works and demands an exact match. It is sensitive: fitting on all 44 works instead changes merge number 30, and 3,881 of the 3,998 positions (*measured*).
+- **Fitted on the training works only.** The test that proves it re-learns the merges from the training works and demands an exact match. It is sensitive: fitting on the 39 training works plus the 2 validation works changes merge number 33, 3,848 of the 3,998 positions, and 169 pieces (*measured*). *(This line first quoted a refit on all 44 works, which meant fitting on the test works. See "The test works, a third time" below.)*
 
 ### What the chunk rule buys, measured
 
@@ -432,3 +432,38 @@ Also recorded, for honesty: the candidate vocabulary sizes date from the researc
 - **bpe-1536** was added to the sweep: it is exactly where 95% of merged pieces are still seen 100 times in training, and the original sizes jumped straight over it.
 
 Lesson: my tests passed, and the tests were the weak part. Mutation testing (break the code on purpose, see whether a test notices) found in minutes what re-reading never would have.
+
+### Addendum to Entry 12: what reviewing blog part 3 caught (2026-09-20)
+
+Blog part 3 went through the usual three reviews (fact-check, NLP lens, newcomer). 79 issues. Everything below was re-measured first-hand, on training and validation works only.
+
+**The test works, a third time.** The first draft of part 3, a few paragraphs after confessing to the part 2 mistake, did it twice more. (1) To show the leak test is sensitive, I fitted a tokenizer on all 44 works, that is, on the test works, and quoted two numbers that depend on their text; the same numbers were in this log and in a test comment. (2) I quoted a whole-corpus apostrophe count near the training-works count, so the test works' share fell out by subtraction. Nothing was influenced and no model exists. But a rule kept by intention had now failed three times, so it is enforced in code:
+
+- `src/gp_thee/data.py`: every script and test loads works through `load_works(set)`. Asking for `"test"` raises `PermissionError` unless the caller passes the phrase that says this is the final evaluation.
+- `scripts/build_tokenizers.py` no longer opens the test works at all. The alphabet of the whole corpus was recorded in `manifest.json` at cleaning time, before the split existed; the script checks the training works contain all of it, and the tests establish that any string over that alphabet round-trips. So every work is provably encodable, unread.
+- The sensitivity check uses the validation works as the stand-in leak (`test_a_leak_would_be_noticed`).
+- (`scripts/make_split.py` still reads all 44 works, because comparing held-out works with the rest is what defines the split. It reports nothing about them except overlaps.)
+
+**Other corrections, each measured:**
+
+| The draft said | Measured |
+|---|---|
+| The Gowda and May rule "lands at about 1,536" | Counted the paper's way, over every vocabulary entry, it lands at 1,200 (95.00%). It is 1,536 (94.99%) only when counting merged pieces, which is defensible (25 rare characters and START can never reach 100) but has to be said. |
+| The obvious BPE "takes a minute or two" | That is the speed of a version that already counts distinct chunks. Recounting the running text takes 0.80 s per merge in plain Python, about 53 minutes for 3,998. Shortcut one: an hour to a couple of minutes. Shortcut two: minutes to under 6 seconds. |
+| Ties come from names like `SYRACUSE` | Mostly arithmetic. The first tie is at merge 172; 8% of the first 500 merges are ties, 23% of the first 926, 78% of 927 to 1,950, and 96% of 1,951 to 3,998, where winning counts are small (97,647 at merge 1; 389 at 926; 149 at 1,950; 58 at 3,998) and thousands of pairs are in the running. |
+| "Nobody told it what a word is" | The chunk rule tells it exactly where a word begins and ends. |
+| The chunk rule "is worth it" | A bet, not a result. The no-rule tokenizer also wins on validation compression (3.00 vs 2.79) and on merged pieces seen 100+ times (96.6% vs 91.2%). "Ways a word gets cut" is a test the rule cannot fail, and the four commonest cuts of `come` cover 75% of its occurrences. |
+| `HAMLET` is one token | At 1,536 and above. At 1,024 it is `HAM` + `LET` (merge 982; that vocabulary stops at 926). `RO` exists because of `ROSALIND`, `RODERIGO`, `ROSENCRANTZ`. |
+
+**Not logged at the time, logged now:** my first guard on START refused any alphabet containing *any* character of `<|start|>`, including `s`, `t`, `a`, `r`, and so rejected Shakespeare's own alphabet. The build script failed on its first run. The guard only needs START to be unspellable, which `<`, `|` and `>` guarantee.
+
+**Also measured for the post:** 83.7% of words in the training works have a space before them and 73.2% a space after, which is why the space goes at the front of a piece. The training text uses 99 of the 256 byte values and `’` is three bytes, which is why we did not build on bytes. 79.3% of single blank lines are followed by a speaker label. bpe-2048 produces 3,471 lone-space tokens in 1.69 million.
+
+**Pre-registered, before any model exists: how the tokenizer will be chosen.**
+
+1. *The measure:* validation bits per character over all the text = total loss in nats, divided by ln 2 and by the character count.
+2. *Training length:* tokenizers are not compared at a fixed step count, because a bigger vocabulary makes the corpus shorter (4.8M tokens as characters, 1.5M at 4,096), so equal steps are unequal passes. Each run is compared at its best validation checkpoint.
+3. *The decision:* the mean of three runs from different random seeds. If two tokenizers are closer than the spread between runs, the smaller vocabulary wins.
+4. *Reported but not deciding:* the score per play, and separately for speaker-label lines and everything else.
+
+Tests: 51.

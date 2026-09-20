@@ -9,7 +9,7 @@
   "works": 39,
   "chars": 4811336,
   "text_sha256": "a554df7850d2095fc42a95aa510b5cdfd6bb987a8da6583dee86ca997dcf367e",
-  "note": "alphabet and merges computed from the 39 training works only; validation and test works were only checked for characters outside that alphabet, and encoded"
+  "note": "alphabet and merges computed from the 39 training works only; the validation works were only encoded; the test works were not opened"
  },
  "chars": [
   "\n",

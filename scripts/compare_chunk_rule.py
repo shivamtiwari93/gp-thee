@@ -4,31 +4,33 @@ Run:  uv run python scripts/compare_chunk_rule.py      (about a minute and a hal
 
 The tokenizer in src/gp_thee/tokenizer.py only merges inside chunks (a word with its leading space, a run of
 punctuation, a run of newlines). This script learns the same number of merges with no such rule, so a merge
-may swallow a space, a newline, or two words at once, and measures two things on the training works:
+may swallow a space, a newline, or two words at once, and compares the two:
 
-  * compression: characters per token. The rule LOSES here. Fewer restrictions, better compression.
+  * compression: characters per token, on the training and the validation works. The rule LOSES here.
+  * how well used the vocabulary is: share of merged pieces seen 100+ times in training. The rule loses again.
   * consistency: in how many different ways is the same word cut up, depending on its neighbours?
-    This is what the rule buys, and it is the reason we keep it.
+    This is what the rule buys. Note that it is a test the rule cannot fail: with chunks, a word has at most
+    a few forms by construction. Keeping the rule is a bet that consistency matters more to a small model
+    than compression does. Only training models both ways could settle it.
 
 Nothing is written. Without chunks the whole text is one long sequence, so the chunk-by-chunk shortcut in
 learn_merges does not apply; this version recounts pairs with numpy before every merge instead.
 """
 
-import json
 import re
 from collections import Counter
 from pathlib import Path
 
 import numpy as np
 
+from gp_thee.data import load_works
 from gp_thee.tokenizer import load
 
 ROOT = Path(__file__).resolve().parent.parent
-PROCESSED = ROOT / "data" / "processed"
 VOCAB = 2048
 
-split = json.loads((PROCESSED / "split.json").read_text(encoding="utf-8"))
-works = [(PROCESSED / f).read_text(encoding="utf-8") for f in split["sets"]["train"]["files"]]
+works = load_works("train")
+validation = "".join(load_works("validation"))
 text = "".join(works)
 ours = load(ROOT / "data" / "tokenizers" / f"bpe-{VOCAB}.json")
 
@@ -36,6 +38,7 @@ ours = load(ROOT / "data" / "tokenizers" / f"bpe-{VOCAB}.json")
 vocab = list(ours.chars)
 WALL = 10 ** 6  # sits between works and is never merged, so no piece spans two works
 ids = np.concatenate([np.array([WALL] + [vocab.index(ch) for ch in work], dtype=np.int64) for work in works])
+learned = []
 for _ in range(len(ours.merges)):
     left, right = ids[:-1], ids[1:]
     real = (left != WALL) & (right != WALL)
@@ -52,7 +55,26 @@ for _ in range(len(ours.merges)):
         hits = np.array(kept)
     ids[hits] = len(vocab)
     ids = np.delete(ids, hits + 1)
+    learned.append((a, b))
     vocab.append(vocab[a] + vocab[b])
+
+
+def encode_without_rule(new_text: str) -> np.ndarray:
+    """Replay the learned merges, in order, over a text the learner never saw."""
+    seq = np.array([vocab.index(ch) for ch in new_text], dtype=np.int64)
+    for new_id, (a, b) in enumerate(learned, start=len(ours.chars)):
+        hits = np.flatnonzero((seq[:-1] == a) & (seq[1:] == b))
+        if a == b:
+            kept, last = [], -2
+            for h in hits:
+                if h > last + 1:
+                    kept.append(h)
+                    last = h
+            hits = np.array(kept, dtype=np.int64)
+        seq[hits] = new_id
+        seq = np.delete(seq, hits + 1)
+    return seq
+
 
 without_rule = [vocab[i] for i in ids if i != WALL]
 with_rule = [ours.vocab[i] for work in works for i in ours.encode(work)]
@@ -77,7 +99,12 @@ def ways_to_cut(word: str, tokens: list[str]) -> Counter:
 pieces = vocab[len(ours.chars):]
 straddle = [p for p in pieces if re.search(r"\S\s+\S", p)]
 print(f"{'':<34}{'no chunk rule':>16}{'with the rule':>16}")
-print(f"{'characters per token':<34}{len(text) / len(without_rule):>16.3f}{len(text) / len(with_rule):>16.3f}")
+print(f"{'characters per token, training':<34}{len(text) / len(without_rule):>16.3f}{len(text) / len(with_rule):>16.3f}")
+print(f"{'characters per token, validation':<34}{len(validation) / len(encode_without_rule(validation)):>16.3f}{len(validation) / len(ours.encode(validation)):>16.3f}")
+used_without, used_with = Counter(ids[ids != WALL].tolist()), Counter(i for work in works for i in ours.encode(work))
+first_merge = len(ours.chars)
+share = [sum(1 for i in range(first_merge, first_merge + len(learned)) if used[i] >= 100) / len(learned) for used in (used_without, used_with)]
+print(f"{'merged pieces seen 100+ times':<34}{share[0]:>16.1%}{share[1]:>16.1%}")
 print(f"{'pieces that straddle two words':<34}{len(straddle):>16,}{0:>16}")
 print(f"{'pieces mixing a newline with text':<34}{sum(1 for p in pieces if chr(10) in p and p.strip(chr(10))):>16,}{0:>16}")
 common = [w for w, _ in Counter(re.findall(r"(?<![^\W\d_’])[a-z]{3,}(?![^\W\d_’])", text)).most_common(150)]
@@ -85,6 +112,7 @@ average = [np.mean([len(ways_to_cut(w, tokens)) for w in common]) for tokens in 
 print(f"{'ways to cut a common word, average':<34}{average[0]:>16.1f}{average[1]:>16.1f}")
 for word in ("come", "love", "the"):
     a, b = ways_to_cut(word, without_rule), ways_to_cut(word, with_rule)
-    print(f"{'  ' + repr(word):<34}{len(a):>16}{len(b):>16}     e.g. {[k for k, _ in a.most_common(4)]}")
+    top4 = sum(n for _, n in a.most_common(4)) / sum(a.values())
+    print(f"{'  ' + repr(word):<34}{len(a):>16}{len(b):>16}     the 4 commonest cover {top4:.0%}: {[k for k, _ in a.most_common(4)]}")
 print(f"\nfirst merges without the rule: {[repr(p) for p in pieces[:10]]}")
 print(f"some straddling pieces: {[repr(p) for p in straddle[:8]]}")

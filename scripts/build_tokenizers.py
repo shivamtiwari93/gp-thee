@@ -2,14 +2,18 @@
 
 Run:  uv run python scripts/build_tokenizers.py
 
-Reads   data/processed/split.json and the cleaned works
+Reads   the training and validation works (never the test works)
 Writes  data/tokenizers/char.json, bpe-1024.json, bpe-1536.json, bpe-2048.json, bpe-4096.json   (committed)
         data/tokenizers/report.json                                                             (committed)
         data/tokens/<tokenizer>/train.npy, validation.npy                        (not committed: rebuilt by this script)
 
 Everything a tokenizer learns, it learns from the 39 training works. The alphabet is the set of characters in
-those works. The merges are counted in those works. Nothing is learned from the validation and test works:
-they are checked for characters outside that alphabet, and they are encoded.
+those works. The merges are counted in those works. The validation works are only encoded with the result.
+
+The test works are not opened at all, not even to check that they can be encoded. They do not need to be:
+the alphabet of the whole corpus was recorded when it was cleaned, before the split existed, and this script
+checks that the training works contain all of it. A tokenizer that can encode any string over that alphabet
+(which the tests establish) can encode any work.
 
 If that check ever fails, the remedy is decided now, before it can be tempting: a cleaning rule for the whole
 corpus in prepare_data.py, or a new split drawn before any model is trained. The alphabet is never widened
@@ -20,9 +24,9 @@ so the first 926 merges of the 4096 tokenizer ARE the 1024 tokenizer. We learn t
 (The candidate sizes date from the research stage, before the split existed, and came from counts over the
 whole corpus. The choice AMONG them will be made on validation text only.)
 
-The test works are round-tripped in memory, to prove they can be encoded, and nothing more. Their token
-streams are not saved and no number about them is printed or stored: a file's size would give away its token
-count, and a careless `*.npy` would sweep it into training. The final evaluation encodes them itself.
+No token stream is saved for the test works and no number about them is printed or stored: a file's size
+would give away its token count, and a careless `*.npy` would sweep it into training. The final evaluation
+encodes them itself.
 """
 
 import hashlib
@@ -33,14 +37,14 @@ from pathlib import Path
 
 import numpy as np
 
+from gp_thee.data import PROCESSED, corpus_alphabet, load_works
 from gp_thee.tokenizer import START, BPETokenizer, CharTokenizer, learn_merges, load
 
 ROOT = Path(__file__).resolve().parent.parent
-PROCESSED = ROOT / "data" / "processed"
 TOKENIZERS = ROOT / "data" / "tokenizers"
 TOKENS = ROOT / "data" / "tokens"
 BPE_SIZES = [1024, 1536, 2048, 4096]  # total vocabulary: characters + merges + START
-SAVED_SETS = ("train", "validation")  # never "test": see the docstring
+SETS = ("train", "validation")  # never "test": see the docstring
 
 # The model these vocabularies are for (blog part 1): 6 layers, width 384, context 256 tokens.
 LAYERS, WIDTH, CONTEXT = 6, 384, 256
@@ -51,25 +55,16 @@ def check(condition: bool, message: str) -> None:
         raise SystemExit(f"CHECK FAILED: {message}")
 
 
-# ---------------------------------------------------------------- 1. the three sets of works, as frozen in split.json
+# ---------------------------------------------------------------- 1. the works, as frozen in split.json (checksums verified on load)
 split_bytes = (PROCESSED / "split.json").read_bytes()
-split = json.loads(split_bytes)
-checksums = {w["file"]: w["sha256"] for w in json.loads((PROCESSED / "manifest.json").read_text(encoding="utf-8"))["works"]}
-works = {}
-for name, s in split["sets"].items():
-    works[name] = []
-    for f in s["files"]:
-        body = (PROCESSED / f).read_bytes()
-        check(hashlib.sha256(body).hexdigest() == checksums[f], f"{f} does not match the manifest; re-run prepare_data.py")
-        works[name].append(body.decode("utf-8"))
+works = {name: load_works(name) for name in SETS}
 train = works["train"]
-check([len(w) for w in works.values()] == [39, 2, 3], "expected 39 training, 2 validation and 3 test works")
+check([len(w) for w in works.values()] == [39, 2], "expected 39 training and 2 validation works")
 
 # ---------------------------------------------------------------- 2. fit: alphabet and merges, from the training works only
 chars = sorted(set("".join(train)))
-for name in ("validation", "test"):
-    missing = sorted(set("".join(works[name])) - set(chars))
-    check(not missing, f"{name} works use characters the training works lack: {missing!r}")
+missing = sorted(set(corpus_alphabet()) - set(chars))
+check(not missing, f"the corpus uses characters the training works lack, so some work could not be encoded: {missing!r}")
 
 started = time.perf_counter()
 merges = learn_merges(train, max(BPE_SIZES) - len(chars) - 1)
@@ -84,11 +79,11 @@ for size in BPE_SIZES:
 # ---------------------------------------------------------------- 3. save, reload, and check that nothing is lost
 fitted_on = {"split_sha256": hashlib.sha256(split_bytes).hexdigest(), "set": "train", "works": len(train),
              "chars": sum(map(len, train)), "text_sha256": hashlib.sha256("".join(train).encode("utf-8")).hexdigest(),
-             "note": "alphabet and merges computed from the 39 training works only; validation and test works were "
-                     "only checked for characters outside that alphabet, and encoded"}
+             "note": "alphabet and merges computed from the 39 training works only; the validation works were only "
+                     "encoded; the test works were not opened"}
 TOKENIZERS.mkdir(parents=True, exist_ok=True)
-everything = [text for name in ("train", "validation", "test") for text in works[name]]
-report = {"fitted_on": fitted_on, "alphabet": len(chars), "chars": {s: sum(map(len, works[s])) for s in SAVED_SETS},
+everything = [text for name in SETS for text in works[name]]
+report = {"fitted_on": fitted_on, "alphabet": len(chars), "chars": {s: sum(map(len, works[s])) for s in SETS},
           "note": "token counts include one START per work; chars_per_token leaves START out. Nothing here describes the test works.",
           "tokenizers": {}}
 
@@ -97,22 +92,20 @@ for name, tokenizer in tokenizers.items():
     reloaded = load(TOKENIZERS / f"{name}.json")
     check(reloaded.vocab == tokenizer.vocab, f"{name}: vocabulary changed when saved and loaded")
 
-    # The promise: every one of the 44 works survives the round trip, character for character, and
-    # encoding text never produces START. (The test works are checked here, in memory, and nowhere else.)
+    # The promise: every work survives the round trip, character for character, and encoding text never
+    # produces START.
     for text in everything:
         ids = reloaded.encode(text)
         check(reloaded.start_id not in ids and reloaded.decode(ids, show_start=True) == text, f"{name}: a work did not survive encode then decode")
 
     # One stream of ids per saved set, START before each work. uint16 holds ids up to 65,535.
     check(reloaded.vocab_size <= 2 ** 16, f"{name}: vocabulary too large for uint16")
-    streams = {set_name: np.array(reloaded.encode_works(works[set_name]), dtype=np.uint16) for set_name in SAVED_SETS}
+    streams = {set_name: np.array(reloaded.encode_works(works[set_name]), dtype=np.uint16) for set_name in SETS}
     (TOKENS / name).mkdir(parents=True, exist_ok=True)
     for set_name, stream in streams.items():
         expected = "".join(START + text for text in works[set_name])  # START shown, so a stray or missing one is caught
         check(reloaded.decode(stream.tolist(), show_start=True) == expected, f"{name}: the saved {set_name} stream does not decode to its works")
         np.save(TOKENS / name / f"{set_name}.npy", stream)
-    for stale in (TOKENS / name).glob("test.npy"):
-        stale.unlink()
 
     # How the vocabulary is used. Only training and validation are looked at.
     use_train = Counter(streams["train"].tolist())
