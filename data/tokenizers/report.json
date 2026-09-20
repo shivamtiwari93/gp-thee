@@ -1,0 +1,113 @@
+{
+  "fitted_on": {
+    "split_sha256": "7095c396779d438d23fb4c3220719a33d3fc1b575f5b8404c6b5306c17a8c03c",
+    "set": "train",
+    "works": 39,
+    "chars": 4811336,
+    "text_sha256": "a554df7850d2095fc42a95aa510b5cdfd6bb987a8da6583dee86ca997dcf367e",
+    "note": "alphabet and merges computed from the 39 training works only; validation and test works were only checked for characters outside that alphabet, and encoded"
+  },
+  "alphabet": 97,
+  "chars": {
+    "train": 4811336,
+    "validation": 274727
+  },
+  "note": "token counts include one START per work; chars_per_token leaves START out. Nothing here describes the test works.",
+  "tokenizers": {
+    "char": {
+      "vocab_size": 98,
+      "merges": 0,
+      "tokens": {
+        "train": 4811375,
+        "validation": 274729
+      },
+      "chars_per_token": {
+        "train": 1.0,
+        "validation": 1.0
+      },
+      "context_in_chars": 256,
+      "vocab_seen_100_times_in_training": 0.7347,
+      "merges_seen_100_times_in_training": 0.0,
+      "vocab_seen_under_10_times_in_training": 8,
+      "vocab_never_used_in_training": 0,
+      "vocab_never_used_in_validation": 25,
+      "model_parameters": 10757760
+    },
+    "bpe-1024": {
+      "vocab_size": 1024,
+      "merges": 926,
+      "tokens": {
+        "train": 1936643,
+        "validation": 110361
+      },
+      "chars_per_token": {
+        "train": 2.484,
+        "validation": 2.489
+      },
+      "context_in_chars": 636,
+      "vocab_seen_100_times_in_training": 0.957,
+      "merges_seen_100_times_in_training": 0.9827,
+      "vocab_seen_under_10_times_in_training": 13,
+      "vocab_never_used_in_training": 0,
+      "vocab_never_used_in_validation": 64,
+      "model_parameters": 11113344
+    },
+    "bpe-1536": {
+      "vocab_size": 1536,
+      "merges": 1438,
+      "tokens": {
+        "train": 1787863,
+        "validation": 103165
+      },
+      "chars_per_token": {
+        "train": 2.691,
+        "validation": 2.663
+      },
+      "context_in_chars": 689,
+      "vocab_seen_100_times_in_training": 0.9342,
+      "merges_seen_100_times_in_training": 0.9499,
+      "vocab_seen_under_10_times_in_training": 24,
+      "vocab_never_used_in_training": 2,
+      "vocab_never_used_in_validation": 148,
+      "model_parameters": 11309952
+    },
+    "bpe-2048": {
+      "vocab_size": 2048,
+      "merges": 1950,
+      "tokens": {
+        "train": 1694913,
+        "validation": 98652
+      },
+      "chars_per_token": {
+        "train": 2.839,
+        "validation": 2.785
+      },
+      "context_in_chars": 727,
+      "vocab_seen_100_times_in_training": 0.9014,
+      "merges_seen_100_times_in_training": 0.9118,
+      "vocab_seen_under_10_times_in_training": 53,
+      "vocab_never_used_in_training": 19,
+      "vocab_never_used_in_validation": 263,
+      "model_parameters": 11506560
+    },
+    "bpe-4096": {
+      "vocab_size": 4096,
+      "merges": 3998,
+      "tokens": {
+        "train": 1507176,
+        "validation": 89556
+      },
+      "chars_per_token": {
+        "train": 3.192,
+        "validation": 3.068
+      },
+      "context_in_chars": 817,
+      "vocab_seen_100_times_in_training": 0.5095,
+      "merges_seen_100_times_in_training": 0.5058,
+      "vocab_seen_under_10_times_in_training": 283,
+      "vocab_never_used_in_training": 125,
+      "vocab_never_used_in_validation": 949,
+      "model_parameters": 12292992
+    }
+  }
+}

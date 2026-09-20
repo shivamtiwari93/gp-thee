@@ -20,3 +20,8 @@ build-backend = "uv_build"
 [tool.uv]
 # Use uv's own CPython, not Homebrew's, so a Homebrew upgrade cannot break the environment.
 python-preference = "only-managed"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]

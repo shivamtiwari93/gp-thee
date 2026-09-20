@@ -187,7 +187,7 @@ The other shortcut is to hold out random chunks. A random chunk of *Hamlet* sits
 
 Holding out whole works asks the honest question: faced with a play it has never read, how well does it predict the next character?
 
-The honest question is also the harder one. A new play brings names the model has never met. `ROMEO.`, `PAROLLES.`, `PROSPERO.` and `KING JOHN.` appear nowhere in the 39 training works, and speaker names like these are about 3% of the held-out characters. So expect our numbers to look worse than the ones in tutorials. nanoGPT's well-known 1.47 was measured on a different file, with a different alphabet, using the last-10% shortcut. It is not a target for us, and our number cannot be compared with it. To give ours a meaning, we will score some simple baselines on the same five works.
+The honest question is also the harder one. A new play brings names the model has never met. `ROMEO.`, `PAROLLES.` and `BERTRAM.` appear nowhere in the 39 training works, and speaker names like these are about 3% of the validation characters. (We measured this on the validation works only. The test works stay unexamined until the end.) So expect our numbers to look worse than the ones in tutorials. nanoGPT's well-known 1.47 was measured on a different file, with a different alphabet, using the last-10% shortcut. It is not a target for us, and our number cannot be compared with it. To give ours a meaning, we will score some simple baselines on the same five works.
 
 ### The criteria
 
@@ -243,7 +243,7 @@ The split is frozen. The five titles were committed to the repository before any
 
 After cleaning, the corpus uses 97 distinct characters. Our first tokenizer will be the simplest possible: one token per character, so the vocabulary is those 97. That is three fewer than part 1 assumed, because the asterisk, the tab and the one straight apostrophe are gone. At 384 parameters per character, the model has 10,757,376 parameters, not 10,758,528. It is still 10.8 million, and still GP-Thee-11M.
 
-The 97 are very unevenly used. 23 of them occur fewer than 50 times in 5.3 million characters: eight of the ten digits, `&`, `œ` (o and e joined into one character), and a handful of accented letters such as `é` and `ç`. A model cannot learn much about a character it meets a few dozen times, and some of these appear only twice. It also hardly matters to the score: together those 23 are 490 characters, under 0.01% of the text. All 97 occur in the 39 training works, so nothing in the held-out works is new to the model's alphabet.
+The 97 are very unevenly used. 23 of them occur fewer than 50 times in 5.3 million characters: eight of the ten digits, `&`, `œ` (o and e joined into one character), and a handful of accented letters such as `é` and `ç`. A model cannot learn much about a character it meets a few dozen times, and some of these appear only twice. It also hardly matters to the score: together those 23 are 490 characters, under 0.01% of the text. All 97 occur in the 39 training works, so nothing in any held-out work can be new to the model's alphabet.
 
 From here on, anything learned from text is learned from the training works only. That includes the tokenizer. Whether to move from characters to fragments of words is part 3.
 

@@ -20,14 +20,14 @@ Shakespeare is the only text in the universe. That bans pretrained weights, pret
 | 1. Environment | uv-managed Python 3.14, PyTorch on the Mac GPU (MPS) | a tensor multiplies on `mps` |
 | 2. Data | one verified download, deterministic cleaning script with assertions | cleaned corpus committed with its checksum and a per-work manifest |
 | 3. Split | hold out whole works: about 90% train, 5% validation, 5% test | the list of works is frozen and committed before any training |
-| 4. Tokenizer | character-level first, then a BPE learned from the training split only | `decode(encode(text)) == text` on the whole corpus |
+| 4. Tokenizer | character-level first, then a BPE learned from the training split only (sizes 1024, 1536, 2048, 4096) | `decode(encode(text)) == text` on the whole corpus |
 | 5. Model | nanoGPT-style decoder: 6 layers, 6 heads, width 384, context 256 | parameter count matches the hand calculation |
 | 6. Correctness checks | initial loss near ln(vocab), overfit one batch, causal-leak test, CPU vs GPU parity | all pass |
 | 7. Benchmark | 2-minute throughput test, fp32 and bf16 | tokens per second recorded; run budgets set from it |
 | 8. Train | AdamW, dropout, weight decay, early stopping on validation loss, best checkpoint kept | loss curves saved |
-| 9. Evaluate | bits per character against baselines (unigram, character 5-gram, bzip2/xz) | the model beats the 5-gram and the compressors |
+| 9. Evaluate | bits per character = total loss in nats over every target, divided by ln 2 and by the set's character count, so tokenizers are comparable. Reported per work, and separately for speaker-label lines (unseen names dominate them). Baselines: unigram, character 5-gram, bzip2/xz | the model beats the 5-gram and the compressors |
 | 10. Memorisation | share of 50-character windows copied verbatim from training text | reported per checkpoint and temperature |
-| 11. Sample | `sample.py`, and a "speak as a character" dialogue wrapper | fixed 10-prompt suite regenerated per checkpoint |
+| 11. Sample | `sample.py`, and a "speak as a character" dialogue wrapper. Prompts pass through a normaliser outside the tokenizer: straight quotes to curly, tabs and carriage returns handled, trailing spaces stripped (a space belongs to the NEXT token), anything else refused. Never prepend START to an ordinary prompt | fixed 10-prompt suite regenerated per checkpoint |
 | 12. Experiments | tokenizer size, model size (about 5M / 11M / 38M, same tokenizer and context), dropout, one variable at a time, 3 seeds each | results table |
 
 Optional later: a port to Apple's MLX, modern architecture tweaks (RoPE, RMSNorm, SwiGLU), an ensemble.
@@ -47,4 +47,4 @@ A 5-slide PDF and a post, using the real charts and samples.
 
 ## Naming
 
-The repo is `gp-thee`. Each released checkpoint carries its parameter count: the first is `GP-Thee-11M` (10,757,376 parameters with the cleaned 97-character alphabet). The count is fixed by the architecture, so it is known before training; see the build log.
+The repo is `gp-thee`. Each released checkpoint carries its parameter count: the first is `GP-Thee-11M` (10,757,760 parameters with the character tokenizer: 97 characters plus START). The count is fixed by the architecture, so it is known before training; see the build log.

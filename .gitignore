@@ -15,6 +15,7 @@ runs/
 *.pt
 *.safetensors
 *.npy
+data/tokens/
 
 # OS / editor
 .DS_Store

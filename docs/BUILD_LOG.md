@@ -360,8 +360,75 @@ Wrote [blog/02-the-data.md](../blog/02-the-data.md) and put it through the same 
 | The mutation tests corrupted the input | They did, with the checksum test switched off; otherwise every corruption dies on the first line and the other checks are never exercised |
 | "Four of the five share nothing at all" | No run of 50 characters. Shorter windows find stock phrases and headings, as they should. |
 
-**Added because a reader would need them:** a definition of the loss; that the test set is never used to make a choice (not merely "looked at once"); the term *data leakage*; that speaker names never seen in training are 2.98% of validation characters and 3.62% of test characters (*measured*), so held-out loss will be higher than tutorial numbers and is not comparable with nanoGPT's 1.47; the caveats owed on retraining the released model on all 44 works (its quality is an expectation, not a measurement; the same number of steps on 10% more text means slightly fewer passes; nothing is left to catch a bad run); two kinds of noise in a small exam, and that only one of them is fixed by repeating runs.
+**Added because a reader would need them:** a definition of the loss; that the test set is never used to make a choice (not merely "looked at once"); the term *data leakage*; that speaker names never seen in training are 2.98% of validation characters (*measured*; a test-set figure was also measured and published here, which was a mistake: see Entry 12), so held-out loss will be higher than tutorial numbers and is not comparable with nanoGPT's 1.47; the caveats owed on retraining the released model on all 44 works (its quality is an expectation, not a measurement; the same number of steps on 10% more text means slightly fewer passes; nothing is left to catch a bad run); two kinds of noise in a small exam, and that only one of them is fixed by repeating runs.
 
-**The alphabet closes part 1's loop.** Cleaning removed three characters (asterisk, tab, straight apostrophe), so the vocabulary is 97, not 100, and the character-level model has 10,757,376 parameters, not 10,758,528 (`scripts/count_params.py`, checked against PyTorch). Still GP-Thee-11M. All 97 occur in the 39 training works; validation uses 72 and test 75 (*measured*). The 23 characters seen fewer than 50 times total 490 occurrences, 0.009% of the text.
+**The alphabet closes part 1's loop.** Cleaning removed three characters (asterisk, tab, straight apostrophe), so the vocabulary is 97, not 100, and the character-level model has 10,757,376 parameters, not 10,758,528 (`scripts/count_params.py`, checked against PyTorch). Still GP-Thee-11M. All 97 occur in the 39 training works; validation uses 72 (*measured*; the test figure that stood here has been removed, see Entry 12). The 23 characters seen fewer than 50 times total 490 occurrences, 0.009% of the text.
 
 Lesson, third time: the prose is where the errors are. The scripts had assertions and audits. The sentences about them had only the author. Treat a claim in the write-up like a line of code: it does not ship until something has tried to break it.
+
+## Entry 12. The tokenizers (2026-09-20)
+
+**Result:** `src/gp_thee/tokenizer.py`, the project's first library code, holds a character tokenizer and a byte-pair-encoding (BPE) tokenizer written from scratch. `scripts/build_tokenizers.py` fits them on the 39 training works and saves five of them in `data/tokenizers/`. 48 tests.
+
+| Tokenizer | Vocabulary | Training tokens | Characters per token (train / validation) | Context of 256 tokens | Merged pieces seen 100+ times | Parameters |
+|---|---|---|---|---|---|---|
+| char | 98 | 4,811,375 | 1.00 / 1.00 | 256 chars | n/a | 10,757,760 |
+| bpe-1024 | 1,024 | 1,936,643 | 2.48 / 2.49 | 636 | 98.3% | 11,113,344 |
+| bpe-1536 | 1,536 | 1,787,863 | 2.69 / 2.66 | 689 | 95.0% | 11,309,952 |
+| bpe-2048 | 2,048 | 1,694,913 | 2.84 / 2.79 | 727 | 91.2% | 11,506,560 |
+| bpe-4096 | 4,096 | 1,507,176 | 3.19 / 3.07 | 817 | 50.6% | 12,292,992 |
+
+All *measured*. Learning all 3,998 merges takes 5.7 seconds; the whole build, 10.
+
+### Design
+
+- **No unknown token.** `decode(encode(text)) == text` for any text over the alphabet. A character outside it is an error, and so is an id outside the vocabulary.
+- **Chunks.** Merges are learned and applied inside chunks only: a word with the space before it, a run of punctuation, a run of newlines, indentation. The apostrophe counts as a letter, because here it nearly always is one (`’tis`, `o’er`, `lov’d`). Measured on the training works: of 23,019 apostrophes, well under 1% are closing quotation marks glued to a word (the auditor counted 75; a cruder upper bound of mine gives 148).
+- **START**, one special token placed before every work. It cannot be typed (the alphabet has no `<`, `|` or `>`), so `encode` can never produce it. It makes the character vocabulary 98, not 97, and the model 10,757,760 parameters, 384 more than blog part 2 said. Still GP-Thee-11M.
+- **One learning run, several sizes.** Merges are learned most-frequent-first, so the first 926 merges of bpe-4096 are bpe-1024. Tested.
+- **Fitted on the training works only.** The test that proves it re-learns the merges from the training works and demands an exact match. It is sensitive: fitting on all 44 works instead changes merge number 30, and 3,881 of the 3,998 positions (*measured*).
+
+### What the chunk rule buys, measured
+
+The first comment I wrote to justify the chunk rule was wrong: it claimed that without the rule the most frequent pairs would be things like `"e " + "t"`. The auditor trained a tokenizer with no chunk rule and found that pair is never merged. `scripts/compare_chunk_rule.py` now reproduces the comparison (2,048 entries, training works, *measured*):
+
+| | No chunk rule | With the rule |
+|---|---|---|
+| Characters per token | 3.03 | 2.84 |
+| Pieces that straddle two words | 237 (12.2%) | 0 |
+| Pieces mixing a newline with text | 204 | 0 |
+| Ways a common word gets cut up (average over the 150 most common) | 12.4 | 2.0 |
+| `come` | 45 ways | 2 |
+
+By compression, and by the "seen 100+ times" figure, having no rule *wins*. What the rule buys is that a word looks the same to the model wherever it appears. Compression is not the objective.
+
+### The audit
+
+Four independent auditors, as for the cleaning script.
+
+- **Independent reimplementation.** A naive trainer written from the description alone, recounting everything before every merge, reproduces all 3,998 merges exactly and in order. The replay in `encode` matches the training-time segmentation for all 38,398 distinct training chunks at every size. The two shortcuts in `learn_merges` are sound, including the index that goes stale (two thirds of its entries by the end, harmlessly).
+- **Fuzzing.** 658,544 strings, including every string of up to three character classes, with no failure.
+- **Leakage.** A train-only refit reproduces the saved files byte for byte. Replacing all five held-out works with unrelated text leaves the tokenizer files byte-identical.
+- **Mutation testing of my tests** found them weaker than they looked. An encoder that ignored every merge after the first 1,500, or that sprinkled stray START ids, passed all 28. Every round trip decoded with START hidden, and nothing pinned the actual segmentation. Now fixed: round trips decode with START shown, one test pins the exact cuts of a known line, token counts are checked against the published report, a naive reference trainer lives in the tests, and saved files are compared byte for byte with what the code writes.
+
+Two things the audit measured that are worth knowing:
+
+- **Ties decide three merges in four** (2,968 of 3,998). Inside a name such as `SYRACUSE`, every neighbouring pair is exactly as frequent as the name. So the last entries of each vocabulary size are an arbitrary pick among equally frequent pairs. Flipping the tie rule changes 130 of 3,998 pieces and 4 tokens in 1.5 million.
+- **Speaker names are 13% of bpe-2048 and 16% of bpe-4096**, and they explain the whole gap between training and validation compression. `HAMLET` is one token. `ROMEO`, which the training works never contain, is `RO|M|E|O` at every size. So when models are compared across tokenizers, bits per character will be reported separately for speaker-label lines. Otherwise the comparison is partly a verdict on how each size spells names it has never seen, which is a property of our split and not of the model.
+
+### A mistake of mine: I looked at the test set
+
+Blog part 2 and Entry 11 published two statistics measured on the test works (the share of their characters in speaker names never seen in training, and how many distinct characters they use), and named two test-work characters as unseen names. Nothing was tuned on those numbers and no model existed. But the rule is that the test works are not examined, and the first of those figures measures exactly what separates the tokenizer candidates. The leakage auditor caught it. The figures are removed from the blog and struck from Entry 11; validation figures carry the argument alone.
+
+Two changes make a repeat harder: the build script no longer saves the test works' token streams (a file's size gives away its token count, and a careless `*.npy` would sweep it into training), and `data/tokenizers/report.json` is tested to contain nothing about the test works.
+
+Also recorded, for honesty: the candidate vocabulary sizes date from the research stage, before the split existed, and came from counts over the whole corpus. The chunk rule was developed by reading training works only. The choice among sizes will be made on validation only.
+
+### Decided now, for later steps
+
+- **If a held-out work ever contains a character the training works lack**, the remedy is a corpus-wide cleaning rule or a split redrawn before any model is trained. The alphabet is never widened from held-out text.
+- **Bits per character** = total loss in nats over every target, divided by ln 2 and by the set's character count. Identical for every tokenizer. Per work, and separately for speaker-label lines.
+- **Sampling** needs a prompt normaliser outside the tokenizer: straight quotes raise an error today, and a prompt that ends in a space puts the model somewhere it has almost never been, because a space belongs to the *next* token.
+- **bpe-1536** was added to the sweep: it is exactly where 95% of merged pieces are still seen 100 times in training, and the original sizes jumped straight over it.
+
+Lesson: my tests passed, and the tests were the weak part. Mutation testing (break the code on purpose, see whether a test notices) found in minutes what re-reading never would have.

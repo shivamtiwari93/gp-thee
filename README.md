@@ -20,7 +20,7 @@ GP-Thee is an in-character autocomplete, not an assistant. It should write convi
 - [x] Corpus downloaded and checksum-verified
 - [x] Corpus cleaned into 44 files, one per work, and audited twice ([what was removed and kept](data/processed/README.md))
 - [x] Train / validation / test split, by whole works, frozen and leak-checked ([why these five works](scripts/make_split.py))
-- [ ] Tokenizer trained on Shakespeare only
+- [x] Tokenizers written from scratch and fitted on the training works only: characters, and word fragments at four sizes ([src/gp_thee/tokenizer.py](src/gp_thee/tokenizer.py))
 - [ ] The model: GP-Thee-11M, a 10.8M parameter GPT
 - [ ] Training, with correctness checks first
 - [ ] Evaluation: bits per character, baselines, memorisation report
@@ -35,7 +35,8 @@ data/        the corpus: raw/ is the untouched download, processed/ is generated
 blog/        the write-up, one section per milestone
 docs/        PLAN.md (roadmap) and BUILD_LOG.md (the detailed step-by-step record)
 scripts/     one-off commands such as the dataset download
-src/gp_thee/ the library: data prep, tokenizer, model, training, sampling
+src/gp_thee/ the library: tokenizer so far; model, training and sampling to come
+tests/       run with `uv run pytest`
 ```
 
 ## Reproduce
@@ -47,6 +48,8 @@ uv sync                                      # Python 3.14 + PyTorch 2.14, from 
 uv run python scripts/download_data.py       # confirms the corpus checksum
 uv run python scripts/prepare_data.py        # rebuilds data/processed/ from the raw file, byte for byte
 uv run python scripts/make_split.py          # re-checks the split: held-out works share no text with training
+uv run python scripts/build_tokenizers.py    # fits the tokenizers on the training works; writes data/tokens/
+uv run pytest                                # 48 tests
 uv run python scripts/smoke_test_gpu.py      # Mac only: GPU answers match the CPU's
 uv run python scripts/count_params.py        # the parameter arithmetic, checked against PyTorch
 ```
