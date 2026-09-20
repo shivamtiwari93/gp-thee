@@ -1,0 +1,1242 @@
+{
+  "source": {
+    "file": "data/raw/100-0.txt",
+    "sha256": "a023115c2d4e2ee12221bdd780fdf2ac5a864fe225948656f51f8be462c7fffb",
+    "bytes": 5422721,
+    "lines": 196022,
+    "words": 963478,
+    "chars": 5359444,
+    "distinct_chars": 100
+  },
+  "output": {
+    "works": 44,
+    "lines": 194293,
+    "words": 957139,
+    "chars": 5319224,
+    "distinct_chars": 97
+  },
+  "rules": {
+    "gutenberg_markers": 2,
+    "front_matter": 61,
+    "end_markers": 3,
+    "blank_lines_between_works": 181,
+    "play_contents_lists": 1488,
+    "blank_lines_after_play_title": 141,
+    "cast_heading_spaces": 7,
+    "venus_margin_numbers": 294,
+    "duplicate_heading": 1,
+    "blank_lines_around_duplicate_heading": 3,
+    "lacuna_marker": 1,
+    "editorial_brackets": 2,
+    "ditto_marks_spelled_out": 9,
+    "transcription_slips": 5,
+    "tabs_replaced": 4,
+    "straight_apostrophes_curled": 1,
+    "trailing_whitespace": 2,
+    "one_space_indents": 2510,
+    "doubled_spaces": 47,
+    "blank_lines_inserted_after_play_titles": 152
+  },
+  "alphabet": [
+    {
+      "char": " ",
+      "codepoint": "U+0020",
+      "name": "SPACE",
+      "count": 818265
+    },
+    {
+      "char": "e",
+      "codepoint": "U+0065",
+      "name": "LATIN SMALL LETTER E",
+      "count": 448078
+    },
+    {
+      "char": "t",
+      "codepoint": "U+0074",
+      "name": "LATIN SMALL LETTER T",
+      "count": 315370
+    },
+    {
+      "char": "o",
+      "codepoint": "U+006F",
+      "name": "LATIN SMALL LETTER O",
+      "count": 305504
+    },
+    {
+      "char": "a",
+      "codepoint": "U+0061",
+      "name": "LATIN SMALL LETTER A",
+      "count": 266404
+    },
+    {
+      "char": "h",
+      "codepoint": "U+0068",
+      "name": "LATIN SMALL LETTER H",
+      "count": 239050
+    },
+    {
+      "char": "s",
+      "codepoint": "U+0073",
+      "name": "LATIN SMALL LETTER S",
+      "count": 237761
+    },
+    {
+      "char": "n",
+      "codepoint": "U+006E",
+      "name": "LATIN SMALL LETTER N",
+      "count": 235976
+    },
+    {
+      "char": "r",
+      "codepoint": "U+0072",
+      "name": "LATIN SMALL LETTER R",
+      "count": 229069
+    },
+    {
+      "char": "i",
+      "codepoint": "U+0069",
+      "name": "LATIN SMALL LETTER I",
+      "count": 218684
+    },
+    {
+      "char": "\n",
+      "codepoint": "U+000A",
+      "name": "LINE FEED",
+      "count": 194293
+    },
+    {
+      "char": "l",
+      "codepoint": "U+006C",
+      "name": "LATIN SMALL LETTER L",
+      "count": 160082
+    },
+    {
+      "char": "d",
+      "codepoint": "U+0064",
+      "name": "LATIN SMALL LETTER D",
+      "count": 146259
+    },
+    {
+      "char": "u",
+      "codepoint": "U+0075",
+      "name": "LATIN SMALL LETTER U",
+      "count": 125449
+    },
+    {
+      "char": "m",
+      "codepoint": "U+006D",
+      "name": "LATIN SMALL LETTER M",
+      "count": 103308
+    },
+    {
+      "char": ",",
+      "codepoint": "U+002C",
+      "name": "COMMA",
+      "count": 94550
+    },
+    {
+      "char": "y",
+      "codepoint": "U+0079",
+      "name": "LATIN SMALL LETTER Y",
+      "count": 92208
+    },
+    {
+      "char": ".",
+      "codepoint": "U+002E",
+      "name": "FULL STOP",
+      "count": 89641
+    },
+    {
+      "char": "w",
+      "codepoint": "U+0077",
+      "name": "LATIN SMALL LETTER W",
+      "count": 79430
+    },
+    {
+      "char": "f",
+      "codepoint": "U+0066",
+      "name": "LATIN SMALL LETTER F",
+      "count": 74977
+    },
+    {
+      "char": "c",
+      "codepoint": "U+0063",
+      "name": "LATIN SMALL LETTER C",
+      "count": 72851
+    },
+    {
+      "char": "g",
+      "codepoint": "U+0067",
+      "name": "LATIN SMALL LETTER G",
+      "count": 62810
+    },
+    {
+      "char": "p",
+      "codepoint": "U+0070",
+      "name": "LATIN SMALL LETTER P",
+      "count": 50857
+    },
+    {
+      "char": "b",
+      "codepoint": "U+0062",
+      "name": "LATIN SMALL LETTER B",
+      "count": 50786
+    },
+    {
+      "char": "I",
+      "codepoint": "U+0049",
+      "name": "LATIN CAPITAL LETTER I",
+      "count": 50006
+    },
+    {
+      "char": "A",
+      "codepoint": "U+0041",
+      "name": "LATIN CAPITAL LETTER A",
+      "count": 42667
+    },
+    {
+      "char": "T",
+      "codepoint": "U+0054",
+      "name": "LATIN CAPITAL LETTER T",
+      "count": 37612
+    },
+    {
+      "char": "v",
+      "codepoint": "U+0076",
+      "name": "LATIN SMALL LETTER V",
+      "count": 37252
+    },
+    {
+      "char": "E",
+      "codepoint": "U+0045",
+      "name": "LATIN CAPITAL LETTER E",
+      "count": 33704
+    },
+    {
+      "char": "k",
+      "codepoint": "U+006B",
+      "name": "LATIN SMALL LETTER K",
+      "count": 32337
+    },
+    {
+      "char": "S",
+      "codepoint": "U+0053",
+      "name": "LATIN CAPITAL LETTER S",
+      "count": 28630
+    },
+    {
+      "char": "’",
+      "codepoint": "U+2019",
+      "name": "RIGHT SINGLE QUOTATION MARK",
+      "count": 26084
+    },
+    {
+      "char": "O",
+      "codepoint": "U+004F",
+      "name": "LATIN CAPITAL LETTER O",
+      "count": 25734
+    },
+    {
+      "char": "N",
+      "codepoint": "U+004E",
+      "name": "LATIN CAPITAL LETTER N",
+      "count": 23334
+    },
+    {
+      "char": "R",
+      "codepoint": "U+0052",
+      "name": "LATIN CAPITAL LETTER R",
+      "count": 22265
+    },
+    {
+      "char": "L",
+      "codepoint": "U+004C",
+      "name": "LATIN CAPITAL LETTER L",
+      "count": 20296
+    },
+    {
+      "char": "C",
+      "codepoint": "U+0043",
+      "name": "LATIN CAPITAL LETTER C",
+      "count": 17376
+    },
+    {
+      "char": "W",
+      "codepoint": "U+0057",
+      "name": "LATIN CAPITAL LETTER W",
+      "count": 16607
+    },
+    {
+      "char": "H",
+      "codepoint": "U+0048",
+      "name": "LATIN CAPITAL LETTER H",
+      "count": 16544
+    },
+    {
+      "char": "M",
+      "codepoint": "U+004D",
+      "name": "LATIN CAPITAL LETTER M",
+      "count": 14147
+    },
+    {
+      "char": "B",
+      "codepoint": "U+0042",
+      "name": "LATIN CAPITAL LETTER B",
+      "count": 13005
+    },
+    {
+      "char": ";",
+      "codepoint": "U+003B",
+      "name": "SEMICOLON",
+      "count": 12912
+    },
+    {
+      "char": "D",
+      "codepoint": "U+0044",
+      "name": "LATIN CAPITAL LETTER D",
+      "count": 12697
+    },
+    {
+      "char": "U",
+      "codepoint": "U+0055",
+      "name": "LATIN CAPITAL LETTER U",
+      "count": 11450
+    },
+    {
+      "char": "?",
+      "codepoint": "U+003F",
+      "name": "QUESTION MARK",
+      "count": 11396
+    },
+    {
+      "char": "F",
+      "codepoint": "U+0046",
+      "name": "LATIN CAPITAL LETTER F",
+      "count": 10656
+    },
+    {
+      "char": "P",
+      "codepoint": "U+0050",
+      "name": "LATIN CAPITAL LETTER P",
+      "count": 10111
+    },
+    {
+      "char": "G",
+      "codepoint": "U+0047",
+      "name": "LATIN CAPITAL LETTER G",
+      "count": 9775
+    },
+    {
+      "char": "_",
+      "codepoint": "U+005F",
+      "name": "LOW LINE",
+      "count": 9702
+    },
+    {
+      "char": "!",
+      "codepoint": "U+0021",
+      "name": "EXCLAMATION MARK",
+      "count": 7805
+    },
+    {
+      "char": "Y",
+      "codepoint": "U+0059",
+      "name": "LATIN CAPITAL LETTER Y",
+      "count": 7097
+    },
+    {
+      "char": "K",
+      "codepoint": "U+004B",
+      "name": "LATIN CAPITAL LETTER K",
+      "count": 5409
+    },
+    {
+      "char": "x",
+      "codepoint": "U+0078",
+      "name": "LATIN SMALL LETTER X",
+      "count": 5043
+    },
+    {
+      "char": "[",
+      "codepoint": "U+005B",
+      "name": "LEFT SQUARE BRACKET",
+      "count": 4252
+    },
+    {
+      "char": "]",
+      "codepoint": "U+005D",
+      "name": "RIGHT SQUARE BRACKET",
+      "count": 4252
+    },
+    {
+      "char": "-",
+      "codepoint": "U+002D",
+      "name": "HYPHEN-MINUS",
+      "count": 3878
+    },
+    {
+      "char": ":",
+      "codepoint": "U+003A",
+      "name": "COLON",
+      "count": 3413
+    },
+    {
+      "char": "j",
+      "codepoint": "U+006A",
+      "name": "LATIN SMALL LETTER J",
+      "count": 2977
+    },
+    {
+      "char": "q",
+      "codepoint": "U+0071",
+      "name": "LATIN SMALL LETTER Q",
+      "count": 2808
+    },
+    {
+      "char": "V",
+      "codepoint": "U+0056",
+      "name": "LATIN CAPITAL LETTER V",
+      "count": 2781
+    },
+    {
+      "char": "—",
+      "codepoint": "U+2014",
+      "name": "EM DASH",
+      "count": 2503
+    },
+    {
+      "char": "J",
+      "codepoint": "U+004A",
+      "name": "LATIN CAPITAL LETTER J",
+      "count": 1941
+    },
+    {
+      "char": "z",
+      "codepoint": "U+007A",
+      "name": "LATIN SMALL LETTER Z",
+      "count": 1247
+    },
+    {
+      "char": "“",
+      "codepoint": "U+201C",
+      "name": "LEFT DOUBLE QUOTATION MARK",
+      "count": 1232
+    },
+    {
+      "char": "Q",
+      "codepoint": "U+0051",
+      "name": "LATIN CAPITAL LETTER Q",
+      "count": 1187
+    },
+    {
+      "char": "”",
+      "codepoint": "U+201D",
+      "name": "RIGHT DOUBLE QUOTATION MARK",
+      "count": 1032
+    },
+    {
+      "char": "Z",
+      "codepoint": "U+005A",
+      "name": "LATIN CAPITAL LETTER Z",
+      "count": 548
+    },
+    {
+      "char": "‘",
+      "codepoint": "U+2018",
+      "name": "LEFT SINGLE QUOTATION MARK",
+      "count": 372
+    },
+    {
+      "char": "X",
+      "codepoint": "U+0058",
+      "name": "LATIN CAPITAL LETTER X",
+      "count": 313
+    },
+    {
+      "char": "(",
+      "codepoint": "U+0028",
+      "name": "LEFT PARENTHESIS",
+      "count": 217
+    },
+    {
+      "char": ")",
+      "codepoint": "U+0029",
+      "name": "RIGHT PARENTHESIS",
+      "count": 217
+    },
+    {
+      "char": "1",
+      "codepoint": "U+0031",
+      "name": "DIGIT ONE",
+      "count": 122
+    },
+    {
+      "char": "æ",
+      "codepoint": "U+00E6",
+      "name": "LATIN SMALL LETTER AE",
+      "count": 65
+    },
+    {
+      "char": "2",
+      "codepoint": "U+0032",
+      "name": "DIGIT TWO",
+      "count": 62
+    },
+    {
+      "char": "&",
+      "codepoint": "U+0026",
+      "name": "AMPERSAND",
+      "count": 46
+    },
+    {
+      "char": "é",
+      "codepoint": "U+00E9",
+      "name": "LATIN SMALL LETTER E WITH ACUTE",
+      "count": 44
+    },
+    {
+      "char": "3",
+      "codepoint": "U+0033",
+      "name": "DIGIT THREE",
+      "count": 41
+    },
+    {
+      "char": "4",
+      "codepoint": "U+0034",
+      "name": "DIGIT FOUR",
+      "count": 38
+    },
+    {
+      "char": "è",
+      "codepoint": "U+00E8",
+      "name": "LATIN SMALL LETTER E WITH GRAVE",
+      "count": 38
+    },
+    {
+      "char": "ç",
+      "codepoint": "U+00E7",
+      "name": "LATIN SMALL LETTER C WITH CEDILLA",
+      "count": 33
+    },
+    {
+      "char": "5",
+      "codepoint": "U+0035",
+      "name": "DIGIT FIVE",
+      "count": 32
+    },
+    {
+      "char": "6",
+      "codepoint": "U+0036",
+      "name": "DIGIT SIX",
+      "count": 27
+    },
+    {
+      "char": "8",
+      "codepoint": "U+0038",
+      "name": "DIGIT EIGHT",
+      "count": 27
+    },
+    {
+      "char": "0",
+      "codepoint": "U+0030",
+      "name": "DIGIT ZERO",
+      "count": 26
+    },
+    {
+      "char": "7",
+      "codepoint": "U+0037",
+      "name": "DIGIT SEVEN",
+      "count": 26
+    },
+    {
+      "char": "9",
+      "codepoint": "U+0039",
+      "name": "DIGIT NINE",
+      "count": 26
+    },
+    {
+      "char": "Ç",
+      "codepoint": "U+00C7",
+      "name": "LATIN CAPITAL LETTER C WITH CEDILLA",
+      "count": 19
+    },
+    {
+      "char": "œ",
+      "codepoint": "U+0153",
+      "name": "LATIN SMALL LIGATURE OE",
+      "count": 17
+    },
+    {
+      "char": "à",
+      "codepoint": "U+00E0",
+      "name": "LATIN SMALL LETTER A WITH GRAVE",
+      "count": 14
+    },
+    {
+      "char": "É",
+      "codepoint": "U+00C9",
+      "name": "LATIN CAPITAL LETTER E WITH ACUTE",
+      "count": 9
+    },
+    {
+      "char": "Æ",
+      "codepoint": "U+00C6",
+      "name": "LATIN CAPITAL LETTER AE",
+      "count": 6
+    },
+    {
+      "char": "ê",
+      "codepoint": "U+00EA",
+      "name": "LATIN SMALL LETTER E WITH CIRCUMFLEX",
+      "count": 6
+    },
+    {
+      "char": "À",
+      "codepoint": "U+00C0",
+      "name": "LATIN CAPITAL LETTER A WITH GRAVE",
+      "count": 4
+    },
+    {
+      "char": "ë",
+      "codepoint": "U+00EB",
+      "name": "LATIN SMALL LETTER E WITH DIAERESIS",
+      "count": 4
+    },
+    {
+      "char": "…",
+      "codepoint": "U+2026",
+      "name": "HORIZONTAL ELLIPSIS",
+      "count": 3
+    },
+    {
+      "char": "â",
+      "codepoint": "U+00E2",
+      "name": "LATIN SMALL LETTER A WITH CIRCUMFLEX",
+      "count": 2
+    },
+    {
+      "char": "î",
+      "codepoint": "U+00EE",
+      "name": "LATIN SMALL LETTER I WITH CIRCUMFLEX",
+      "count": 2
+    }
+  ],
+  "works": [
+    {
+      "index": 1,
+      "title": "THE SONNETS",
+      "heading": "THE SONNETS",
+      "file": "works/01-the-sonnets.txt",
+      "kind": "sonnets",
+      "genre": "poetry",
+      "raw_first_line": 63,
+      "raw_last_line": 2833,
+      "lines": 2771,
+      "words": 17703,
+      "chars": 98319,
+      "sha256": "39b866b6a81c63c5c34169bff2ba34ff8bece57bce3260b405f794fd6eea6a75"
+    },
+    {
+      "index": 2,
+      "title": "ALL’S WELL THAT ENDS WELL",
+      "heading": "ALL’S WELL THAT ENDS WELL",
+      "file": "works/02-alls-well-that-ends-well.txt",
+      "kind": "play",
+      "genre": "comedy",
+      "raw_first_line": 2840,
+      "raw_last_line": 7799,
+      "lines": 4921,
+      "words": 24407,
+      "chars": 133386,
+      "sha256": "42cbc249ef6d4ed9f38c8491db71868fafde4e3a1b8cb5e0a0812f36e1df5b2d"
+    },
+    {
+      "index": 3,
+      "title": "THE TRAGEDY OF ANTONY AND CLEOPATRA",
+      "heading": "THE TRAGEDY OF ANTONY AND CLEOPATRA",
+      "file": "works/03-the-tragedy-of-antony-and-cleopatra.txt",
+      "kind": "play",
+      "genre": "tragedy",
+      "raw_first_line": 7804,
+      "raw_last_line": 14440,
+      "lines": 6542,
+      "words": 26456,
+      "chars": 150335,
+      "sha256": "2d79be7cb58040deb41dc050dcaa84029bf1b908bb2a2faa8f6338d664fef96b"
+    },
+    {
+      "index": 4,
+      "title": "AS YOU LIKE IT",
+      "heading": "AS YOU LIKE IT",
+      "file": "works/04-as-you-like-it.txt",
+      "kind": "play",
+      "genre": "comedy",
+      "raw_first_line": 14445,
+      "raw_last_line": 18878,
+      "lines": 4398,
+      "words": 22979,
+      "chars": 126169,
+      "sha256": "9869a689a0c0dfae87ab56c08c4d390ca5b3e3df0129c4486cb441888b19d14b"
+    },
+    {
+      "index": 5,
+      "title": "THE COMEDY OF ERRORS",
+      "heading": "THE COMEDY OF ERRORS",
+      "file": "works/05-the-comedy-of-errors.txt",
+      "kind": "play",
+      "genre": "comedy",
+      "raw_first_line": 18883,
+      "raw_last_line": 22079,
+      "lines": 3171,
+      "words": 16152,
+      "chars": 87963,
+      "sha256": "9abab3fd4a6023571f02e827c28d1510c482c75f9b324fcab79de62db1b44b56"
+    },
+    {
+      "index": 6,
+      "title": "THE TRAGEDY OF CORIOLANUS",
+      "heading": "THE TRAGEDY OF CORIOLANUS",
+      "file": "works/06-the-tragedy-of-coriolanus.txt",
+      "kind": "play",
+      "genre": "tragedy",
+      "raw_first_line": 22084,
+      "raw_last_line": 28524,
+      "lines": 6397,
+      "words": 29246,
+      "chars": 164796,
+      "sha256": "45cc4e4b497f11ab9e24a0c0ba7419467520ed815c1b078c6330c14d3cba91a8"
+    },
+    {
+      "index": 7,
+      "title": "CYMBELINE",
+      "heading": "CYMBELINE",
+      "file": "works/07-cymbeline.txt",
+      "kind": "play",
+      "genre": "romance",
+      "raw_first_line": 28529,
+      "raw_last_line": 34409,
+      "lines": 5834,
+      "words": 28785,
+      "chars": 159744,
+      "sha256": "bdb6d4e6c2f9979d559b7286997a2103b4b1d38d95089bd597ca8ee08af6e553"
+    },
+    {
+      "index": 8,
+      "title": "THE TRAGEDY OF HAMLET, PRINCE OF DENMARK",
+      "heading": "THE TRAGEDY OF HAMLET, PRINCE OF DENMARK",
+      "file": "works/08-the-tragedy-of-hamlet-prince-of-denmark.txt",
+      "kind": "play",
+      "genre": "tragedy",
+      "raw_first_line": 34414,
+      "raw_last_line": 41107,
+      "lines": 6659,
+      "words": 31806,
+      "chars": 177142,
+      "sha256": "25c82f2a4d5e86d1809c4ffc778a35f33554181df43bdd643f081db4952bc19e"
+    },
+    {
+      "index": 9,
+      "title": "THE FIRST PART OF KING HENRY THE FOURTH",
+      "heading": "THE FIRST PART OF KING HENRY THE FOURTH",
+      "file": "works/09-the-first-part-of-king-henry-the-fourth.txt",
+      "kind": "play",
+      "genre": "history",
+      "raw_first_line": 41112,
+      "raw_last_line": 45914,
+      "lines": 4769,
+      "words": 25677,
+      "chars": 140856,
+      "sha256": "7e6f29b09a9c847f0eca30d2f40e364683b6a3b1d7247e3891a9702364b0ee88"
+    },
+    {
+      "index": 10,
+      "title": "THE SECOND PART OF KING HENRY THE FOURTH",
+      "heading": "THE SECOND PART OF KING HENRY THE FOURTH",
+      "file": "works/10-the-second-part-of-king-henry-the-fourth.txt",
+      "kind": "play",
+      "genre": "history",
+      "raw_first_line": 45919,
+      "raw_last_line": 51110,
+      "lines": 5154,
+      "words": 27553,
+      "chars": 152667,
+      "sha256": "f261bf65b86674f68ba7607b80f4e84288c6eba4dba7c2cd317abb8c291d4cea"
+    },
+    {
+      "index": 11,
+      "title": "THE LIFE OF KING HENRY THE FIFTH",
+      "heading": "THE LIFE OF KING HENRY THE FIFTH",
+      "file": "works/11-the-life-of-king-henry-the-fifth.txt",
+      "kind": "play",
+      "genre": "history",
+      "raw_first_line": 51115,
+      "raw_last_line": 56056,
+      "lines": 4902,
+      "words": 27363,
+      "chars": 152169,
+      "sha256": "c3463a2a1fd5fc79222dede17ca488727c451407fa826463a7d4f1526cb0ea95"
+    },
+    {
+      "index": 12,
+      "title": "THE FIRST PART OF HENRY THE SIXTH",
+      "heading": "THE FIRST PART OF HENRY THE SIXTH",
+      "file": "works/12-the-first-part-of-henry-the-sixth.txt",
+      "kind": "play",
+      "genre": "history",
+      "raw_first_line": 56061,
+      "raw_last_line": 60686,
+      "lines": 4584,
+      "words": 22714,
+      "chars": 129920,
+      "sha256": "8a8622036772c5bebc2db32156299be4ff9d1886f70b9465f803c57c3e19dd01"
+    },
+    {
+      "index": 13,
+      "title": "THE SECOND PART OF KING HENRY THE SIXTH",
+      "heading": "THE SECOND PART OF KING HENRY THE SIXTH",
+      "file": "works/13-the-second-part-of-king-henry-the-sixth.txt",
+      "kind": "play",
+      "genre": "history",
+      "raw_first_line": 60691,
+      "raw_last_line": 65868,
+      "lines": 5142,
+      "words": 26817,
+      "chars": 149676,
+      "sha256": "e47a91fc2eb96e12c0195fca77e20677764fbad17643b383ccd3d74d7e613345"
+    },
+    {
+      "index": 14,
+      "title": "THE THIRD PART OF KING HENRY THE SIXTH",
+      "heading": "THE THIRD PART OF KING HENRY THE SIXTH",
+      "file": "works/14-the-third-part-of-king-henry-the-sixth.txt",
+      "kind": "play",
+      "genre": "history",
+      "raw_first_line": 65873,
+      "raw_last_line": 70990,
+      "lines": 5078,
+      "words": 25952,
+      "chars": 144962,
+      "sha256": "2f38474dcd7029bbe8a1bb2a19f82d0635c44f12bfc47c8e23af115dbcf1d184"
+    },
+    {
+      "index": 15,
+      "title": "KING HENRY THE EIGHTH",
+      "heading": "KING HENRY THE EIGHTH",
+      "file": "works/15-king-henry-the-eighth.txt",
+      "kind": "play",
+      "genre": "history",
+      "raw_first_line": 70995,
+      "raw_last_line": 76129,
+      "lines": 5102,
+      "words": 25831,
+      "chars": 143122,
+      "sha256": "14c44784f4c3c6cd92231a845c0f30663354c132ea00c0b91cba418e09ba10ee"
+    },
+    {
+      "index": 16,
+      "title": "THE LIFE AND DEATH OF KING JOHN",
+      "heading": "THE LIFE AND DEATH OF KING JOHN",
+      "file": "works/16-the-life-and-death-of-king-john.txt",
+      "kind": "play",
+      "genre": "history",
+      "raw_first_line": 76134,
+      "raw_last_line": 80229,
+      "lines": 4065,
+      "words": 21855,
+      "chars": 120615,
+      "sha256": "b955f5142f8bd6cb3397f7983fbd126a4bb0b1a72ffd098addbb9876d0b7cfb0"
+    },
+    {
+      "index": 17,
+      "title": "THE TRAGEDY OF JULIUS CAESAR",
+      "heading": "THE TRAGEDY OF JULIUS CAESAR",
+      "file": "works/17-the-tragedy-of-julius-caesar.txt",
+      "kind": "play",
+      "genre": "tragedy",
+      "raw_first_line": 80234,
+      "raw_last_line": 84876,
+      "lines": 4610,
+      "words": 20873,
+      "chars": 115844,
+      "sha256": "91fd51f63e590dea6ef29b5aa0e6f29f863b3559607d0944ffc5503f92dba75a"
+    },
+    {
+      "index": 18,
+      "title": "THE TRAGEDY OF KING LEAR",
+      "heading": "THE TRAGEDY OF KING LEAR",
+      "file": "works/18-the-tragedy-of-king-lear.txt",
+      "kind": "play",
+      "genre": "tragedy",
+      "raw_first_line": 84881,
+      "raw_last_line": 90985,
+      "lines": 6064,
+      "words": 27469,
+      "chars": 154020,
+      "sha256": "a5a4800aa4fc2da037f2e93da97a940fd22b8649279bbfcb52baa6fb2925a8c5"
+    },
+    {
+      "index": 19,
+      "title": "LOVE’S LABOUR’S LOST",
+      "heading": "LOVE’S LABOUR’S LOST",
+      "file": "works/19-loves-labours-lost.txt",
+      "kind": "play",
+      "genre": "comedy",
+      "raw_first_line": 90990,
+      "raw_last_line": 95993,
+      "lines": 4980,
+      "words": 22524,
+      "chars": 127083,
+      "sha256": "6901210f4ee3431e2cc8b09a4bc46419cd27614d73ae6a60643858aaaa2714ba"
+    },
+    {
+      "index": 20,
+      "title": "THE TRAGEDY OF MACBETH",
+      "heading": "THE TRAGEDY OF MACBETH",
+      "file": "works/20-the-tragedy-of-macbeth.txt",
+      "kind": "play",
+      "genre": "tragedy",
+      "raw_first_line": 95998,
+      "raw_last_line": 100142,
+      "lines": 4102,
+      "words": 18168,
+      "chars": 103083,
+      "sha256": "f5ea870febd5954d0d2af34e38389277a5c9be5940dbc21d5031011192c98636"
+    },
+    {
+      "index": 21,
+      "title": "MEASURE FOR MEASURE",
+      "heading": "MEASURE FOR MEASURE",
+      "file": "works/21-measure-for-measure.txt",
+      "kind": "play",
+      "genre": "comedy",
+      "raw_first_line": 100148,
+      "raw_last_line": 105027,
+      "lines": 4848,
+      "words": 22851,
+      "chars": 125643,
+      "sha256": "6a5634ae135928257bd54139485f2065e3b34269efb2ba0b7a87f08fc576bc6c"
+    },
+    {
+      "index": 22,
+      "title": "THE MERCHANT OF VENICE",
+      "heading": "THE MERCHANT OF VENICE",
+      "file": "works/22-the-merchant-of-venice.txt",
+      "kind": "play",
+      "genre": "comedy",
+      "raw_first_line": 105032,
+      "raw_last_line": 109198,
+      "lines": 4129,
+      "words": 22254,
+      "chars": 120376,
+      "sha256": "4582a384387522908ef74746b38d9368527ede1f54ccbf9379f244e3d519e8d4"
+    },
+    {
+      "index": 23,
+      "title": "THE MERRY WIVES OF WINDSOR",
+      "heading": "THE MERRY WIVES OF WINDSOR",
+      "file": "works/23-the-merry-wives-of-windsor.txt",
+      "kind": "play",
+      "genre": "comedy",
+      "raw_first_line": 109203,
+      "raw_last_line": 114021,
+      "lines": 4781,
+      "words": 23512,
+      "chars": 129680,
+      "sha256": "33a1d009ad07c54ebd6b116f9fd3605af98145aefb5e4f273af5e3487f2b70fe"
+    },
+    {
+      "index": 24,
+      "title": "A MIDSUMMER NIGHT’S DREAM",
+      "heading": "A MIDSUMMER NIGHT’S DREAM",
+      "file": "works/24-a-midsummer-nights-dream.txt",
+      "kind": "play",
+      "genre": "comedy",
+      "raw_first_line": 114026,
+      "raw_last_line": 117506,
+      "lines": 3448,
+      "words": 17205,
+      "chars": 96224,
+      "sha256": "6e6b9fa4ec6b2656f14696d731f0670acbb4eca33fdf6573b8aa2f7cc15a49b8"
+    },
+    {
+      "index": 25,
+      "title": "MUCH ADO ABOUT NOTHING",
+      "heading": "MUCH ADO ABOUT NOTHING",
+      "file": "works/25-much-ado-about-nothing.txt",
+      "kind": "play",
+      "genre": "comedy",
+      "raw_first_line": 117511,
+      "raw_last_line": 122106,
+      "lines": 4530,
+      "words": 22545,
+      "chars": 122092,
+      "sha256": "35372e1e438ddd759e4b69bf91ebce3209e8fd99a8bf8b34c5991c3a2f0bfd67"
+    },
+    {
+      "index": 26,
+      "title": "THE TRAGEDY OF OTHELLO, THE MOOR OF VENICE",
+      "heading": "THE TRAGEDY OF OTHELLO, THE MOOR OF VENICE",
+      "file": "works/26-the-tragedy-of-othello-the-moor-of-venice.txt",
+      "kind": "play",
+      "genre": "tragedy",
+      "raw_first_line": 122111,
+      "raw_last_line": 128388,
+      "lines": 6248,
+      "words": 27817,
+      "chars": 153608,
+      "sha256": "a7a85e4969ae272c09d8d27994a3b07636654014726e26f4de87cf6c05bc5d0b"
+    },
+    {
+      "index": 27,
+      "title": "PERICLES, PRINCE OF TYRE",
+      "heading": "PERICLES, PRINCE OF TYRE",
+      "file": "works/27-pericles-prince-of-tyre.txt",
+      "kind": "play",
+      "genre": "romance",
+      "raw_first_line": 128393,
+      "raw_last_line": 132540,
+      "lines": 4105,
+      "words": 19557,
+      "chars": 109052,
+      "sha256": "c7b43bdeaef95b85dce2b009f296e2da890c0c47779b006087f04e128b9d25c1"
+    },
+    {
+      "index": 28,
+      "title": "KING RICHARD THE SECOND",
+      "heading": "THE LIFE AND DEATH OF KING RICHARD THE SECOND",
+      "file": "works/28-king-richard-the-second.txt",
+      "kind": "play",
+      "genre": "history",
+      "raw_first_line": 132545,
+      "raw_last_line": 136868,
+      "lines": 4290,
+      "words": 23401,
+      "chars": 129991,
+      "sha256": "129fd4ee387d36920b4b99f1e73018a6548a3d38e334a7c6dd3af950a6fb4cb6"
+    },
+    {
+      "index": 29,
+      "title": "KING RICHARD THE THIRD",
+      "heading": "KING RICHARD THE THIRD",
+      "file": "works/29-king-richard-the-third.txt",
+      "kind": "play",
+      "genre": "history",
+      "raw_first_line": 136873,
+      "raw_last_line": 143343,
+      "lines": 6431,
+      "words": 31214,
+      "chars": 175485,
+      "sha256": "963f139195e06a917b899c3ff8e51276956fdf8e1265ccd7d95e55faa66f38a2"
+    },
+    {
+      "index": 30,
+      "title": "THE TRAGEDY OF ROMEO AND JULIET",
+      "heading": "THE TRAGEDY OF ROMEO AND JULIET",
+      "file": "works/30-the-tragedy-of-romeo-and-juliet.txt",
+      "kind": "play",
+      "genre": "tragedy",
+      "raw_first_line": 143348,
+      "raw_last_line": 148610,
+      "lines": 5221,
+      "words": 25799,
+      "chars": 141341,
+      "sha256": "a9043ffe8dc8943cdefd633a43792890ac2a1b547361b8abd17db04eb80d10dd"
+    },
+    {
+      "index": 31,
+      "title": "THE TAMING OF THE SHREW",
+      "heading": "THE TAMING OF THE SHREW",
+      "file": "works/31-the-taming-of-the-shrew.txt",
+      "kind": "play",
+      "genre": "comedy",
+      "raw_first_line": 148615,
+      "raw_last_line": 153478,
+      "lines": 4833,
+      "words": 22161,
+      "chars": 123103,
+      "sha256": "b10f368438bac1628a3658a2c3285d8c6ad8c582949f77da7da58a91e27db03a"
+    },
+    {
+      "index": 32,
+      "title": "THE TEMPEST",
+      "heading": "THE TEMPEST",
+      "file": "works/32-the-tempest.txt",
+      "kind": "play",
+      "genre": "romance",
+      "raw_first_line": 153483,
+      "raw_last_line": 157314,
+      "lines": 3806,
+      "words": 17456,
+      "chars": 98186,
+      "sha256": "4d5964459cf1557377dc40b26935b7d4daeebf3c735609278fe9532e7c823edc"
+    },
+    {
+      "index": 33,
+      "title": "THE LIFE OF TIMON OF ATHENS",
+      "heading": "THE LIFE OF TIMON OF ATHENS",
+      "file": "works/33-the-life-of-timon-of-athens.txt",
+      "kind": "play",
+      "genre": "tragedy",
+      "raw_first_line": 157319,
+      "raw_last_line": 161735,
+      "lines": 4384,
+      "words": 19685,
+      "chars": 110884,
+      "sha256": "5adcf78cf75c07c98eb0ac30b053c38e1563d6d25cc9f1567f094c2a5f4dfca1"
+    },
+    {
+      "index": 34,
+      "title": "THE TRAGEDY OF TITUS ANDRONICUS",
+      "heading": "THE TRAGEDY OF TITUS ANDRONICUS",
+      "file": "works/34-the-tragedy-of-titus-andronicus.txt",
+      "kind": "play",
+      "genre": "tragedy",
+      "raw_first_line": 161740,
+      "raw_last_line": 165860,
+      "lines": 4092,
+      "words": 21616,
+      "chars": 119852,
+      "sha256": "77fcb46f0a140a0ca2afa89a3e6c63d728e5a5719b157e81d0ea1646962bffd7"
+    },
+    {
+      "index": 35,
+      "title": "TROILUS AND CRESSIDA",
+      "heading": "TROILUS AND CRESSIDA",
+      "file": "works/35-troilus-and-cressida.txt",
+      "kind": "play",
+      "genre": "tragedy",
+      "raw_first_line": 165865,
+      "raw_last_line": 172064,
+      "lines": 6135,
+      "words": 27467,
+      "chars": 156165,
+      "sha256": "192a335770bf50ea20eca9cfab6d90ce600b1522242202eab7bbf24f8d16097a"
+    },
+    {
+      "index": 36,
+      "title": "TWELFTH NIGHT; OR, WHAT YOU WILL",
+      "heading": "TWELFTH NIGHT; OR, WHAT YOU WILL",
+      "file": "works/36-twelfth-night-or-what-you-will.txt",
+      "kind": "play",
+      "genre": "comedy",
+      "raw_first_line": 172069,
+      "raw_last_line": 176560,
+      "lines": 4455,
+      "words": 21240,
+      "chars": 114679,
+      "sha256": "1922ec44320e319d3863bd20258cb579814be63c0bc55cf81234d63991ee0fda"
+    },
+    {
+      "index": 37,
+      "title": "THE TWO GENTLEMEN OF VERONA",
+      "heading": "THE TWO GENTLEMEN OF VERONA",
+      "file": "works/37-the-two-gentlemen-of-verona.txt",
+      "kind": "play",
+      "genre": "comedy",
+      "raw_first_line": 176565,
+      "raw_last_line": 180811,
+      "lines": 4212,
+      "words": 18383,
+      "chars": 101072,
+      "sha256": "d35f7941b518b95d8967c6a87848e703238e39f85fa040a6e38dd253375352b0"
+    },
+    {
+      "index": 38,
+      "title": "THE TWO NOBLE KINSMEN",
+      "heading": "THE TWO NOBLE KINSMEN",
+      "file": "works/38-the-two-noble-kinsmen.txt",
+      "kind": "play",
+      "genre": "romance",
+      "raw_first_line": 180816,
+      "raw_last_line": 186320,
+      "lines": 5464,
+      "words": 25674,
+      "chars": 141300,
+      "sha256": "f731122de6b7fc4df22cbd5e9acd08c9e7e10a3ab001a1eab45771f5fa69a68f"
+    },
+    {
+      "index": 39,
+      "title": "THE WINTER’S TALE",
+      "heading": "THE WINTER’S TALE",
+      "file": "works/39-the-winters-tale.txt",
+      "kind": "play",
+      "genre": "romance",
+      "raw_first_line": 186327,
+      "raw_last_line": 191336,
+      "lines": 4983,
+      "words": 26001,
+      "chars": 143177,
+      "sha256": "d5040b0e59f2dc73bb8ce1cfda5aeaf7d71b0de91c5c9f480e7e7142b569d4ef"
+    },
+    {
+      "index": 40,
+      "title": "A LOVER’S COMPLAINT",
+      "heading": "A LOVER’S COMPLAINT",
+      "file": "works/40-a-lovers-complaint.txt",
+      "kind": "poem",
+      "genre": "poetry",
+      "raw_first_line": 191342,
+      "raw_last_line": 191720,
+      "lines": 379,
+      "words": 2562,
+      "chars": 14360,
+      "sha256": "b08a659af1f51fd447a0894209a3eb42d54015a113532f8bcd588bf98d22e3aa"
+    },
+    {
+      "index": 41,
+      "title": "THE PASSIONATE PILGRIM",
+      "heading": "THE PASSIONATE PILGRIM",
+      "file": "works/41-the-passionate-pilgrim.txt",
+      "kind": "poem",
+      "genre": "poetry",
+      "raw_first_line": 191725,
+      "raw_last_line": 192302,
+      "lines": 577,
+      "words": 3132,
+      "chars": 17001,
+      "sha256": "231febac187047a5bd70807c3be70ae24924d94d1dcb8820efe4fb0087a662de"
+    },
+    {
+      "index": 42,
+      "title": "THE PHOENIX AND THE TURTLE",
+      "heading": "THE PHOENIX AND THE TURTLE",
+      "file": "works/42-the-phoenix-and-the-turtle.txt",
+      "kind": "poem",
+      "genre": "poetry",
+      "raw_first_line": 192307,
+      "raw_last_line": 192396,
+      "lines": 90,
+      "words": 358,
+      "chars": 2071,
+      "sha256": "d66c93d2ca9d17382707c9cc0c2c541c351f49a7e79683ae51b7880ae6be847a"
+    },
+    {
+      "index": 43,
+      "title": "THE RAPE OF LUCRECE",
+      "heading": "THE RAPE OF LUCRECE",
+      "file": "works/43-the-rape-of-lucrece.txt",
+      "kind": "poem",
+      "genre": "poetry",
+      "raw_first_line": 192401,
+      "raw_last_line": 194583,
+      "lines": 2183,
+      "words": 15027,
+      "chars": 86806,
+      "sha256": "ad2a773a0692e97a8fa3860e5880b6493bc8d5e63de6951c1de12d4e8863cf38"
+    },
+    {
+      "index": 44,
+      "title": "VENUS AND ADONIS",
+      "heading": "VENUS AND ADONIS",
+      "file": "works/44-venus-and-adonis.txt",
+      "kind": "poem",
+      "genre": "poetry",
+      "raw_first_line": 194588,
+      "raw_last_line": 196015,
+      "lines": 1424,
+      "words": 9892,
+      "chars": 55205,
+      "sha256": "7115b85c1400b41706a37999e0bebf223d6f97a8537968324fdaac3b44d4eb48"
+    }
+  ]
+}

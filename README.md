@@ -18,7 +18,7 @@ GP-Thee is an in-character autocomplete, not an assistant. It should write convi
 - [x] Project scaffold
 - [x] Environment: uv, Python 3.14, PyTorch 2.14 on the Mac GPU
 - [x] Corpus downloaded and checksum-verified
-- [ ] Clean the corpus
+- [x] Corpus cleaned into 44 files, one per work, and audited twice ([what was removed and kept](data/processed/README.md))
 - [ ] Train / validation / test split (by whole works)
 - [ ] Tokenizer trained on Shakespeare only
 - [ ] The model (~10M parameter GPT)
@@ -45,6 +45,7 @@ brew install uv                              # the only thing you install by han
 git clone https://github.com/shivamtiwari93/gp-thee && cd gp-thee
 uv sync                                      # Python 3.14 + PyTorch 2.14, from the lockfile
 uv run python scripts/download_data.py       # confirms the corpus checksum
+uv run python scripts/prepare_data.py        # rebuilds data/processed/ from the raw file, byte for byte
 uv run python scripts/smoke_test_gpu.py      # Mac only: GPU answers match the CPU's
 uv run python scripts/count_params.py        # the 10M arithmetic, checked against PyTorch
 ```

@@ -50,7 +50,7 @@ Alternatives that were checked and rejected:
 | Folger Shakespeare | Cleaner text, but licensed CC BY-NC (non-commercial), and missing two poems. Wrong choice for a project that will be published. |
 | Kaggle "Shakespeare plays" CSV | 36 plays, no poems, unknown licence, 6,237 stage directions attributed to the wrong speaker. |
 
-Things inside the Gutenberg file that are not Shakespeare and must be cleaned: the marker lines, a title block, a 44-entry table of contents, 38 per-play contents lists, the word `FINIS` (twice), and verse line numbers stuck to the end of 293 lines of *Venus and Adonis*.
+Things inside the Gutenberg file that are not Shakespeare and must be cleaned: the marker lines, a title block, a 44-entry table of contents, 38 per-play contents lists, the word `FINIS` (twice), and verse line numbers stuck to the end of 293 lines of *Venus and Adonis*. *(Three of these figures were later corrected by reading the file itself: see Entry 9.)*
 
 **A bug caught before it happened.** The first proposed regex for those line numbers was `` {2,}\d+$``. The fact-checker ran it and found it matches 447 lines, not 293: it also deletes all 154 sonnet numbers. The correct pattern is `(?<=\S) {2,}\d+$`. Lesson: cleaning scripts need assertions on how many lines each rule touches.
 
@@ -223,3 +223,77 @@ Also checked: of PyTorch's nine dependencies, `import torch` loads only `typing-
 **A naming point to settle at release.** 10,758,528 rounds to 11M, not 10M. `GP-Thee-10M` is kept as a round label for now, with the exact count to go on the model card. The final count depends on the tokenizer chosen, so the name is decided when the model is.
 
 Lesson: the errors were not in the code. They were in sentences written from memory of what "should" be true. Every one of them was cheap to check.
+
+## Entry 9. Cleaning the corpus (2026-09-20)
+
+**Result:** `scripts/prepare_data.py` turns the raw file into 44 files, one per work, in `data/processed/works/`, plus a manifest. 0.75% of the file is removed. No line of verse or prose is reworded. The rules and the keep decisions are listed in [data/processed/README.md](../data/processed/README.md).
+
+| | Lines | Words | Characters | Distinct characters |
+|---|---|---|---|---|
+| Raw | 196,022 | 963,478 | 5,359,444 | 100 |
+| Cleaned | 194,293 | 957,139 | 5,319,224 | 97 |
+
+### Step 1. Read the file before writing any rule
+
+Eight agents mapped the raw file without changing it: four analysts (work boundaries, editorial clutter, characters and whitespace, duplicated text), each followed by a verifier told to re-measure everything with its own code and to attack the proposed rules. This corrected three things the Entry 2 research had got from a distance:
+
+| Entry 2 said | The file says |
+|---|---|
+| `FINIS` appears twice | There are three end markers in all: `THE END` once (after the Sonnets), `FINIS` twice. The other 41 works end with nothing but blank lines. |
+| 293 lines of *Venus and Adonis* carry a margin number | 294. Line 195658 has a single space before its number, and every pattern proposed so far required two. |
+| Strip them with `(?<=\S) {2,}\d+$` | `(?<=\S) +\d+$`, confined to that one poem. The gap runs from 1 to 22 spaces. Some of the numbers are also wrong (one line labelled 448 is line 450), so match the shape, never the value. |
+
+Other traps the map found, each of which would have damaged the corpus silently:
+
+- **Richard II's heading is not its contents entry.** The contents list says `KING RICHARD THE SECOND`; the play is headed `THE LIFE AND DEATH OF KING RICHARD THE SECOND`. The shorter string *does* appear on a line of its own, 41 lines later, as the first entry of the cast list. A splitter that takes the first exact match passes a naive "found all 44" check while starting the play 41 lines late, gluing its opening onto *Pericles*.
+- **Blank lines cannot find the works.** 308 runs of four blank lines exist; only 42 sit between works. 252 lines have the exact shape of a work heading; only 45 are.
+- **A play's contents list cannot be told from its real headings by appearance.** 85 of the contents lists' `ACT` lines are byte-identical to the real ones. Position is the only reliable rule: from the line `Contents` to the line before `Dramatis Personæ`.
+- **Italic markers cannot be paired line by line.** The 9,702 underscores balance perfectly over the whole file, but 264 italic spans cross line boundaries, one of them 29 lines long.
+- **Only four pairs of works share any passage of 50+ characters.** *The Passionate Pilgrim* with the Sonnets (its poems I and II are Sonnets 138 and 144) and with *Love's Labour's Lost* (three poems); *2 Henry IV* with *Richard II* (one quotation); *Lucrece* with *Venus* (the dedication header). That decides which works can be held out for validation.
+
+### Step 2. The script
+
+Every rule asserts exactly how many lines it touches, the raw file is pinned by SHA-256, and all line numbers are raw line numbers: lines are marked as dropped or edited in place and only assembled at the end, so no rule can shift another's targets. The checksum guarantees the words; the assertions guarantee the structure.
+
+All assertions passed on the first run.
+
+### Step 3. Audit, round one
+
+Four independent auditors, each writing their own tools:
+
+- **Lost text.** A line-by-line alignment of all 196,022 raw lines against the output, confirmed with the system `diff`. Every dropped and edited line matched a stated rule. No text lost, none invented.
+- **Structure.** All 44 boundaries exact; every play has one cast list, five acts and gap-free scene numbers; 154 sonnets with the known irregular ones (99 has 15 lines, 126 has 12); *Lucrece* 265 stanzas, *Venus* 199, *A Lover's Complaint* 47. Every play's length within about 5% of commonly cited figures.
+- **Mutation testing.** This found the real bug. The script wrote its 44 files *before* running its final twelve checks, so a late failure left a damaged corpus on disk beside a stale manifest, which is exactly what its own docstring promised could not happen. It also found that the heading finder took the *first* match, and a planted duplicate title silently moved 909 lines of *Cymbeline* into *Hamlet*'s file. And three of the script's checks could never fail.
+- **Surviving clutter.** Two editor's bracket insertions, ditto marks in the *Julius Caesar* cast list, 2,516 lines with a stray one-space indent that gave `[_Exeunt._]` two spellings, 46 doubled spaces, and a 7-blank-line run the script itself had created beside the duplicate *Venus* title.
+
+Fixes: build everything in memory and write only after every check; require exactly one heading match per title; delete the checks that could not fail; count the 181 blank lines between works as a rule, so every dropped line is accounted for; and a second round of cleaning rules for the surviving clutter, each pinned and counted.
+
+### Step 4. Audit, round two
+
+Because round two changed the output, it was audited again rather than assumed.
+
+- **Alignment:** 191,267 lines kept unchanged, 2,874 edited, 1,881 dropped, 152 blank lines inserted (4 after each play title). 2,857 of the edits change only spaces, tabs or the margin digits. Across all edits the only other characters changed were 33 removed (27 ditto marks, 5 brackets, 1 straight apostrophe) and 223 added, 219 of them the spelled-out ditto descriptions. All *measured*, independently.
+- **Mutation testing:** 110 corruptions of a copy of the raw file. Every structural one was caught, and all 107 failing runs left the existing output byte-identical. Content-level changes (a changed word) pass, as they must: no structural check can know Shakespeare's words. That is the checksum's job.
+- It also caught stale wording in the script and README, the same kind of error as in Entry 8: sentences that were true before the second round of rules and not after.
+
+The output was byte-identical before and after these last fixes (*measured* by checksum).
+
+### Decisions taken, all reversible by re-running the script
+
+- **Cast lists are kept.** Editors compiled them, not Shakespeare, but they are how a reader meets a play. 0.60% of the corpus.
+- **Everything published under his name is kept**, including *The Passionate Pilgrim* (only 5 of its 20 poems are securely his) and six plays widely thought to be collaborations (about 14% of the words). Pruning by attribution needs scene-level tables that scholars still argue over. Instead, none of those works will be used to *measure* the model.
+- **Three editor's marks inside lines of verse are kept**, because removing them would mean rewording a line.
+
+### Proposed split (not yet frozen)
+
+Whole works only, chosen from plays that are his alone and share no passage with any other work:
+
+| Set | Works | Share of characters |
+|---|---|---|
+| Validation | *All's Well That Ends Well*, *Romeo and Juliet* | 5.2% |
+| Test | *King John*, *The Tempest*, *A Lover's Complaint* | 4.4% |
+| Train | the other 39 | 90.4% |
+
+The model we *measure* never sees *Romeo and Juliet*. The model we *release* will be retrained on all 44 works, for the number of steps the measured run found best.
+
+Lesson: the most valuable hour of this step was spent reading the file, not writing the script. Every trap above is obvious once seen and invisible until then.
