@@ -1100,8 +1100,10 @@ line-break-heavy scene headings, and more where only the layout differed (3 agai
 
 Every copy of 50 characters or more that sampling found is a scene heading, such as `'t._]\n\nSCENE III. The same. A Room in the Palace.\n\nEnter '` (56 characters, written greedily from a validation prompt). **Not one is a line of verse.** Sampling also demonstrates why it is the weaker instrument: prompted with its own training text at temperature 0.8, the model produced one copy in 20,007 characters, while the scan finds 34 places in the corpus where it can be made to write 40 or more (52 candidate runs reach 40; 18 do not survive confirmation).
 
-Everything the model wrote is kept in `runs/sweep-char-seed-1/sampled-grid.txt` (323 KB), so the curve can be
-recomputed at any width without generating it again -- which is what the first run of this could not do.
+Everything the model wrote is published as [docs/sampled-grid-sweep-char-seed-1.txt](sampled-grid-sweep-char-seed-1.txt)
+(323 KB), so the curve can be recomputed at any width by anyone without generating it again -- which is what the
+first run of this could not do. It is under `docs/` and not `runs/` because `runs/` is not in git, and this is the
+evidence behind a published number. *Checked*: all 16 cells re-counted straight out of that file, with no reference to the run that produced them, agree with `docs/memorisation.json` on every character count and every window count at 30 and 50 -- 0 disagreements. A reader can do the same.
 
 *Measured* wall clock on this laptop, so that the blog can stop guessing at it: the sampled grid 34 min 24 s (18:51:38 to 19:26:02, with the test suite running against it for five of those minutes), the scan 41 s, the leave-one-out baseline curve 52 s. The whole script is about forty minutes; the blog and the script's own docstring had said eighty and twenty respectively, neither of them measured.
 

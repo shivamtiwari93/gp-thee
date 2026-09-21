@@ -120,8 +120,11 @@ def sampled(model, tokenizer, corpus: Corpus, device: str, plain: Corpus, keep: 
 
     The reported object is the whole run-length curve entry 17 fixed (20, 25, 30, 40, 50, 60, 80, 100 and the
     maximum), over everything and over the poet's words alone, with the normalised figure beside it as the
-    sensitivity check the same entry promised. Everything the model writes is kept in `keep`, so that the curve
-    can be recomputed at any width without generating five megabytes of Shakespeare all over again.
+    sensitivity check the same entry promised.
+
+    Everything the model writes is kept in `keep`, which is under docs/ and not runs/ because runs/ is not in git
+    and this is the evidence behind a published number: the curve can be recomputed at any width, by anyone, without
+    generating it all over again.
     """
     training, validation = corpus.text, "\n".join(load_works("validation"))
     rng = np.random.default_rng(0)
@@ -147,7 +150,10 @@ def sampled(model, tokenizer, corpus: Corpus, device: str, plain: Corpus, keep: 
                   f" ({poet[50]['windows']} of the poet's, {normalised[50]['windows']} normalised);"
                   f" longest {whole['longest']['characters']}")
     if keep is not None:
-        keep.write_text("\n\n".join(kept) + "\n", encoding="utf-8")
+        keep.write_text(f"Everything GP-Thee wrote for the sampled grid of docs/BUILD_LOG.md entry 18: "
+                        f"{len(kept)} cells of about {PER_CELL:,} characters, four kinds of prompt at four "
+                        f"temperatures, seeds fixed.\nThe prompts are never included, only the model's own writing.\n\n"
+                        + "\n\n".join(kept) + "\n", encoding="utf-8")
         print(f"  wrote {keep}")
     return out
 
@@ -194,7 +200,7 @@ def main() -> None:
             here["scan"] = scan(model, tokenizer, corpus, name, args.device)
         if not args.scan_only:
             here["sampled"] = sampled(model, tokenizer, corpus, args.device, plain,
-                                      keep=ROOT / "runs" / name / "sampled-grid.txt")
+                                      keep=ROOT / "docs" / f"sampled-grid-{name}.txt")
         record.write_text(json.dumps(out, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     if RELEASED + "/best" in out.get("runs", {}):

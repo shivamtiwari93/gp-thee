@@ -307,6 +307,7 @@ gp-thee/
 ├── docs/release.json               the released run, the eight excluded ones, and what the choice cost
 ├── docs/memorisation.json          every confirmed passage, the innocent baseline, the sampled grid
 ├── docs/baseline-curve.json        the innocent baseline at all eight lengths, work by work
+├── docs/sampled-grid-*.txt         every character the model wrote for the grid, so you can re-count it
 └── docs/candidates.json            every candidate of 50 characters or more, and what it confirmed to
 ```
 
