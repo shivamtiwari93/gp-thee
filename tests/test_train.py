@@ -436,7 +436,7 @@ def test_a_new_run_does_not_silently_replace_an_old_one(tiny_run, tmp_path):
         T.train(dataclasses.replace(tiny_run, name="never-started"), resume=True, say=QUIET)
 
 
-@pytest.mark.parametrize("bad", [{"name": "../outside"}, {"name": ""}, {"name": ".."}, {"name": "."}, {"evaluations": 0}, {"warm_up": 78}, {"warm_up": -5},
+@pytest.mark.parametrize("bad", [{"name": "../outside"}, {"name": ""}, {"name": ".."}, {"name": "."}, {"name": "seed-1 --seed 1"}, {"name": "-x"}, {"evaluations": 0}, {"warm_up": 78}, {"warm_up": -5},
                                  {"batch": 0}, {"context": 0}, {"heads": 3}, {"tokenizer": "no-such-tokenizer"}])
 def test_settings_that_make_no_sense_are_refused_before_anything_is_written(tiny_run, tmp_path, bad):
     with pytest.raises((ValueError, FileNotFoundError)):

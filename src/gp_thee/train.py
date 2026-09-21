@@ -24,6 +24,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import subprocess
 import time
 from pathlib import Path
@@ -290,8 +291,8 @@ def train(run: RunConfig, resume: bool = False, overwrite: bool = False, stop_at
     the process had been killed (for tests).
     """
     folder = ROOT / "runs" / run.name
-    if run.name in ("", ".", "..") or Path(run.name).name != run.name:
-        raise ValueError("a run's name must be a plain folder name")
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", run.name):
+        raise ValueError(f"a run's name must be a plain folder name of letters, digits, dots, dashes and underscores, not {run.name!r}")
     if resume and overwrite:
         raise ValueError("resume and overwrite contradict each other")
     if min(run.batch, run.context, run.evaluations) < 1 or run.warm_up < 0:
