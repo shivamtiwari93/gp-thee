@@ -1,0 +1,489 @@
+{
+  "groups": [
+    {
+      "settings": {
+        "batch": 64,
+        "beta_2": 0.99,
+        "clip": 1.0,
+        "context": 256,
+        "dropout": 0.2,
+        "evaluations": 40,
+        "floor_rate": 0.0001,
+        "heads": 6,
+        "layers": 6,
+        "passes": 34.0015567275467,
+        "peak_rate": 0.001,
+        "sixteen_bit": false,
+        "tokenizer": "char",
+        "warm_up": 100,
+        "weight_decay": 0.1,
+        "width": 384
+      },
+      "seeds": 3,
+      "mean_best_validation_bpc": 1.7546132210960177,
+      "standard_deviation_over_seeds": 0.004694118563324733,
+      "same_seed_differences": {},
+      "runs": [
+        {
+          "name": "sweep-char-seed-1",
+          "seed": 1,
+          "steps": 9985,
+          "parameters": 10757760,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730",
+            "training_stream": "dfeb2c1926bda93ad1bef7d169ad37286d879cf47ecd285493a884c172c4561b",
+            "validation_stream": "be97781260d99f6bdf1584f3bb7151356dbb00c6217ea3d6729f3507ece8a076"
+          },
+          "minutes": 36.94,
+          "best_validation_bpc": 1.749198301521595,
+          "best_step": 9236,
+          "best_passes": 31.451014315034683,
+          "seen_bpc_at_best": 1.373175490445492,
+          "final_validation_bpc": 1.756946541287713,
+          "everything_else_bpc": 1.707869791185592
+        },
+        {
+          "name": "sweep-char-seed-2",
+          "seed": 2,
+          "steps": 9985,
+          "parameters": 10757760,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730",
+            "training_stream": "dfeb2c1926bda93ad1bef7d169ad37286d879cf47ecd285493a884c172c4561b",
+            "validation_stream": "be97781260d99f6bdf1584f3bb7151356dbb00c6217ea3d6729f3507ece8a076"
+          },
+          "minutes": 34.98,
+          "best_validation_bpc": 1.7571115551113816,
+          "best_step": 8986,
+          "best_passes": 30.599698423007975,
+          "seen_bpc_at_best": 1.374724499750694,
+          "final_validation_bpc": 1.7681212867057723,
+          "everything_else_bpc": 1.7121030780028639
+        },
+        {
+          "name": "sweep-char-seed-3",
+          "seed": 3,
+          "steps": 9985,
+          "parameters": 10757760,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730",
+            "training_stream": "dfeb2c1926bda93ad1bef7d169ad37286d879cf47ecd285493a884c172c4561b",
+            "validation_stream": "be97781260d99f6bdf1584f3bb7151356dbb00c6217ea3d6729f3507ece8a076"
+          },
+          "minutes": 33.59,
+          "best_validation_bpc": 1.7575298066550764,
+          "best_step": 9735,
+          "best_passes": 33.150240835519995,
+          "seen_bpc_at_best": 1.3636639250483416,
+          "final_validation_bpc": 1.762050821057279,
+          "everything_else_bpc": 1.7150006436174157
+        }
+      ],
+      "mean_everything_else_bpc": 1.711657837601957
+    },
+    {
+      "settings": {
+        "batch": 64,
+        "beta_2": 0.99,
+        "clip": 1.0,
+        "context": 256,
+        "dropout": 0.2,
+        "evaluations": 40,
+        "floor_rate": 0.0001,
+        "heads": 6,
+        "layers": 6,
+        "passes": 21.150000283996587,
+        "peak_rate": 0.001,
+        "sixteen_bit": false,
+        "tokenizer": "bpe-1024",
+        "warm_up": 100,
+        "weight_decay": 0.1,
+        "width": 384
+      },
+      "seeds": 3,
+      "mean_best_validation_bpc": 1.8012463404080776,
+      "standard_deviation_over_seeds": 0.012055736954933775,
+      "same_seed_differences": {},
+      "runs": [
+        {
+          "name": "sweep-bpe-1024-seed-1",
+          "seed": 1,
+          "steps": 2500,
+          "parameters": 11113344,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "77635b9b966483426788c92d418df7367187632e92ec3fbb3de31bb46a53659d",
+            "training_stream": "206ccc2dfa4864d893fa8bd06f48d747cf7f844ba07e7b7e51576f1784e62888",
+            "validation_stream": "7a70e23a32c2b00e590183d6ffe3970f5308b599075e8024830591b2db3e729b"
+          },
+          "minutes": 10.1,
+          "best_validation_bpc": 1.7895227058627574,
+          "best_step": 2438,
+          "best_passes": 20.62548027695347,
+          "seen_bpc_at_best": 1.4357390022708025,
+          "final_validation_bpc": 1.789575311814936,
+          "everything_else_bpc": 1.7704085732525523
+        },
+        {
+          "name": "sweep-bpe-1024-seed-2",
+          "seed": 2,
+          "steps": 2500,
+          "parameters": 11113344,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "77635b9b966483426788c92d418df7367187632e92ec3fbb3de31bb46a53659d",
+            "training_stream": "206ccc2dfa4864d893fa8bd06f48d747cf7f844ba07e7b7e51576f1784e62888",
+            "validation_stream": "7a70e23a32c2b00e590183d6ffe3970f5308b599075e8024830591b2db3e729b"
+          },
+          "minutes": 9.47,
+          "best_validation_bpc": 1.8006075355326365,
+          "best_step": 2500,
+          "best_passes": 21.150000283996587,
+          "seen_bpc_at_best": 1.4367947679182747,
+          "final_validation_bpc": 1.8006075355326365,
+          "everything_else_bpc": 1.7732202648749171
+        },
+        {
+          "name": "sweep-bpe-1024-seed-3",
+          "seed": 3,
+          "steps": 2500,
+          "parameters": 11113344,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "77635b9b966483426788c92d418df7367187632e92ec3fbb3de31bb46a53659d",
+            "training_stream": "206ccc2dfa4864d893fa8bd06f48d747cf7f844ba07e7b7e51576f1784e62888",
+            "validation_stream": "7a70e23a32c2b00e590183d6ffe3970f5308b599075e8024830591b2db3e729b"
+          },
+          "minutes": 9.2,
+          "best_validation_bpc": 1.8136087798288392,
+          "best_step": 2500,
+          "best_passes": 21.150000283996587,
+          "seen_bpc_at_best": 1.4412002212934234,
+          "final_validation_bpc": 1.8136087798288392,
+          "everything_else_bpc": 1.779780637730419
+        }
+      ],
+      "mean_everything_else_bpc": 1.7744698252859628
+    },
+    {
+      "settings": {
+        "batch": 64,
+        "beta_2": 0.99,
+        "clip": 1.0,
+        "context": 256,
+        "dropout": 0.2,
+        "evaluations": 40,
+        "floor_rate": 0.0001,
+        "heads": 6,
+        "layers": 6,
+        "passes": 22.910032815713507,
+        "peak_rate": 0.001,
+        "sixteen_bit": false,
+        "tokenizer": "bpe-1536",
+        "warm_up": 100,
+        "weight_decay": 0.1,
+        "width": 384
+      },
+      "seeds": 3,
+      "mean_best_validation_bpc": 1.8239648023433617,
+      "standard_deviation_over_seeds": 0.006595424192522454,
+      "same_seed_differences": {},
+      "runs": [
+        {
+          "name": "sweep-bpe-1536-seed-1",
+          "seed": 1,
+          "steps": 2500,
+          "parameters": 11309952,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "9ebcb970e6ef4e97c156ce359a0b740b6c9760730238734c456987f12860a91a",
+            "training_stream": "1f32549b007159b3c03751cf086bf2407b8b0e6dadc6e02e45783523db2b64d7",
+            "validation_stream": "7c36d1f298b531e1f802efb3a5b59c2341b52805774a494da8e1b06625b2673b"
+          },
+          "minutes": 10.47,
+          "best_validation_bpc": 1.831337027193566,
+          "best_step": 2375,
+          "best_passes": 21.764531174927832,
+          "seen_bpc_at_best": 1.401644604915102,
+          "final_validation_bpc": 1.8369762047449378,
+          "everything_else_bpc": 1.7790510429850834
+        },
+        {
+          "name": "sweep-bpe-1536-seed-2",
+          "seed": 2,
+          "steps": 2500,
+          "parameters": 11309952,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "9ebcb970e6ef4e97c156ce359a0b740b6c9760730238734c456987f12860a91a",
+            "training_stream": "1f32549b007159b3c03751cf086bf2407b8b0e6dadc6e02e45783523db2b64d7",
+            "validation_stream": "7c36d1f298b531e1f802efb3a5b59c2341b52805774a494da8e1b06625b2673b"
+          },
+          "minutes": 9.46,
+          "best_validation_bpc": 1.8219331825437586,
+          "best_step": 2438,
+          "best_passes": 22.341864001883813,
+          "seen_bpc_at_best": 1.3914275725582161,
+          "final_validation_bpc": 1.8230668194664252,
+          "everything_else_bpc": 1.772248879552781
+        },
+        {
+          "name": "sweep-bpe-1536-seed-3",
+          "seed": 3,
+          "steps": 2500,
+          "parameters": 11309952,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "9ebcb970e6ef4e97c156ce359a0b740b6c9760730238734c456987f12860a91a",
+            "training_stream": "1f32549b007159b3c03751cf086bf2407b8b0e6dadc6e02e45783523db2b64d7",
+            "validation_stream": "7c36d1f298b531e1f802efb3a5b59c2341b52805774a494da8e1b06625b2673b"
+          },
+          "minutes": 9.25,
+          "best_validation_bpc": 1.8186241972927601,
+          "best_step": 2500,
+          "best_passes": 22.910032815713507,
+          "seen_bpc_at_best": 1.3884206398362708,
+          "final_validation_bpc": 1.8186241972927601,
+          "everything_else_bpc": 1.7779778708142622
+        }
+      ],
+      "mean_everything_else_bpc": 1.7764259311173756
+    },
+    {
+      "settings": {
+        "batch": 64,
+        "beta_2": 0.99,
+        "clip": 1.0,
+        "context": 256,
+        "dropout": 0.2,
+        "evaluations": 40,
+        "floor_rate": 0.0001,
+        "heads": 6,
+        "layers": 6,
+        "passes": 24.166432141354747,
+        "peak_rate": 0.001,
+        "sixteen_bit": false,
+        "tokenizer": "bpe-2048",
+        "warm_up": 100,
+        "weight_decay": 0.1,
+        "width": 384
+      },
+      "seeds": 3,
+      "mean_best_validation_bpc": 1.8238602881238641,
+      "standard_deviation_over_seeds": 0.004799359110110622,
+      "same_seed_differences": {},
+      "runs": [
+        {
+          "name": "sweep-bpe-2048-seed-1",
+          "seed": 1,
+          "steps": 2500,
+          "parameters": 11506560,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "1a1f166282c032939efea2054ab4b4e2f76fabe02e76f0bf3bd3db4f69e8000b",
+            "training_stream": "402cbf829dee8dbe651533be9ce6d0e892483465a2b9376f574a40b3de89ae3d",
+            "validation_stream": "7e783a5eb6fa244cabb50a3dcc365dd633f187dcf1ffc7a1f120adc3747379b4"
+          },
+          "minutes": 10.4,
+          "best_validation_bpc": 1.8226791825968138,
+          "best_step": 2438,
+          "best_passes": 23.56710462424915,
+          "seen_bpc_at_best": 1.3658166339740467,
+          "final_validation_bpc": 1.8235450137923856,
+          "everything_else_bpc": 1.7751442588407302
+        },
+        {
+          "name": "sweep-bpe-2048-seed-2",
+          "seed": 2,
+          "steps": 2500,
+          "parameters": 11506560,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "1a1f166282c032939efea2054ab4b4e2f76fabe02e76f0bf3bd3db4f69e8000b",
+            "training_stream": "402cbf829dee8dbe651533be9ce6d0e892483465a2b9376f574a40b3de89ae3d",
+            "validation_stream": "7e783a5eb6fa244cabb50a3dcc365dd633f187dcf1ffc7a1f120adc3747379b4"
+          },
+          "minutes": 9.38,
+          "best_validation_bpc": 1.8291399335680985,
+          "best_step": 2125,
+          "best_passes": 20.541467320151536,
+          "seen_bpc_at_best": 1.3896755393784765,
+          "final_validation_bpc": 1.8302561470491325,
+          "everything_else_bpc": 1.7812891574490994
+        },
+        {
+          "name": "sweep-bpe-2048-seed-3",
+          "seed": 3,
+          "steps": 2500,
+          "parameters": 11506560,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "1a1f166282c032939efea2054ab4b4e2f76fabe02e76f0bf3bd3db4f69e8000b",
+            "training_stream": "402cbf829dee8dbe651533be9ce6d0e892483465a2b9376f574a40b3de89ae3d",
+            "validation_stream": "7e783a5eb6fa244cabb50a3dcc365dd633f187dcf1ffc7a1f120adc3747379b4"
+          },
+          "minutes": 9.33,
+          "best_validation_bpc": 1.8197617482066801,
+          "best_step": 2312,
+          "best_passes": 22.34911644432487,
+          "seen_bpc_at_best": 1.3703930099188084,
+          "final_validation_bpc": 1.8209633136685528,
+          "everything_else_bpc": 1.7751792153054013
+        }
+      ],
+      "mean_everything_else_bpc": 1.7772042105317436
+    },
+    {
+      "settings": {
+        "batch": 64,
+        "beta_2": 0.99,
+        "clip": 1.0,
+        "context": 256,
+        "dropout": 0.2,
+        "evaluations": 40,
+        "floor_rate": 0.0001,
+        "heads": 6,
+        "layers": 6,
+        "passes": 27.1766535560545,
+        "peak_rate": 0.001,
+        "sixteen_bit": false,
+        "tokenizer": "bpe-4096",
+        "warm_up": 100,
+        "weight_decay": 0.1,
+        "width": 384
+      },
+      "seeds": 3,
+      "mean_best_validation_bpc": 1.8510697584443367,
+      "standard_deviation_over_seeds": 0.004414554929688231,
+      "same_seed_differences": {},
+      "runs": [
+        {
+          "name": "sweep-bpe-4096-seed-1",
+          "seed": 1,
+          "steps": 2500,
+          "parameters": 12292992,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "786f5228bc532cc871e57f19a6b29ed51c3cda02ca4c812902679f822e48c479",
+            "training_stream": "cb849931e6105942bc9fbdfd722542c86d25f5fd83579d5e98acc83849256831",
+            "validation_stream": "22a33fb964db25d643fcf9c23596dd91a9148eadc004cb3a4ea3c1a176b22b54"
+          },
+          "minutes": 10.56,
+          "best_validation_bpc": 1.84598391400525,
+          "best_step": 2188,
+          "best_passes": 23.7850071922589,
+          "seen_bpc_at_best": 1.307791011499046,
+          "final_validation_bpc": 1.84839813062438,
+          "everything_else_bpc": 1.7792300307509814
+        },
+        {
+          "name": "sweep-bpe-4096-seed-2",
+          "seed": 2,
+          "steps": 2500,
+          "parameters": 12292992,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "786f5228bc532cc871e57f19a6b29ed51c3cda02ca4c812902679f822e48c479",
+            "training_stream": "cb849931e6105942bc9fbdfd722542c86d25f5fd83579d5e98acc83849256831",
+            "validation_stream": "22a33fb964db25d643fcf9c23596dd91a9148eadc004cb3a4ea3c1a176b22b54"
+          },
+          "minutes": 9.8,
+          "best_validation_bpc": 1.853910900353527,
+          "best_step": 1938,
+          "best_passes": 21.06734183665345,
+          "seen_bpc_at_best": 1.3386596991723696,
+          "final_validation_bpc": 1.859573058367642,
+          "everything_else_bpc": 1.7785027112256941
+        },
+        {
+          "name": "sweep-bpe-4096-seed-3",
+          "seed": 3,
+          "steps": 2500,
+          "parameters": 12292992,
+          "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "786f5228bc532cc871e57f19a6b29ed51c3cda02ca4c812902679f822e48c479",
+            "training_stream": "cb849931e6105942bc9fbdfd722542c86d25f5fd83579d5e98acc83849256831",
+            "validation_stream": "22a33fb964db25d643fcf9c23596dd91a9148eadc004cb3a4ea3c1a176b22b54"
+          },
+          "minutes": 9.72,
+          "best_validation_bpc": 1.8533144609742331,
+          "best_step": 2312,
+          "best_passes": 25.132969208639203,
+          "seen_bpc_at_best": 1.2927542921362927,
+          "final_validation_bpc": 1.8541884543477318,
+          "everything_else_bpc": 1.781952516138436
+        }
+      ],
+      "mean_everything_else_bpc": 1.7798950860383707
+    }
+  ],
+  "discarded_because_the_loss_stopped_being_a_number": [],
+  "pooled_standard_deviation": 0.007118950849492539,
+  "degrees_of_freedom": 10,
+  "choice": {
+    "settings": {
+      "batch": 64,
+      "beta_2": 0.99,
+      "clip": 1.0,
+      "context": 256,
+      "dropout": 0.2,
+      "evaluations": 40,
+      "floor_rate": 0.0001,
+      "heads": 6,
+      "layers": 6,
+      "passes": 34.0015567275467,
+      "peak_rate": 0.001,
+      "sixteen_bit": false,
+      "tokenizer": "char",
+      "warm_up": 100,
+      "weight_decay": 0.1,
+      "width": 384
+    },
+    "mean_best_validation_bpc": 1.7546132210960177,
+    "lowest_mean": 1.7546132210960177
+  },
+  "secondary_everything_else": {
+    "pooled_standard_deviation": 0.003610735333455348,
+    "means": [
+      [
+        "passes 34.0, tokenizer char",
+        1.711657837601957
+      ],
+      [
+        "passes 21.2, tokenizer bpe-1024",
+        1.7744698252859628
+      ],
+      [
+        "passes 22.9, tokenizer bpe-1536",
+        1.7764259311173756
+      ],
+      [
+        "passes 24.2, tokenizer bpe-2048",
+        1.7772042105317436
+      ],
+      [
+        "passes 27.2, tokenizer bpe-4096",
+        1.7798950860383707
+      ]
+    ]
+  }
+}

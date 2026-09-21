@@ -6,7 +6,7 @@ Imagine the only text that ever existed was Shakespeare: 38 plays, 154 sonnets, 
 
 This is an educational project. The point is to show every step of building a language model, small enough that you can read all the code and re-run all of it yourself.
 
-> **Status: work in progress.** The model trains. On two plays it has never read it scores about 1.74 bits per character, against 2.23 for the best predictor we could build without a neural network. The tokenizer comparison, the final test and the released weights are still to come. Progress is tracked below and written up step by step in [docs/BUILD_LOG.md](docs/BUILD_LOG.md).
+> **Status: work in progress.** The model trains. On two plays it has never read it scores 1.75 bits per character, against 2.23 for the best predictor we could build without a neural network. A comparison whose rules were fixed in advance chose the character tokenizer over four word-fragment vocabularies. The memorisation report, the final test and the released weights are still to come. Progress is tracked below and written up step by step in [docs/BUILD_LOG.md](docs/BUILD_LOG.md).
 
 ## What it will and will not be
 
@@ -24,7 +24,7 @@ GP-Thee is an in-character autocomplete, not an assistant. It should write convi
 - [x] The model: GP-Thee-11M, a 10.8M parameter GPT, with a correctness gate and an independent reference implementation ([src/gp_thee/model.py](src/gp_thee/model.py))
 - [x] Training: the loop, honest evaluation, checkpoints that survive a kill, and rules for comparing runs fixed before the runs ([src/gp_thee/train.py](src/gp_thee/train.py))
 - [x] Baselines without a neural network: character n-grams, bzip2, xz ([docs/baselines.json](docs/baselines.json))
-- [ ] Tokenizer comparison, by the rule written down in advance
+- [x] Tokenizer comparison, by the rule written down in advance: characters win, 1.7546 against 1.8012 for the nearest vocabulary ([docs/results-sweep.json](docs/results-sweep.json))
 - [ ] Memorisation report, and the final evaluation on the test works
 - [ ] Sampling and the "speak as a character" wrapper
 - [ ] Weights on Hugging Face
@@ -52,7 +52,7 @@ uv run python scripts/download_data.py       # confirms the corpus checksum
 uv run python scripts/prepare_data.py        # rebuilds data/processed/ from the raw file, byte for byte
 uv run python scripts/make_split.py          # re-checks the split: held-out works share no text with training
 uv run python scripts/build_tokenizers.py    # fits the tokenizers on the training works; writes data/tokens/
-uv run pytest                                # 262 tests, about a minute
+uv run pytest                                # 336 tests, about a minute
 uv run python scripts/baselines.py           # how well Shakespeare can be predicted WITHOUT a neural network
 uv run python scripts/check_model.py         # Mac only: the full-size correctness gate, on the GPU
 uv run python scripts/benchmark.py           # Mac only: how fast this machine trains (plug it in first)
@@ -63,6 +63,12 @@ uv run python scripts/train.py --name my-run --passes 34 --seed 1   # one traini
 uv run python scripts/evaluate.py --run my-run                      # its score, by play and by kind of line, beside the baselines
 uv run python scripts/check_model.py --trained runs/my-run/best.pt  # the no-peeking check again, on trained weights
 uv run python scripts/summarise_runs.py                             # several seeds gathered into a mean and a spread
+
+uv run python scripts/find_length.py --tokenizer bpe-1024           # the run-length rule, as a program: about an hour per tokenizer
+uv run python scripts/sweep.py                                      # the tokenizer comparison: 15 runs, about four hours. Commit nothing while it runs
+uv run python scripts/summarise_runs.py sweep-                      # its verdict
+uv run python scripts/compare_finalists.py                          # the two finalists on the same text
+uv run python scripts/where_they_differ.py                          # where the models differ, chunk by chunk
 ```
 
 `--device cpu` works for every script that takes a device, about eight times slower.
@@ -76,6 +82,7 @@ More steps are added here as they are built.
 3. [The tokenizer](blog/03-the-tokenizer.md): characters, then word fragments learned from the plays themselves; what the chunk rule costs and buys; how the vocabulary size will be chosen; and how the tests turned out weaker than the code.
 4. [The model](blog/04-the-model.md): 195 lines of GPT, the four checks that catch a model that is quietly wrong, the planted bug that halved the context while every test stayed green, and what we learned about training on an Apple GPU.
 5. [Training](blog/05-training.md): the six lines that learn, how to score a model honestly, what a zip file says a good score is, why the length of a run has to be chosen by a rule, and a training script whose numbers were right while nearly everything around them was wrong.
+6. [Which tokenizer?](blog/06-which-tokenizer.md): five ways of cutting the text, three runs each, a winner chosen by a rule fixed before the first run, what that rule could and could not have shown, and why the word-fragment models lost on a text this small.
 
 ## Data and licence
 

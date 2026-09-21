@@ -1,0 +1,34 @@
+{
+  "arms": [
+    "char",
+    "bpe-1024"
+  ],
+  "difference_is": "bpe-1024 minus char, in bits per character; above zero means char predicts better",
+  "runs": {
+    "char": [
+      "sweep-char-seed-1",
+      "sweep-char-seed-2",
+      "sweep-char-seed-3"
+    ],
+    "bpe-1024": [
+      "sweep-bpe-1024-seed-1",
+      "sweep-bpe-1024-seed-2",
+      "sweep-bpe-1024-seed-3"
+    ]
+  },
+  "difference": 0.04663311931206015,
+  "interval_95": [
+    0.03608557666168161,
+    0.0594665848526745
+  ],
+  "blocks": 56,
+  "block_characters": 5000,
+  "resamples": 10000,
+  "by_play": {
+    "ALL’S WELL THAT ENDS WELL": 0.020666798183100615,
+    "THE TRAGEDY OF ROMEO AND JULIET": 0.07113799553415706
+  },
+  "on_speaker_label_lines": -0.20910603331315147,
+  "on_everything_else": 0.0628119876840059,
+  "share_of_blocks_where_the_first_arm_is_better": 0.8035714285714286
+}

@@ -816,4 +816,49 @@ While the first pilot trained, three auditors attacked the plan on the CPU. No b
 
 **The rule picks 2,500 steps for both** (bpe-1024: the lowest is 5,000's 1.8001, and 2,500's 1.8085 is within 0.01 and shorter; bpe-4096: 2,500 is simply the best). The two lengths are equal, so bpe-1536 and bpe-2048 borrow 2,500 steps: 22.9 and 24.2 passes. Characters keep 9,985 steps (34 passes).
 
-What the pilots already show, as single draws and nothing more: the word-fragment models over-fit far sooner than the character model (at 10,000 steps bpe-4096 scores 0.57 on text it has trained on and 2.22 on validation), their best moments come after 12 to 25 passes where the character model's came after 25 to 33, and a SHORTER run beat a longer one for bpe-4096, because the learning rate has cooled before the over-fitting sets in. For bpe-1024 the rule went one step short in the way the pre-flight review predicted: its chosen run had its best moment at 98% and gives away 0.008 against the 5,000-step pilot. As written down in advance, the choice stands and that arm will be called possibly under-trained. All four word-fragment pilots' best scores (1.80 to 1.88) are behind the character runs (1.75), but pilots decide nothing.
+What the pilots already show, as single draws and nothing more: the word-fragment models over-fit far sooner than the character model (at 10,000 steps bpe-4096 scores 0.57 on text it has trained on and 2.22 on validation), their best moments come after 16 to 25 passes where the character model's came after 25 to 33, and a SHORTER run beat a longer one for bpe-4096, because the learning rate has cooled before the over-fitting sets in. For bpe-1024 the rule went one step short in the way the pre-flight review predicted: its chosen run had its best moment at 98% and gives away 0.008 against the 5,000-step pilot. As written down in advance, the choice stands and that arm will be called possibly under-trained. All four word-fragment pilots' best scores (1.80 to 1.88) are behind the character runs (1.75), but pilots decide nothing.
+
+## Entry 16. The tokenizer comparison: characters win (2026-09-21)
+
+Fifteen runs, `scripts/sweep.py`, all from commit `0f72600` with a clean tree, 09:52 to 13:29 on mains power, seed by seed. No run diverged, none was discarded, none was resumed. *Measured*; the record is [docs/results-sweep.json](results-sweep.json).
+
+| Arm | Parameters | Steps (passes) | Seed 1 | Seed 2 | Seed 3 | **Mean** | sd |
+|---|---|---|---|---|---|---|---|
+| characters | 10,757,760 | 9,985 (34.0) | 1.7492 | 1.7571 | 1.7575 | **1.7546** | 0.0047 |
+| bpe-1024 | 11,113,344 | 2,500 (21.2) | 1.7895 | 1.8006 | 1.8136 | **1.8012** | 0.0121 |
+| bpe-1536 | 11,309,952 | 2,500 (22.9) | 1.8313 | 1.8219 | 1.8186 | **1.8240** | 0.0066 |
+| bpe-2048 | 11,506,560 | 2,500 (24.2) | 1.8227 | 1.8291 | 1.8198 | **1.8239** | 0.0048 |
+| bpe-4096 | 12,292,992 | 2,500 (27.2) | 1.8460 | 1.8539 | 1.8533 | **1.8511** | 0.0044 |
+
+**The rule's verdict: characters.** Pooled standard deviation 0.0071 on 10 degrees of freedom, so two arms differ beyond 0.0130. Characters have the lowest mean and no other arm is within reach: the nearest, bpe-1024, is 0.0466 behind, 3.6 times the threshold. Of the ten pairs, nine are different and one is a tie (bpe-1536 and bpe-2048, 0.0001 apart). The order is the order of vocabulary size.
+
+What had been written down in advance, against what happened:
+
+- *The test can see 0.02 and cannot see 0.01.* The smallest gap to characters is 0.047. This is not a close call that the rule's weakness could explain.
+- *bpe-1024 may be under-trained, by about 0.008.* Two of its three runs had their best moment at the very last step, as its pilot did. Even the 5,000-step pilot (1.8001) is 0.046 behind characters.
+- *The word-fragment score is an upper bound, slack about 0.008.* Promised to be measured for any arm within 0.02 of the winner. None is.
+- *The pooled spread assumes equal noise in every arm.* It is not quite equal: bpe-1024's seeds spread 0.012, the others 0.004 to 0.007. That widened the threshold from the expected 0.011 to 0.013 and changes nothing.
+- *The character arm, run again from the sweep's commit:* 1.7546 (sd 0.0047), against the baseline's 1.7535 (sd 0.0054) from commit `5c6bd68` in Entry 14.
+
+**The named secondary (deciding nothing): everything except speaker-label lines.** Characters 1.7117; bpe-1024 1.7745, bpe-1536 1.7764, bpe-2048 1.7772, bpe-4096 1.7799; pooled sd 0.0036, so differences beyond 0.0066 count. Characters differ from all four (0.063 to 0.068 ahead). **The four word-fragment vocabularies tie with each other on ordinary text.** So the whole ordering AMONG them comes from speaker labels: 2.225 bits per character for bpe-1024, 2.575, 2.561 and 2.976 for the larger three (characters: 2.434). In the words fixed in advance: both tables agree that characters win; among the word-fragment arms, "the difference is in the names".
+
+**The finalists on the same text** (`scripts/compare_finalists.py`, [docs/finalists.json](finalists.json)): bpe-1024 minus characters = +0.0466 bits per character, 95% interval over the choice of text +0.0361 to +0.0595 (56 blocks of 5,000 characters); +0.0207 in *All's Well*, +0.0711 in *Romeo and Juliet*; characters are the better of the two in 80% of the blocks. On speaker-label lines bpe-1024 is the BETTER one, by 0.209; on everything else characters are, by 0.063. (The interval holds the six models fixed and measures the choice of text, not the luck of training.)
+
+**Where they differ, an exploration made after the verdict** (`scripts/where_they_differ.py`, [docs/where_they_differ.json](where_they_differ.json)). Every tokenizer cuts the text into the same chunks first and no piece crosses a chunk's edge, so each model's bits can be added up exactly per chunk; the groups' totals add up to each arm's score. (My first attempt shared a token's bits equally among its characters and "found" that word fragments are twice as bad at spaces and better at every kind of word. That was the leading space of each word-fragment piece, moved onto the space by the sharing. Chunks fix it.) In bits per character of the whole text that each group adds:
+
+| Kind of chunk | Share of text | characters | bpe-1024 | bpe-4096 |
+|---|---|---|---|---|
+| word seen 1,000 times or more in training | 36.4% | 0.5026 | 0.5249 | 0.5233 |
+| seen 100 to 999 times | 23.3% | 0.3671 | 0.3737 | 0.3691 |
+| seen 10 to 99 times | 16.3% | 0.3013 | 0.3132 | 0.3173 |
+| seen 1 to 9 times | 7.3% | 0.1641 | 0.1828 | 0.1848 |
+| never seen | 3.3% | 0.1320 | 0.1296 | 0.1374 |
+| punctuation | 4.4% | 0.1228 | 0.1200 | 0.1168 |
+| line breaks | 3.0% | 0.0194 | 0.0240 | 0.0246 |
+| speaker-label lines | 5.9% | 0.1448 | 0.1324 | 0.1771 |
+
+Characters are ahead on words of every frequency, by a little each: 5.12 bits against 5.35 for a very common word, 18.3 against 20.4 for a word seen under ten times. The rarer the word, the bigger the gap per word, until the word is unseen, where bpe-1024 is level. Word fragments are slightly better at punctuation. And the largest vocabulary loses 0.032 of its 0.097 on speaker labels alone.
+
+**Why? Guesses, none of them tested.** (1) Data. 4.8 million characters is tiny. A character model meets each of its 97 symbols tens of thousands of times in every sort of company; a word-fragment model has to learn thousands of pieces from a third as many examples, and the pilots show it memorising the training plays instead (0.57 on seen text, 2.22 on unseen). (2) Names. At 1,536 pieces and above the training plays' names are single pieces (`HAMLET`), so after a blank line the model bets on whole names it knows; `ROMEO` must then be spelled `RO|M|E|O` against that bet. At 1,024 fewer names are whole pieces, and that arm is the best of all five on labels. (3) The recipe. Learning rate, dropout and batch were tuned, by someone else, for a character model, and we changed nothing. (4) The run lengths and the measure each lean against word fragments by up to about 0.01. Together (3) and (4) could plausibly explain 0.02. They do not explain 0.047 to 0.097.
+
+**Decision.** GP-Thee uses the character tokenizer: 98 symbols, 10,757,760 parameters, 34 passes. Speed, for the record: 80,000 to 87,000 tokens per second for every arm, so a word-fragment model reads characters about 2.5 to 3 times faster; that did not buy a better model here.
