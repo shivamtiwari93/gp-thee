@@ -555,3 +555,125 @@ Also measured for the post (CPU, random tokens): a correct untrained model score
 One commitment made in the post: every check in the gate ran on a model that knows nothing. **The no-peeking check will be run again on the first trained model.**
 
 The commit message for the model (ef75834) says "All 32 faults I then planted are caught"; the count there is wrong in the same way, and a commit message cannot be edited after the fact without rewriting public history, so the correction lives here.
+
+## Entry 14. Training: the loop, three pilots, baselines, and the rules for every comparison to come (2026-09-20)
+
+*Status while writing: the code is written, audited, rewritten and audited again; three pilot runs are done. Results of the baseline runs are added at the end of this entry when they exist. The section "Decided now" was written, and committed, BEFORE any of those runs.*
+
+### The benchmark, again, on mains power
+
+`scripts/benchmark.py`, rewritten in Entry 13, run on mains (*measured*, median of three interleaved rounds, range in brackets):
+
+| Characters, one full training step of 64 × 256 tokens | ms per step | Tokens per second | Memory in use |
+|---|---|---|---|
+| GPU, 32-bit, hand-written attention | 196 (177 to 212) | 83,000 | 4.79 GB |
+| GPU, 32-bit, built-in attention | 194 (180 to 205) | 85,000 | 4.79 GB |
+| GPU, 16-bit, hand-written attention | 103 (98 to 105) | 160,000 | 3.29 GB |
+| GPU, 16-bit, built-in attention | 113 (113 to 120) | 144,000 | 3.82 GB |
+| CPU, 32-bit | 1,520 | 10,800 | |
+
+BPE with 2,048 pieces: 195, 198, 105 and 121 ms in the same order. **The mains figures are slower than the battery figures of Entry 13 (158 to 165 ms).** The likeliest reason is heat, not power: this run came straight after an hour of GPU audits, with the battery charging from 22%. The pilots below agree with the slower figure: over 40 minutes the machine sustains about 190 ms per step. A short benchmark on a cool machine flatters it. 16-bit is 1.9 times faster than 32-bit like for like.
+
+Same start, same batches, 300 steps, with the 100-step warm-up: 16-bit ends +0.0091 nats behind 32-bit over steps 201 to 300 (two other runs of the same comparison gave +0.0019 and +0.0033). Two 32-bit runs from one seed differ by more than that at step 300 (Entry 13), so at 300 steps the two formats cannot be told apart. Entry 13's "trails by 0.02 to 0.03" was measured without a warm-up, through a loss spike.
+
+### The training library
+
+`src/gp_thee/train.py`, about 400 lines, half of them comments. What it holds, and the decision behind each part:
+
+- **`RunConfig`**: every setting of a run in one frozen record, written to `config.json`, stored in every checkpoint. The recipe is nanoGPT's Shakespeare recipe unchanged: AdamW, peak rate 1e-3 falling to 1e-4 on a cosine, 100 steps of warm-up, betas (0.9, 0.99), decay 0.1 on matrices and tables only, gradients clipped at 1.0, dropout 0.2, 64 windows of 256 tokens per step. We did not tune it. (My first comment on `beta_2` said nanoGPT lowers it "for small data". An auditor read nanoGPT's config: its default is 0.95 and the Shakespeare config RAISES it to 0.99 because a step holds few tokens. The comment now only says what the number does.)
+- **Length in passes.** One pass = as many tokens as the training stream holds (294 steps for characters). Not "every token once": windows are cut at random, so in one pass about 37% of the text is never read (e^-1) and about 26% is read more than once.
+- **`evaluate`**: one number per token, the surprise in nats, from fixed overlapping windows (stride 128), each token scored exactly once, in 32-bit with dropout off whatever the caller is doing. Sums, never averages of batch averages.
+- **Bits per character** = total nats / ln 2 / characters. START's surprise is counted; START adds no characters. All five tokenizers give 274,727 validation characters (*measured*, and re-measured by an auditor from the text itself).
+- **The "seen" sample**: as many tokens of training text as validation holds, from 16 places, each read with 256 tokens of run-up that are not scored. See "What the audit found" for what this number does and does not mean.
+- **Checkpoints**: weights, optimizer state, step, best-so-far, minutes used, the three random generators' states, the git commit (taken once, when the run starts), and SHA-256 checksums of the tokenizer file and both token streams. Saved under a temporary name and renamed, so a power cut cannot destroy the last good one. When a stop is the best so far, `best.pt` and `last.pt` are both written under temporary names and then renamed one straight after the other. The log row and the sample follow, and the checkpoint carries that row and the sample's heading, so a run killed at any point inside a stop resumes into the same log and the same samples as a run that was never stopped (tested at four kill points, on the CPU). At the end of a run `best.pt` is opened and must hold the step the result names. Loaded with `weights_only=True`: the file can hold numbers and text, nothing that runs.
+- **Resume** takes its settings from the run's own folder. A flag that contradicts them is an error.
+- **A small sampler**, always the same prompt (`HAMLET.` on a line of its own) and the same dice, so that samples from different moments of a run differ only because the model does.
+
+`src/gp_thee/evaluation.py` splits a score by work and into speaker-label lines against everything else (the parts are checked to add up to the whole), and holds the baselines.
+
+### The first audit of the training code, and what it found
+
+Four auditors, CPU only, while the first pilot trained. The arithmetic of the published number was right: an evaluator written independently from the description agreed with `evaluate` to 0.0 nats per token on the full-size model over the whole validation stream, and reproduced on the CPU the step-0 row the pilot had computed on the GPU (6.7064). Everything around an interrupted or repeated run was wrong:
+
+| Fault | Effect |
+|---|---|
+| Resume trusted the command line, not the checkpoint | The documented resume command, used on a run started with any non-default flag, trained the saved model on the wrong token stream and overwrote `last.pt` before crashing. Other mismatches were accepted silently and written into the new checkpoint as if true. |
+| `if step == last_step: break` | A resume with a smaller budget than the step already reached never stopped. |
+| Resuming a finished run | Crashed (`facts` unassigned). |
+| The clock | Restarted at every resume; `minutes` under-reported. |
+| Checkpoints written in place | A kill during a save would have left no usable checkpoint. |
+| A new run in an old run's folder | Replaced `best.pt` with the untrained model within seconds and left the old `result.json` to be believed. |
+| `map_location=device` on load | Read from PyTorch's source, not measured: after a resume on the GPU, AdamW's 39 step counters would live on the GPU and cost 39 blocking reads per step. Now loaded to the CPU first. |
+| `evaluate` inside a 16-bit block | Ran in 16-bit despite its docstring. `train()` never called it that way, so no number was affected. |
+| No tokenizer checksum in checkpoints | Entry 13 had promised one. |
+| Evaluations every 250 STEPS | 21 chances to catch the best moment for characters, 8 for the 4,096-piece tokenizer, in a comparison decided at each run's best moment. Now a fixed number of evaluations per run. |
+
+**30 of 64 planted faults survived the 45 tests.** Among them: training on the validation stream; `best.pt` overwritten at every evaluation; the learning rate set one step late; weight decay on the norm scales; no clipping; dropout never switched on; the seed ignored. The reason was the same each time: the tiny test run improved at every evaluation, so best equalled last; it used seed 0 and default settings only; and nothing looked at what the optimizer was doing. The tests were rewritten (81 now). One of the new ones writes the whole loop out by hand with every setting changed from its default and demands bit-identical weights; another scripts a run that over-fits, stops it, resumes it, and checks that the best moment survives.
+
+**Two comments of mine claimed more than the code measures:**
+
+- I wrote that the gap between the seen sample and validation "shows how much of what the model knows is just the training text by heart". A character 5-gram cannot hold more than five characters, and it shows a gap of 0.35 bits per character between works it has counted (1.912) and the validation works (2.258) (*measured*). The gap is mostly names, vocabulary and phrasing that belong to each work. For the BPE tokenizers part of it is the tokenizer itself, which was fitted on the training works. So the number is useful within a run (seen falling while validation rises is over-fitting) and must never be compared between tokenizers. Verbatim memorisation gets its own measurement in step 10.
+- "Without a warm-up the loss spikes at step 5" is one observation on one seed, not a law. An auditor's CPU runs show jumps at steps 2 and 5 for one seed and only a bump at step 2 for another.
+
+**Entry 13 said "every token is scored once with at least 128 tokens of context".** True except for the first 127 targets of a stream, which have what there is.
+
+### Baselines: how well can Shakespeare be predicted without a neural network?
+
+`scripts/baselines.py`, fitted on the 39 training works, scored on the 2 validation works, bits per character (*measured*; an auditor's independent implementation agrees to every printed digit):
+
+| Predictor | All | Speaker-label lines | Everything else |
+|---|---|---|---|
+| Blind guess among 97 characters | 6.600 | | |
+| Character counts | 4.783 | 7.227 | 4.629 |
+| 3-gram | 2.902 | 3.618 | 2.856 |
+| 5-gram | 2.258 | 3.540 | 2.177 |
+| 6-gram | 2.231 | 3.772 | 2.134 |
+| 8-gram | 2.408 | 4.227 | 2.293 |
+| bzip2 -9 | 2.483, or 2.299 after reading the training works | | |
+| xz -9e | 2.802, or 2.390 after reading the training works | | |
+
+The n-grams use interpolated Witten-Bell smoothing, chosen because it has no constant to tune. It is a weak smoother (modified Kneser-Ney would score lower), so "beats the n-gram" is a low bar and the margin is what matters. We report every order rather than choosing one on validation. Speaker-label lines are 5.95% of the validation characters. (I had written that priming "cannot help bzip2" because it works in 900 kB blocks. It helps: the validation text shares its block with the tail of the training text. Measured before it reached a reader, for once.)
+
+### Three pilots, and what they taught about the length of a run
+
+All with seed 0, characters, 32-bit. Timings are not clean: audits were using the CPU.
+
+| Run | Steps | Best validation | At | Seen, at that moment |
+|---|---|---|---|---|
+| `pilot-char-17` | 4,992 | 1.7706 | the last step | 1.5197 |
+| `pilot-char-34` | 9,985 | 1.7404 | step 9,750 (33.2 passes) | 1.3654 |
+| `pilot-char-68` | 19,969 | 1.7577 | step 10,750 (36.6 passes) | 1.3715 |
+
+**The 68-pass pilot over-fitted, plainly.** After its best moment at 36.6 passes, validation rose to 1.7937 by the end while the seen sample kept falling, to 1.1787. It never reached the 34-pass run's 1.7404, most likely because its learning rate was still high when the over-fitting set in. By the rule below the character model trains for **34 passes**: doubling from 17 gained 0.030, doubling again lost 0.017.
+
+The 17-pass pilot, taken apart by `scripts/evaluate.py`: All's Well 1.715, Romeo and Juliet 1.823; speaker-label lines 2.179, everything else 1.745. Every baseline is at least 0.46 behind.
+
+**The length of the run is a setting, and choosing the best checkpoint does not make it harmless.** The two pilots share a seed and therefore their batches, and are identical to 0.002 up to step 1,000. From step 2,000 the 34-pass run is BEHIND the 17-pass run at every equal step, by 0.005 to 0.022, because its learning rate is still high (5.9e-4 against 1.05e-4 at step 4,750). A checkpoint from the middle of a long cosine is not the end of a short one. Yet by step 5,250 the long run had passed the short run's best, with 4,700 steps of cooling still to come. So "best at the last step, still falling" is what an under-trained run looks like, and the best-checkpoint rule only protects against a run that is too LONG. An auditor's CPU miniature put numbers on the asymmetry: too long cost about 0.01, too short 0.2 to 0.6.
+
+**The no-peeking check, on trained weights, as promised in Entry 13:** `scripts/check_model.py --trained runs/pilot-char-17/best.pt`. All 255 cut points × both attentions × 32- and 16-bit × gradients off and on: largest change in the past 0.0. The same loss from both attentions on GPU and CPU to 2.4e-7 in 32-bit, 3.6e-5 with 16-bit included.
+
+### Decided now, before any run that will be compared with another
+
+1. **Seeds.** Seed 0 is used up by the pilots. Every comparison uses seeds 1, 2 and 3.
+2. **Each tokenizer gets its own run length**, found with seed 0 by one rule: start near 5,000 steps; while doubling improves the best validation score by more than 0.01 bits per character, double again, up to 20,000 steps; if a run's best moment falls before two thirds of its length, also try half; keep the SHORTEST length within 0.01 of the lowest score. Equal passes would favour whichever tokenizer converges in fewer steps per pass, and equal steps would mean 17 passes for one arm and 54 for another. (The 0.01 was fixed after I had seen 17 against 34 passes for characters, a difference of 0.030, and before the 68-pass result.) To save pilots: the search is run for characters, bpe-1024 and bpe-4096; bpe-1536 takes bpe-1024's length in steps and bpe-2048 takes bpe-4096's, unless those two lengths differ by more than a factor of two, in which case all four are searched.
+3. **40 evaluations per run**, evenly spaced, plus one before the first step.
+4. **Frozen for every arm:** every other setting (the peak learning rate is NOT tuned per tokenizer: a limitation, stated here), the evaluation stride, the measure, the speaker-label rule (it marks 30,538 lines on the training and validation works; a second auditor's looser search found about 30 mistakes, 0.1%, all in training works and none in validation, after a first had reported 2; it cannot be debugged on the test works, so it is frozen as it is, with the known mistakes listed in its docstring and pinned by a test). The context is 256 TOKENS for every arm, which is 256 characters for one and 640 to 820 for the others: that is part of what is being compared.
+5. **The only ground for discarding a run** is a loss that is not a number. It is re-run with seed + 1000 and reported.
+6. **"The spread"** in Entry 12's rule now has a definition: the standard deviation over seeds, pooled over all arms. Two tokenizers differ only if their means are further apart than t × pooled sd × √(2/3), which is 1.82 × the pooled sd for five arms of three seeds. Otherwise it is a tie and the smaller vocabulary wins. (An auditor's simulation: with "larger than the two arms' own standard deviation" five truly equal arms would be declared different 31% of the time.) The procedure, spelled out: find the arm with the lowest mean; the winner is the SMALLEST vocabulary whose mean is within that threshold of it. (An auditor's simulation of five truly equal arms: any given pair is called different 5.0% of the time, as designed; at least one of the ten pairs 24.6% of the time, which is why the table of all pairs is information and only this procedure decides; under it the character arm is wrongly passed over 7.3% of the time.) Reported beside it, not deciding: for the two finalists, the per-character difference on the same text with a block-bootstrap interval, and its sign in each play.
+7. **Expectations, stated in advance.** Works differ: a 5-gram scored on each training work with that work left out has a standard deviation of 0.14 across works (*auditor-measured*). So the test score may sit 0.1 to 0.2 from the validation score for no reason but which works they are. And the winner's validation score is optimistic, because it was chosen on it.
+8. **Number format.** The baseline is 32-bit. One extra run, seed 1 in 16-bit, is compared with the two 32-bit runs of seed 1. If it lies no further from their mean than the larger of (their difference, the standard deviation over seeds), the tokenizer sweep may run in 16-bit, all arms alike. The published baseline stays 32-bit either way.
+
+### The second audit (three auditors, on the rewritten code)
+
+**Every bug of the first audit is fixed**, confirmed by running each case on the CPU, including a real `SIGKILL` of `scripts/train.py`. A run killed between stops and resumed is bit for bit the uninterrupted run. What the second round found was smaller:
+
+- `--name ..` passed the name check and would have written checkpoints into the repository root.
+- A run killed after its checkpoint but before its log row came back with a row of `nan`s; killed during the sample, it lost that sample. My sentence "resumes without a gap" was true of the step column only. Fixed as described above.
+- The three pilots' checkpoints were written by the first version of the code and the new, stricter loader refused them. The loader now allows the one harmless object they contain. They can be scored, not resumed.
+- The checksums in a checkpoint were of the token FILES, read a second time, not of the tokens the run had actually loaded. Every test run showed the difference (the tests train on the first 40,000 tokens). Now the arrays in memory are hashed; it costs 7 ms.
+- **21 of 28 newly planted faults survived the 81 new tests**: checkpoints written in place, the two saves in the wrong order, half of the overwrite guard, `weights_only=False`, a git stamp that was always "unknown" (the tests run outside any repository, and "unknown" has the seven characters the test asked for), `tokens_per_second` wrong three ways, and the whole command-line script, which had no test. The same hole as before, one level further out: new safety code, checked only on the path where nothing goes wrong. 102 training tests now.
+- **The evaluation code computes the right numbers.** An independent n-gram agrees on every one of the 274,727 validation characters for orders 1 to 8, to 0.0 bits; the compressor figures match the command-line tools digit for digit. 5 of 39 planted faults survived its 27 tests (both of `breakdown`'s self-checks, bits per BYTE instead of per character, wrong compressor settings); 33 tests now. `breakdown` said it checked its assumptions and did not check where the START tokens were; now it does.
+- **bzip2's "after reading the training works" figure (2.299) is partly luck.** It depends on where a 900 kB block edge falls: shortening the training text by 0 to 800 kB moves it between 2.27 and 2.47 (*measured, by an auditor and again by me*). xz's moves from 2.390 to 2.396.
+- A docstring of mine said ROMEO has to be spelled out "thirty times a scene". Measured: 162 times in the play, 6.8 per scene, never more than 26. The same sentence was in the blog draft.
+
+Still owed when this was written: a test for `scripts/summarise_runs.py`, which applies the rule of item 6 and has none; tighter limits in `check_model.py --trained`; the third auditor's report (a second mutation round).

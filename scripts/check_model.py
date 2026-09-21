@@ -20,9 +20,14 @@ from-scratch model goes wrong without announcing it:
                      attention, number format and device gives the same loss, on rows it memorised and rows it
                      never saw. This is the check that would catch a fault that exists only in 16-bit.
 
+With --trained runs/<name>/best.pt it instead repeats checks 3, 4, 5 and 7 on TRAINED weights and text the model
+has never seen. A fresh model attends to everything about equally, which hides some faults. A trained one has
+learned sharp habits of attention, so if the future can leak anywhere, this is where it shows.
+
 Nothing is written. Any failure exits with an error.
 """
 
+import argparse
 import math
 import subprocess
 import sys
@@ -72,6 +77,51 @@ def largest_leak(model: GPT, row: torch.Tensor, vocab_size: int, rng, sixteen_bi
             controls += int(not torch.equal(scores[0, k:], scores[i, k:]))
     return worst, controls
 
+
+def check_trained(path: str) -> None:
+    saved = torch.load(path, map_location="cpu", weights_only=False)  # our own file; never do this with a stranger's
+    name, context = saved["run_config"]["tokenizer"], saved["model_config"]["context"]
+    stream = load_tokens(name, "validation")
+    vocab_size, rng = saved["model_config"]["vocab_size"], np.random.default_rng(0)
+    tokens, targets = random_batch(stream, 8, context, rng, "cpu")
+    print(f"{path}: step {saved['step']:,}, {name} tokenizer, on 8 windows of the validation works\n")
+
+    def trained(device: str, builtin: bool) -> GPT:
+        # dropout off: with it on, two copies of the same row would differ by chance and hide a real leak
+        model = GPT(Config(**{**saved["model_config"], "dropout": 0.0, "builtin_attention": builtin})).to(device)
+        model.load_state_dict(saved["model"])
+        return model
+
+    losses = {}
+    for builtin in (False, True):
+        model = trained(GPU, builtin)
+        for sixteen_bit in (False, True):
+            for training in (False, True):
+                worst, controls = largest_leak(model, tokens[0], vocab_size, rng, sixteen_bit, training)
+                title = f"3. no peeking ({'built-in' if builtin else 'hand-written'}, {'16' if sixteen_bit else '32'}-bit, {'training' if training else 'evaluation'})"
+                report(title, worst == 0.0 and controls == context - 1, f"{context - 1} cut points, largest change in the past {worst:.1e}")
+        for device in ("cpu", GPU):
+            for sixteen_bit in ((False,) if device == "cpu" else (False, True)):
+                candidate = trained(device, builtin).eval()
+                with torch.no_grad(), torch.autocast(device, dtype=torch.bfloat16, enabled=sixteen_bit):
+                    losses[(builtin, device, sixteen_bit)] = candidate(tokens.to(device), targets.to(device))[1].item()
+    gap_32 = max(v for k, v in losses.items() if not k[2]) - min(v for k, v in losses.items() if not k[2])
+    gap_16 = max(losses.values()) - min(losses.values())
+    report("4, 5, 7. same loss, both attentions, GPU and CPU", gap_32 < 1e-4 and gap_16 < 0.02,
+           f"loss {losses[(False, GPU, False)]:.4f}; 32-bit spread {gap_32:.1e}, with 16-bit {gap_16:.1e}")
+
+
+parser = argparse.ArgumentParser(description="The correctness gate.")
+parser.add_argument("--trained", help="a checkpoint, e.g. runs/pilot-char-17/best.pt: repeat the attention checks on trained weights")
+args = parser.parse_args()
+if args.trained:
+    if not torch.backends.mps.is_available():
+        sys.exit("this needs an Apple GPU")
+    check_trained(args.trained)
+    if failures:
+        sys.exit(f"{len(failures)} check(s) FAILED: {failures}")
+    print("\nall checks passed")
+    sys.exit(0)
 
 print("unit tests first:")
 tests = subprocess.run(["uv", "run", "pytest", "-q", "-x"], capture_output=True, text=True)

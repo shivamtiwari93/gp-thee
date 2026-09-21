@@ -71,10 +71,14 @@ class Timed:
         self.row = {"tokenizer": tokenizer_name, "device": device, "attention": "built-in" if builtin else "hand-written",
                     "numbers": "16-bit" if sixteen_bit else "32-bit"}
         torch.manual_seed(0)
+        before = torch.mps.current_allocated_memory() if device == GPU else 0
         self.model = GPT(Config(vocab_size=int(self.stream[0]) + 1, builtin_attention=builtin)).to(device).train()
         self.optimizer = torch.optim.AdamW(self.model.parameter_groups(0.1), lr=1e-3, betas=(0.9, 0.99))
         self.seconds, self.peak = [], 0.0
         self.run(WARMUP if device == GPU else 1)
+        # What this configuration keeps between steps: weights, gradients' buffers and the optimizer's two averages.
+        # (All eight configurations are alive at once, so memory has to be measured as a difference.)
+        self.kept = (torch.mps.current_allocated_memory() - before) / 1e9 if device == GPU else 0.0
 
     def run(self, steps: int) -> float:
         if self.device == GPU:
@@ -87,11 +91,14 @@ class Timed:
 
     def measure_memory(self) -> None:
         """Memory in use when it is highest: right after the forward pass, before the backward pass frees it."""
+        self.optimizer.zero_grad(set_to_none=True)
+        torch.mps.synchronize()
+        before = torch.mps.current_allocated_memory()
         tokens, targets = random_batch(self.stream, BATCH, CONTEXT, np.random.default_rng(1), self.device)
         with torch.autocast(self.device, dtype=torch.bfloat16, enabled=self.sixteen_bit):
             loss = self.model(tokens, targets)[1]
         torch.mps.synchronize()
-        self.peak = torch.mps.current_allocated_memory() / 1e9
+        self.peak = self.kept + (torch.mps.current_allocated_memory() - before) / 1e9
         loss.backward()
         self.optimizer.zero_grad(set_to_none=True)
 

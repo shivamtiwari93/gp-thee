@@ -1,0 +1,91 @@
+{
+  "fitted_on": "the 39 training works",
+  "scored_on": "the 2 validation works",
+  "characters": 274727,
+  "speaker_label_share_of_characters": 0.05949906634586335,
+  "results": {
+    "blind guess": {
+      "bits_per_character": 6.599912842187128
+    },
+    "character counts": {
+      "bits_per_character": 4.783188385093234,
+      "speaker_labels": 7.22720804008648,
+      "everything_else": 4.628571964843602,
+      "per_work": {
+        "ALL’S WELL THAT ENDS WELL": 4.77682714631472,
+        "THE TRAGEDY OF ROMEO AND JULIET": 4.789191598567814
+      }
+    },
+    "2-gram (looks back 1)": {
+      "bits_per_character": 3.584288371531159,
+      "speaker_labels": 4.068271325740939,
+      "everything_else": 3.553670077734351,
+      "per_work": {
+        "ALL’S WELL THAT ENDS WELL": 3.5596322430943417,
+        "THE TRAGEDY OF ROMEO AND JULIET": 3.607556795751119
+      }
+    },
+    "3-gram (looks back 2)": {
+      "bits_per_character": 2.901536758561394,
+      "speaker_labels": 3.6183684422557434,
+      "everything_else": 2.856187717023247,
+      "per_work": {
+        "ALL’S WELL THAT ENDS WELL": 2.846105356922858,
+        "THE TRAGEDY OF ROMEO AND JULIET": 2.953848352076069
+      }
+    },
+    "4-gram (looks back 3)": {
+      "bits_per_character": 2.4534530698609887,
+      "speaker_labels": 3.442970295640305,
+      "everything_else": 2.3908530777075843,
+      "per_work": {
+        "ALL’S WELL THAT ENDS WELL": 2.387488991450389,
+        "THE TRAGEDY OF ROMEO AND JULIET": 2.515704536617813
+      }
+    },
+    "5-gram (looks back 4)": {
+      "bits_per_character": 2.257712563686475,
+      "speaker_labels": 3.539502783688145,
+      "everything_else": 2.1766224566888734,
+      "per_work": {
+        "ALL’S WELL THAT ENDS WELL": 2.185268689994995,
+        "THE TRAGEDY OF ROMEO AND JULIET": 2.3260791277847317
+      }
+    },
+    "6-gram (looks back 5)": {
+      "bits_per_character": 2.231483793147907,
+      "speaker_labels": 3.771898440162561,
+      "everything_else": 2.1340322861868626,
+      "per_work": {
+        "ALL’S WELL THAT ENDS WELL": 2.14951375784947,
+        "THE TRAGEDY OF ROMEO AND JULIET": 2.3088403643361493
+      }
+    },
+    "7-gram (looks back 6)": {
+      "bits_per_character": 2.2952639115474205,
+      "speaker_labels": 4.025435056922236,
+      "everything_else": 2.185807807800254,
+      "per_work": {
+        "ALL’S WELL THAT ENDS WELL": 2.2049131188456443,
+        "THE TRAGEDY OF ROMEO AND JULIET": 2.3805295516328817
+      }
+    },
+    "8-gram (looks back 7)": {
+      "bits_per_character": 2.40770419253914,
+      "speaker_labels": 4.226599402506257,
+      "everything_else": 2.2926351235978375,
+      "per_work": {
+        "ALL’S WELL THAT ENDS WELL": 2.31028730995829,
+        "THE TRAGEDY OF ROMEO AND JULIET": 2.4996382265415114
+      }
+    },
+    "bzip2 -9": {
+      "bits_per_character": 2.4827847281119073,
+      "after_reading_the_training_works": 2.298893082951439
+    },
+    "xz -9e": {
+      "bits_per_character": 2.8019088040127107,
+      "after_reading_the_training_works": 2.389805152023645
+    }
+  }
+}

@@ -1,0 +1,90 @@
+"""Gather finished training runs into one table: the mean over seeds, and how far the seeds disagree.
+
+Run:  uv run python scripts/summarise_runs.py                 (every finished run under runs/)
+      uv run python scripts/summarise_runs.py baseline-       (only runs whose name starts with this)
+
+One run is one roll of the dice: the starting weights, the batches and the dropout masks all come from the
+seed. Two runs that differ only in their seed end a little apart, and a comparison between two settings
+means nothing unless the gap between them is clearly bigger than that. So runs that share every setting
+except the seed are grouped, and each group gets a mean and a standard deviation over its seeds.
+
+On this GPU even two runs with the SAME seed end slightly apart (docs/BUILD_LOG.md, entry 13). Where a seed
+was run twice, the two are averaged before the seeds are compared, and their difference is shown.
+
+Each run is judged at its best validation checkpoint, as decided before any run was made.
+
+When there are several groups, the rule for calling two of them different (fixed in BUILD_LOG entry 14, before
+the runs): pool the seed-to-seed standard deviation over all groups; two groups differ only if their means are
+further apart than t x pooled sd x sqrt(1/n1 + 1/n2), with t the usual 95% value for the pooled degrees of
+freedom. For five groups of three seeds that is 1.82 x the pooled sd. Anything closer is a tie.
+
+Writes docs/results.json. (The runs themselves are too big for git; this file is the record.)
+"""
+
+import json
+import math
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+prefix = sys.argv[1] if len(sys.argv) > 1 else ""
+NOT_A_SETTING = {"name", "seed", "steps", "parameters", "git_commit", "torch", "device", "fingerprints"}
+T_95 = [None, 12.706, 4.303, 3.182, 2.776, 2.571, 2.447, 2.365, 2.306, 2.262, 2.228, 2.201, 2.179, 2.160, 2.145, 2.131, 2.120, 2.110,
+        2.101, 2.093, 2.086, 2.080, 2.074, 2.069, 2.064, 2.060, 2.056, 2.052, 2.048, 2.045, 2.042]  # two-sided 95% Student t, by degrees of freedom
+
+groups = {}
+for folder in sorted((ROOT / "runs").glob(f"{prefix}*")):
+    if not (folder / "result.json").exists():
+        continue  # unfinished
+    config, result = json.loads((folder / "config.json").read_text()), json.loads((folder / "result.json").read_text())
+    settings = json.dumps({k: v for k, v in config.items() if k not in NOT_A_SETTING}, sort_keys=True)
+    groups.setdefault(settings, []).append({"name": config["name"], "seed": config["seed"], "steps": config["steps"], "parameters": config["parameters"],
+                                            "git_commit": config["git_commit"], "minutes": result["minutes"],
+                                            "best_validation_bpc": result["best"]["validation_bpc"], "best_step": result["best"]["step"],
+                                            "best_passes": result["best"]["passes"], "seen_bpc_at_best": result["best"]["seen_bpc"],
+                                            "final_validation_bpc": result["final_validation_bpc"]})
+if not groups:
+    sys.exit("no finished runs found")
+
+everything = [json.loads(settings) for settings in groups]
+varying = sorted(k for k in everything[0] if len({json.dumps(s.get(k)) for s in everything}) > 1)
+out, squares, freedom = [], 0.0, 0
+for settings, runs in groups.items():
+    settings = json.loads(settings)
+    by_seed = {}
+    for run in runs:
+        by_seed.setdefault(run["seed"], []).append(run["best_validation_bpc"])
+    seed_means = [sum(scores) / len(scores) for scores in by_seed.values()]
+    mean = sum(seed_means) / len(seed_means)
+    deviation = math.sqrt(sum((m - mean) ** 2 for m in seed_means) / (len(seed_means) - 1)) if len(seed_means) > 1 else None
+    squares, freedom = squares + sum((m - mean) ** 2 for m in seed_means), freedom + len(seed_means) - 1
+    repeats = {seed: max(scores) - min(scores) for seed, scores in by_seed.items() if len(scores) > 1}
+
+    label = ", ".join(f"{k} {settings.get(k)}" for k in varying) or "all settings the same"
+    print(f"{label}   ({runs[0]['parameters']:,} parameters, {runs[0]['steps']:,} steps)")
+    for run in runs:
+        at_the_end = "   <- best at the very end: a longer run might do better" if run["best_step"] == run["steps"] else ""
+        print(f"    {run['name']:<28} seed {run['seed']}   best {run['best_validation_bpc']:.4f} at step {run['best_step']:>6,} ({run['best_passes']:4.1f} passes)"
+              f"   seen {run['seen_bpc_at_best']:.4f}   final {run['final_validation_bpc']:.4f}   {run['minutes']:5.1f} min{at_the_end}")
+    print(f"    mean over {len(seed_means)} seed(s): {mean:.4f} bits per character" + (f", standard deviation {deviation:.4f}" if deviation is not None else ""))
+    for seed, gap in repeats.items():
+        print(f"    seed {seed} was run {len(by_seed[seed])} times: those runs differ by {gap:.4f}")
+    print()
+    out.append({"settings": settings, "seeds": len(seed_means), "mean_best_validation_bpc": mean, "standard_deviation_over_seeds": deviation,
+                "same_seed_differences": {str(seed): gap for seed, gap in repeats.items()}, "runs": runs})
+
+summary = {"groups": out}
+if len(out) > 1 and freedom:
+    pooled = math.sqrt(squares / freedom)
+    t = T_95[min(freedom, len(T_95) - 1)]
+    summary["pooled_standard_deviation"], summary["degrees_of_freedom"] = pooled, freedom
+    print(f"pooled standard deviation over seeds: {pooled:.4f} ({freedom} degrees of freedom)")
+    for i, a in enumerate(out):
+        for b in out[i + 1:]:
+            needed = t * pooled * math.sqrt(1 / a["seeds"] + 1 / b["seeds"])
+            gap = abs(a["mean_best_validation_bpc"] - b["mean_best_validation_bpc"])
+            name = lambda group: ", ".join(f"{k} {group['settings'].get(k)}" for k in varying)
+            print(f"    {name(a)}  against  {name(b)}:  {gap:.4f} apart, {needed:.4f} needed  ->  {'DIFFERENT' if gap > needed else 'a tie'}")
+
+(ROOT / "docs" / "results.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+print("\nwrote docs/results.json")
