@@ -801,7 +801,7 @@ While the first pilot trained, three auditors attacked the plan on the CPU. No b
 
 **And one more, found by the tests written for the fixes.** A helper agent wrote tests for all four scripts (69 new tests; 134 of 140 planted faults killed, the other six shown to be equivalent) and found a bug in MY rewrite of `sweep.py`: it asked git where the code was once, at the start, so a commit landing mid-sweep went unnoticed (the helper's copy finished "all done" with 2 runs from one commit and 13 from another). It now asks before every run. Also tightened before any sweep run: no verdict while any run of the prefix is unfinished or any arm has fewer than three seeds (the sweep goes seed by seed, so "every arm has the same number of seeds" was true after two seeds, exactly the early look the rule was meant to prevent); a pilot or a sweep run made earlier counts only if every setting but its name, tokenizer, seed, length and device is the default.
 
-### The length searches (2026-09-21, 07:20 to 09:50; seed 0; commit `f5713e4`; *measured*)
+### The length searches (2026-09-21, 07:31 to 09:45; seed 0; commit `f5713e4`; *measured*)
 
 `scripts/find_length.py`, exactly as the rule asks: 5,000 steps, then the compulsory 10,000, then halves while a best moment falls before two thirds of its run.
 
@@ -820,7 +820,7 @@ What the pilots already show, as single draws and nothing more: the word-fragmen
 
 ## Entry 16. The tokenizer comparison: characters win (2026-09-21)
 
-Fifteen runs, `scripts/sweep.py`, all from commit `0f72600` with a clean tree, 09:52 to 13:29 on mains power, seed by seed. No run diverged, none was discarded, none was resumed. *Measured*; the record is [docs/results-sweep.json](results-sweep.json).
+Fifteen runs, `scripts/sweep.py`, all from commit `0f72600` with a clean tree, 09:46 to 13:29 on mains power, seed by seed. No run diverged, none was discarded, none was resumed. *Measured*; the record is [docs/results-sweep.json](results-sweep.json).
 
 | Arm | Parameters | Steps (passes) | Seed 1 | Seed 2 | Seed 3 | **Mean** | sd |
 |---|---|---|---|---|---|---|---|
@@ -891,3 +891,5 @@ What is left as candidates, all untested: fewer updates per pass (a word-fragmen
 | "A shorter run beat a longer one" stated as mechanism | One pair of runs, but supported: the 10,000-step pilot also reached only 1.8759 and the three 2,500-step sweep runs scored 1.846 to 1.854. At step 1,500 the long run's rate was 0.00083 and the short run's 0.00043; from there to step 2,500 the long run's seen score fell 1.43 to 1.22 while its validation rose 1.873 to 1.901. Still untested: no run varied the schedule alone. |
 
 **Cost, which the draft never mentioned.** Every arm ran at 80,000 to 87,000 tokens per second, so a character run took 35.2 minutes against 9.6 to 10.0, and the character model will need 2.5 times as many steps as bpe-1024 to write the same text. That, and the window, is the main reason large models use word fragments; "they have more data" is at best part of it.
+
+A last fact-check of the rewritten post found one wrong cell (bpe-1536 on unknown names is 4.37, not 4.38: 4.37475 rounded twice) and eight more sentences that said a little more than the data. The instructive ones: "more than half of bpe-1024's lead on labels is on known names" is 53.5% on the means but runs from a third to all of it seed by seed; "best moments came after about 2,300 steps against about 9,300" is true and proves nothing, because both are 93% of runs whose lengths we fixed (the pilots are the evidence: step 1,500 and about 3,000 against about 10,000); and "these words were not written blind" was true of the auditor, who had seen one pilot, but the build log's addendum went in after all six (0.06 to 0.14 behind). Two time ranges in this log were wrong and are corrected in place: the pilots ran 07:31 to 09:45 and the sweep 09:46 to 13:29.

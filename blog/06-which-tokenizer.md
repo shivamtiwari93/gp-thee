@@ -20,7 +20,7 @@ All five models are the same network from part 4. Only the embedding table chang
 | bpe-2048 | 2,048 | 2.78 | 1,694,913 | 103 | about 710 |
 | bpe-4096 | 4,096 | 3.07 | 1,507,176 | 92 | about 790 |
 
-(All measured. The second and last columns are measured on the validation plays. Parts 3 and 5 gave 640 to 820 for the window, which was on the training text, where more names are whole pieces.)
+(All measured. The characters-per-token and window columns are measured on the validation plays. Parts 3 and 5 gave 640 to 820 for the window, which was on the training text, where more names are whole pieces.)
 
 A word-fragment model reads the same works in a third to two fifths as many tokens. So one trip through the text is that many fewer steps, and a window of 256 tokens holds two and a half to three times as much Shakespeare. That second fact is an advantage we are handing the word-fragment models on purpose: the window is part of what a tokenizer buys you.
 
@@ -49,7 +49,7 @@ These trial runs are the **pilots**. Each is a single run with seed 0, made to c
 
 Two things in this table are worth a second look.
 
-**Word fragments over-fit early and hard.** Look at the last column. The 10,000-step run of the largest vocabulary ends at 2.22 bits per character on the validation plays. That is 0.35 worse than its own best moment, and about what the six-letter table scores with no neural network at all. All the while its *seen* score (part 5: the same ruler held to text it has trained on) kept falling, to 0.57. Seen falling while validation rises is what part 5 called over-fitting. Two cautions from part 5 apply. The seen score does not show that a model recites its training text: part 7 measures that. And it must not be compared between tokenizers, because the word-fragment pieces were themselves fitted to the training works. So the fair comparison is on the validation plays alone. After 68 passes the character model stood 0.04 above its own best score. After the same 68 passes the smallest vocabulary stood 0.09 above its best, and the largest 0.24. (Measured, one run each.)
+**Word fragments over-fit early and hard.** Look at the last column. The 10,000-step run of the largest vocabulary ends at 2.22 bits per character on the validation plays. That is 0.35 worse than its own best moment, and about what the six-letter table scores with no neural network at all. All the while its *seen* score (part 5: the same ruler held to text it has trained on) kept falling, to 0.57. Seen falling while validation rises is what part 5 called over-fitting. Two cautions apply. Part 5's: the seen score does not show that a model recites its training text, and part 7 measures that. And one from the build log: it must not be compared between tokenizers, because the word-fragment pieces were themselves fitted to the training works. So the fair comparison is on the validation plays alone. After 68 passes the character model stood 0.04 above its own best score. After the same 68 passes the smallest vocabulary stood 0.09 above its best, and the largest 0.24. (Measured, one run each. Not quite like for like: the character run had finished cooling its learning rate, and the other two were four fifths and five eighths of the way through theirs.)
 
 **A shorter run beat a longer one.** For the largest vocabulary, 2,500 steps scored *better* than 5,000 (1.8515 against 1.8733), even though the longer run passed through step 2,500 on its way (it stood at 1.90 there, already past its best) and we kept its best moment. One pair of runs could be luck: single runs wobble by about 0.006. But the 10,000-step pilot did no better (1.8759), and the three 2,500-step runs of the race itself scored 1.846 to 1.854. The likeliest reason is the one part 5 gave for its 68-pass run. The learning rate is stretched to fit the run. At step 1,500, where the long run had its best moment, its rate was still 0.00083 out of a peak of 0.001. The short run's was 0.00043 and falling. Over the next thousand steps the long run's seen score dropped from 1.43 to 1.22 while its validation score got worse. The short run cooled down, fitted the training text more slowly, and gained a little more on validation. That fits the logs. It is a reading, not a test: no run changed the schedule alone.
 
@@ -67,7 +67,7 @@ Written in the build log before the fifteen runs, and carried out by [scripts/su
 - A run is thrown away only if its loss stops being a number. It is then made again with seed + 1000, and reported.
 - All fifteen runs come from one commit of the code. Part 5 found that on this GPU an edit re-rolls a score as surely as a new seed, even an edit that changes no arithmetic. So the character runs were made again.
 
-Reported beside it, and deciding nothing: the same test on everything except speaker-label lines (where part 5 found most of the noise), and the two **finalists** (characters, and whichever word-fragment vocabulary has the lowest mean) compared on the very same text. Both were an auditor's proposals. The auditor also pointed out that the second had been promised and had no program, wrote a first working version, and listed the choices it would force, so that we could fix them before the runs and not after.
+Reported beside it, and deciding nothing: the same test on everything except speaker-label lines (where part 5 found most of the noise), and the two **finalists** (characters, and whichever word-fragment vocabulary has the lowest mean) compared on the very same text. Both were auditors' proposals. A later auditor pointed out that the second had been promised and had no program, wrote a first working version, and listed the choices it would force, so that we could fix them before the runs and not after.
 
 ## What this race can and cannot show, said before the result
 
@@ -84,7 +84,7 @@ Here is something I had not seen done in a tutorial, and it is cheap. Before the
 
 So this race can see a difference of 0.02. It cannot see 0.01. "Characters win" will mean "nothing beat characters by more than about 0.011", not "characters are better". The burden of proof sits on the larger vocabulary, by design: a bigger table has to earn its place. One more lean had been named earlier still, in part 5: the recipe was tuned, by someone else, for a character model, and ties go to characters too.
 
-(These words were not written blind. The first pilot had finished by then, 0.06 behind part 5's character pilot, and the auditor could see it. They were written before any number that could decide.)
+(These words were not written blind. When the auditor wrote them the first pilot had finished, 0.06 behind part 5's character pilot, and the auditor could see it. By the time they went into the build log all six pilots had finished, 0.06 to 0.14 behind. They were written before any number that could decide.)
 
 Two more things were written down then. The pilots that choose the lengths are single runs, so the length rule is itself a little lucky or unlucky, and it can cost an arm about 0.01. And the score is **exact for characters but only an upper bound for word fragments**: it can charge a word-fragment model a little too much, never too little. Such a model can spell the same text in more than one way. Our 1,024-piece tokenizer always writes the speaker label `BENVOLIO` as `B|EN|V|OL|IO`. The model could just as well produce `B|E|N|V|OL|IO`, or the word letter by letter, and the page would read the same. We charge it for the one spelling our tokenizer produces, and whatever probability it gave the others is lost. An auditor measured this on the first pilot by adding up every possible spelling of about 3,000 words and punctuation marks picked at random from the validation plays: about 0.008 bits per character (somewhere between 0.004 and 0.013). Four fifths of it came from just ten of them, every one a name the training works never contain. (One `BENVOLIO` alone was over-charged by 17 bits.) The measure stays as it was fixed, because it is the cost of the model as it will actually be used.
 
@@ -116,7 +116,7 @@ Fifteen runs, three and three quarter hours, all from one commit. None blew up, 
 
 **Characters win.** The pooled spread is 0.0071, so two arms differ beyond 0.0130. The nearest vocabulary, bpe-1024, is 0.0466 behind characters: more than three times that. Bigger vocabularies scored worse, with one tie: the two middle ones finished 0.0001 apart. Of the ten pairs of arms, that is the only pair the rule calls level.
 
-For scale: doubling the character model's training in part 5 bought about 0.02, and the six-letter table is 0.48 behind the character model. So 0.047 is a real loss and a modest one. Every one of the fifteen models beats the six-letter table by 0.37 or more.
+For scale: in part 5 the 17-pass pilot finished 0.011 to 0.030 behind the nine 34-pass runs (0.020 behind their average), and the six-letter table is 0.48 behind the character model. So 0.047 is a real loss and a modest one. Every one of the fifteen models beats the six-letter table by 0.37 or more.
 
 That is not what I expected when part 3 built four vocabularies and one character table. Part 3 quoted a rule of thumb from machine-translation research that pointed at a vocabulary of about 1,200 to 1,500 pieces for a text this size, and every large language model you have heard of uses word fragments.
 
@@ -126,11 +126,11 @@ Go back through what we wrote down beforehand, because this is what it was for:
 - *bpe-1024 may carry a handicap from the length rule, 0.008 by the pilots' reckoning.* Two of its three runs did have their best moment at the very last step, the mark of a run that is too short. Against that, the three runs averaged 1.8012, level with the longer pilot's 1.8001. Give it the 0.008 anyway and it is still about 0.04 behind.
 - *Word-fragment scores are an upper bound, slack about 0.008* (measured on one pilot, not on these runs). Give that back too: about 0.03 behind.
 - *The test assumes every arm is equally noisy.* They were not quite. bpe-1024's three runs spread 0.012, the others 0.004 to 0.007. That pushed the threshold from the 0.011 we expected to 0.013. Does the verdict lean on the pooling? No. Judged only against its own spread and the characters', which is a harsher test with three runs each, bpe-1024 would have to come within about 0.026 of characters to tie. It is 0.047 away. What the harsher test does take away is bpe-1024's clear lead over the two middle vocabularies: 0.023 apart, about 0.025 needed.
-- *The recipe was tuned for characters.* True, and untested. What is left after the give-backs is about 0.03, which is more than doubling the run length bought the character model in part 5. A recipe tuned for word fragments might be worth that much, or might not. We do not know. The rule gives characters the title under *this* recipe, and that is all it was ever going to show.
+- *The recipe was tuned for characters.* True, and untested. What is left after the give-backs is about 0.03. That is about what doubling the run length bought the character model in part 5 (0.011 to 0.030, depending on the run). A recipe tuned for word fragments might be worth that much, or might not. We do not know. The rule gives characters the title under *this* recipe, and that is all it was ever going to show.
 
 None of those promises had to be bent after the fact, which is the point of making them.
 
-What do the two finalists sound like? One sample each, seed 1 at its best moment, from the same prompt and the same dice as in part 5. I did not pick them.
+What do the two finalists sound like? The opening of one sample each, seed 1 at its best moment, from the same prompt and the same dice as in part 5. I did not pick them.
 
 Characters:
 
@@ -157,7 +157,7 @@ HORATIO.
 The antic poet.
 ```
 
-Read aloud, I could not tell you which model scores 0.047 better. A sample is one roll of the dice, and the score is the sum of 274,727 of them.
+Read aloud, I could not tell you which model scores better. (These two are 0.040 apart. The arms are 0.047 apart.) A sample is one roll of the dice, and the score is an average over all 274,727 characters of the two plays.
 
 ### Where the difference is
 
@@ -177,17 +177,17 @@ The secondary table, named in advance and deciding nothing, splits each score by
 
 **About nine tenths of the gaps among the vocabularies come from the names** (of the 0.050 between the smallest and the largest, 0.045 is speaker-label lines), and not quite the way part 3 predicted. This is the noisiest column in the post: bpe-1024's three runs scored 2.09, 2.23 and 2.35 on it. Put the same test to it (my sum afterwards, not part of the plan: pooled spread 0.083, so differences beyond 0.15 count) and two things stand. The largest vocabulary is clearly the worst at names, as part 3 said it would be. And the best of all five is bpe-1024, 0.21 ahead of characters. Hold that second one loosely. Part 5 showed that labels get worse the longer a model trains, and these arms trained for different lengths.
 
-I had a guess ready for the names, and it mostly fails. The guess: at 1,536 pieces and above `HAMLET` is a single piece, so after a blank line the model bets on the whole names it knows, and `ROMEO` has to be spelled `RO|M|E|O` against that bet. A reviewer tested it and I measured it again. Whole names are rarer than I thought: 4 names are single pieces at 1,024 (`FALSTAFF`, `KING`, `DUKE`, `QUEEN`), 12 at 1,536, 33 at 2,048 and 151 at 4,096, heading 5%, 12%, 24% and 59% of the training speeches. The label scores are 2.22, 2.58, 2.56 and 2.98. Doubling the whole names from 1,536 to 2,048 moved nothing, and the big jump is between 1,024 and 1,536, where whole names barely change. Nor is it only the unknown names:
+I had a guess ready for the names, and it mostly fails. The guess: at 1,536 pieces and above `HAMLET` is a single piece, so after a blank line the model bets on the whole names it knows, and `ROMEO` has to be spelled `RO|M|E|O` against that bet. A reviewer tested it and I measured it again. Whole names are rarer than I thought: 4 names are single pieces at 1,024 (`FALSTAFF`, `KING`, `DUKE`, `QUEEN`), 12 at 1,536, 33 at 2,048 and 151 at 4,096, heading 5%, 12%, 24% and 59% of the training speeches. The label scores are 2.22, 2.58, 2.56 and 2.98. Doubling the share of speeches they head, from 1,536 to 2,048, moved nothing. The big jump is between 1,024 and 1,536, where that share rises least, from 5% to 12%. Nor is it only the unknown names:
 
 | Speaker labels, bits per character | Names the training works also use (915 labels) | Names they never use (858) |
 |---|---|---|
 | characters | 0.92 | 3.96 |
 | bpe-1024 | 0.69 | 3.77 |
-| bpe-1536 | 0.79 | 4.38 |
+| bpe-1536 | 0.79 | 4.37 |
 | bpe-2048 | 0.85 | 4.29 |
 | bpe-4096 | 1.01 | 4.96 |
 
-(Measured, mean of three runs.) The larger vocabularies are worse at names they *know* as well, and more than half of bpe-1024's lead over characters is on known names. So "betting on whole names" may be part of the largest vocabulary's trouble. It does not explain the column.
+(Measured, mean of three runs.) The larger vocabularies are worse at names they *know* as well, and about half of bpe-1024's lead over characters is on known names. (Seed by seed that share runs from a third to all of it, so hold it loosely.) So "betting on whole names" may be part of the largest vocabulary's trouble. It does not explain the column.
 
 The finalists, on the same text ([scripts/compare_finalists.py](../scripts/compare_finalists.py), every choice in it fixed beforehand). The gap is the 0.047 you already have. The new question is how much it depends on which passages the two validation plays happen to contain. The script cuts them into 56 blocks of 5,000 characters, makes up 10,000 new validation texts by drawing blocks at random, with repeats allowed, and works the gap out again on each. In 95% of them it lies between 0.036 and 0.059. As promised in advance, the caveat that goes with it: this holds the six trained models fixed. It measures the luck of the text, not the luck of training, and it cannot overturn the rule. It also only redraws the two plays we have, and they disagree about the size: characters are ahead by 0.021 in *All's Well* and by 0.071 in *Romeo and Juliet*. Characters are ahead in 80% of the blocks.
 
@@ -205,7 +205,7 @@ Comparing models that cut the text differently, word by word, has a trap in it, 
 | 1 to 9 | 7% | 18.27 | 20.35 | 20.57 |
 | never | 3% | 32.76 | 32.17 | 34.11 |
 
-(Measured, mean of three runs per model. Fewer bits is better. The table leaves out punctuation, line breaks and speaker-label lines, which is why the shares add up to 87%.)
+(Measured, mean of three runs per model. Fewer bits is better. The table leaves out punctuation, line breaks and speaker-label lines, about 13% of the text, which is why the shares do not add up to 100%.)
 
 Characters are ahead in the first four rows. The gap is not a steady slope. Against bpe-1024 it is 4% on the commonest words, 2% in the next row, 4% in the next, and then 11% on words the training works use fewer than ten times. On words they never use, bpe-1024 is level, or a shade ahead. And common words are most of the text: in the units of the score, the top row alone accounts for 0.022 of bpe-1024's 0.047, and the rare-word row for 0.019. (On punctuation the vocabularies are slightly ahead.)
 
@@ -217,7 +217,7 @@ But if scarce pieces were the trouble, the 4,096-piece model should be far worse
 
 So whatever costs 0.06 is something all four vocabularies share and characters do not. Candidates, none of them tested:
 
-- **Fewer updates.** Every step is 64 windows of 256 tokens, so a word-fragment step holds two and a half to three times as many characters, and those models got a third to two fifths as many updates per pass through the text. They over-fit before they have taken many steps: in the race their best moments came after about 2,300 steps, where the character model's came after about 9,300.
+- **Fewer updates.** Every step is 64 windows of 256 tokens, so a word-fragment step holds two and a half to three times as many characters, and those models got a third to two fifths as many updates per pass through the text. They over-fit before they have taken many steps. In the longer pilots the best moment came at step 1,500 for the largest vocabulary and at about step 3,000 for the smallest, where the character pilots' came at about step 10,000.
 - **The recipe.** Learning rate, dropout and batch were tuned, by someone else, for a character model. We changed nothing, for any arm.
 - **Settings that count in steps fell unevenly.** The 100-step warm-up is 4% of a word-fragment run and 1% of the character run. Weight decay acts at every step, so it had four times as many steps to act on the character model.
 - **The measure's slack**, about 0.008.
@@ -227,7 +227,7 @@ With a hundred times the text I would expect a different answer. That is a guess
 ## What this does not show
 
 - That characters are the better tokenizer in general. Only that nothing beat them here, under a recipe tuned by someone else for a character model, which we did not touch.
-- That the word-fragment models were trained as well as they could be. Their lengths came from single pilot runs and a rule that stops at the shortest good length. A gentler learning rate, more dropout or a smaller batch might suit them better. Nor did we try the usual remedy for this kind of over-fitting, which is to cut the training text a little differently every time the model reads it (it is called BPE-dropout). It would also train the model on the other spellings, which bears on the slack. We said beforehand that we would not tune, and we did not.
+- That the word-fragment models were trained as well as they could be. Their lengths came from single pilot runs and a rule that stops at the shortest good length. A gentler learning rate, more dropout or a smaller batch might suit them better. Nor did we try a known remedy for this kind of over-fitting, which is to cut the training text a little differently every time the model reads it (it is called BPE-dropout). It would also train the model on the other spellings, which bears on the slack. We said beforehand that we would not tune, and we did not.
 - Anything about other model sizes. One network, 11 million parameters.
 - Anything about the test works, which are still unopened. Every choice so far, this one included, was made on the same two plays, and part 5 reported how much works differ: a standard deviation of 0.14 from one to the next.
 
@@ -255,7 +255,7 @@ uv run python scripts/find_length.py --tokenizer bpe-1024   # about an hour: the
 uv run python scripts/find_length.py --tokenizer bpe-4096   # another hour
 uv run python scripts/sweep.py                              # just under four hours: fifteen runs. Commit nothing while it runs
 for run in runs/sweep-*; do uv run python scripts/evaluate.py --run "$(basename "$run")"; done   # labels against everything else, per run
-uv run python scripts/summarise_runs.py sweep-              # the verdict, and the secondary table
+uv run python scripts/summarise_runs.py sweep-              # the verdict, and the same test on everything except speaker labels
 uv run python scripts/compare_finalists.py
 uv run python scripts/where_they_differ.py
 ```
