@@ -1,0 +1,13 @@
+{
+  "name": "sweep-bpe-2048-seed-3",
+  "best": {
+    "validation_bpc": 1.8197617482066801,
+    "step": 2312,
+    "passes": 22.34911644432487,
+    "seen_bpc": 1.3703930099188084
+  },
+  "final_validation_bpc": 1.8209633136685528,
+  "final_seen_bpc": 1.3587836020044144,
+  "steps": 2500,
+  "minutes": 9.33
+}

@@ -1,0 +1,13 @@
+{
+  "name": "sweep-bpe-1536-seed-2",
+  "best": {
+    "validation_bpc": 1.8219331825437586,
+    "step": 2438,
+    "passes": 22.341864001883813,
+    "seen_bpc": 1.3914275725582161
+  },
+  "final_validation_bpc": 1.8230668194664252,
+  "final_seen_bpc": 1.3881969418672022,
+  "steps": 2500,
+  "minutes": 9.46
+}

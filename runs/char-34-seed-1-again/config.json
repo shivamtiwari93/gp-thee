@@ -1,0 +1,30 @@
+{
+  "name": "char-34-seed-1-again",
+  "tokenizer": "char",
+  "seed": 1,
+  "passes": 34.0,
+  "batch": 64,
+  "peak_rate": 0.001,
+  "floor_rate": 0.0001,
+  "warm_up": 100,
+  "weight_decay": 0.1,
+  "beta_2": 0.99,
+  "clip": 1.0,
+  "dropout": 0.2,
+  "layers": 6,
+  "heads": 6,
+  "width": 384,
+  "context": 256,
+  "evaluations": 40,
+  "sixteen_bit": false,
+  "device": "mps",
+  "steps": 9985,
+  "parameters": 10757760,
+  "git_commit": "5c6bd6840d8161f619858e63de47039d5196e494",
+  "torch": "2.14.0",
+  "fingerprints": {
+    "tokenizer": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730",
+    "training_stream": "dfeb2c1926bda93ad1bef7d169ad37286d879cf47ecd285493a884c172c4561b",
+    "validation_stream": "be97781260d99f6bdf1584f3bb7151356dbb00c6217ea3d6729f3507ece8a076"
+  }
+}

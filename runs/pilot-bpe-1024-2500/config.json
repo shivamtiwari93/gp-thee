@@ -1,0 +1,30 @@
+{
+  "name": "pilot-bpe-1024-2500",
+  "tokenizer": "bpe-1024",
+  "seed": 0,
+  "passes": 21.150000283996587,
+  "batch": 64,
+  "peak_rate": 0.001,
+  "floor_rate": 0.0001,
+  "warm_up": 100,
+  "weight_decay": 0.1,
+  "beta_2": 0.99,
+  "clip": 1.0,
+  "dropout": 0.2,
+  "layers": 6,
+  "heads": 6,
+  "width": 384,
+  "context": 256,
+  "evaluations": 40,
+  "sixteen_bit": false,
+  "device": "mps",
+  "steps": 2500,
+  "parameters": 11113344,
+  "git_commit": "f5713e4d55ca44a6271b456350c258fe78163989",
+  "torch": "2.14.0",
+  "fingerprints": {
+    "tokenizer": "77635b9b966483426788c92d418df7367187632e92ec3fbb3de31bb46a53659d",
+    "training_stream": "206ccc2dfa4864d893fa8bd06f48d747cf7f844ba07e7b7e51576f1784e62888",
+    "validation_stream": "7a70e23a32c2b00e590183d6ffe3970f5308b599075e8024830591b2db3e729b"
+  }
+}

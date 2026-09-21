@@ -1,0 +1,13 @@
+{
+  "name": "sweep-bpe-4096-seed-2",
+  "best": {
+    "validation_bpc": 1.853910900353527,
+    "step": 1938,
+    "passes": 21.06734183665345,
+    "seen_bpc": 1.3386596991723696
+  },
+  "final_validation_bpc": 1.859573058367642,
+  "final_seen_bpc": 1.284305465347216,
+  "steps": 2500,
+  "minutes": 9.8
+}

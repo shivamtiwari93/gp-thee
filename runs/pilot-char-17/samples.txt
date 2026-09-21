@@ -1,0 +1,262 @@
+===== step 0, 0.0 passes, validation 6.706 bits per character =====
+
+
+HAMLET.
+htkâW0bCED…RRkBX6Cs O)A3”-.KO1n_05PækÀâ;CtWj3N(éîî,PSLSSbææ[ëN66œœu,S?GA;VÀ;g7fMâINNfMKXwj[QAI6tIxSPVs-3?‘8BKDci(ééC00Zé1“:w!Wso6TJ :sKRi._fjM3H4gF331153o4!É’ç.FkCssAjnX33L0
+jà“ââ…êiÇPNUbæ
+;ÉÉÆ!tA99oY
+
+===== step 250, 0.9 passes, validation 2.948 bits per character =====
+
+
+HAMLET.
+The mothe this a mo a he sold nothe kere.
+
+SPAS.
+What has, be lard goo hous ther I deall, more to to so waing cile ant
+And wick thy na it.
+
+FAR.
+In love of a areatsent lee bid and withe but;
+And like 
+
+===== step 500, 1.7 passes, validation 2.434 bits per character =====
+
+
+HAMLET.
+The most be be deat a hard.
+O no godderelt in a manding beath.
+
+CESSIDA.
+The marrims bood more teat of seam a cill and our winsess beaout.
+
+FRO.
+In the more aur at you liegether in it of your better o
+
+===== step 750, 2.6 passes, validation 2.233 bits per character =====
+
+
+HAMLET.
+The Women that I have her persons the welt.
+
+NATHIRDSS.
+And my lord, my noble from thy heart I tell you,
+You shall return the sock by air.
+
+HAMLET.
+What of your laste? Where is the is office
+Wherein y
+
+===== step 1000, 3.4 passes, validation 2.120 bits per character =====
+
+
+HAMLET.
+The mother is the servants.
+O no good well! Pray thou hast thou busined,
+Thy faulty false life to thyself.
+By call my virtue! so I know. I am so gone.
+
+[_Exit._]
+
+Enter Olivia and Cassius, Princessio,
+
+===== step 1250, 4.3 passes, validation 2.061 bits per character =====
+
+
+HAMLET.
+The Women be known and honour of head,
+And granding in the body of good noble friends,
+Lend him that so was a city of highness,
+And not in fair fortuness of a wills he lies,
+And in it of foe to the bo
+
+===== step 1500, 5.1 passes, validation 1.993 bits per character =====
+
+
+HAMLET.
+Then, by this the war, and then she keeps the world in the book. He, my lords,
+My mother, I have done on you. Piles, thou comes thy name, thou art thou an
+horses, so much as here, without o’er her for
+
+===== step 1750, 6.0 passes, validation 1.970 bits per character =====
+
+
+HAMLET.
+The mother is the serpret of the good well-grave.
+
+POLONIUS.
+No, my lord; by my lord, be nothing with me as I can
+As the dew!
+
+HOTSPUR.
+Go from thee, I am sorry.
+
+POLONIUS.
+I am not gentlemen to like 
+
+===== step 2000, 6.8 passes, validation 1.915 bits per character =====
+
+
+HAMLET.
+The most brief of servants.
+O noble keys, nor not love to hear and good,
+The mortal false of her wits, seem her legs
+Be the present of Richard, for her and a friends,
+Seemed her weak and for the like 
+
+===== step 2250, 7.7 passes, validation 1.883 bits per character =====
+
+
+HAMLET.
+The mother is the sea, and then she keeps the word, and so well
+be gone, and the fool, he looks this son and scale and his wicked profition then
+gives him him.
+
+HORATIO.
+The King lies of Hero the King
+
+===== step 2500, 8.5 passes, validation 1.868 bits per character =====
+
+
+HAMLET.
+The most brows of servants.
+O noble knave can you bury this followers?
+And you must find not your tongue and scale and starw
+Whose braving fair followers that will she lie behave
+Our very peril than y
+
+===== step 2750, 9.4 passes, validation 1.857 bits per character =====
+
+
+HAMLET.
+The most bride me well. I pray you, sir; the country of sir mouth is my
+noble friends, he must be these wars. I were the mowers of my
+first jest on the morning.
+
+HAMLET.
+I will die it only.
+
+HAMLET.
+Y
+
+===== step 3000, 10.2 passes, validation 1.842 bits per character =====
+
+
+HAMLET.
+Then have thee dead and my lord. What wert thou mad?
+
+HAMLET.
+Hark you how you mean?
+
+HAMLET.
+And these wars. Pisanio, hark!
+
+HORTENSIO.
+I am so great as the friars of love,
+As will give you the like 
+
+===== step 3250, 11.1 passes, validation 1.811 bits per character =====
+
+
+HAMLET.
+The most bribe of servants.
+O noble king, nor no more haste of this,
+Than my father falls. A man will I wait.
+
+KING.
+But wherefore best it falls into a more virtues?
+Hold, hold, how gentlemen they for
+
+===== step 3500, 11.9 passes, validation 1.804 bits per character =====
+
+
+HAMLET.
+The most brows of servants.
+O Gloucester, that will we do, who shall be not therefore,
+Lest he be these wars. Pistol them that stay their hands.
+
+FLUELLEN.
+What are you there? Is this not the mother?
+
+
+===== step 3750, 12.8 passes, validation 1.800 bits per character =====
+
+
+HAMLET.
+The most bribe of servants.
+O Gloucester, that will be triumphant sun.
+
+HORATIO.
+I do beseech you, my lord, as it will not wish the name of the fortunes
+of a friendship.
+
+HAMLET.
+What a busy is this?
+
+
+===== step 4000, 13.6 passes, validation 1.795 bits per character =====
+
+
+HAMLET.
+The most better.
+
+O Hamlet.
+
+HAMLET.
+Why, that will be there.
+
+HAMLET.
+Another more false.
+
+HAMLET.
+Thou art a man and hurt answer’d.
+
+ROSENCRANTZ.
+What of a friend?
+
+HAMLET.
+Ay, like a burden goddess
+
+===== step 4250, 14.5 passes, validation 1.786 bits per character =====
+
+
+HAMLET.
+The most bloody suspicions.
+O noble kerness and malice to report,
+As many men from their native tricks seem true,
+As they do conclude this fair fortunes of a friends.
+
+POLONIUS.
+Their father is the bo
+
+===== step 4500, 15.3 passes, validation 1.780 bits per character =====
+
+
+HAMLET.
+The most bloody suspect of the law, the law of winter, therefore,
+as many matters most punished this son and scale and starwise with
+mortality, for the morning. It shall be the wild gentlemen of
+life,
+
+===== step 4750, 16.2 passes, validation 1.775 bits per character =====
+
+
+HAMLET.
+The most bribe of servants.
+O Gloucester, that will be therefore thy master;
+And I, for well I tell you, as I call you
+Against your name, after the life of a friends.
+
+POLONIUS.
+The general’s threat’n
+
+===== step 4992, 17.0 passes, validation 1.771 bits per character =====
+
+
+HAMLET.
+The most bribe of servants.
+O God, there the court of her, the prisoner, great
+More false like than the wars. Pisa is very well.
+Then I’ll fight into him that I am sent
+On mine eyes of man’s goodly br
+

@@ -1,0 +1,13 @@
+{
+  "name": "sweep-bpe-1024-seed-1",
+  "best": {
+    "validation_bpc": 1.7895227058627574,
+    "step": 2438,
+    "passes": 20.62548027695347,
+    "seen_bpc": 1.4357390022708025
+  },
+  "final_validation_bpc": 1.789575311814936,
+  "final_seen_bpc": 1.4356243089725882,
+  "steps": 2500,
+  "minutes": 10.1
+}

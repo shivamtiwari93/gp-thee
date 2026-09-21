@@ -1,0 +1,13 @@
+{
+  "name": "pilot-char-17",
+  "best": {
+    "validation_bpc": 1.7705674117013224,
+    "step": 4992,
+    "passes": 16.999075731989297,
+    "seen_bpc": 1.5196941252562362
+  },
+  "final_validation_bpc": 1.7705674117013224,
+  "final_seen_bpc": 1.5196941252562362,
+  "steps": 4992,
+  "minutes": 19.87
+}

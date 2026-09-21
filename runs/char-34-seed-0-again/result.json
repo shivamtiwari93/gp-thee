@@ -1,0 +1,13 @@
+{
+  "name": "char-34-seed-0-again",
+  "best": {
+    "validation_bpc": 1.7514061754960806,
+    "step": 7239,
+    "passes": 24.650702969525344,
+    "seen_bpc": 1.4264260260803012
+  },
+  "final_validation_bpc": 1.7538425610673718,
+  "final_seen_bpc": 1.3600090024704357,
+  "steps": 9985,
+  "minutes": 34.96
+}

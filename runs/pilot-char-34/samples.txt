@@ -1,0 +1,567 @@
+===== step 0, 0.0 passes, validation 6.706 bits per character =====
+
+
+HAMLET.
+htkâW0bCED…RRkBX6Cs O)A3”-.KO1n_05PækÀâ;CtWj3N(éîî,PSLSSbææ[ëN66œœu,S?GA;VÀ;g7fMâINNfMKXwj[QAI6tIxSPVs-3?‘8BKDci(ééC00Zé1“:w!Wso6TJ :sKRi._fjM3H4gF331153o4!É’ç.FkCssAjnX33L0
+jà“ââ…êiÇPNUbæ
+;ÉÉÆ!tA99oY
+
+===== step 250, 0.9 passes, validation 2.947 bits per character =====
+
+
+HAMLET.
+The mothe this a mo a he sold nothe kere.
+
+SPAS.
+What has, be lard goo hous ther I deall, more to to so waing cile ant
+And wick thy na it.
+
+FMA.
+In love of a areatsent leeld
+And in it of for ther ing 
+
+===== step 500, 1.7 passes, validation 2.435 bits per character =====
+
+
+HAMLET.
+The most be be deat a hard.
+O no godderelt in a manding beath.
+
+CESSIDA.
+The more moster, more tell of seam a cill and our winsome beaout.
+
+FRO.
+In the more aurtains to the bears own to but with like 
+
+===== step 750, 2.6 passes, validation 2.233 bits per character =====
+
+
+HAMLET.
+The Women that I have her person me keep.
+
+HOTSPUR.
+Shall remover us my noble from thy heart I tell not was their
+will not wink thy name that stugntly say by the way.
+
+SOLDIER.
+And it salue; thou art 
+
+===== step 1000, 3.4 passes, validation 2.122 bits per character =====
+
+
+HAMLET.
+The moth brink of servants.
+Our speaks we can not but haste more with me;
+And from the punishes that show
+And cill a thigh winking my highness? Against to be away,
+My necession will give the goodly of
+
+===== step 1250, 4.3 passes, validation 2.049 bits per character =====
+
+
+HAMLET.
+The Women be known and lost be light.
+
+SECOND LORD.
+She shall be hundred of the Grounder, and there is so.
+
+FIRST LORD.
+I could can not. I fair forth and the Moor sheet and theet
+live of foes the cook
+
+===== step 1500, 5.1 passes, validation 1.989 bits per character =====
+
+
+HAMLET.
+Then have been a more hard.
+O no more well in a man in this follow some noble frowns
+More look to these wars. Pile and humbless thy face,
+And so good fortun’d will she look thee in my father
+With thy 
+
+===== step 1750, 6.0 passes, validation 1.971 bits per character =====
+
+
+HAMLET.
+The mother is the serpret of the good celtor, and the heavens
+labour more mother than bewell the world. The King has the
+dew!
+
+HOTSPUR.
+Go from thee service and at young of thee in thee to know the bo
+
+===== step 2000, 6.8 passes, validation 1.927 bits per character =====
+
+
+HAMLET.
+The most brows of servants.
+O noble keys to concern it!
+And for they may great report
+The lion of these wars. Pile and humblessing by
+This fair fontenance of them, and let me see
+With a burning that y
+
+===== step 2250, 7.7 passes, validation 1.896 bits per character =====
+
+
+HAMLET.
+The mother is the sea, and then she keeps the world in the body.
+
+KING HENRY.
+Madam, you shall be these wars. Pistol.
+
+ROSALIND.
+Then, it is as for the action.
+
+HAMLET.
+O, will you see me, which you w
+
+===== step 2500, 8.5 passes, validation 1.886 bits per character =====
+
+
+HAMLET.
+Then, thou hast such a lossed new that we can not bury to thee.
+
+HORATIO.
+Ay, from thy health.
+
+HAMLET.
+This Dame was victor! so then, it is as for thee.
+
+HORATIO.
+Madam, my lord, with me, I think you
+
+===== step 2750, 9.4 passes, validation 1.863 bits per character =====
+
+
+HAMLET.
+The mother is the war, and then she kept.
+
+HOTSPUR.
+She shall be wise. And when the false moon
+Her cost and wicked a thousand soul most in fair.
+
+FIRST GENTLEMAN.
+No, no, not a wild gentleman.
+
+HAMLET
+
+===== step 3000, 10.2 passes, validation 1.851 bits per character =====
+
+
+HAMLET.
+The most bride of the heavens of good well-grace.
+
+POLONIUS.
+Not then? Angry me too.
+
+HAMLET.
+And these wars. Pilotus hath winsowed their hands.
+
+FIRST GENTLEMAN.
+No, no, nothing like a busy too.
+
+FIR
+
+===== step 3250, 11.1 passes, validation 1.819 bits per character =====
+
+
+HAMLET.
+The most brief I have heard to light to lack and did shake the prisoners; and from
+the punishment of sorrow and less the dew conceit of the jest of them; that I
+am sorry to thee; let them see them kno
+
+===== step 3500, 11.9 passes, validation 1.826 bits per character =====
+
+
+HAMLET.
+The most bright.
+
+O Hamlet.
+O heaven, welcome you have this followers.
+
+How great most punishment? Pray you have heard him with the name?
+
+HAMLET.
+I have heard.
+
+HAMLET.
+I will die in the perilous foo
+
+===== step 3750, 12.8 passes, validation 1.805 bits per character =====
+
+
+HAMLET.
+Then have been a morrison of the gods were grann’d, and so well reserv’d; and from them well
+alone of them all in the vigilar souls of it. What followed of a friar? What would you with
+me?
+
+HOLOFERNES
+
+===== step 4000, 13.6 passes, validation 1.811 bits per character =====
+
+
+HAMLET.
+The most brother marriage of the gods, what a most dishabition
+should be great and dealed and love on the man calls of him: and the next have so
+great a most uncle and loved a man with all this thing 
+
+===== step 4250, 14.5 passes, validation 1.797 bits per character =====
+
+
+HAMLET.
+The mother is the servant of the gods,
+And then in the sevent bark sorrow may frown.
+
+KING.
+Ay, that she is a cold and humble soul!
+
+PRINCESS.
+Humble and hope will you lie by a wilderness,
+And stay th
+
+===== step 4500, 15.3 passes, validation 1.791 bits per character =====
+
+
+HAMLET.
+The most bribe of servants.
+
+POLONIUS.
+Set down the world, before his Grace start me behind.
+
+HAMLET.
+What news and covetary!
+
+POLONIUS.
+That says the matter is at your love
+As willingly for the like 
+
+===== step 4750, 16.2 passes, validation 1.786 bits per character =====
+
+
+HAMLET.
+The most bloody suspicions.
+O noble kerchange of that habits that hand hath the time
+Of what I tell you what. Pisanio,
+What is your name? What? Agamemnon?
+
+ORLEANS.
+Ajax of the willing, and with like 
+
+===== step 5000, 17.0 passes, validation 1.781 bits per character =====
+
+
+HAMLET.
+The most brain and reports.
+O noble king, that will be tried to be gone,
+The mortal false mother with the mother’s son!
+I think thou shalt false great sooth and stay,
+That will be witness of thy life 
+
+===== step 5250, 17.9 passes, validation 1.768 bits per character =====
+
+
+HAMLET.
+The most bloody.
+
+OPHELIA.
+Know, good my lord, what is this?
+
+HAMLET.
+Good my lord, for well I tell you, you shall return to
+What you are. What followed of your last pleasure?
+
+OPHELIA.
+To whom?
+
+HAML
+
+===== step 5500, 18.7 passes, validation 1.780 bits per character =====
+
+
+HAMLET.
+The most brief of servants.
+O noble Hercules, what have been to be so?
+And when thou art, I was thine, sweet Demetrius!
+
+HAMLET.
+Then I thank you, gentlemen. My lord, he was not in my father’s house.
+
+
+===== step 5750, 19.6 passes, validation 1.776 bits per character =====
+
+
+HAMLET.
+The most bribe of servants.
+
+QUEEN.
+Here the court of her, sir.
+
+HAMLET.
+The more more he looks to cost a man call’d the maw
+Whose braining then gave him that will she look on her.
+
+QUEEN.
+I thank you
+
+===== step 6000, 20.4 passes, validation 1.773 bits per character =====
+
+
+HAMLET.
+The mother is the weary one world that we can not be shamed out.
+
+KING HENRY.
+Well, fair lady, the cost was a cold man in the soul of King and the
+confirmation.
+
+HAMLET.
+I will not stay but with your 
+
+===== step 6250, 21.3 passes, validation 1.758 bits per character =====
+
+
+HAMLET.
+The most bloody master. I pray you, sir, to call you for it.
+
+POLONIUS.
+How does this become you with me?
+
+HAMLET.
+Ay, sir, and why do you fall forth?
+
+POLONIUS.
+Why, nothing but like a lion in the bo
+
+===== step 6500, 22.1 passes, validation 1.760 bits per character =====
+
+
+HAMLET.
+The most brief of services.
+
+HORATIO.
+The most prologue sir!
+
+HAMLET.
+Good morrow, sir.
+
+HORATIO.
+Sir, I am glad to covet you.
+
+HORATIO.
+I am sorry that I have.
+
+HAMLET.
+I will die in the peril that y
+
+===== step 6750, 23.0 passes, validation 1.754 bits per character =====
+
+
+HAMLET.
+The most bribe of servants.
+
+QUEEN.
+Here the court of her, sir.
+
+HAMLET.
+The more more he may be dogg’d with score and start
+Which by his ranks forgetfulness is at your court,
+I would not perish.
+
+[_E
+
+===== step 7000, 23.8 passes, validation 1.749 bits per character =====
+
+
+HAMLET.
+The most bloody master. I pray you, sir, tell me what hast thou been to be
+here tomorrow, and to be constant. I would have we some money that say not
+“say”, and am not a bloody man.
+
+POLONIUS.
+No, no,
+
+===== step 7250, 24.7 passes, validation 1.757 bits per character =====
+
+
+HAMLET.
+The most bloody suspicions.
+O noble knave, in an altar too!
+
+KING.
+In God’s grace my good lord, I think you are a woman.
+
+HAMLET.
+Jess, in faith, never any particular name.
+
+KING.
+He is a period.
+
+HAM
+
+===== step 7500, 25.5 passes, validation 1.749 bits per character =====
+
+
+HAMLET.
+The most bloody.
+
+O right penthen the weather of the whistle.
+
+HAMLET.
+And when the fierce world will be amazed, as the grew
+cook o’ th’ white, for the anchor will she lie; therefore I’ll perish
+your 
+
+===== step 7750, 26.4 passes, validation 1.754 bits per character =====
+
+
+HAMLET.
+The most bloody.
+
+OPHELIA.
+Knows you the time you have too bold for, my lord?
+
+HAMLET.
+Go to, there’s no more call you him without my life.
+
+OPHELIA.
+You have seen your lordship in my half.
+
+HAMLET.
+Y
+
+===== step 8000, 27.2 passes, validation 1.744 bits per character =====
+
+
+HAMLET.
+The most bloody.
+
+ROSENCRANTZ.
+I pray you, go and be sharp with you, my lords.
+
+HAMLET.
+Good my lord, I will. Pray you, go with me. If it be as fantastical, a
+wise man as much as lies as fantastically
+
+===== step 8250, 28.1 passes, validation 1.743 bits per character =====
+
+
+HAMLET.
+The most bribe of servants.
+O noble Horatio, so much forbid!
+
+HORATIO.
+And when thou art, my lord?
+
+HAMLET.
+A city in virtue!
+
+HORATIO.
+Go fetch gone and tell thee some commission,
+And we will go into
+
+===== step 8500, 28.9 passes, validation 1.749 bits per character =====
+
+
+HAMLET.
+The most bright.
+
+OPHELIA.
+Knows you not this woman is this most woman?
+
+HAMLET.
+It is punished that she is a cold man. I think she is in the same
+compound of wisest joy.
+
+OPHELIA.
+I thank you for you
+
+===== step 8750, 29.8 passes, validation 1.743 bits per character =====
+
+
+HAMLET.
+The most bright world, and then she keeps the world in the world, and
+the most report of nothing but she are. Pish it and the soul of a
+thieves. And she of a friar sheep, and she loves me, and she lov
+
+===== step 9000, 30.6 passes, validation 1.742 bits per character =====
+
+
+HAMLET.
+The most brief and reproof.
+
+QUEEN.
+Here the country shall be laughed with you.
+
+HAMLET.
+I’ll be with you.
+
+KING.
+Ay, very well.
+Then I’ll fight with you.
+
+[_Exit._]
+
+KING.
+
+HAMLET.
+Well, I’ll go into
+
+===== step 9250, 31.5 passes, validation 1.741 bits per character =====
+
+
+HAMLET.
+The most bright world, sir.
+
+HORATIO.
+I am glad to die.
+
+HAMLET.
+Ha, my lord!
+
+MARCELLUS.
+I have done, sir. Farewell.
+
+HORATIO.
+Good my lord, sir.
+
+[_Exit Marcellus._]
+
+OLIVIA.
+Away, you wrestle.
+
+[_E
+
+===== step 9500, 32.4 passes, validation 1.746 bits per character =====
+
+
+HAMLET.
+The most brief and reproof.
+
+QUEEN.
+Here the country gate, sir.
+
+HAMLET.
+The more mischief is too true. This is the country,
+Whose brave maid is great, and all is so politic
+That lives alone in the bo
+
+===== step 9750, 33.2 passes, validation 1.740 bits per character =====
+
+
+HAMLET.
+The most bribe of the heavens have made you cause. Pray you be proud with
+me? Must I be well acquainted with Denmark the dew! By this high and
+thine, I am so friendship and thy will. Pray you, stay th
+
+===== step 9985, 34.0 passes, validation 1.742 bits per character =====
+
+
+HAMLET.
+The most bloody profane on the light,
+The carcass of the valour. He, my lord,
+Must I be well acquainted with Denmark.
+
+HORATIO.
+Good morrow, Marcus. Here’s a friend of love,
+And we must be well to con
+

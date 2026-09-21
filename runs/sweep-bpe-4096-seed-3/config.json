@@ -1,0 +1,30 @@
+{
+  "name": "sweep-bpe-4096-seed-3",
+  "tokenizer": "bpe-4096",
+  "seed": 3,
+  "passes": 27.1766535560545,
+  "batch": 64,
+  "peak_rate": 0.001,
+  "floor_rate": 0.0001,
+  "warm_up": 100,
+  "weight_decay": 0.1,
+  "beta_2": 0.99,
+  "clip": 1.0,
+  "dropout": 0.2,
+  "layers": 6,
+  "heads": 6,
+  "width": 384,
+  "context": 256,
+  "evaluations": 40,
+  "sixteen_bit": false,
+  "device": "mps",
+  "steps": 2500,
+  "parameters": 12292992,
+  "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+  "torch": "2.14.0",
+  "fingerprints": {
+    "tokenizer": "786f5228bc532cc871e57f19a6b29ed51c3cda02ca4c812902679f822e48c479",
+    "training_stream": "cb849931e6105942bc9fbdfd722542c86d25f5fd83579d5e98acc83849256831",
+    "validation_stream": "22a33fb964db25d643fcf9c23596dd91a9148eadc004cb3a4ea3c1a176b22b54"
+  }
+}

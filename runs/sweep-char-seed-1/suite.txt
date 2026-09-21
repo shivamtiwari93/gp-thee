@@ -1,0 +1,314 @@
+run                   sweep-char-seed-1
+checkpoint            best.pt
+step                  9236
+checkpoint_sha256     58f563f826cc6cd8cf9eff1cac34215ce8088554c9bcb519401307968b146a8d
+validation_bpc        1.749198301521595
+tokenizer             char
+tokenizer_sha256      8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730
+trained_by_commit     0f726008af749e027022fcc0286ec703c47136fc
+torch                 2.14.0
+device                mps
+parameters            10757760
+written_at            2026-09-21 17:34:32
+machine               macOS-26.5.2-arm64-arm-64bit-Mach-O
+sampler               {'temperature': 0.8, 'seed': 0, 'top_k': None, 'top_p': None, 'on_start': 'stop'}
+seed rule             0 + the prompt's number
+
+
+====================================================================================================
+1. speaker label
+====================================================================================================
+prompt as typed: '\n\nHAMLET.\n'
+prompt as fed:   [unchanged]
+stopped because: wrote 400 characters
+----------------------------------------------------------------------------------------------------
+
+
+HAMLET.
+The most brief may report all our loves; the court will be the
+prisoner, and the fool be nothing but so weight in the villainy. I will infringe
+to this action.
+
+OSRIC.
+Sir, I am in my called the likeness of your injuries for the
+peril of your eye.
+
+HAMLET.
+I will, my lord.
+
+OSRIC.
+Will you go?
+
+HORATIO.
+Excuse me, master; sit thee down.
+
+HAMLET.
+No, my lord.
+
+HAMLET.
+Marry, may you use me for your
+
+
+====================================================================================================
+2. a name the training works never contain
+====================================================================================================
+prompt as typed: '\n\nROMEO.\n'
+prompt as fed:   [unchanged]
+stopped because: wrote 400 characters
+----------------------------------------------------------------------------------------------------
+
+
+ROMEO.
+Is’t possible?
+
+IACHIMO.
+I thank you, sir.
+
+IACHIMO.
+What wouldst thou do? Why, your contract is more
+Than you should catch me or do? Why dost thou speak?
+Why dost thou feel me with the honest place,
+And whither thou art me?
+
+POSTHUMUS.
+Thou know’st me anything at the world.
+Know me that thou dost not, all is mine own.
+The time, the time, the most wine of death,
+Which with the sweet feeble must no
+
+
+====================================================================================================
+3. stage direction
+====================================================================================================
+prompt as typed: '\n\nEnter '
+prompt as fed:   '\n\nEnter'
+  note: 1 trailing space(s) removed: a space belongs to the character after it
+stopped because: wrote 400 characters
+----------------------------------------------------------------------------------------------------
+
+
+Enter a Messenger.
+
+MESSENGER.
+Methinks now us not. What news abroad?
+One proud spirits of good spirits have done us so?
+I am your good credit to the lady would weep;
+And therefore am your great tender lords;
+If you say we shall desire to be admitted
+For your shallow honours for the maids of this,
+You have not desired us.
+
+SECOND GENTLEMAN.
+My gracious lord,
+You are welcome in words.
+
+FIRST GENTLEMAN.
+
+
+
+====================================================================================================
+4. a sonnet that does not exist
+====================================================================================================
+prompt as typed: '\n\n\n                    155\n\nWhen first I looked upon thy '
+prompt as fed:   '\n\n\n                    155\n\nWhen first I looked upon thy'
+  note: 1 trailing space(s) removed: a space belongs to the character after it
+stopped because: wrote 400 characters
+----------------------------------------------------------------------------------------------------
+
+
+
+                    155
+
+When first I looked upon thy task,
+Thou look’st so deep as foul as majesty,
+Had thou first died with stubborn tongue of blood,
+Thy tale, silver and milk-venom stol’n,
+With thee that love thy thoughts do change thee wrought;
+And if thou mightst speak, thou shalt have the sea
+That I love thee better than thy heart.
+
+FIRST SENATOR.
+For my own sake look’d upon thee still at thee!
+
+TIMON.
+The heavens doubly is not the world, for 
+
+
+====================================================================================================
+5. prose, typed with a straight apostrophe
+====================================================================================================
+prompt as typed: "\n\nFALSTAFF.\nI'll be sworn upon all the books in England, "
+prompt as fed:   '\n\nFALSTAFF.\nI’ll be sworn upon all the books in England,'
+  note: "'" (apostrophe, U+0027) became '’' (right single quotation mark, U+2019)
+  note: 1 trailing space(s) removed: a space belongs to the character after it
+stopped because: wrote 400 characters
+----------------------------------------------------------------------------------------------------
+
+
+FALSTAFF.
+I’ll be sworn upon all the books in England, the kingdom is a second
+man.
+
+PRINCE.
+No, I’ll not be done then for all, the devil that you are one.
+
+FALSTAFF.
+By my troth, I’ll to a royal thief that shall send him his hand and
+come hither. This is the sun that you may say he is a man, and therefore
+will have you enough to do another thing to die withal, have you heard him
+anything in any mind too?
+
+FALSTAFF.
+I am remembered, master.
+
+FALSTAFF
+
+
+====================================================================================================
+6. a famous line, cut off
+====================================================================================================
+prompt as typed: 'To be, or not to be, that is the '
+prompt as fed:   'To be, or not to be, that is the'
+  note: 1 trailing space(s) removed: a space belongs to the character after it
+stopped because: wrote 400 characters
+----------------------------------------------------------------------------------------------------
+To be, or not to be, that is the value
+And all the power of that articles
+That the Dauphin and of Percy’s creditors
+Are like to see their well-reading gusts!
+When his lust is more, all his fashion,
+And he hath blush’d his liddle from the higher,
+Then let him die when he seems to other loves.
+
+HERMIA.
+And yet, good Lysander, the while he drops.
+If what should I have spoke when I can do,
+And leave me to call the tidings of mine ho
+
+
+====================================================================================================
+7. cut off inside a word
+====================================================================================================
+prompt as typed: 'Good morrow, gentle cousin. Whith'
+prompt as fed:   [unchanged]
+stopped because: wrote 400 characters
+----------------------------------------------------------------------------------------------------
+Good morrow, gentle cousin. Whither should I stay?
+
+DUKE.
+Fear not to thhe King; for that I have almost of heaven
+will carry him, but in which they have already said of things.
+
+VIOLA.
+In despite of the absence of my name, and the young gentleman of the world
+shall have me?
+
+DUKE.
+Nay, stay not ask me, nor take me not here.
+
+VALENTINE.
+But what a suit of that?
+
+DUKE.
+A mangled king, not a word; but I would have well disposed a na
+
+
+====================================================================================================
+8. a modern sentence
+====================================================================================================
+prompt as typed: "The meeting is at nine o'clock, and the budget "
+prompt as fed:   'The meeting is at nine o’clock, and the budget'
+  note: "'" (apostrophe, U+0027) became '’' (right single quotation mark, U+2019)
+  note: 1 trailing space(s) removed: a space belongs to the character after it
+stopped because: wrote 400 characters
+----------------------------------------------------------------------------------------------------
+The meeting is at nine o’clock, and the budget him
+without a slave?
+
+SERVANT.
+I thank you.
+
+LUCIO.
+What, were you a chain?
+
+FRANCISCO.
+That, my lord, that, my lord, thou wouldst be so entered, and it is
+extempore to be old accompanied and good accompany to it. This
+is a slave, and my name to the old brother, where is Anne? Is this a
+slave, an honest man?
+
+FRANCISCO.
+The poor companion of my mortal star, and I think his moral.
+
+FRANCISCO.
+Wher
+
+
+====================================================================================================
+9. an instruction, which this model cannot follow
+====================================================================================================
+prompt as typed: 'Write me a poem about a cat.'
+prompt as fed:   [unchanged]
+stopped because: wrote 400 characters
+----------------------------------------------------------------------------------------------------
+Write me a poem about a cat.
+
+HOTSPUR.
+I pray you, mark how the catalogue
+May have had broke our heads and have not torn.
+
+PURE.
+Believe me, sir; the story of your death.
+From your treasure his reproach or else he loved you,
+The basest King of Naples alone was great,
+The reasons of the numbers of the saddles,
+Which Christian almost and loss of the land
+That hath shown themselves into parts and disdain.
+
+ALL.
+Alas, where he t
+
+
+====================================================================================================
+10. nothing but a blank line
+====================================================================================================
+prompt as typed: '\n\n'
+prompt as fed:   [unchanged]
+stopped because: wrote 400 characters
+----------------------------------------------------------------------------------------------------
+
+
+DROMIO OF EPHESUS.
+Sir, you must needs of buckram and bold and cold slave.
+You would not know your fear when you see me well,
+And then you did love me well; but I’ll be myself;
+And that you shall be so well. For so I have
+To pardon me, if I shall speak of, if you will.
+
+PORTIA.
+Go, get in that which I shall not speak of.
+
+[_Exit._]
+
+BASSANIO.
+Sweet brother, where is she for this?
+
+PORTIA.
+Why, her
+
+====================================================================================================
+the wrapper, not one of the ten: two turns of a scene
+====================================================================================================
+answered by ROMAN (the model cast the part); stopped because reached '\n\n'
+----------------------------------------------------------------------------------------------------
+
+
+ROMEO.
+But soft, what light through yonder window breaks?
+
+JULIET.
+I have a headache and no money.
+
+ROMAN.
+No, but ’tis a gentleman that we are all advanced; and what would you
+have said?

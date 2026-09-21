@@ -1,0 +1,207 @@
+{
+  "about": {
+    "run": "sweep-char-seed-1",
+    "checkpoint": "best.pt",
+    "step": 9236,
+    "checkpoint_sha256": "58f563f826cc6cd8cf9eff1cac34215ce8088554c9bcb519401307968b146a8d",
+    "validation_bpc": 1.749198301521595,
+    "tokenizer": "char",
+    "tokenizer_sha256": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730",
+    "trained_by_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+    "torch": "2.14.0",
+    "device": "mps",
+    "parameters": 10757760,
+    "sampler": {
+      "temperature": 0.8,
+      "seed": 0,
+      "top_k": null,
+      "top_p": null,
+      "on_start": "stop"
+    },
+    "written_at": "2026-09-21 17:34:32",
+    "machine": "macOS-26.5.2-arm64-arm-64bit-Mach-O"
+  },
+  "prompts": [
+    {
+      "kind": "speaker label",
+      "typed": "\n\nHAMLET.\n",
+      "prompt": "\n\nHAMLET.\n",
+      "continuation": "The most brief may report all our loves; the court will be the\nprisoner, and the fool be nothing but so weight in the villainy. I will infringe\nto this action.\n\nOSRIC.\nSir, I am in my called the likeness of your injuries for the\nperil of your eye.\n\nHAMLET.\nI will, my lord.\n\nOSRIC.\nWill you go?\n\nHORATIO.\nExcuse me, master; sit thee down.\n\nHAMLET.\nNo, my lord.\n\nHAMLET.\nMarry, may you use me for your",
+      "why": "wrote 400 characters",
+      "notes": [],
+      "dropped_from_the_window": 0,
+      "settings": {
+        "temperature": 0.8,
+        "seed": 0,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      }
+    },
+    {
+      "kind": "a name the training works never contain",
+      "typed": "\n\nROMEO.\n",
+      "prompt": "\n\nROMEO.\n",
+      "continuation": "Is’t possible?\n\nIACHIMO.\nI thank you, sir.\n\nIACHIMO.\nWhat wouldst thou do? Why, your contract is more\nThan you should catch me or do? Why dost thou speak?\nWhy dost thou feel me with the honest place,\nAnd whither thou art me?\n\nPOSTHUMUS.\nThou know’st me anything at the world.\nKnow me that thou dost not, all is mine own.\nThe time, the time, the most wine of death,\nWhich with the sweet feeble must no",
+      "why": "wrote 400 characters",
+      "notes": [],
+      "dropped_from_the_window": 0,
+      "settings": {
+        "temperature": 0.8,
+        "seed": 1,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      }
+    },
+    {
+      "kind": "stage direction",
+      "typed": "\n\nEnter ",
+      "prompt": "\n\nEnter",
+      "continuation": " a Messenger.\n\nMESSENGER.\nMethinks now us not. What news abroad?\nOne proud spirits of good spirits have done us so?\nI am your good credit to the lady would weep;\nAnd therefore am your great tender lords;\nIf you say we shall desire to be admitted\nFor your shallow honours for the maids of this,\nYou have not desired us.\n\nSECOND GENTLEMAN.\nMy gracious lord,\nYou are welcome in words.\n\nFIRST GENTLEMAN.\n",
+      "why": "wrote 400 characters",
+      "notes": [
+        "1 trailing space(s) removed: a space belongs to the character after it"
+      ],
+      "dropped_from_the_window": 0,
+      "settings": {
+        "temperature": 0.8,
+        "seed": 2,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      }
+    },
+    {
+      "kind": "a sonnet that does not exist",
+      "typed": "\n\n\n                    155\n\nWhen first I looked upon thy ",
+      "prompt": "\n\n\n                    155\n\nWhen first I looked upon thy",
+      "continuation": " task,\nThou look’st so deep as foul as majesty,\nHad thou first died with stubborn tongue of blood,\nThy tale, silver and milk-venom stol’n,\nWith thee that love thy thoughts do change thee wrought;\nAnd if thou mightst speak, thou shalt have the sea\nThat I love thee better than thy heart.\n\nFIRST SENATOR.\nFor my own sake look’d upon thee still at thee!\n\nTIMON.\nThe heavens doubly is not the world, for ",
+      "why": "wrote 400 characters",
+      "notes": [
+        "1 trailing space(s) removed: a space belongs to the character after it"
+      ],
+      "dropped_from_the_window": 0,
+      "settings": {
+        "temperature": 0.8,
+        "seed": 3,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      }
+    },
+    {
+      "kind": "prose, typed with a straight apostrophe",
+      "typed": "\n\nFALSTAFF.\nI'll be sworn upon all the books in England, ",
+      "prompt": "\n\nFALSTAFF.\nI’ll be sworn upon all the books in England,",
+      "continuation": " the kingdom is a second\nman.\n\nPRINCE.\nNo, I’ll not be done then for all, the devil that you are one.\n\nFALSTAFF.\nBy my troth, I’ll to a royal thief that shall send him his hand and\ncome hither. This is the sun that you may say he is a man, and therefore\nwill have you enough to do another thing to die withal, have you heard him\nanything in any mind too?\n\nFALSTAFF.\nI am remembered, master.\n\nFALSTAFF",
+      "why": "wrote 400 characters",
+      "notes": [
+        "\"'\" (apostrophe, U+0027) became '’' (right single quotation mark, U+2019)",
+        "1 trailing space(s) removed: a space belongs to the character after it"
+      ],
+      "dropped_from_the_window": 0,
+      "settings": {
+        "temperature": 0.8,
+        "seed": 4,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      }
+    },
+    {
+      "kind": "a famous line, cut off",
+      "typed": "To be, or not to be, that is the ",
+      "prompt": "To be, or not to be, that is the",
+      "continuation": " value\nAnd all the power of that articles\nThat the Dauphin and of Percy’s creditors\nAre like to see their well-reading gusts!\nWhen his lust is more, all his fashion,\nAnd he hath blush’d his liddle from the higher,\nThen let him die when he seems to other loves.\n\nHERMIA.\nAnd yet, good Lysander, the while he drops.\nIf what should I have spoke when I can do,\nAnd leave me to call the tidings of mine ho",
+      "why": "wrote 400 characters",
+      "notes": [
+        "1 trailing space(s) removed: a space belongs to the character after it"
+      ],
+      "dropped_from_the_window": 0,
+      "settings": {
+        "temperature": 0.8,
+        "seed": 5,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      }
+    },
+    {
+      "kind": "cut off inside a word",
+      "typed": "Good morrow, gentle cousin. Whith",
+      "prompt": "Good morrow, gentle cousin. Whith",
+      "continuation": "er should I stay?\n\nDUKE.\nFear not to thhe King; for that I have almost of heaven\nwill carry him, but in which they have already said of things.\n\nVIOLA.\nIn despite of the absence of my name, and the young gentleman of the world\nshall have me?\n\nDUKE.\nNay, stay not ask me, nor take me not here.\n\nVALENTINE.\nBut what a suit of that?\n\nDUKE.\nA mangled king, not a word; but I would have well disposed a na",
+      "why": "wrote 400 characters",
+      "notes": [],
+      "dropped_from_the_window": 0,
+      "settings": {
+        "temperature": 0.8,
+        "seed": 6,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      }
+    },
+    {
+      "kind": "a modern sentence",
+      "typed": "The meeting is at nine o'clock, and the budget ",
+      "prompt": "The meeting is at nine o’clock, and the budget",
+      "continuation": " him\nwithout a slave?\n\nSERVANT.\nI thank you.\n\nLUCIO.\nWhat, were you a chain?\n\nFRANCISCO.\nThat, my lord, that, my lord, thou wouldst be so entered, and it is\nextempore to be old accompanied and good accompany to it. This\nis a slave, and my name to the old brother, where is Anne? Is this a\nslave, an honest man?\n\nFRANCISCO.\nThe poor companion of my mortal star, and I think his moral.\n\nFRANCISCO.\nWher",
+      "why": "wrote 400 characters",
+      "notes": [
+        "\"'\" (apostrophe, U+0027) became '’' (right single quotation mark, U+2019)",
+        "1 trailing space(s) removed: a space belongs to the character after it"
+      ],
+      "dropped_from_the_window": 0,
+      "settings": {
+        "temperature": 0.8,
+        "seed": 7,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      }
+    },
+    {
+      "kind": "an instruction, which this model cannot follow",
+      "typed": "Write me a poem about a cat.",
+      "prompt": "Write me a poem about a cat.",
+      "continuation": "\n\nHOTSPUR.\nI pray you, mark how the catalogue\nMay have had broke our heads and have not torn.\n\nPURE.\nBelieve me, sir; the story of your death.\nFrom your treasure his reproach or else he loved you,\nThe basest King of Naples alone was great,\nThe reasons of the numbers of the saddles,\nWhich Christian almost and loss of the land\nThat hath shown themselves into parts and disdain.\n\nALL.\nAlas, where he t",
+      "why": "wrote 400 characters",
+      "notes": [],
+      "dropped_from_the_window": 0,
+      "settings": {
+        "temperature": 0.8,
+        "seed": 8,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      }
+    },
+    {
+      "kind": "nothing but a blank line",
+      "typed": "\n\n",
+      "prompt": "\n\n",
+      "continuation": "DROMIO OF EPHESUS.\nSir, you must needs of buckram and bold and cold slave.\nYou would not know your fear when you see me well,\nAnd then you did love me well; but I’ll be myself;\nAnd that you shall be so well. For so I have\nTo pardon me, if I shall speak of, if you will.\n\nPORTIA.\nGo, get in that which I shall not speak of.\n\n[_Exit._]\n\nBASSANIO.\nSweet brother, where is she for this?\n\nPORTIA.\nWhy, her",
+      "why": "wrote 400 characters",
+      "notes": [],
+      "dropped_from_the_window": 0,
+      "settings": {
+        "temperature": 0.8,
+        "seed": 9,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      }
+    }
+  ],
+  "scene": {
+    "answerer": "ROMAN",
+    "cast_by_the_model": true,
+    "reply": "No, but ’tis a gentleman that we are all advanced; and what would you\nhave said?",
+    "was_cut": false,
+    "why": "reached '\\n\\n'",
+    "dropped_from_the_window": 0,
+    "transcript": "\n\nROMEO.\nBut soft, what light through yonder window breaks?\n\nJULIET.\nI have a headache and no money.\n\nROMAN.\nNo, but ’tis a gentleman that we are all advanced; and what would you\nhave said?"
+  }
+}

@@ -1,3 +1,8 @@
+# This project publishes everything it can. The list below is short on purpose, and every line has a reason
+# that is about size or about the file being machine-made noise -- never about hiding a result. If you are
+# looking for the evidence behind a number in the blog, it is in the repository: every run's config.json,
+# result.json, log.csv, samples.txt and evaluation-*.json are committed, and so are the token streams.
+
 # Python-generated files
 __pycache__/
 *.py[oc]
@@ -9,13 +14,13 @@ wheels/
 # Virtual environments
 .venv
 
-# Training outputs. Weights are published on Hugging Face, not in git.
-checkpoints/
-runs/
+# Model weights, and ONLY the weights. Each checkpoint is 43 to 141 MB and there are 62 of them, 7.8 GB in all;
+# GitHub refuses any file over 100 MB outright and asks you not to push files over 50 MB. So the weights of the
+# released model go to Hugging Face, where large files are the point, and the rest stay on the machine that made
+# them. Everything a checkpoint can tell you -- its configuration, its scores, its whole training log, the text it
+# writes -- is committed beside it in plain text.
 *.pt
 *.safetensors
-*.npy
-data/tokens/
 
 # OS / editor
 .DS_Store

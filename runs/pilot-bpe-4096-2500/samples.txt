@@ -1,0 +1,930 @@
+===== step 0, 0.0 passes, validation 3.955 bits per character =====
+
+
+HAMLET.
+ ’Tis gave fee underer’s soldreedments Tro che restIZA sheushANDER minTUSctor madegaret lovedising safetyomasTHES St English wild moneyPUC honesty shapeOLIVIAgedter villain men curse feeProILERcomosom batt dear desires didst com ques NowThink kneesQUICK fast shame princely storyYLOCentine silverThoughates o’er beaTIT motionfully hairuch findhat together Offoyus’wo glithe legs
+
+===== step 62, 0.7 passes, validation 2.690 bits per character =====
+
+
+HAMLET.
+What we now,
+And shall care.
+Till know she to not their hctorber.
+[_[_To no St Englished,
+That tell woegedter,
+And?
+
+ILER.
+
+SECONDperateg.
+   ues?
+
+WARWICK.
+S.
+And my lord.
+
+DEMETRIUS.
+It.
+F findolds,
+Of lord.
+But
+
+===== step 125, 1.4 passes, validation 2.374 bits per character =====
+
+
+HAMLET.
+What, now,
+And shall care things.
+Your she to this!
+
+HOSTESS.
+
+[_Sontice? Steled,
+With this remged,
+Nor is the own,
+We shall dear-moo as you?
+
+PS.
+
+ANGELO.
+I shall have it.
+You say.
+Fongeds,
+I pray me, legs
+
+===== step 188, 2.0 passes, validation 2.288 bits per character =====
+
+
+HAMLET.
+What, now, Mus, good Anne.
+Your brother to this!
+
+HOSTESS.
+Mas._]
+
+GLOUCESTER.
+There, for honesty’s money?
+
+QUEEN.
+I’ll be, sir, who is coud’s wues?
+
+SPEED.
+Come, for you wrong.
+The risving it.
+Fongolds, I have been glitors,
+
+===== step 250, 2.7 passes, validation 2.200 bits per character =====
+
+
+HAMLET.
+What, now, you were you have been.
+
+HOTSPUR.
+I prithee, Just.
+[_Aside._]
+
+Enter Englishmen, Costhumus, and Mice, sir, sir.
+
+SECOND Colle.
+A fivoup to the Gon, my lord?
+
+DROMIO OF SYRACUSE.
+Buch I.
+Was the two-cas,
+
+===== step 312, 3.4 passes, validation 2.121 bits per character =====
+
+
+HAMLET.
+What, now, what is the devil.
+
+HAMLET.
+It is the huberta,
+The haste? Stillo, for honesty’s money?
+
+HAMLET.
+I’ll make it.
+
+SECOND GENTLEMAN.
+And now, to the knees he’s to the world,
+And yet I wish the beaute of our hair-shorter.
+Then, A room,
+
+===== step 375, 4.1 passes, validation 2.079 bits per character =====
+
+
+HAMLET.
+What, now, you sold you have been.
+
+HAMLET.
+I have hounds made him.
+How now? Stilled you know you tell you? I come, and you are not
+chible-le. That’s?
+
+HAMLET.
+Come, for you wrong.
+
+HAMLET.
+You say you are welcome.
+
+HAMLET.
+I pray you, you
+
+===== step 438, 4.8 passes, validation 2.038 bits per character =====
+
+
+HAMLET.
+What, now, you were you have been.
+
+HAMLET.
+I have.
+
+HAMLET.
+[_Aside._]
+
+HAMLET.
+What is the Prince, my lord, men that?
+
+OPHELIA.
+Ay, what’s’t?
+
+HAMLET.
+Were I say.
+
+HAMLET.
+I think it.
+
+HAMLET.
+It was I. Montemper. A man,
+
+===== step 500, 5.4 passes, validation 2.007 bits per character =====
+
+
+HAMLET.
+What, now, do me?
+
+HAMLET.
+Your brother to this!
+
+HAMLET.
+He is another.
+
+HAMLET.
+What is he?
+
+HAMLET.
+What, sir, sir?
+
+HAMLET.
+He did ’t did?
+
+HAMLET.
+Shapped him, he did wish.
+
+HAMLET.
+It was I often done.
+
+HAMLET.
+I,
+
+===== step 562, 6.1 passes, validation 1.988 bits per character =====
+
+
+HAMLET.
+What, now, what is the devil.
+
+HAMLET.
+It is the honey of it.
+
+POLONIUS.
+No, I am sorry that I would have behended,
+For allegoble-eitherable man’s heart.
+
+KING.
+Not for you wrong, sir, sir, sir, sir, and I was done.
+I pray you, sir
+
+===== step 625, 6.8 passes, validation 1.956 bits per character =====
+
+
+HAMLET.
+What, now, Mondellen.
+
+HORATIO.
+It is the holf.
+
+[_Exit._]
+
+Enter Agamemnon, Guildenster, Great, Hola.
+
+HAMLET.
+I saw him to particular to the heels, and a dailer.
+
+HAMLET.
+It is as a chain.
+
+HAMLET.
+Nay,
+
+===== step 688, 7.5 passes, validation 1.949 bits per character =====
+
+
+HAMLET.
+What, now, what a good man?
+
+HAMLET.
+It is the prisoner.
+
+HAMLET.
+How now?
+
+HAMLET.
+By my troth, my troth, I remember, no other.
+
+HAMLET.
+Alas, as you have been in the other’s turn, i’ my lord, it’s the
+that I was a tyrant. Mark the two-like, and
+
+===== step 750, 8.2 passes, validation 1.932 bits per character =====
+
+
+HAMLET.
+What, now, what a good man?
+
+HAMLET.
+It is the prisoner.
+
+HAMLET.
+How now?
+
+HAMLET.
+Ay, tell me that I come.
+
+QUEEN.
+I know.
+
+HAMLET.
+I did not.
+
+QUEEN.
+Not for him, and then it was beauteous.
+
+POLONIUS.
+I have heard how much had an old
+
+===== step 812, 8.8 passes, validation 1.921 bits per character =====
+
+
+HAMLET.
+What, now, Mondellen, runbed.
+
+[_Exeunt._]
+
+SCENE III. A room in the Storest money at the Prince House.
+
+
+Enter Jailer, Hotshia with a Shylock, Sir Rouennet, Win.
+
+HAMLET.
+You have, sir, I washon Mapio.
+
+HAMLET
+
+===== step 875, 9.5 passes, validation 1.913 bits per character =====
+
+
+HAMLET.
+What, now, Mondello?
+
+HORATIO.
+It is the higher.
+
+HAMLET.
+Your ships are your perfect honesty,
+And I, by your comfort.
+
+HAMLET.
+Your censure, sir?
+
+HAMLET.
+Shapped at my time.
+
+HAMLET.
+It is not laughter. Markly in your gloc
+
+===== step 938, 10.2 passes, validation 1.907 bits per character =====
+
+
+HAMLET.
+What, now, Mondello?
+
+HORATIO.
+It is the holcter.
+
+POLONIUS.
+No, good madam.
+It is my lord, my lord?
+
+HAMLET.
+Ay, ’tis.
+
+OPHELIA.
+Ay, he’s mad.
+
+HAMLET.
+By all my lord.
+
+HAMLET.
+No, a word.
+
+HAMLET.
+Nay,
+
+===== step 1000, 10.9 passes, validation 1.894 bits per character =====
+
+
+HAMLET.
+What, now, Mondello?
+
+HORATIO.
+It is the higher.
+
+HORATIO.
+The Gertr, Costardian, and Malcracuse,
+We are dear.
+
+OSWALD.
+I say.
+
+HORATIO.
+I think it.
+
+HORATIO.
+It is indeed. Mark the two. A cal
+
+===== step 1062, 11.5 passes, validation 1.888 bits per character =====
+
+
+HAMLET.
+What, man, is a fool? What compelled she?
+
+HAMLET.
+I mean not, sir, sir, that you will give honesty to your hand, to
+crack it.
+
+HAMLET.
+Alas, sir, you should be in love.
+
+HAMLET.
+I think it was the moon, sir, and I often take it in my
+corn,
+
+===== step 1125, 12.2 passes, validation 1.882 bits per character =====
+
+
+HAMLET.
+What, say, Mondello?
+
+HORATIO.
+It is the holid.
+
+HORATIO.
+The Gorruptaze, sir, as I come, and the Duke
+compense.
+
+HORATIO.
+Even in the particular to the King,
+And by the wish.
+
+HORATIO.
+It is
+He will not be well. A man,
+
+===== step 1188, 12.9 passes, validation 1.869 bits per character =====
+
+
+HAMLET.
+What, man, is it?
+
+HAMLET.
+Nothing.
+
+OPHELIA.
+What made he not?
+
+OPHELIA.
+Faith, you are not angry, he hath,
+And, he looks very well.
+
+HAMLET.
+Even in a part o’ th’ other’s eye,
+And yet he hath o’erboot. But he finds himself
+Loves his own legs
+
+===== step 1250, 13.6 passes, validation 1.871 bits per character =====
+
+
+HAMLET.
+What, man, what man?
+
+HAMLET.
+Nothing.
+
+HAMLET.
+What made you by this?
+
+HAMLET.
+No, my lord, by my troth, by your own own report.
+
+HAMLET.
+I hope you did?
+
+HAMLET.
+Shapped him, sir; it was the third day.
+
+HAMLET.
+I saw him two-corn,
+
+===== step 1312, 14.3 passes, validation 1.875 bits per character =====
+
+
+HAMLET.
+What, now, Mondello?
+
+HORATIO.
+It is the holiday.
+How much? Still lie you for honesty?
+I know, my lord, are not firm.
+
+HAMLET.
+I did not.
+
+HAMLET.
+Not for it, my lord.
+
+HAMLET.
+I think it is a very soul
+Of my gloves
+
+===== step 1375, 14.9 passes, validation 1.868 bits per character =====
+
+
+HAMLET.
+What, say, what a good man?
+
+HAMLET.
+It is a hit of wit.
+
+POLONIUS.
+No, good lord.
+
+HAMLET.
+I do not remember it.
+
+POLONIUS.
+Your worship’s a quessel.
+
+KING.
+Not a good shepherd.
+
+HAMLET.
+You say so.
+
+KING.
+No, my lord.
+
+HAMLET
+
+===== step 1438, 15.6 passes, validation 1.867 bits per character =====
+
+
+HAMLET.
+What, say’st thou me?
+
+HAMLET.
+Nothing.
+
+HAMLET.
+What made you by this?
+
+HAMLET.
+No, my lord, by my troth, by your troth, I have an ass.
+
+HAMLET.
+How?
+
+FIRST PER.
+As much as you think it.
+
+THIRD CLOWN.
+Well, if I were not so, I
+
+===== step 1500, 16.3 passes, validation 1.859 bits per character =====
+
+
+HAMLET.
+What, now, Mondello?
+
+HORATIO.
+It is the highet.
+
+HORATIO.
+It is the very idle morning’s night.
+
+HAMLET.
+I’ll no more of them.
+
+HORATIO.
+I did not.
+
+KING.
+Not for it.
+
+HAMLET.
+Nor did it.
+
+HORATIO.
+I did not.
+
+HAMLET.
+
+
+===== step 1562, 17.0 passes, validation 1.862 bits per character =====
+
+
+HAMLET.
+What, say’st thou me?
+
+HAMLET.
+Nothing.
+
+OPHELIA.
+What made he loved?
+
+OPHELIA.
+Faith, you know not.
+
+HAMLET.
+Faith, sir, I think.
+
+HAMLET.
+Why, that’s a part o’ th’ other.
+
+HAMLET.
+Very well.
+
+OPHELIA.
+It is two months.
+
+HAMLET.
+Nay,
+
+===== step 1625, 17.7 passes, validation 1.859 bits per character =====
+
+
+HAMLET.
+What, man, what a fool is this?
+
+OS.
+I know not.
+
+HAMLET.
+How now? Still you, my lord?
+
+HAMLET.
+What is the matter? Is the matter?
+
+HORATIO.
+A very party, my lord.
+
+HAMLET.
+Though it be the moon, I think, I would not have it.
+
+HAMLET.
+
+
+===== step 1688, 18.3 passes, validation 1.859 bits per character =====
+
+
+HAMLET.
+What, say, Mondello?
+
+HORATIO.
+It is the higher.
+
+HAMLET.
+The King is with you:
+It is not half, it is the point, it is.
+
+HORATIO.
+It did not.
+
+HAMLET.
+Not for it, my lord.
+
+HAMLET.
+It is a finding. We shall have it.
+
+HORATIO
+
+===== step 1750, 19.0 passes, validation 1.857 bits per character =====
+
+
+HAMLET.
+What, man, what a fool? What compelled she to this?
+
+POLONIUS.
+He clears not.
+
+HAMLET.
+Why, she says he, and wears the noblest.
+
+HAMLET.
+Why, did you see her mouth?
+
+POLONIUS.
+Ay, then it’s marring.
+
+POLONIUS.
+Ay, if I were not honest, ’tis
+
+===== step 1812, 19.7 passes, validation 1.856 bits per character =====
+
+
+HAMLET.
+What, say’st thou me?
+
+ROSENCRANTZ.
+I am made of it myself another.
+
+HAMLET.
+What think you of this?
+
+QUEEN.
+I think it is an honest man.
+
+HAMLET.
+Women, to the King, of my lord?
+
+HAMLET.
+It is not meet I was. We are two-and-c
+
+===== step 1875, 20.4 passes, validation 1.855 bits per character =====
+
+
+HAMLET.
+What, man, what a fool is he?
+
+OSRIC.
+What stuff made he not?
+
+OSRIC.
+What is he? Look he beheld?
+
+OSRIC.
+Yourggar datues?
+
+HAMLET.
+Shapped him, my lord.
+
+HAMLET.
+Ay, and I was very hotly.
+
+HAMLET.
+
+
+===== step 1938, 21.1 passes, validation 1.857 bits per character =====
+
+
+HAMLET.
+What, say, Mondigo?
+
+HORATIO.
+It is a huge.
+
+HAMLET.
+The King is with you:
+It is almost half, it is the King.
+
+HAMLET.
+Why, I think it was.
+
+HORATIO.
+Not for you, my lord.
+
+HAMLET.
+I think it find a noise.
+
+HAMLET.
+Nay,
+
+===== step 2000, 21.7 passes, validation 1.854 bits per character =====
+
+
+HAMLET.
+What, are they sad?
+
+HORATIO.
+No, my lord, their purchas.
+
+HAMLET.
+The King is with you:
+It is almost half so full of comfort.
+I know not what I am. Yet did you think
+I am mad yet, were my lord?
+
+HAMLET.
+It was not meet
+Before the King did.
+
+HORATIO.
+
+
+===== step 2062, 22.4 passes, validation 1.855 bits per character =====
+
+
+HAMLET.
+What, say’st thou me?
+
+ROSENCRANTZ.
+Ay, sir.
+
+HAMLET.
+What, sir?
+
+ROSENCRANTZ.
+Ay, sir, sir.
+
+HAMLET.
+Why, that’s a good man.
+
+ROSENCRANTZ.
+Faith, sir, I think, I was not ignorant in your gloves
+
+===== step 2125, 23.1 passes, validation 1.857 bits per character =====
+
+
+HAMLET.
+What, say, what a good man?
+
+HORATIO.
+It is a huge.
+
+HAMLET.
+The King?
+
+HORATIO.
+It is a very villain.
+
+HAMLET.
+I know not.
+
+HORATIO.
+A very part o’ the other.
+
+HAMLET.
+It is it.
+
+HAMLET.
+It is two months.
+
+HAMLET.
+It is
+
+===== step 2188, 23.8 passes, validation 1.854 bits per character =====
+
+
+HAMLET.
+What, man, what woman?
+
+ROSENCRANTZ.
+What Junogue, sir?
+
+HAMLET.
+What think you of money?
+
+QUEEN.
+I think, sir.
+
+HAMLET.
+Why, that’s a good man.
+
+ROSENCRANTZ.
+Faith, sir, I think, I would not have the two.
+
+HAMLET.
+
+===== step 2250, 24.5 passes, validation 1.851 bits per character =====
+
+
+HAMLET.
+What, are they sad?
+
+HORATIO.
+They that do so?
+
+HAMLET.
+Why, they are not?
+
+HORATIO.
+Why, they are almost half, my lord,
+For all the world is censureable.
+
+HAMLET.
+Good my lord, let me see you here.
+
+HAMLET.
+I am find a mile of two. A rascal
+
+===== step 2312, 25.1 passes, validation 1.852 bits per character =====
+
+
+HAMLET.
+What, say, what a good man?
+
+HORATIO.
+It is a huge.
+
+HAMLET.
+What mean’st thou, my lord?
+
+HORATIO.
+It is, my lord.
+
+HAMLET.
+It’s too little matter.
+
+KING.
+Not for a journey.
+
+HAMLET.
+It is two months.
+
+HORATIO.
+It is
+
+===== step 2375, 25.8 passes, validation 1.853 bits per character =====
+
+
+HAMLET.
+What, are you sad?
+
+HAMLET.
+What was she to this?
+
+POLONIUS.
+Why, my lord?
+
+HAMLET.
+Ay, tell me, I know not that.
+
+POLONIUS.
+Ay, I care not.
+
+POLONIUS.
+I say it is, my lord.
+
+HAMLET.
+Why, what should he find?
+
+POLONIUS.
+Sir, he,
+
+===== step 2438, 26.5 passes, validation 1.852 bits per character =====
+
+
+HAMLET.
+What, are they sad?
+
+HORATIO.
+They that do so?
+
+HAMLET.
+Why, they are not?
+
+HORATIO.
+Why, they are almost half, men, and no,
+We are dear-ey’d, that’s to blame us.
+
+HORATIO.
+Indeed, my lord, the marvellous spirit, and I fear:
+If you think me, you
+
+===== step 2500, 27.2 passes, validation 1.854 bits per character =====
+
+
+HAMLET.
+What, man, what woman?
+
+ROSENCRANTZ.
+What Juno,
+How now? Stand with your puppy son,
+I come to visit you.
+
+HAMLET.
+Your father and I think did not.
+I am mad yet, and my lord,
+That I was born. But, I was born in the point
+Of an old
+

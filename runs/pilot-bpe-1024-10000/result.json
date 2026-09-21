@@ -1,0 +1,13 @@
+{
+  "name": "pilot-bpe-1024-10000",
+  "best": {
+    "validation_bpc": 1.8045232782885288,
+    "step": 3000,
+    "passes": 25.380000340795903,
+    "seen_bpc": 1.3781959746186643
+  },
+  "final_validation_bpc": 1.9202699294293268,
+  "final_seen_bpc": 0.9193546697938503,
+  "steps": 10000,
+  "minutes": 37.09
+}

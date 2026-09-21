@@ -1,0 +1,13 @@
+{
+  "name": "pilot-bpe-4096-2500",
+  "best": {
+    "validation_bpc": 1.8514886878617307,
+    "step": 2250,
+    "passes": 24.458988200449053,
+    "seen_bpc": 1.302777028531298
+  },
+  "final_validation_bpc": 1.8538249641987052,
+  "final_seen_bpc": 1.2826994786536228,
+  "steps": 2500,
+  "minutes": 10.59
+}

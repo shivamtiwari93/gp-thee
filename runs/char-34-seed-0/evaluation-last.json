@@ -1,0 +1,43 @@
+{
+  "run": "char-34-seed-0",
+  "checkpoint": "last",
+  "step": 9985,
+  "tokenizer": "char",
+  "git_commit_of_training": "5c6bd6840d8161f619858e63de47039d5196e494",
+  "scored_on": "mps",
+  "validation_bpc_recorded_while_training": 1.7552802359264597,
+  "all": {
+    "characters": 274727,
+    "tokens": 274728,
+    "bits": 482222.8733753684,
+    "bits_per_character": 1.7552802359264594
+  },
+  "works": [
+    {
+      "title": "ALL’S WELL THAT ENDS WELL",
+      "characters": 133386,
+      "tokens": 133386,
+      "bits": 229030.47535924037,
+      "bits_per_character": 1.717050330313829
+    },
+    {
+      "title": "THE TRAGEDY OF ROMEO AND JULIET",
+      "characters": 141341,
+      "tokens": 141342,
+      "bits": 253192.398016128,
+      "bits_per_character": 1.7913584735931398
+    }
+  ],
+  "speaker_labels": {
+    "characters": 16346,
+    "tokens": 16346,
+    "bits": 40087.707695596815,
+    "bits_per_character": 2.4524475526487715
+  },
+  "everything_else": {
+    "characters": 258381,
+    "tokens": 258382,
+    "bits": 442135.1656797716,
+    "bits_per_character": 1.7111752244931773
+  }
+}

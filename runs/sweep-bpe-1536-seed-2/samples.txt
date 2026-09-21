@@ -1,0 +1,804 @@
+===== step 0, 0.0 passes, validation 4.024 bits per character =====
+
+
+HAMLET.
+ prison Fw forth husield spo somethyunt S II last wordsut through ’tuesueenLES beaARur th’ compRU Q upon emderEUS dan she court off stralOST spir wantLartESTER hastfANIOANTON leaberAinkRItheselfDEM At myself roier word“ knuffReISTRESS rep bultct go o’ bed sing chan Cla maidUM return things ’tis
+
+===== step 62, 0.6 passes, validation 2.769 bits per character =====
+
+
+HAMLET.
+What Fwalis;
+My por.
+As wordsuts,
+When say,
+And th’ dpers upon such my bortrebmildlasred.
+I will hast thou have b leaber
+If have isself.
+S roier, thy knuff,
+Who bultctad o’ bededus of maidduves,
+
+===== step 125, 1.1 passes, validation 2.468 bits per character =====
+
+
+HAMLET.
+What Fwalistanted, and wocy bowut’d sin it.
+U hate of authorent; for his dromay you gored.
+
+[_Exit VistressANIO.
+
+KING.
+That is at Aras roiery._]
+
+[_Relline bult?
+
+Enter Fedus of maidduves,
+
+===== step 188, 1.7 passes, validation 2.355 bits per character =====
+
+
+HAMLET.
+What is a little. I spoke, you.
+
+KING RICHARD.
+
+ANTLES.
+Ay, good villain of authorices from you.
+
+KING RICHARD.
+Nay, for you will not love have you.
+ABELack, sir, and myself.
+
+How would be ser?
+
+NE.
+IXEN.
+[_Exit._]
+
+PRINCE
+
+===== step 250, 2.3 passes, validation 2.269 bits per character =====
+
+
+HAMLET.
+What is a worth. I spoke, you.
+
+KING HENRY.
+My lord, let it, good villain.
+And yet I had done, she makes it to you know it.
+
+KING.
+And have seen our honour,
+That is honest more,
+Mierceed knife,
+Who brows’ o’ th’ singing of my heads.
+
+
+
+===== step 312, 2.9 passes, validation 2.215 bits per character =====
+
+
+HAMLET.
+What Fwhere’s no, something in Shiscuts.
+
+KENTIO.
+Away, Sir John, my lord, she was a man’s a
+weethrinfternly made a case, at the others of the word, kna,
+fair that is the o’ th’ single of maiden tauph
+
+===== step 375, 3.4 passes, validation 2.179 bits per character =====
+
+
+HAMLET.
+What is he was a fair, something in.
+
+KING RICHARD.
+My lord, let him, good villain.
+
+HAMLET.
+Ha, she was a straight.
+
+HAMLET.
+And hast thou have been our cuted.
+
+HAMLET.
+[_Aside._]
+
+HAMLET.
+Reads bounds._]
+
+HAMLET.
+To Claulaunt! ’tis
+
+===== step 438, 4.0 passes, validation 2.129 bits per character =====
+
+
+HAMLET.
+What, I, sir; I could, you.
+
+KING.
+But shall have it.
+
+QUEEN.
+Well, sir, I had rather oath his offence
+And let me see, and hast thou have seen our honour
+By what is at least
+Maysed, serms, that that will go,
+There’s culffected,
+
+===== step 500, 4.6 passes, validation 2.078 bits per character =====
+
+
+HAMLET.
+What First, sir?
+
+HAMLET.
+Sir, it be not so good?
+
+FIRST COUND.
+What is such a big.
+
+HAMLET.
+Why, sir! How many fellow?
+
+KING.
+A captain, sir,
+Marry, you knock,
+Who bascted o’ th’ Rus?
+
+OUNDW
+
+===== step 562, 5.2 passes, validation 2.052 bits per character =====
+
+
+HAMLET.
+What Fo, sir; he was, you.
+
+KING.
+But ’twere your service, and distractices from his dish.
+
+HAMLET.
+Why, my lord, thou have you our counselession,
+Your honours, that the cause, you did not do bound me,
+He shall change you must returned it
+
+===== step 625, 5.7 passes, validation 2.017 bits per character =====
+
+
+HAMLET.
+What Fare you? Who, what? Shither?
+
+HAMLET.
+No, sweet sir, and distrah?
+
+HAMLET.
+Your offence is a diffection. Sir John have you mock
+inner’s honest knights.
+
+HAMLET.
+Do, no more bascal o’clock?
+
+[_Exit._]
+
+HAMLET
+
+===== step 688, 6.3 passes, validation 2.008 bits per character =====
+
+
+HAMLET.
+What First, sir; he comes, you.
+
+KING.
+You shall have it not to be good.
+
+KING.
+I am for you.
+
+KING.
+Why, sir!
+
+HAMLET.
+With you our honour.
+
+HAMLET.
+Your lordship was long of you.
+
+HAMLET.
+I have’t, o’clock.
+
+[_Exit._]
+
+HAMLET
+
+===== step 750, 6.9 passes, validation 1.966 bits per character =====
+
+
+HAMLET.
+What Fromises you, uncle? Shither?
+
+HAMLET.
+No, to be hate.
+What is that? Cousin is his office
+And in his darthery, have you mock
+By the debtlects of the King,
+And, by repair that faces o’ th’ Queen
+And maiden to his honour
+
+===== step 812, 7.4 passes, validation 1.962 bits per character =====
+
+
+HAMLET.
+What is he, sir?
+
+HAMLET.
+Sir, it is not so good?
+
+HAMLET.
+Ay, he is mad; I had done, she had a man’s a
+worthy fellow.
+
+HAMLET.
+A captain of him, she was a word.
+
+HAMLET.
+Nay, that is too old played.
+
+HAMLET.
+That’s
+
+===== step 875, 8.0 passes, validation 1.939 bits per character =====
+
+
+HAMLET.
+What, if you live?
+
+HAMLET.
+Ah, sir, a good lord.
+
+HAMLET.
+Away with him! I had rather open his offence
+as a man! But beard thou there, Timon!
+
+HORATIO.
+Let him have ne’er heard him here.
+
+HAMLET.
+He’s not so; he is too good
+
+===== step 938, 8.6 passes, validation 1.927 bits per character =====
+
+
+HAMLET.
+What is it, sir?
+
+HAMLET.
+Sir, it is absent: it is an old man.
+
+HORATIO.
+No.
+
+HAMLET.
+Why, sir, sir.
+
+HAMLET.
+Ay, well; but she is more, but he that she is, she is no more.
+
+HAMLET.
+He’s a culcumstance
+
+===== step 1000, 9.2 passes, validation 1.919 bits per character =====
+
+
+HAMLET.
+What, will you be?
+
+HAMLET.
+Sirrah, I see you?
+
+FIRST CARRIER.
+Ay, I am broken, and to be a good man. But, Sir, have you our
+gravished? As, sir, the rest knave, and here burn out the
+sold.
+
+[_Exit._]
+
+HAMLET
+
+===== step 1062, 9.7 passes, validation 1.908 bits per character =====
+
+
+HAMLET.
+What is it, sir?
+
+HAMLET.
+Sirrah, you are sick, sir, and good master.
+What is that?
+
+HAMLET.
+I pray you, sir.
+
+HAMLET.
+And have you.
+
+HAMLET.
+Who?
+
+ROSENCRANTZ.
+Mine, that?
+
+HAMLET.
+To culse him.
+
+
+
+===== step 1125, 10.3 passes, validation 1.896 bits per character =====
+
+
+HAMLET.
+What is it, sir?
+
+HAMLET.
+Sirrah, I am sorry.
+
+QUEEN.
+Sir, what is your name?
+
+HAMLET.
+That’s a thing.
+
+HAMLET.
+And there, sir.
+
+HAMLET.
+Is she not true?
+
+HAMLET.
+No, no, that that is too old?
+
+HAMLET.
+Most villain,
+
+===== step 1188, 10.9 passes, validation 1.891 bits per character =====
+
+
+HAMLET.
+What is the matter?
+
+LADY MACBETH.
+The point?
+
+LADY MACBETH.
+My lord, I owe his offence
+With such a darthery.
+
+LADY MACBETH.
+Your eyes
+May come to the serious while.
+
+LADY MACBETH.
+These are
+
+===== step 1250, 11.5 passes, validation 1.882 bits per character =====
+
+
+HAMLET.
+What, will you live?
+
+HAMLET.
+Sirrah, I will not have it.
+
+QUEEN.
+Well said, I cannot choose.
+
+HAMLET.
+Why, then, forsooth, I should make you a man’s honest.
+
+[_Exit Rosalind and Guildensternet._]
+
+[_Exeunt._]
+
+Enter Othe
+
+===== step 1312, 12.0 passes, validation 1.873 bits per character =====
+
+
+HAMLET.
+What is it, sir?
+
+HAMLET.
+Ah, sir, with the right body.
+
+QUEEN.
+Proceed.
+
+HAMLET.
+Very well.
+
+QUEEN.
+And hast thou there, Tamora.
+
+HAMLET.
+Speak, poor lord, thou didst have been that thou didst.
+
+QUEEN.
+O, what,
+
+===== step 1375, 12.6 passes, validation 1.870 bits per character =====
+
+
+HAMLET.
+What, if you please your Grace, sir? Show you, sir?
+
+HAMLET.
+Ay, sir.
+
+HAMLET.
+Ha, she’s a man that I was.
+
+HAMLET.
+And there, sir, ha!
+
+HORATIO.
+Let him have need, sir.
+
+HORATIO.
+To clap him! ’tis
+
+===== step 1438, 13.2 passes, validation 1.864 bits per character =====
+
+
+HAMLET.
+What, will you be?
+
+HAMLET.
+Sirrah, you shall not have it.
+
+QUEEN.
+Sir, what is that?
+
+HAMLET.
+I will be done. ’Tis a good fellow
+To you our honour.
+
+QUEEN.
+Your honour,
+Let him have necessary.
+
+HORATIO.
+To speak withdraw,
+
+===== step 1500, 13.7 passes, validation 1.861 bits per character =====
+
+
+HAMLET.
+What, Iago?
+
+HAMLET.
+Ah, sir, I shall have it.
+
+QUEEN.
+Well, let it be too big.
+
+HAMLET.
+Why, then! But tomorrow mock our choler is at the tasket of thy knaves.
+
+POLONIUS.
+There’s no maid that’s afraid
+
+===== step 1562, 14.3 passes, validation 1.855 bits per character =====
+
+
+HAMLET.
+What, will you be?
+
+HAMLET.
+Sirrah, I shall be called.
+
+QUEEN.
+Well said, I cannot; for I do know it straight.
+
+HAMLET.
+And I do have seen our own.
+
+POLONIUS.
+Nay, my lord, you are not here.
+
+HAMLET.
+He’s not so; he’s too good
+
+===== step 1625, 14.9 passes, validation 1.847 bits per character =====
+
+
+HAMLET.
+What, will you be?
+
+HAMLET.
+Ah, sir, a good deep deed, good master.
+
+GADSHILL.
+I pray you, let me see thee. Sir, have you our counsel?
+
+PRINCE.
+Sir, I have done too much serpent to that. I have played
+haved many things,
+
+===== step 1688, 15.5 passes, validation 1.848 bits per character =====
+
+
+HAMLET.
+What, will you make your wit, sir? Shither are you so shoot?
+
+QUEEN.
+Sir, what is that?
+
+HAMLET.
+I cannot tell.
+
+QUEEN.
+Why, then, you are made.
+
+HAMLET.
+Your eyes are robbed, serious, bounds, sitted with thought.
+O, what,
+
+===== step 1750, 16.0 passes, validation 1.845 bits per character =====
+
+
+HAMLET.
+What is o’ th’ world?
+
+HAMLET.
+A great ballads.
+
+GRATIANO.
+I would not.
+
+HAMLET.
+Very well.
+
+GRATIANO.
+A minutiny, sir.
+
+HAMLET.
+How wouldst thou, thou hadst been a woman o’ the death?
+
+GRATIANO
+
+===== step 1812, 16.6 passes, validation 1.839 bits per character =====
+
+
+HAMLET.
+What, will you make your wit, sir? Show you not.
+
+HORATIO.
+Good damned lord.
+
+HAMLET.
+Very well.
+
+HORATIO.
+With all our conditions, sir.
+
+HAMLET.
+How would the King, with the baseness o’ th’ court?
+
+HORATIO.
+
+===== step 1875, 17.2 passes, validation 1.836 bits per character =====
+
+
+HAMLET.
+What, will you do?
+
+HAMLET.
+Sirrah, you shall find me presently to’t, and dare not upon such a bawd.
+
+HOSTESS.
+I will do so.
+
+HAMLET.
+If you will, sir, your royal word is the very serious bawd o’ the
+morized. You
+
+===== step 1938, 17.8 passes, validation 1.833 bits per character =====
+
+
+HAMLET.
+What, will you be?
+
+HAMLET.
+Sirrah, I shall be sorry to be strangers. They are not broke;
+they are not want their purses, have they ourselves.
+
+POMPEY.
+Nay, but you knew, no more.
+
+HAMLET.
+He’s not certain.
+
+POM
+
+===== step 2000, 18.3 passes, validation 1.830 bits per character =====
+
+
+HAMLET.
+What, will you be your leg, sir?
+
+POLONIUS.
+No, no, good lord.
+
+HAMLET.
+Ha! she’s a whit.
+
+POLONIUS.
+With barber’s cap, sir.
+
+HAMLET.
+How would this be called?
+
+POLONIUS.
+To cool the curtain
+
+===== step 2062, 18.9 passes, validation 1.827 bits per character =====
+
+
+HAMLET.
+What is it, sir?
+
+HAMLET.
+Ah, sir, a good deep pound, good master.
+
+QUEEN.
+Ha! she’s a whit credit!
+
+HAMLET.
+With barberrions!
+
+HORATIO.
+How would this be,
+Who would have me go o’ th’ single cuckold?
+I
+
+===== step 2125, 19.5 passes, validation 1.828 bits per character =====
+
+
+HAMLET.
+What, will you be your leg, you?
+
+POLONIUS.
+No, no, good lord.
+What is your name?
+
+HAMLET.
+That’s a good man!
+
+POLONIUS.
+I would you have itself.
+
+[_Giving._]
+
+HAMLET.
+Who does that do I, i’ th’ chance of the world?
+
+
+
+===== step 2188, 20.1 passes, validation 1.825 bits per character =====
+
+
+HAMLET.
+What, will you make your wit, sir? Show you not so shoar?
+
+QUEEN.
+Sir, what is your name?
+
+HAMLET.
+That’s a good man! But be not so mortal.
+If you do, you shall not rob the sea, you,
+Whose ranks o’ th’ world, cuckold, and ’tis
+
+===== step 2250, 20.6 passes, validation 1.825 bits per character =====
+
+
+HAMLET.
+What, will you be your wit, sir? Show you abide the right on’t, sir?
+
+POLONIUS.
+I pray you, sir, you are a man.
+
+HAMLET.
+With you.
+
+POLONIUS.
+Sir, I have done you, sir, I have heard that.
+
+POLONIUS.
+Most villain,
+
+===== step 2312, 21.2 passes, validation 1.826 bits per character =====
+
+
+HAMLET.
+What, will you make your wit, sir? Show you, sir?
+
+HAMLET.
+Ay, sir.
+
+HORATIO.
+I do.
+
+HAMLET.
+Why, sir, I mean.
+
+HORATIO.
+You saw me, sir?
+
+HORATIO.
+Nothing, sir.
+
+HAMLET.
+Marry, sir
+
+===== step 2375, 21.8 passes, validation 1.823 bits per character =====
+
+
+HAMLET.
+What, will you be your leg, you?
+
+POLONIUS.
+No, no, good lord.
+
+HAMLET.
+Ha! she’s a whit.
+
+POLONIUS.
+With thy music, my lord, at least
+May hang thy knife, and do it.
+
+HAMLET.
+There’s no maid that’s in heaven,
+
+===== step 2438, 22.3 passes, validation 1.822 bits per character =====
+
+
+HAMLET.
+What, will you be your leg, sir?
+
+POLONIUS.
+No, no, good lord.
+
+HAMLET.
+Ha, she’s a whit cost.
+
+POLONIUS.
+What made you?
+
+HAMLET.
+Sir, I have done too, very well.
+
+POLONIUS.
+There’s a maid that’s tied,
+
+===== step 2500, 22.9 passes, validation 1.823 bits per character =====
+
+
+HAMLET.
+What is it, sir?
+
+HAMLET.
+A great brow of bigger.
+
+OSRIC.
+Accomparison.
+
+KING.
+Why, then, my good lord.
+
+HAMLET.
+A captain king, and myself.
+
+OSRIC.
+Who does that?
+
+QUEEN.
+To culse the villains
+

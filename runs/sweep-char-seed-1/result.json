@@ -1,0 +1,13 @@
+{
+  "name": "sweep-char-seed-1",
+  "best": {
+    "validation_bpc": 1.749198301521595,
+    "step": 9236,
+    "passes": 31.451014315034683,
+    "seen_bpc": 1.373175490445492
+  },
+  "final_validation_bpc": 1.756946541287713,
+  "final_seen_bpc": 1.3623156795854945,
+  "steps": 9985,
+  "minutes": 36.94
+}

@@ -1,0 +1,30 @@
+{
+  "name": "sweep-bpe-1536-seed-2",
+  "tokenizer": "bpe-1536",
+  "seed": 2,
+  "passes": 22.910032815713507,
+  "batch": 64,
+  "peak_rate": 0.001,
+  "floor_rate": 0.0001,
+  "warm_up": 100,
+  "weight_decay": 0.1,
+  "beta_2": 0.99,
+  "clip": 1.0,
+  "dropout": 0.2,
+  "layers": 6,
+  "heads": 6,
+  "width": 384,
+  "context": 256,
+  "evaluations": 40,
+  "sixteen_bit": false,
+  "device": "mps",
+  "steps": 2500,
+  "parameters": 11309952,
+  "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+  "torch": "2.14.0",
+  "fingerprints": {
+    "tokenizer": "9ebcb970e6ef4e97c156ce359a0b740b6c9760730238734c456987f12860a91a",
+    "training_stream": "1f32549b007159b3c03751cf086bf2407b8b0e6dadc6e02e45783523db2b64d7",
+    "validation_stream": "7c36d1f298b531e1f802efb3a5b59c2341b52805774a494da8e1b06625b2673b"
+  }
+}

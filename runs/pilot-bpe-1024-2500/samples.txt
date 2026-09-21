@@ -1,0 +1,696 @@
+===== step 0, 0.0 passes, validation 4.058 bits per character =====
+
+
+HAMLET.
+itsne ThewppENEistHortCome ’t masterhy o cour S stree b allondutive better ’tUCits it[_its whenCome Whatur lLet compaughone The restad emhy know consThatield she takeince offtherLUCintig commred‘ileSCark these fe hheristress witctorump poors madeant friendsame placemthe follow
+
+===== step 62, 0.5 passes, validation 2.808 bits per character =====
+
+
+HAMLET.
+What to youwppvisves;
+What I, for thee.
+This b all meutiveing soms it of the de dallurern of all the lbadent
+Coling of she with this off to beligpered you shall darks.
+
+Histress
+ctor, thous made be a caison,
+B
+
+===== step 125, 1.1 passes, validation 2.481 bits per character =====
+
+
+HAMLET.
+What to you will we must beaxed to ’emy. Spic broomet me?
+
+PEYORON.
+My lord.
+
+Pusbsbade
+Colts of Rome.
+
+CALUCINIUS.
+ABes, with Silherfed.
+Baberants!
+
+Enter SB
+
+===== step 188, 1.6 passes, validation 2.398 bits per character =====
+
+
+HAMLET.
+What to you, good Sisavine
+I, for thee. Marumber meutus, good honours it is the deeds.
+Come, diantsbadies, my bad of dark.
+
+CASSINCE.
+I shall darkius and hither,
+What, thous of acted.
+
+SIC
+
+===== step 250, 2.1 passes, validation 2.330 bits per character =====
+
+
+HAMLET.
+What to you will we must bea;
+What I, sir. Spico all me, letter.
+
+KING RICHARD.
+My good friends, I am not.
+
+BANNOR.
+Norce.
+
+CASSIO.
+Nay, my lord, with me.
+And, Jun, I’ll made accame.
+
+KING R
+
+===== step 312, 2.6 passes, validation 2.261 bits per character =====
+
+
+HAMLET.
+What, you will we must bea;
+What shall, sir, as you?
+
+HAMLET.
+If you see you do you there, sir.
+
+HAMLET.
+Esay anything that? Cassanio?
+
+HAMLET.
+I would you shall dark? Heave you, Jun?
+
+HAMLET.
+Thou dost thou
+
+===== step 375, 3.2 passes, validation 2.210 bits per character =====
+
+
+HAMLET.
+What, you will we must be so;
+What say, sir, as you have bad meet me?
+
+KING EDWICK.
+My lordship have dangerousness to such an untopatch.
+
+WARWICK.
+Most you shall dark with your hither.
+What, thous made acted.
+
+KING R
+
+===== step 438, 3.7 passes, validation 2.154 bits per character =====
+
+
+HAMLET.
+What to you? What’s the Duke?
+
+HAMLET.
+O, My buestim!
+
+GLOUCESTER.
+Come, good friends!
+
+[_Knother partic._]
+
+HAMLET.
+[_Realairs! Aude! Onne hither,
+What, thous? And sayest thou?
+
+B
+
+===== step 500, 4.2 passes, validation 2.120 bits per character =====
+
+
+HAMLET.
+What ho, if we must be in the millain,
+Their stars all those that their parts of the last
+And dallurt them.
+
+HAMLET.
+These tap of Rubour to beligher
+All dark with filherous wit; and though made acted.
+the s
+
+===== step 562, 4.8 passes, validation 2.088 bits per character =====
+
+
+HAMLET.
+What, Therefore must be informed.
+
+HO.
+This badiness is in this sin the laster to dwell,
+Let me be meter to such an unto the palace.
+
+LUCET.
+Nay, my lord, with me.
+And, Jun, I’ll make a lead.
+
+HOR
+
+===== step 625, 5.3 passes, validation 2.044 bits per character =====
+
+
+HAMLET.
+What ho, if we must be so;
+What I, sir, as you have bound me about
+But steeping the devil.
+
+HAMLET.
+Esay to such an uncle of dark.
+
+HAMLET.
+I would you express with you.
+And, Jun, your honour be friendship.
+
+HOR
+
+===== step 688, 5.8 passes, validation 2.013 bits per character =====
+
+
+HAMLET.
+What ho, I pray you, sir?
+
+HAMLET.
+O, you have bound me about you.
+
+HAMLET.
+Ay, sir, I have denied into the stap that I would have.
+
+HAMLET.
+What, this?
+
+HAMLET.
+Why, my lord, Junohnant, you must not think you
+
+===== step 750, 6.3 passes, validation 1.991 bits per character =====
+
+
+HAMLET.
+What ho, I pray you are in?
+
+QUEEN.
+I do. My brows you!
+
+HAMLET.
+[_To Cates_.] To denys, my lord, that I would have.
+Now, to believost to excellented.
+And, as you, your honour,
+If you do, s
+
+===== step 812, 6.9 passes, validation 1.979 bits per character =====
+
+
+HAMLET.
+What ho, if we must be so?
+
+QUEEN.
+I do. My battle!
+
+HAMLET.
+[_Aside._] What’s thy matter? What would you be?
+Can you, masters.
+
+QUEEN.
+I would you wish him? How fearfully,
+With carried hems us
+
+===== step 875, 7.4 passes, validation 1.951 bits per character =====
+
+
+HAMLET.
+What, is it?
+
+HAMLET.
+What says there? Speak back?
+
+FRANCK.
+Go, faith.
+
+HAMLET.
+What’s that?
+
+HAMLET.
+Alas, ’tis too lacker.
+
+LENNER.
+And the Junohnants!
+
+HAMLET.
+
+===== step 938, 7.9 passes, validation 1.934 bits per character =====
+
+
+HAMLET.
+What, is it?
+
+GHORATIO.
+I do. My brow is about the slave it is the devil.
+
+HAMLET.
+A madness, I am a bawd’s law to beloved.
+
+HAMLET.
+And that is all the Juners of acted woman?
+
+H
+
+===== step 1000, 8.5 passes, validation 1.923 bits per character =====
+
+
+HAMLET.
+What ho, John?
+
+LAERTES.
+Alas, all those that would have something of the devil.
+
+HAMLET.
+Esbear such another bad of the land.
+
+LAERTES.
+I thank you, sir.
+
+HAMLET.
+Do you believe you, s
+
+===== step 1062, 9.0 passes, validation 1.914 bits per character =====
+
+
+HAMLET.
+What ho, Jackest woman?
+
+LADY.
+O, study all those that would not be stoop of the devil.
+
+HAMLET.
+Esbade how now?
+
+L.
+Why, to believiour’d! O, that’s not so, Juno, in act!
+
+HAMLET.
+
+===== step 1125, 9.5 passes, validation 1.907 bits per character =====
+
+
+HAMLET.
+What, is it good?
+
+HORATIO.
+I do. My basesty!
+
+HAMLET.
+[_To Diomedes_.] Can you not rest yourself
+trict of dark.
+
+HAMLET.
+I would you were dark with you.
+And when she boughts made a came tomorrow.
+
+===== step 1188, 10.1 passes, validation 1.890 bits per character =====
+
+
+HAMLET.
+What ho, John! O, yonder!
+
+POLONIUS.
+The diest of the last is to dinner,
+And makes me to such an unquest of dark.
+What ’tis done, this is thine excellent?
+
+HAMLET.
+A poor thieves! What dost thou follow
+
+===== step 1250, 10.6 passes, validation 1.881 bits per character =====
+
+
+HAMLET.
+What, is it?
+
+HAMLET.
+What say’st thou? Speak, all things!
+
+GUILDENSTERN.
+Come, sir, masters.
+
+HAMLET.
+[_Aside._] Other ’tis done, this is thine excellent.
+
+GUILDENSTERN.
+If he were dead,
+
+===== step 1312, 11.1 passes, validation 1.868 bits per character =====
+
+
+HAMLET.
+What, is it?
+
+HORATIO.
+Alas, what?
+
+HAMLET.
+If ’t be so late, it is.
+
+HAMLET.
+Esay there is an uncle of dark.
+
+HORATIO.
+I will dark with you.
+And, as you, your honour, sir?
+
+HAMLET.
+
+===== step 1375, 11.6 passes, validation 1.858 bits per character =====
+
+
+HAMLET.
+What, is it?
+
+GHORATIO.
+I do. My bad lord, let it be. I do not look to deny it.
+
+HAMLET.
+Will you make my bed?
+
+GRATIANO.
+I would you were dark with me.
+And, as you would have made it a stronger,
+
+
+===== step 1438, 12.2 passes, validation 1.853 bits per character =====
+
+
+HAMLET.
+What ho, John?
+
+LAERTES.
+A study all those abilities of the last
+That died them all for dangerousness?
+
+HAMLET.
+Nor never.
+
+QUEEN.
+Then not a dream of these two holf
+That you should have made a nurse, but the
+
+===== step 1500, 12.7 passes, validation 1.849 bits per character =====
+
+
+HAMLET.
+What ho, Jack, what means this man?
+
+HORATIO.
+I mean!
+
+HAMLET.
+[_Aside._] What’s the matter?
+
+HORATIO.
+My lord, she’s dead.
+
+HAMLET.
+[_Aside._] O, that’s not so much as you,
+I’d say she.
+
+HOR
+
+===== step 1562, 13.2 passes, validation 1.839 bits per character =====
+
+
+HAMLET.
+What ho, Jack?
+
+HORATIO.
+I do not think the basest master would not be made of it.
+
+HAMLET.
+Didst thou not know me? I am a bawd with a bawd?
+
+HORATIO.
+Why, then thou shouldst, thou hadst been a case for a s
+
+===== step 1625, 13.7 passes, validation 1.836 bits per character =====
+
+
+HAMLET.
+What ho, will we go? Come, come.
+
+HORATIO.
+I will not deny thy hands with the town.
+
+HAMLET.
+Espect such an uncle of darkness.
+
+HORATIO.
+I dare not be hid, sir; but though it be a case, I des
+
+===== step 1688, 14.3 passes, validation 1.831 bits per character =====
+
+
+HAMLET.
+What ho, Jamon?
+
+QUEEN.
+I understand you not?
+
+HAMLET.
+If you see the last is to deny me for you,
+And you shall see an end.
+
+[_Exeunt._]
+
+SCENE III. A room in the Duke’s House.
+
+Enter Junohn and Launcelet
+
+===== step 1750, 14.8 passes, validation 1.826 bits per character =====
+
+
+HAMLET.
+What, is he?
+
+HORATIO.
+Almost study all those abilities of the last night,
+Without their battle, restrained in our nest.
+Revolted!
+
+HAMLET.
+A good hostess, Jessica.
+
+HORATIO.
+
+
+===== step 1812, 15.3 passes, validation 1.826 bits per character =====
+
+
+HAMLET.
+What ho, Jack Chief Jack! Is there not? My brow of
+myself. I am a villain. For thy company, i’ faith? I am dark.
+
+CAIUS.
+I would you were dark with Hamlet, Jack, your carried withal.
+
+===== step 1875, 15.9 passes, validation 1.827 bits per character =====
+
+
+HAMLET.
+What ho, Jack Cade?
+
+HORATIO.
+A lord, all’s abilited. I am a villain.
+
+HAMLET.
+Especient, my lord, I dare not.
+
+HORATIO.
+I dare not be hid, my lord.
+
+HAMLET.
+If he do, the
+
+===== step 1938, 16.4 passes, validation 1.820 bits per character =====
+
+
+HAMLET.
+What ho, Jamy?
+
+QUEEN.
+I understand you not; besides, where you see the last
+brain, laying all the lay together: they would have darked their mouths
+rankly, with two hot hands. This poxions at the court
+
+
+===== step 2000, 16.9 passes, validation 1.820 bits per character =====
+
+
+HAMLET.
+What ho, Jack Cade?
+
+HOSTESS.
+A study all those abilities of the lands,
+With more lands of mirth than such an unquality.
+Now, to believiour, for we do feel
+And the Jew, to make a relish for the de
+
+===== step 2062, 17.4 passes, validation 1.817 bits per character =====
+
+
+HAMLET.
+What ho, John! O John!
+
+POSTHUMUS.
+If you see the last night, I see it lays.
+
+HAMLET.
+What says the palm?
+
+POSTHUMUS.
+Lark how the humour is. That’s made a fool to see.
+
+HAM
+
+===== step 2125, 18.0 passes, validation 1.814 bits per character =====
+
+
+HAMLET.
+What, is it that?
+
+HORATIO.
+I do.
+
+HAMLET.
+The King?
+
+HORATIO.
+Come, good my lord.
+
+HAMLET.
+I am unless I have.
+
+HORATIO.
+I would you were dark with Horatio.
+
+HAMLET.
+I say you did.
+
+H
+
+===== step 2188, 18.5 passes, validation 1.814 bits per character =====
+
+
+HAMLET.
+What, is he that made him?
+
+LADY.
+O, he?
+
+HAMLET.
+If he be as it is.
+
+OSRIC.
+No matter; he is an end.
+
+HAMLET.
+I am notlieviour’d.
+
+OSRIC.
+What, man, sir?
+
+HAMLET.
+B
+
+===== step 2250, 19.0 passes, validation 1.814 bits per character =====
+
+
+HAMLET.
+What ho, Jack, what means this man?
+
+HORATIO.
+Nothing but thyself. I am a villain.
+
+HAMLET.
+Not madness, madam, for I am.
+
+HORATIO.
+I would you were dark with Horatio, for you would have made a
+womanmongers
+
+===== step 2312, 19.6 passes, validation 1.812 bits per character =====
+
+
+HAMLET.
+What ho, Jack Chief Julia?
+
+HORATIO.
+I think you would have something of the devil.
+
+HAMLET.
+Espect such an unquiet.
+
+HORATIO.
+I would you were dark with Horatio, for you would have made a
+womanmongers
+
+===== step 2375, 20.1 passes, validation 1.811 bits per character =====
+
+
+HAMLET.
+What ho, Jack Chief Julia?
+
+HORATIO.
+I mean, my good lord.
+
+HAMLET.
+My good lord, I do not think you are.
+Your business is with me.
+
+HORATIO.
+I dare with you.
+And when Juno was made a fool to him?
+
+HAM
+
+===== step 2438, 20.6 passes, validation 1.809 bits per character =====
+
+
+HAMLET.
+What, is he that made him?
+
+LAERTES.
+A study all those that would not be.
+
+KING.
+Ay, my good lord, he is not mad;
+But if that be son of mother.
+
+QUEEN.
+Then not for you, my lord,
+But fearfully, though you be a cause,
+B
+
+===== step 2500, 21.2 passes, validation 1.810 bits per character =====
+
+
+HAMLET.
+What, is he that made him?
+
+LADY.
+O, he?
+
+HAMLET.
+If he be as loud as to deny it, he is not madness.
+
+LADY MACBETH.
+It is too late, and he darks.
+
+KING.
+What, man?
+
+QUEEN.
+Methinks
+

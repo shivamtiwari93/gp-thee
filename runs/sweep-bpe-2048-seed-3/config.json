@@ -1,0 +1,30 @@
+{
+  "name": "sweep-bpe-2048-seed-3",
+  "tokenizer": "bpe-2048",
+  "seed": 3,
+  "passes": 24.166432141354747,
+  "batch": 64,
+  "peak_rate": 0.001,
+  "floor_rate": 0.0001,
+  "warm_up": 100,
+  "weight_decay": 0.1,
+  "beta_2": 0.99,
+  "clip": 1.0,
+  "dropout": 0.2,
+  "layers": 6,
+  "heads": 6,
+  "width": 384,
+  "context": 256,
+  "evaluations": 40,
+  "sixteen_bit": false,
+  "device": "mps",
+  "steps": 2500,
+  "parameters": 11506560,
+  "git_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+  "torch": "2.14.0",
+  "fingerprints": {
+    "tokenizer": "1a1f166282c032939efea2054ab4b4e2f76fabe02e76f0bf3bd3db4f69e8000b",
+    "training_stream": "402cbf829dee8dbe651533be9ce6d0e892483465a2b9376f574a40b3de89ae3d",
+    "validation_stream": "7e783a5eb6fa244cabb50a3dcc365dd633f187dcf1ffc7a1f120adc3747379b4"
+  }
+}
