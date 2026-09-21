@@ -757,3 +757,25 @@ How I got there, including the wrong turn. After the first three rows I called i
 **16-bit, the quieter evidence.** The training loss follows the seed and ignores the program: the three 32-bit runs of seed 1 give 1.0924 to 1.0927. The 16-bit run of seed 1: 1.0952, 0.0027 above them. One run; a hint. The validation score could not show it.
 
 **For part 6.** Three seeds per tokenizer give a mean with a standard error of about 0.003. The pre-registered test will therefore call anything under about 0.01 a tie, which is as it should be. The per-line-type split is where a real difference would show first, since ordinary text is four times quieter than the whole (sd 0.0013 against 0.0054 at the best moments).
+
+## Entry 15. The tokenizer comparison: the plan, as a program, before the runs (2026-09-21)
+
+Entry 12 fixed the deciding number and Entry 14 the seeds, the lengths, the stops and the test. This entry turns those words into two programs and settles what the words left open. It is committed before the first run it governs.
+
+**The length rule, as code: `scripts/find_length.py`** (pure functions `next_to_try` and `choose`, pinned by `tests/test_find_length.py`). Three readings of Entry 14's sentence had to be chosen:
+
+- *"While doubling improves the best score by more than 0.01, double again"*: the run of twice the starting length is ALWAYS made, even if the 5,000-step run over-fitted early. We cannot know that doubling does not help without trying it. "More than 0.01" is strict: 0.0099 stops the doubling.
+- *"If a run's best moment falls before two thirds of its length, also try half"* applies to every run tried, the halves included, down to a floor of 625 steps. (Below that, a 100-step warm-up is a sixth of the run and the question stops being about this recipe.)
+- *"Keep the shortest length within 0.01 of the lowest score"*: within means at most 0.01 above.
+
+The search runs with seed 0 for bpe-1024 and bpe-4096. bpe-1536 borrows bpe-1024's length in steps and bpe-2048 borrows bpe-4096's, unless the two lengths found differ by more than a factor of two, in which case all four are searched (`scripts/sweep.py` refuses to start otherwise). The character length stays 9,985 steps (34 passes), as found in Entry 14.
+
+**Known weakness, stated now:** Entry 14 showed that a single run is a draw with a standard deviation of about 0.006. The rule compares single pilot runs against a threshold of 0.01, so its choices are partly luck. It is the same rule and the same luck for every tokenizer, "the shortest within 0.01" forgives a near miss, and changing the rule after seeing what it costs would be worse than living with it.
+
+**The comparison, as code: `scripts/sweep.py`.** Five arms (char, bpe-1024, bpe-1536, bpe-2048, bpe-4096) × seeds 1, 2, 3 = 15 runs named `sweep-<tokenizer>-seed-<n>`, 32-bit, 40 stops, every other setting at its default. Seed by seed, not arm by arm, so that a machine that warms up or a sweep cut short treats every arm alike. **All 15 runs come from one clean commit**: the script checks before each run and stops if the code has moved (Entry 14: an edit re-rolls a score as surely as a new seed). So the character arm is run again; the three baseline runs of Entry 14 (commit `5c6bd68`) stay in the record as the baseline they were, and take no part in the comparison.
+
+**What decides, and what is only reported.** Deciding: mean over three seeds of each run's best validation bits per character over all the text; the winner is the smallest vocabulary whose mean is within t × pooled sd × √(2/3) of the lowest mean (`scripts/summarise_runs.py sweep-`). Reported beside it, not deciding: the table of all ten pairs; each arm's steps, passes and parameters; the score by play and for speaker-label lines against everything else (Entry 14 found most of the run-to-run noise in the labels, so this split is where a real difference should show first); for the two finalists, the per-character difference on the same text with a block-bootstrap interval, and its sign in each play.
+
+**A run is discarded only if its loss stops being a number**, and then it is re-run with seed + 1000 and reported. Nothing else is grounds: not a bad score, not an odd curve.
+
+**Expected cost** (*estimate*): length search about one hour per tokenizer (5,000 + 10,000 steps, plus halves), so two to four hours; the sweep about five hours (three character runs at 36 minutes, twelve word-fragment runs at 10 to 35). On mains power.

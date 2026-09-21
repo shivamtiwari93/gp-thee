@@ -1,0 +1,7 @@
+{
+  "char": {
+    "steps": 9985,
+    "passes": 34.0,
+    "found_by": "three pilots with seed 0, made by the first version of the training code before scripts/find_length.py existed (docs/BUILD_LOG.md, entry 14): 17 passes 1.7706 (best at the last step), 34 passes 1.7404, 68 passes 1.7577 (best at 54% of the run). Doubling from 17 gained more than 0.01; doubling again gained nothing."
+  }
+}
