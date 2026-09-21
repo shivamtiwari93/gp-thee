@@ -65,6 +65,17 @@ def apparatus(work: str) -> np.ndarray:
     return mask
 
 
+def plainly(text: str) -> str:
+    """Lowercase letters and single spaces only, so that layout and punctuation cannot hide a copy.
+
+    The same rule `scripts/make_split.py` used to check the split for leaks, repeated here rather than imported
+    because that script reads the manifest at import time. Entry 17 promised the raw figure as the headline and
+    this one beside it as a sensitivity check: a copy the model retyped with different spacing still counts here.
+    """
+    text = text.lower().replace("’", "").replace("‘", "")
+    return re.sub(r"\s+", " ", "".join(ch if ch.isalpha() else " " for ch in text)).strip()
+
+
 def enough_letters(text: str, least: int = 25) -> bool:
     """A passage counts only if it holds this many letters. Without it, runs of indentation score as copies."""
     return len(LETTERS.findall(text)) >= least

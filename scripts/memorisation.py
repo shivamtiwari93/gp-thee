@@ -1,14 +1,17 @@
 """Does GP-Thee recite its training works word for word?
 
-Run:  uv run python scripts/memorisation.py                        (the released model; about twenty minutes)
+Run:  uv run python scripts/memorisation.py                        (the released model; about forty minutes)
       uv run python scripts/memorisation.py --runs pilot-char-17 pilot-char-34 pilot-char-68 --scan-only
       uv run python scripts/memorisation.py --baseline-only        (no model at all: what an innocent writer scores)
 
 Everything here was fixed in docs/BUILD_LOG.md entry 17, before it was run. In short:
 
-  * A COPY is a run of characters occurring verbatim in the 39 training works. Raw characters, not normalised.
-  * The unit is a 50-character window, but the whole run-length curve is reported, because 50 on its own is a
-    near-certain zero for the model and for an innocent writer alike, and so says nothing about how close either came.
+  * A COPY is a run of characters occurring verbatim in the 39 training works. Raw characters are the headline,
+    because "word for word" is a claim about what the model emitted; the normalised figure (lowercase letters and
+    single spaces, the rule make_split.py used) is reported beside it as the sensitivity check.
+  * The unit is a 50-character window, but the whole run-length curve is reported -- 20, 25, 30, 40, 50, 60, 80,
+    100 characters and the longest match -- because 50 on its own is a near-certain zero for the model and for an
+    innocent writer alike, and so says nothing about how close either came.
   * Every figure appears twice: over everything, and over the poet's words alone (no speaker labels, stage
     directions, scene headings or cast lists, and at least 25 letters in the passage).
   * THE INNOCENT BASELINE is leave-one-out over the 39 TRAINING works, not the validation plays. The validation
@@ -22,7 +25,10 @@ reproduces from the training works reaches 50 characters AND is at least twice t
 reproduces from the two validation plays it never read. It does not recite if that figure is under 50 characters
 and exceeds the validation figure by no more than 10. Anything between is reported as it stands.
 
-Writes docs/memorisation.json.
+Writes docs/memorisation.json, and everything the model wrote to runs/<name>/sampled-grid.txt, so that the
+curve can be recomputed at any width later without generating it all again.
+
+    uv run python scripts/memorisation.py --sampled-only          (re-do the grid, keep the scan already recorded)
 """
 
 import argparse
@@ -34,7 +40,7 @@ import numpy as np
 import torch
 
 from gp_thee.data import DATA, load_tokens, load_works
-from gp_thee.memorisation import Corpus, agreement, apparatus, candidates, confirm, curve, enough_letters
+from gp_thee.memorisation import Corpus, agreement, apparatus, candidates, confirm, curve, enough_letters, plainly
 from gp_thee.sampling import SUITE, generate
 from gp_thee.tokenizer import load as load_tokenizer
 from gp_thee.train import load_checkpoint
@@ -109,15 +115,21 @@ def scan(model, tokenizer, corpus: Corpus, name: str, device: str) -> dict:
     return out
 
 
-def sampled(model, tokenizer, corpus: Corpus, device: str) -> dict:
-    """What the model copies when it is simply asked to write, at four temperatures and from four kinds of prompt."""
+def sampled(model, tokenizer, corpus: Corpus, device: str, plain: Corpus, keep: Path | None = None) -> dict:
+    """What the model copies when it is simply asked to write, at four temperatures and from four kinds of prompt.
+
+    The reported object is the whole run-length curve entry 17 fixed (20, 25, 30, 40, 50, 60, 80, 100 and the
+    maximum), over everything and over the poet's words alone, with the normalised figure beside it as the
+    sensitivity check the same entry promised. Everything the model writes is kept in `keep`, so that the curve
+    can be recomputed at any width without generating five megabytes of Shakespeare all over again.
+    """
     training, validation = corpus.text, "\n".join(load_works("validation"))
     rng = np.random.default_rng(0)
     prompts = {"unprompted": ["\n\n"] * 8,
                "from the training works": [training[i:i + 256] for i in rng.integers(0, len(training) - 256, 8)],
                "from the validation plays": [validation[i:i + 256] for i in rng.integers(0, len(validation) - 256, 8)],
                "the ten-prompt suite": [p for _, p in SUITE][:8]}
-    out = {}
+    out, kept = {}, []
     for kind, these in prompts.items():
         for temperature in TEMPERATURES:
             written = []
@@ -126,10 +138,17 @@ def sampled(model, tokenizer, corpus: Corpus, device: str) -> dict:
                                  seed=i, on_start="mask")
                 written.append(block["continuation"])            # only what the model wrote: never the prompt
             text = "\n".join(written)
-            whole, poet = curve(corpus, text, widths=(30, 50)), curve(corpus, text, widths=(30, 50), poet_only=True)
-            out[f"{kind} at temperature {temperature}"] = {"characters": len(text), "whole": whole, "poet_only": poet}
+            kept.append(f"=== {kind} at temperature {temperature} ===\n{text}")
+            whole, poet = curve(corpus, text), curve(corpus, text, poet_only=True)
+            normalised = curve(plain, plainly(text))
+            out[f"{kind} at temperature {temperature}"] = {"characters": len(text), "whole": whole, "poet_only": poet,
+                                                           "normalised": normalised}
             print(f"  {kind:<26} t={temperature}: {whole[50]['windows']:>3} copies of 50 characters in {len(text):>6,}"
-                  f" ({poet[50]['windows']} of the poet's); longest {whole['longest']['characters']}")
+                  f" ({poet[50]['windows']} of the poet's, {normalised[50]['windows']} normalised);"
+                  f" longest {whole['longest']['characters']}")
+    if keep is not None:
+        keep.write_text("\n\n".join(kept) + "\n", encoding="utf-8")
+        print(f"  wrote {keep}")
     return out
 
 
@@ -138,11 +157,13 @@ def main() -> None:
     parser.add_argument("--runs", nargs="+", default=[RELEASED])
     parser.add_argument("--which", default="best", choices=["best", "last"])
     parser.add_argument("--scan-only", action="store_true")
+    parser.add_argument("--sampled-only", action="store_true")
     parser.add_argument("--baseline-only", action="store_true")
     parser.add_argument("--device", default="mps" if torch.backends.mps.is_available() else "cpu")
     args = parser.parse_args()
 
     corpus = Corpus(load_works("train"))
+    plain = Corpus([plainly(work) for work in corpus.works])   # the same corpus with layout and punctuation gone
     record = ROOT / "docs" / "memorisation.json"
     out = json.loads(record.read_text()) if record.exists() else {}
     out.setdefault("about", {})["device"] = args.device
@@ -154,8 +175,10 @@ def main() -> None:
         b = out["innocent_baseline"]
         print(f"  all 39 works: {b['all_39_works']['share']:.6f} of 50-character windows; "
               f"without the five that reprint one another: {b['without_the_five_that_reprint_one_another']['share']:.6f}")
+    if "20" not in out.get("circular_baseline_the_validation_plays", {}):        # the full curve entry 17 asked for
         validation = "\n".join(load_works("validation"))
-        out["circular_baseline_the_validation_plays"] = {**curve(corpus, validation, widths=(30, 40, 50)),
+        out["circular_baseline_the_validation_plays"] = {**curve(corpus, validation),
+                                                         "normalised": curve(plain, plainly(validation)),
                                                          "why_it_is_worthless": "make_split.py chose the held-out works by this very test"}
     if args.baseline_only:
         record.write_text(json.dumps(out, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -167,9 +190,11 @@ def main() -> None:
         print(f"\n{name} ({args.which}.pt)")
         model, saved = load_checkpoint(ROOT / "runs" / name / f"{args.which}.pt", args.device)
         here = out.setdefault("runs", {}).setdefault(f"{name}/{args.which}", {"step": saved["step"], "validation_bpc": saved["facts"]["validation_bpc"]})
-        here["scan"] = scan(model, tokenizer, corpus, name, args.device)
+        if not args.sampled_only:
+            here["scan"] = scan(model, tokenizer, corpus, name, args.device)
         if not args.scan_only:
-            here["sampled"] = sampled(model, tokenizer, corpus, args.device)
+            here["sampled"] = sampled(model, tokenizer, corpus, args.device, plain,
+                                      keep=ROOT / "runs" / name / "sampled-grid.txt")
         record.write_text(json.dumps(out, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     if RELEASED + "/best" in out.get("runs", {}):

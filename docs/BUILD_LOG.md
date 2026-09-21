@@ -970,6 +970,7 @@ Walk the model along the true text and ask at every position whether the charact
 |---|---|---|
 | Its first guess is right | 69.72% of characters | 63.63% |
 | Candidate runs of 40 characters or more | 52 | 1 |
+| Confirmed runs of 40 characters or more | 34 | 1 |
 | Longest candidate | 99 characters | 40 |
 | **Longest confirmed** | **66** | **40** |
 | Confirmed runs of 50 or more | 9 | 0 |
@@ -1002,6 +1003,32 @@ Thirty-two of those characters are Shakespeare's (the end of one line and the fi
 
 On the two plays it never read, the model's single candidate of 40 characters or more confirms at 40, and it is a scene heading. Its longest poet-only confirmed passage there is zero.
 
+### The innocent baseline, at every width entry 17 asked for
+
+Entry 17 fixed the reported object as the whole run-length curve, and the first run published it only at 30 and 50.
+**That was a deviation and it is now closed**, for the baseline here and for the sampled grid below. Leave-one-out over
+the 39 training works, the share of windows of each length that also occur in one of the other works:
+
+| Run length | All 39 works | Without the 5 that reprint one another | The poet's own words only |
+|---|---|---|---|
+| 20 | 0.011287 (54,296) | 0.011228 (49,699) | — |
+| 25 | 0.003673 (17,669) | 0.003428 (15,173) | — |
+| 30 | 0.001687 (8,114) | 0.001416 (6,268) | 0.0000217 (96) |
+| 40 | 0.000457 (2,198) | 0.000247 (1,094) | 0.0000197 (87) |
+| **50** | **0.000190 (916)** | **0.000046 (202)** | **0.0000068 (30)** |
+| 60 | 0.000100 (480) | 0.000006 (26) | 0 |
+| 80 | 0.000046 (222) | 0 | 0 |
+| 100 | 0.000015 (74) | 0 | 0 |
+
+The poet-only column is blank at 20 and 25 by construction, not by finding: a window must hold 25 letters to count
+as the poet's, and a window of 25 characters cannot.
+
+**The 50-character row is now a three-way agreement.** `innocent()` hashes every window and confirms each hit by
+searching the other works; that is fine at 50 and quadratic at 20, so the curve was produced by a second program
+that indexes every window by its own text and reads leave-one-out straight off the index. The two algorithms share
+no code path and agree exactly — 916 of 4,809,425, 202 of 4,425,256, 30 of the poet's — which is also the number
+the designer reported independently.
+
 ### The verdict: between the two, as the rule allowed
 
 Entry 17 fixed it: recites if the longest confirmed poet-only passage from the training works reaches 50 characters and is at least twice the validation figure; does not recite if it is under 50 and exceeds the validation figure by no more than 10.
@@ -1033,16 +1060,50 @@ The lesson is the one from parts 3 to 6, in a new place: a rule I wrote to prote
 
 20,007 characters per cell, four kinds of prompt, four temperatures, seeds fixed. (Entry 17 said 200,000 characters per cell. **That is a deviation, and the reason is speed:** the sampler re-reads its whole window for every character, so the grid at full size would take nine hours. The scan above, which is the primary instrument, is at full scale over every one of the 4.8 million characters. The sampled grid is secondary and is reported at a tenth of the promised size.)
 
-Copies of 50 characters or more, out of 20,007 characters written, by the corrected rule, with the poet-only count beside it:
+The whole run-length curve, pooled over all sixteen cells (320,112 characters the model wrote, about 319,808
+windows at each width), beside the innocent baseline from the table above. "Expected" is what a writer copying at
+the baseline rate would have produced in the same amount of text -- a yardstick, not a null hypothesis, since the
+baseline is measured on Shakespeare's real text and this is not:
+
+| Run length | Windows the model copied | Its rate | Innocent rate | Expected at that rate |
+|---|---|---|---|---|
+| 20 | 11,766 | 0.036791 | 0.011228 | 3,591 |
+| 25 | 3,080 | 0.009633 | 0.003428 | 1,096 |
+| 30 | 1,037 | 0.003244 | 0.001416 | 453 |
+| 40 | 136 | 0.000426 | 0.000247 | 79 |
+| **50** | **14** | **0.000044** | **0.000046** | **14.6** |
+| 60 | 0 | 0 | 0.000006 | 1.9 |
+| 80, 100 | 0 | 0 | 0 | 0 |
+
+Two things fall out of it. **At short lengths the model copies several times more than an innocent writer** --
+3.7% of its 20-character windows against 1.1% -- which is what a language model trained on this text is for, and
+which shows the instrument is not simply reading zeros. **By 50 characters the two rates have met**: 14 copies
+observed against 14.6 expected, and past 60 the model is at zero where an innocent writer would still show about 2.
+
+**The poet-only count is 0 at every width.** Not one window of the 320,112 characters is Shakespeare's own words
+copied verbatim, at any length. At 30 and 40 characters the baseline rate would have produced about 7 and about 6.
+(At 20 and 25 the 0 is structural, as in the baseline table: 25 letters will not fit in a 25-character window.)
+
+Per cell, copies of 50 characters or more out of 20,007 characters written, raw / poet-only / normalised:
 
 | Prompt | t=0 | t=0.5 | t=0.8 | t=1.0 |
 |---|---|---|---|---|
-| unprompted | 0 | 0 | 0 | 5 (0 of the poet's) |
-| from the training works | 0 | 1 (0) | 1 (0) | 0 |
-| from the validation plays | 7 (0) | 0 | 0 | 0 |
+| unprompted | 0 | 0 | 0 | 5 / 0 / 0 |
+| from the training works | 0 / 0 / 3 | 1 / 0 / 0 | 1 / 0 / 0 | 0 |
+| from the validation plays | 7 / 0 / 3 | 0 | 0 | 0 |
 | the ten-prompt suite | 0 | 0 | 0 | 0 |
 
-Every copy of 50 characters or more that sampling found is a scene heading, such as `'t._]\n\nSCENE III. The same. A Room in the Palace.\n\nEnter '` (56 characters, written greedily from a validation prompt). **Not one is a line of verse.** Sampling also demonstrates why it is the weaker instrument: prompted with its own training text at temperature 0.8, the model produced one copy in 20,007 characters, while the scan proves there are 52 places in the corpus where it could have produced 40 or more.
+**The normalised figure is the sensitivity check entry 17 promised** and it cuts both ways, which is why it is
+worth having: pooled, 6 copies of 50 against 14 raw. Normalising collapses the line breaks, so a 50-character
+normalised window spans more words than a raw one and is harder to match -- it finds fewer copies of the
+line-break-heavy scene headings, and more where only the layout differed (3 against 0 in two cells).
+
+Every copy of 50 characters or more that sampling found is a scene heading, such as `'t._]\n\nSCENE III. The same. A Room in the Palace.\n\nEnter '` (56 characters, written greedily from a validation prompt). **Not one is a line of verse.** Sampling also demonstrates why it is the weaker instrument: prompted with its own training text at temperature 0.8, the model produced one copy in 20,007 characters, while the scan finds 34 places in the corpus where it can be made to write 40 or more (52 candidate runs reach 40; 18 do not survive confirmation).
+
+Everything the model wrote is kept in `runs/sweep-char-seed-1/sampled-grid.txt` (323 KB), so the curve can be
+recomputed at any width without generating it again -- which is what the first run of this could not do.
+
+*Measured* wall clock on this laptop, so that the blog can stop guessing at it: the sampled grid 34 min 24 s (18:51:38 to 19:26:02, with the test suite running against it for five of those minutes), the scan 41 s, the leave-one-out baseline curve 52 s. The whole script is about forty minutes; the blog and the script's own docstring had said eighty and twenty respectively, neither of them measured.
 
 ### How this answers part 5
 

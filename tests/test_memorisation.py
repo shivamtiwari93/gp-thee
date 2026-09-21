@@ -10,7 +10,7 @@ import pytest
 import torch
 
 from gp_thee.data import DATA, load_tokens, load_works
-from gp_thee.memorisation import Corpus, agreement, apparatus, candidates, confirm, curve, enough_letters
+from gp_thee.memorisation import Corpus, agreement, apparatus, candidates, confirm, curve, enough_letters, plainly
 from gp_thee.model import GPT, Config
 from gp_thee.tokenizer import load as load_tokenizer
 
@@ -78,6 +78,25 @@ def test_a_passage_must_carry_real_words_to_count():
     assert not enough_letters(" " * 60) and not enough_letters("\n\n\n" + " " * 40 + "155")
     assert enough_letters("What news, good fool? I have not slept these three nights")
     assert not enough_letters("What news, good fool?")                           # 18 letters: under the bar of 25
+
+
+def test_the_normalised_rule_is_the_one_the_split_was_checked_with(corpus):
+    # Entry 17 made raw characters the headline and this the sensitivity check. It must hide layout and
+    # punctuation and nothing else: a passage retyped with different spacing is still the same passage.
+    assert plainly("ACT I\n\nSCENE  II.   A room!") == "act i scene ii a room"
+    assert plainly("Thou look’st") == "thou lookst" and plainly("‘quoted’") == "quoted"
+    assert plainly("   \n\t ") == "" and plainly("155") == ""
+    lifted = corpus.text[3_000_000:3_000_200]
+    relaid = lifted.replace(" ", "   ").replace("\n", "\n\n")            # the same words, laid out differently
+    plain = Corpus([plainly(work) for work in corpus.works])
+    assert plain.holds(plainly(lifted)[:50])                             # the normalised corpus still finds it
+    assert plainly(relaid) == plainly(lifted)                            # and the new layout makes no difference
+    assert plain.holds(plainly(relaid)[:50])
+    # The limit of the rule, recorded rather than fixed: it deletes the corpus's curly apostrophe but turns a
+    # straight one into a space, so the two do not normalise alike. It costs nothing here, because the corpus
+    # holds no straight apostrophe and the model can only ever emit characters the corpus taught it.
+    assert plainly("look’st") == "lookst" and plainly("look'st") == "look st"
+    assert "'" not in corpus.text
 
 
 def test_poet_only_counting_drops_windows_of_furniture(corpus):

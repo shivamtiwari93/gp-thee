@@ -1,0 +1,1707 @@
+{
+  "about": "leave-one-out over the 39 training works; docs/BUILD_LOG.md entries 17 and 18",
+  "20": {
+    "all_39_works": {
+      "windows": 54296,
+      "poet_only": 0,
+      "of": 4810595,
+      "share": 0.011286753509700983,
+      "poet_only_share": 0.0
+    },
+    "without_the_five_that_reprint_one_another": {
+      "windows": 49699,
+      "poet_only": 0,
+      "of": 4426276,
+      "share": 0.011228174655172882,
+      "poet_only_share": 0.0
+    },
+    "per_work": {
+      "THE SONNETS": {
+        "windows": 1088,
+        "poet_only": 0,
+        "of": 98300
+      },
+      "THE TRAGEDY OF ANTONY AND CLEOPATRA": {
+        "windows": 1600,
+        "poet_only": 0,
+        "of": 150316
+      },
+      "AS YOU LIKE IT": {
+        "windows": 1379,
+        "poet_only": 0,
+        "of": 126150
+      },
+      "THE COMEDY OF ERRORS": {
+        "windows": 624,
+        "poet_only": 0,
+        "of": 87944
+      },
+      "THE TRAGEDY OF CORIOLANUS": {
+        "windows": 1661,
+        "poet_only": 0,
+        "of": 164777
+      },
+      "CYMBELINE": {
+        "windows": 1375,
+        "poet_only": 0,
+        "of": 159725
+      },
+      "THE TRAGEDY OF HAMLET, PRINCE OF DENMARK": {
+        "windows": 1582,
+        "poet_only": 0,
+        "of": 177123
+      },
+      "THE FIRST PART OF KING HENRY THE FOURTH": {
+        "windows": 2074,
+        "poet_only": 0,
+        "of": 140837
+      },
+      "THE SECOND PART OF KING HENRY THE FOURTH": {
+        "windows": 2358,
+        "poet_only": 0,
+        "of": 152648
+      },
+      "THE LIFE OF KING HENRY THE FIFTH": {
+        "windows": 1950,
+        "poet_only": 0,
+        "of": 152150
+      },
+      "THE FIRST PART OF HENRY THE SIXTH": {
+        "windows": 1960,
+        "poet_only": 0,
+        "of": 129901
+      },
+      "THE SECOND PART OF KING HENRY THE SIXTH": {
+        "windows": 2710,
+        "poet_only": 0,
+        "of": 149657
+      },
+      "THE THIRD PART OF KING HENRY THE SIXTH": {
+        "windows": 2588,
+        "poet_only": 0,
+        "of": 144943
+      },
+      "KING HENRY THE EIGHTH": {
+        "windows": 1658,
+        "poet_only": 0,
+        "of": 143103
+      },
+      "THE TRAGEDY OF JULIUS CAESAR": {
+        "windows": 1485,
+        "poet_only": 0,
+        "of": 115825
+      },
+      "THE TRAGEDY OF KING LEAR": {
+        "windows": 1499,
+        "poet_only": 0,
+        "of": 154001
+      },
+      "LOVE’S LABOUR’S LOST": {
+        "windows": 1708,
+        "poet_only": 0,
+        "of": 127064
+      },
+      "THE TRAGEDY OF MACBETH": {
+        "windows": 1140,
+        "poet_only": 0,
+        "of": 103064
+      },
+      "MEASURE FOR MEASURE": {
+        "windows": 1327,
+        "poet_only": 0,
+        "of": 125624
+      },
+      "THE MERCHANT OF VENICE": {
+        "windows": 1211,
+        "poet_only": 0,
+        "of": 120357
+      },
+      "THE MERRY WIVES OF WINDSOR": {
+        "windows": 1505,
+        "poet_only": 0,
+        "of": 129661
+      },
+      "A MIDSUMMER NIGHT’S DREAM": {
+        "windows": 585,
+        "poet_only": 0,
+        "of": 96205
+      },
+      "MUCH ADO ABOUT NOTHING": {
+        "windows": 829,
+        "poet_only": 0,
+        "of": 122073
+      },
+      "THE TRAGEDY OF OTHELLO, THE MOOR OF VENICE": {
+        "windows": 1429,
+        "poet_only": 0,
+        "of": 153589
+      },
+      "PERICLES, PRINCE OF TYRE": {
+        "windows": 839,
+        "poet_only": 0,
+        "of": 109033
+      },
+      "THE LIFE AND DEATH OF KING RICHARD THE SECOND": {
+        "windows": 2229,
+        "poet_only": 0,
+        "of": 129972
+      },
+      "KING RICHARD THE THIRD": {
+        "windows": 3667,
+        "poet_only": 0,
+        "of": 175466
+      },
+      "THE TAMING OF THE SHREW": {
+        "windows": 877,
+        "poet_only": 0,
+        "of": 123084
+      },
+      "THE LIFE OF TIMON OF ATHENS": {
+        "windows": 1067,
+        "poet_only": 0,
+        "of": 110865
+      },
+      "THE TRAGEDY OF TITUS ANDRONICUS": {
+        "windows": 1102,
+        "poet_only": 0,
+        "of": 119833
+      },
+      "TROILUS AND CRESSIDA": {
+        "windows": 789,
+        "poet_only": 0,
+        "of": 156146
+      },
+      "TWELFTH NIGHT; OR, WHAT YOU WILL": {
+        "windows": 1142,
+        "poet_only": 0,
+        "of": 114660
+      },
+      "THE TWO GENTLEMEN OF VERONA": {
+        "windows": 1279,
+        "poet_only": 0,
+        "of": 101053
+      },
+      "THE TWO NOBLE KINSMEN": {
+        "windows": 1139,
+        "poet_only": 0,
+        "of": 141281
+      },
+      "THE WINTER’S TALE": {
+        "windows": 1040,
+        "poet_only": 0,
+        "of": 143158
+      },
+      "THE PASSIONATE PILGRIM": {
+        "windows": 1341,
+        "poet_only": 0,
+        "of": 16982
+      },
+      "THE PHOENIX AND THE TURTLE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 2052
+      },
+      "THE RAPE OF LUCRECE": {
+        "windows": 264,
+        "poet_only": 0,
+        "of": 86787
+      },
+      "VENUS AND ADONIS": {
+        "windows": 196,
+        "poet_only": 0,
+        "of": 55186
+      }
+    }
+  },
+  "25": {
+    "all_39_works": {
+      "windows": 17669,
+      "poet_only": 0,
+      "of": 4810400,
+      "share": 0.0036730833194744718,
+      "poet_only_share": 0.0
+    },
+    "without_the_five_that_reprint_one_another": {
+      "windows": 15173,
+      "poet_only": 0,
+      "of": 4426106,
+      "share": 0.0034280697299160934,
+      "poet_only_share": 0.0
+    },
+    "per_work": {
+      "THE SONNETS": {
+        "windows": 381,
+        "poet_only": 0,
+        "of": 98295
+      },
+      "THE TRAGEDY OF ANTONY AND CLEOPATRA": {
+        "windows": 581,
+        "poet_only": 0,
+        "of": 150311
+      },
+      "AS YOU LIKE IT": {
+        "windows": 610,
+        "poet_only": 0,
+        "of": 126145
+      },
+      "THE COMEDY OF ERRORS": {
+        "windows": 185,
+        "poet_only": 0,
+        "of": 87939
+      },
+      "THE TRAGEDY OF CORIOLANUS": {
+        "windows": 494,
+        "poet_only": 0,
+        "of": 164772
+      },
+      "CYMBELINE": {
+        "windows": 452,
+        "poet_only": 0,
+        "of": 159720
+      },
+      "THE TRAGEDY OF HAMLET, PRINCE OF DENMARK": {
+        "windows": 520,
+        "poet_only": 0,
+        "of": 177118
+      },
+      "THE FIRST PART OF KING HENRY THE FOURTH": {
+        "windows": 669,
+        "poet_only": 0,
+        "of": 140832
+      },
+      "THE SECOND PART OF KING HENRY THE FOURTH": {
+        "windows": 673,
+        "poet_only": 0,
+        "of": 152643
+      },
+      "THE LIFE OF KING HENRY THE FIFTH": {
+        "windows": 706,
+        "poet_only": 0,
+        "of": 152145
+      },
+      "THE FIRST PART OF HENRY THE SIXTH": {
+        "windows": 682,
+        "poet_only": 0,
+        "of": 129896
+      },
+      "THE SECOND PART OF KING HENRY THE SIXTH": {
+        "windows": 730,
+        "poet_only": 0,
+        "of": 149652
+      },
+      "THE THIRD PART OF KING HENRY THE SIXTH": {
+        "windows": 785,
+        "poet_only": 0,
+        "of": 144938
+      },
+      "KING HENRY THE EIGHTH": {
+        "windows": 383,
+        "poet_only": 0,
+        "of": 143098
+      },
+      "THE TRAGEDY OF JULIUS CAESAR": {
+        "windows": 551,
+        "poet_only": 0,
+        "of": 115820
+      },
+      "THE TRAGEDY OF KING LEAR": {
+        "windows": 464,
+        "poet_only": 0,
+        "of": 153996
+      },
+      "LOVE’S LABOUR’S LOST": {
+        "windows": 889,
+        "poet_only": 0,
+        "of": 127059
+      },
+      "THE TRAGEDY OF MACBETH": {
+        "windows": 411,
+        "poet_only": 0,
+        "of": 103059
+      },
+      "MEASURE FOR MEASURE": {
+        "windows": 345,
+        "poet_only": 0,
+        "of": 125619
+      },
+      "THE MERCHANT OF VENICE": {
+        "windows": 370,
+        "poet_only": 0,
+        "of": 120352
+      },
+      "THE MERRY WIVES OF WINDSOR": {
+        "windows": 480,
+        "poet_only": 0,
+        "of": 129656
+      },
+      "A MIDSUMMER NIGHT’S DREAM": {
+        "windows": 184,
+        "poet_only": 0,
+        "of": 96200
+      },
+      "MUCH ADO ABOUT NOTHING": {
+        "windows": 142,
+        "poet_only": 0,
+        "of": 122068
+      },
+      "THE TRAGEDY OF OTHELLO, THE MOOR OF VENICE": {
+        "windows": 338,
+        "poet_only": 0,
+        "of": 153584
+      },
+      "PERICLES, PRINCE OF TYRE": {
+        "windows": 179,
+        "poet_only": 0,
+        "of": 109028
+      },
+      "THE LIFE AND DEATH OF KING RICHARD THE SECOND": {
+        "windows": 731,
+        "poet_only": 0,
+        "of": 129967
+      },
+      "KING RICHARD THE THIRD": {
+        "windows": 960,
+        "poet_only": 0,
+        "of": 175461
+      },
+      "THE TAMING OF THE SHREW": {
+        "windows": 213,
+        "poet_only": 0,
+        "of": 123079
+      },
+      "THE LIFE OF TIMON OF ATHENS": {
+        "windows": 303,
+        "poet_only": 0,
+        "of": 110860
+      },
+      "THE TRAGEDY OF TITUS ANDRONICUS": {
+        "windows": 331,
+        "poet_only": 0,
+        "of": 119828
+      },
+      "TROILUS AND CRESSIDA": {
+        "windows": 185,
+        "poet_only": 0,
+        "of": 156141
+      },
+      "TWELFTH NIGHT; OR, WHAT YOU WILL": {
+        "windows": 291,
+        "poet_only": 0,
+        "of": 114655
+      },
+      "THE TWO GENTLEMEN OF VERONA": {
+        "windows": 421,
+        "poet_only": 0,
+        "of": 101048
+      },
+      "THE TWO NOBLE KINSMEN": {
+        "windows": 497,
+        "poet_only": 0,
+        "of": 141276
+      },
+      "THE WINTER’S TALE": {
+        "windows": 307,
+        "poet_only": 0,
+        "of": 143153
+      },
+      "THE PASSIONATE PILGRIM": {
+        "windows": 1046,
+        "poet_only": 0,
+        "of": 16977
+      },
+      "THE PHOENIX AND THE TURTLE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 2047
+      },
+      "THE RAPE OF LUCRECE": {
+        "windows": 102,
+        "poet_only": 0,
+        "of": 86782
+      },
+      "VENUS AND ADONIS": {
+        "windows": 78,
+        "poet_only": 0,
+        "of": 55181
+      }
+    }
+  },
+  "30": {
+    "all_39_works": {
+      "windows": 8114,
+      "poet_only": 477,
+      "of": 4810205,
+      "share": 0.0016868303949623769,
+      "poet_only_share": 9.916417283670862e-05
+    },
+    "without_the_five_that_reprint_one_another": {
+      "windows": 6268,
+      "poet_only": 96,
+      "of": 4425936,
+      "share": 0.0014161976133409972,
+      "poet_only_share": 2.1690327198585792e-05
+    },
+    "per_work": {
+      "THE SONNETS": {
+        "windows": 299,
+        "poet_only": 40,
+        "of": 98290
+      },
+      "THE TRAGEDY OF ANTONY AND CLEOPATRA": {
+        "windows": 209,
+        "poet_only": 0,
+        "of": 150306
+      },
+      "AS YOU LIKE IT": {
+        "windows": 372,
+        "poet_only": 0,
+        "of": 126140
+      },
+      "THE COMEDY OF ERRORS": {
+        "windows": 95,
+        "poet_only": 0,
+        "of": 87934
+      },
+      "THE TRAGEDY OF CORIOLANUS": {
+        "windows": 193,
+        "poet_only": 0,
+        "of": 164767
+      },
+      "CYMBELINE": {
+        "windows": 178,
+        "poet_only": 0,
+        "of": 159715
+      },
+      "THE TRAGEDY OF HAMLET, PRINCE OF DENMARK": {
+        "windows": 240,
+        "poet_only": 0,
+        "of": 177113
+      },
+      "THE FIRST PART OF KING HENRY THE FOURTH": {
+        "windows": 250,
+        "poet_only": 3,
+        "of": 140827
+      },
+      "THE SECOND PART OF KING HENRY THE FOURTH": {
+        "windows": 271,
+        "poet_only": 8,
+        "of": 152638
+      },
+      "THE LIFE OF KING HENRY THE FIFTH": {
+        "windows": 305,
+        "poet_only": 0,
+        "of": 152140
+      },
+      "THE FIRST PART OF HENRY THE SIXTH": {
+        "windows": 274,
+        "poet_only": 1,
+        "of": 129891
+      },
+      "THE SECOND PART OF KING HENRY THE SIXTH": {
+        "windows": 276,
+        "poet_only": 6,
+        "of": 149647
+      },
+      "THE THIRD PART OF KING HENRY THE SIXTH": {
+        "windows": 306,
+        "poet_only": 4,
+        "of": 144933
+      },
+      "KING HENRY THE EIGHTH": {
+        "windows": 117,
+        "poet_only": 0,
+        "of": 143093
+      },
+      "THE TRAGEDY OF JULIUS CAESAR": {
+        "windows": 312,
+        "poet_only": 0,
+        "of": 115815
+      },
+      "THE TRAGEDY OF KING LEAR": {
+        "windows": 161,
+        "poet_only": 0,
+        "of": 153991
+      },
+      "LOVE’S LABOUR’S LOST": {
+        "windows": 608,
+        "poet_only": 106,
+        "of": 127054
+      },
+      "THE TRAGEDY OF MACBETH": {
+        "windows": 149,
+        "poet_only": 0,
+        "of": 103054
+      },
+      "MEASURE FOR MEASURE": {
+        "windows": 163,
+        "poet_only": 0,
+        "of": 125614
+      },
+      "THE MERCHANT OF VENICE": {
+        "windows": 147,
+        "poet_only": 3,
+        "of": 120347
+      },
+      "THE MERRY WIVES OF WINDSOR": {
+        "windows": 200,
+        "poet_only": 20,
+        "of": 129651
+      },
+      "A MIDSUMMER NIGHT’S DREAM": {
+        "windows": 83,
+        "poet_only": 0,
+        "of": 96195
+      },
+      "MUCH ADO ABOUT NOTHING": {
+        "windows": 46,
+        "poet_only": 0,
+        "of": 122063
+      },
+      "THE TRAGEDY OF OTHELLO, THE MOOR OF VENICE": {
+        "windows": 115,
+        "poet_only": 0,
+        "of": 153579
+      },
+      "PERICLES, PRINCE OF TYRE": {
+        "windows": 43,
+        "poet_only": 4,
+        "of": 109023
+      },
+      "THE LIFE AND DEATH OF KING RICHARD THE SECOND": {
+        "windows": 320,
+        "poet_only": 17,
+        "of": 129962
+      },
+      "KING RICHARD THE THIRD": {
+        "windows": 370,
+        "poet_only": 9,
+        "of": 175456
+      },
+      "THE TAMING OF THE SHREW": {
+        "windows": 85,
+        "poet_only": 6,
+        "of": 123074
+      },
+      "THE LIFE OF TIMON OF ATHENS": {
+        "windows": 134,
+        "poet_only": 0,
+        "of": 110855
+      },
+      "THE TRAGEDY OF TITUS ANDRONICUS": {
+        "windows": 135,
+        "poet_only": 4,
+        "of": 119823
+      },
+      "TROILUS AND CRESSIDA": {
+        "windows": 52,
+        "poet_only": 0,
+        "of": 156136
+      },
+      "TWELFTH NIGHT; OR, WHAT YOU WILL": {
+        "windows": 82,
+        "poet_only": 0,
+        "of": 114650
+      },
+      "THE TWO GENTLEMEN OF VERONA": {
+        "windows": 210,
+        "poet_only": 0,
+        "of": 101043
+      },
+      "THE TWO NOBLE KINSMEN": {
+        "windows": 251,
+        "poet_only": 9,
+        "of": 141271
+      },
+      "THE WINTER’S TALE": {
+        "windows": 124,
+        "poet_only": 2,
+        "of": 143148
+      },
+      "THE PASSIONATE PILGRIM": {
+        "windows": 810,
+        "poet_only": 155,
+        "of": 16972
+      },
+      "THE PHOENIX AND THE TURTLE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 2042
+      },
+      "THE RAPE OF LUCRECE": {
+        "windows": 65,
+        "poet_only": 40,
+        "of": 86777
+      },
+      "VENUS AND ADONIS": {
+        "windows": 64,
+        "poet_only": 40,
+        "of": 55176
+      }
+    }
+  },
+  "40": {
+    "all_39_works": {
+      "windows": 2198,
+      "poet_only": 1176,
+      "of": 4809815,
+      "share": 0.0004569822332043956,
+      "poet_only_share": 0.0002445000483386575
+    },
+    "without_the_five_that_reprint_one_another": {
+      "windows": 1094,
+      "poet_only": 87,
+      "of": 4425596,
+      "share": 0.00024719834345475727,
+      "poet_only_share": 1.9658369177846327e-05
+    },
+    "per_work": {
+      "THE SONNETS": {
+        "windows": 185,
+        "poet_only": 185,
+        "of": 98280
+      },
+      "THE TRAGEDY OF ANTONY AND CLEOPATRA": {
+        "windows": 3,
+        "poet_only": 0,
+        "of": 150296
+      },
+      "AS YOU LIKE IT": {
+        "windows": 99,
+        "poet_only": 0,
+        "of": 126130
+      },
+      "THE COMEDY OF ERRORS": {
+        "windows": 9,
+        "poet_only": 0,
+        "of": 87924
+      },
+      "THE TRAGEDY OF CORIOLANUS": {
+        "windows": 29,
+        "poet_only": 0,
+        "of": 164757
+      },
+      "CYMBELINE": {
+        "windows": 20,
+        "poet_only": 2,
+        "of": 159705
+      },
+      "THE TRAGEDY OF HAMLET, PRINCE OF DENMARK": {
+        "windows": 46,
+        "poet_only": 0,
+        "of": 177103
+      },
+      "THE FIRST PART OF KING HENRY THE FOURTH": {
+        "windows": 31,
+        "poet_only": 2,
+        "of": 140817
+      },
+      "THE SECOND PART OF KING HENRY THE FOURTH": {
+        "windows": 53,
+        "poet_only": 15,
+        "of": 152628
+      },
+      "THE LIFE OF KING HENRY THE FIFTH": {
+        "windows": 69,
+        "poet_only": 0,
+        "of": 152130
+      },
+      "THE FIRST PART OF HENRY THE SIXTH": {
+        "windows": 58,
+        "poet_only": 0,
+        "of": 129881
+      },
+      "THE SECOND PART OF KING HENRY THE SIXTH": {
+        "windows": 56,
+        "poet_only": 0,
+        "of": 149637
+      },
+      "THE THIRD PART OF KING HENRY THE SIXTH": {
+        "windows": 69,
+        "poet_only": 0,
+        "of": 144923
+      },
+      "KING HENRY THE EIGHTH": {
+        "windows": 29,
+        "poet_only": 0,
+        "of": 143083
+      },
+      "THE TRAGEDY OF JULIUS CAESAR": {
+        "windows": 81,
+        "poet_only": 0,
+        "of": 115805
+      },
+      "THE TRAGEDY OF KING LEAR": {
+        "windows": 10,
+        "poet_only": 0,
+        "of": 153981
+      },
+      "LOVE’S LABOUR’S LOST": {
+        "windows": 318,
+        "poet_only": 303,
+        "of": 127044
+      },
+      "THE TRAGEDY OF MACBETH": {
+        "windows": 3,
+        "poet_only": 1,
+        "of": 103044
+      },
+      "MEASURE FOR MEASURE": {
+        "windows": 26,
+        "poet_only": 0,
+        "of": 125604
+      },
+      "THE MERCHANT OF VENICE": {
+        "windows": 11,
+        "poet_only": 0,
+        "of": 120337
+      },
+      "THE MERRY WIVES OF WINDSOR": {
+        "windows": 21,
+        "poet_only": 5,
+        "of": 129641
+      },
+      "A MIDSUMMER NIGHT’S DREAM": {
+        "windows": 23,
+        "poet_only": 0,
+        "of": 96185
+      },
+      "MUCH ADO ABOUT NOTHING": {
+        "windows": 4,
+        "poet_only": 0,
+        "of": 122053
+      },
+      "THE TRAGEDY OF OTHELLO, THE MOOR OF VENICE": {
+        "windows": 17,
+        "poet_only": 13,
+        "of": 153569
+      },
+      "PERICLES, PRINCE OF TYRE": {
+        "windows": 2,
+        "poet_only": 0,
+        "of": 109013
+      },
+      "THE LIFE AND DEATH OF KING RICHARD THE SECOND": {
+        "windows": 79,
+        "poet_only": 16,
+        "of": 129952
+      },
+      "KING RICHARD THE THIRD": {
+        "windows": 69,
+        "poet_only": 13,
+        "of": 175446
+      },
+      "THE TAMING OF THE SHREW": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 123064
+      },
+      "THE LIFE OF TIMON OF ATHENS": {
+        "windows": 10,
+        "poet_only": 0,
+        "of": 110845
+      },
+      "THE TRAGEDY OF TITUS ANDRONICUS": {
+        "windows": 35,
+        "poet_only": 0,
+        "of": 119813
+      },
+      "TROILUS AND CRESSIDA": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 156126
+      },
+      "TWELFTH NIGHT; OR, WHAT YOU WILL": {
+        "windows": 2,
+        "poet_only": 0,
+        "of": 114640
+      },
+      "THE TWO GENTLEMEN OF VERONA": {
+        "windows": 55,
+        "poet_only": 0,
+        "of": 101033
+      },
+      "THE TWO NOBLE KINSMEN": {
+        "windows": 63,
+        "poet_only": 20,
+        "of": 141261
+      },
+      "THE WINTER’S TALE": {
+        "windows": 12,
+        "poet_only": 0,
+        "of": 143138
+      },
+      "THE PASSIONATE PILGRIM": {
+        "windows": 493,
+        "poet_only": 493,
+        "of": 16962
+      },
+      "THE PHOENIX AND THE TURTLE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 2032
+      },
+      "THE RAPE OF LUCRECE": {
+        "windows": 54,
+        "poet_only": 54,
+        "of": 86767
+      },
+      "VENUS AND ADONIS": {
+        "windows": 54,
+        "poet_only": 54,
+        "of": 55166
+      }
+    }
+  },
+  "50": {
+    "all_39_works": {
+      "windows": 916,
+      "poet_only": 744,
+      "of": 4809425,
+      "share": 0.00019045935844721562,
+      "poet_only_share": 0.00015469624747241096
+    },
+    "without_the_five_that_reprint_one_another": {
+      "windows": 202,
+      "poet_only": 30,
+      "of": 4425256,
+      "share": 4.564707668889664e-05,
+      "poet_only_share": 6.77926881518267e-06
+    },
+    "per_work": {
+      "THE SONNETS": {
+        "windows": 120,
+        "poet_only": 120,
+        "of": 98270
+      },
+      "THE TRAGEDY OF ANTONY AND CLEOPATRA": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 150286
+      },
+      "AS YOU LIKE IT": {
+        "windows": 4,
+        "poet_only": 0,
+        "of": 126120
+      },
+      "THE COMEDY OF ERRORS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 87914
+      },
+      "THE TRAGEDY OF CORIOLANUS": {
+        "windows": 5,
+        "poet_only": 0,
+        "of": 164747
+      },
+      "CYMBELINE": {
+        "windows": 6,
+        "poet_only": 0,
+        "of": 159695
+      },
+      "THE TRAGEDY OF HAMLET, PRINCE OF DENMARK": {
+        "windows": 2,
+        "poet_only": 0,
+        "of": 177093
+      },
+      "THE FIRST PART OF KING HENRY THE FOURTH": {
+        "windows": 4,
+        "poet_only": 0,
+        "of": 140807
+      },
+      "THE SECOND PART OF KING HENRY THE FOURTH": {
+        "windows": 9,
+        "poet_only": 5,
+        "of": 152618
+      },
+      "THE LIFE OF KING HENRY THE FIFTH": {
+        "windows": 23,
+        "poet_only": 0,
+        "of": 152120
+      },
+      "THE FIRST PART OF HENRY THE SIXTH": {
+        "windows": 17,
+        "poet_only": 0,
+        "of": 129871
+      },
+      "THE SECOND PART OF KING HENRY THE SIXTH": {
+        "windows": 18,
+        "poet_only": 0,
+        "of": 149627
+      },
+      "THE THIRD PART OF KING HENRY THE SIXTH": {
+        "windows": 28,
+        "poet_only": 0,
+        "of": 144913
+      },
+      "KING HENRY THE EIGHTH": {
+        "windows": 17,
+        "poet_only": 0,
+        "of": 143073
+      },
+      "THE TRAGEDY OF JULIUS CAESAR": {
+        "windows": 6,
+        "poet_only": 0,
+        "of": 115795
+      },
+      "THE TRAGEDY OF KING LEAR": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 153971
+      },
+      "LOVE’S LABOUR’S LOST": {
+        "windows": 193,
+        "poet_only": 193,
+        "of": 127034
+      },
+      "THE TRAGEDY OF MACBETH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 103034
+      },
+      "MEASURE FOR MEASURE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 125594
+      },
+      "THE MERCHANT OF VENICE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 120327
+      },
+      "THE MERRY WIVES OF WINDSOR": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 129631
+      },
+      "A MIDSUMMER NIGHT’S DREAM": {
+        "windows": 10,
+        "poet_only": 0,
+        "of": 96175
+      },
+      "MUCH ADO ABOUT NOTHING": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 122043
+      },
+      "THE TRAGEDY OF OTHELLO, THE MOOR OF VENICE": {
+        "windows": 5,
+        "poet_only": 5,
+        "of": 153559
+      },
+      "PERICLES, PRINCE OF TYRE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 109003
+      },
+      "THE LIFE AND DEATH OF KING RICHARD THE SECOND": {
+        "windows": 17,
+        "poet_only": 5,
+        "of": 129942
+      },
+      "KING RICHARD THE THIRD": {
+        "windows": 5,
+        "poet_only": 5,
+        "of": 175436
+      },
+      "THE TAMING OF THE SHREW": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 123054
+      },
+      "THE LIFE OF TIMON OF ATHENS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 110835
+      },
+      "THE TRAGEDY OF TITUS ANDRONICUS": {
+        "windows": 5,
+        "poet_only": 0,
+        "of": 119803
+      },
+      "TROILUS AND CRESSIDA": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 156116
+      },
+      "TWELFTH NIGHT; OR, WHAT YOU WILL": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 114630
+      },
+      "THE TWO GENTLEMEN OF VERONA": {
+        "windows": 6,
+        "poet_only": 0,
+        "of": 101023
+      },
+      "THE TWO NOBLE KINSMEN": {
+        "windows": 15,
+        "poet_only": 10,
+        "of": 141251
+      },
+      "THE WINTER’S TALE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 143128
+      },
+      "THE PASSIONATE PILGRIM": {
+        "windows": 313,
+        "poet_only": 313,
+        "of": 16952
+      },
+      "THE PHOENIX AND THE TURTLE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 2022
+      },
+      "THE RAPE OF LUCRECE": {
+        "windows": 44,
+        "poet_only": 44,
+        "of": 86757
+      },
+      "VENUS AND ADONIS": {
+        "windows": 44,
+        "poet_only": 44,
+        "of": 55156
+      }
+    }
+  },
+  "60": {
+    "all_39_works": {
+      "windows": 480,
+      "poet_only": 454,
+      "of": 4809035,
+      "share": 9.981212446987805e-05,
+      "poet_only_share": 9.440563439442633e-05
+    },
+    "without_the_five_that_reprint_one_another": {
+      "windows": 26,
+      "poet_only": 0,
+      "of": 4424916,
+      "share": 5.875817755636491e-06,
+      "poet_only_share": 0.0
+    },
+    "per_work": {
+      "THE SONNETS": {
+        "windows": 72,
+        "poet_only": 72,
+        "of": 98260
+      },
+      "THE TRAGEDY OF ANTONY AND CLEOPATRA": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 150276
+      },
+      "AS YOU LIKE IT": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 126110
+      },
+      "THE COMEDY OF ERRORS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 87904
+      },
+      "THE TRAGEDY OF CORIOLANUS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 164737
+      },
+      "CYMBELINE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 159685
+      },
+      "THE TRAGEDY OF HAMLET, PRINCE OF DENMARK": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 177083
+      },
+      "THE FIRST PART OF KING HENRY THE FOURTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 140797
+      },
+      "THE SECOND PART OF KING HENRY THE FOURTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 152608
+      },
+      "THE LIFE OF KING HENRY THE FIFTH": {
+        "windows": 7,
+        "poet_only": 0,
+        "of": 152110
+      },
+      "THE FIRST PART OF HENRY THE SIXTH": {
+        "windows": 1,
+        "poet_only": 0,
+        "of": 129861
+      },
+      "THE SECOND PART OF KING HENRY THE SIXTH": {
+        "windows": 5,
+        "poet_only": 0,
+        "of": 149617
+      },
+      "THE THIRD PART OF KING HENRY THE SIXTH": {
+        "windows": 6,
+        "poet_only": 0,
+        "of": 144903
+      },
+      "KING HENRY THE EIGHTH": {
+        "windows": 7,
+        "poet_only": 0,
+        "of": 143063
+      },
+      "THE TRAGEDY OF JULIUS CAESAR": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 115785
+      },
+      "THE TRAGEDY OF KING LEAR": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 153961
+      },
+      "LOVE’S LABOUR’S LOST": {
+        "windows": 121,
+        "poet_only": 121,
+        "of": 127024
+      },
+      "THE TRAGEDY OF MACBETH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 103024
+      },
+      "MEASURE FOR MEASURE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 125584
+      },
+      "THE MERCHANT OF VENICE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 120317
+      },
+      "THE MERRY WIVES OF WINDSOR": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 129621
+      },
+      "A MIDSUMMER NIGHT’S DREAM": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 96165
+      },
+      "MUCH ADO ABOUT NOTHING": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 122033
+      },
+      "THE TRAGEDY OF OTHELLO, THE MOOR OF VENICE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 153549
+      },
+      "PERICLES, PRINCE OF TYRE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 108993
+      },
+      "THE LIFE AND DEATH OF KING RICHARD THE SECOND": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 129932
+      },
+      "KING RICHARD THE THIRD": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 175426
+      },
+      "THE TAMING OF THE SHREW": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 123044
+      },
+      "THE LIFE OF TIMON OF ATHENS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 110825
+      },
+      "THE TRAGEDY OF TITUS ANDRONICUS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 119793
+      },
+      "TROILUS AND CRESSIDA": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 156106
+      },
+      "TWELFTH NIGHT; OR, WHAT YOU WILL": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 114620
+      },
+      "THE TWO GENTLEMEN OF VERONA": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 101013
+      },
+      "THE TWO NOBLE KINSMEN": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 141241
+      },
+      "THE WINTER’S TALE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 143118
+      },
+      "THE PASSIONATE PILGRIM": {
+        "windows": 193,
+        "poet_only": 193,
+        "of": 16942
+      },
+      "THE PHOENIX AND THE TURTLE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 2012
+      },
+      "THE RAPE OF LUCRECE": {
+        "windows": 34,
+        "poet_only": 34,
+        "of": 86747
+      },
+      "VENUS AND ADONIS": {
+        "windows": 34,
+        "poet_only": 34,
+        "of": 55146
+      }
+    }
+  },
+  "80": {
+    "all_39_works": {
+      "windows": 222,
+      "poet_only": 222,
+      "of": 4808255,
+      "share": 4.617059619342152e-05,
+      "poet_only_share": 4.617059619342152e-05
+    },
+    "without_the_five_that_reprint_one_another": {
+      "windows": 0,
+      "poet_only": 0,
+      "of": 4424236,
+      "share": 0.0,
+      "poet_only_share": 0.0
+    },
+    "per_work": {
+      "THE SONNETS": {
+        "windows": 46,
+        "poet_only": 46,
+        "of": 98240
+      },
+      "THE TRAGEDY OF ANTONY AND CLEOPATRA": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 150256
+      },
+      "AS YOU LIKE IT": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 126090
+      },
+      "THE COMEDY OF ERRORS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 87884
+      },
+      "THE TRAGEDY OF CORIOLANUS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 164717
+      },
+      "CYMBELINE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 159665
+      },
+      "THE TRAGEDY OF HAMLET, PRINCE OF DENMARK": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 177063
+      },
+      "THE FIRST PART OF KING HENRY THE FOURTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 140777
+      },
+      "THE SECOND PART OF KING HENRY THE FOURTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 152588
+      },
+      "THE LIFE OF KING HENRY THE FIFTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 152090
+      },
+      "THE FIRST PART OF HENRY THE SIXTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 129841
+      },
+      "THE SECOND PART OF KING HENRY THE SIXTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 149597
+      },
+      "THE THIRD PART OF KING HENRY THE SIXTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 144883
+      },
+      "KING HENRY THE EIGHTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 143043
+      },
+      "THE TRAGEDY OF JULIUS CAESAR": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 115765
+      },
+      "THE TRAGEDY OF KING LEAR": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 153941
+      },
+      "LOVE’S LABOUR’S LOST": {
+        "windows": 51,
+        "poet_only": 51,
+        "of": 127004
+      },
+      "THE TRAGEDY OF MACBETH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 103004
+      },
+      "MEASURE FOR MEASURE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 125564
+      },
+      "THE MERCHANT OF VENICE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 120297
+      },
+      "THE MERRY WIVES OF WINDSOR": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 129601
+      },
+      "A MIDSUMMER NIGHT’S DREAM": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 96145
+      },
+      "MUCH ADO ABOUT NOTHING": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 122013
+      },
+      "THE TRAGEDY OF OTHELLO, THE MOOR OF VENICE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 153529
+      },
+      "PERICLES, PRINCE OF TYRE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 108973
+      },
+      "THE LIFE AND DEATH OF KING RICHARD THE SECOND": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 129912
+      },
+      "KING RICHARD THE THIRD": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 175406
+      },
+      "THE TAMING OF THE SHREW": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 123024
+      },
+      "THE LIFE OF TIMON OF ATHENS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 110805
+      },
+      "THE TRAGEDY OF TITUS ANDRONICUS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 119773
+      },
+      "TROILUS AND CRESSIDA": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 156086
+      },
+      "TWELFTH NIGHT; OR, WHAT YOU WILL": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 114600
+      },
+      "THE TWO GENTLEMEN OF VERONA": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 100993
+      },
+      "THE TWO NOBLE KINSMEN": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 141221
+      },
+      "THE WINTER’S TALE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 143098
+      },
+      "THE PASSIONATE PILGRIM": {
+        "windows": 97,
+        "poet_only": 97,
+        "of": 16922
+      },
+      "THE PHOENIX AND THE TURTLE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 1992
+      },
+      "THE RAPE OF LUCRECE": {
+        "windows": 14,
+        "poet_only": 14,
+        "of": 86727
+      },
+      "VENUS AND ADONIS": {
+        "windows": 14,
+        "poet_only": 14,
+        "of": 55126
+      }
+    }
+  },
+  "100": {
+    "all_39_works": {
+      "windows": 74,
+      "poet_only": 74,
+      "of": 4807475,
+      "share": 1.5392695749847892e-05,
+      "poet_only_share": 1.5392695749847892e-05
+    },
+    "without_the_five_that_reprint_one_another": {
+      "windows": 0,
+      "poet_only": 0,
+      "of": 4423556,
+      "share": 0.0,
+      "poet_only_share": 0.0
+    },
+    "per_work": {
+      "THE SONNETS": {
+        "windows": 26,
+        "poet_only": 26,
+        "of": 98220
+      },
+      "THE TRAGEDY OF ANTONY AND CLEOPATRA": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 150236
+      },
+      "AS YOU LIKE IT": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 126070
+      },
+      "THE COMEDY OF ERRORS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 87864
+      },
+      "THE TRAGEDY OF CORIOLANUS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 164697
+      },
+      "CYMBELINE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 159645
+      },
+      "THE TRAGEDY OF HAMLET, PRINCE OF DENMARK": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 177043
+      },
+      "THE FIRST PART OF KING HENRY THE FOURTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 140757
+      },
+      "THE SECOND PART OF KING HENRY THE FOURTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 152568
+      },
+      "THE LIFE OF KING HENRY THE FIFTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 152070
+      },
+      "THE FIRST PART OF HENRY THE SIXTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 129821
+      },
+      "THE SECOND PART OF KING HENRY THE SIXTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 149577
+      },
+      "THE THIRD PART OF KING HENRY THE SIXTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 144863
+      },
+      "KING HENRY THE EIGHTH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 143023
+      },
+      "THE TRAGEDY OF JULIUS CAESAR": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 115745
+      },
+      "THE TRAGEDY OF KING LEAR": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 153921
+      },
+      "LOVE’S LABOUR’S LOST": {
+        "windows": 11,
+        "poet_only": 11,
+        "of": 126984
+      },
+      "THE TRAGEDY OF MACBETH": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 102984
+      },
+      "MEASURE FOR MEASURE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 125544
+      },
+      "THE MERCHANT OF VENICE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 120277
+      },
+      "THE MERRY WIVES OF WINDSOR": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 129581
+      },
+      "A MIDSUMMER NIGHT’S DREAM": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 96125
+      },
+      "MUCH ADO ABOUT NOTHING": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 121993
+      },
+      "THE TRAGEDY OF OTHELLO, THE MOOR OF VENICE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 153509
+      },
+      "PERICLES, PRINCE OF TYRE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 108953
+      },
+      "THE LIFE AND DEATH OF KING RICHARD THE SECOND": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 129892
+      },
+      "KING RICHARD THE THIRD": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 175386
+      },
+      "THE TAMING OF THE SHREW": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 123004
+      },
+      "THE LIFE OF TIMON OF ATHENS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 110785
+      },
+      "THE TRAGEDY OF TITUS ANDRONICUS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 119753
+      },
+      "TROILUS AND CRESSIDA": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 156066
+      },
+      "TWELFTH NIGHT; OR, WHAT YOU WILL": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 114580
+      },
+      "THE TWO GENTLEMEN OF VERONA": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 100973
+      },
+      "THE TWO NOBLE KINSMEN": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 141201
+      },
+      "THE WINTER’S TALE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 143078
+      },
+      "THE PASSIONATE PILGRIM": {
+        "windows": 37,
+        "poet_only": 37,
+        "of": 16902
+      },
+      "THE PHOENIX AND THE TURTLE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 1972
+      },
+      "THE RAPE OF LUCRECE": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 86707
+      },
+      "VENUS AND ADONIS": {
+        "windows": 0,
+        "poet_only": 0,
+        "of": 55106
+      }
+    }
+  }
+}

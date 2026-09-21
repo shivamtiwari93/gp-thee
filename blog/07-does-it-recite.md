@@ -24,15 +24,24 @@ It is circular, and worthless. Part 2's own splitting script **chose** the held-
 
 The honest baseline uses works that were selected for nothing: **each of the thirty-nine training works against the other thirty-eight.**
 
-| | Share of fifty-character windows that occur elsewhere |
-|---|---|
-| All thirty-nine works | 0.000190 |
-| Without the five that genuinely reprint one another | 0.000046 |
-| The poet's own words only, without those five | 0.0000068, which is 30 windows in the whole corpus |
+Fifty characters is the unit, but a single width tells you nothing about how close anything came, so here is the whole curve — the share of windows of each length that also occur in one of the other works.
 
-(*Measured*, twice, by a reviewer and by me, to the same digits.) The five exceptions are real: *The Passionate Pilgrim* reprints sonnets that also appear in *The Sonnets* and *Love's Labour's Lost*, and *Venus and Adonis* and *The Rape of Lucrece* share their dedication to Henry Wriothesley. Take those away and what is left is mostly the editor, not the poet: "Dramatis Personæ" headers, "ACT I / SCENE I. London. An ante-chamber", and the like.
+| Run length | All thirty-nine works | Without the five that reprint one another | The poet's own words only |
+|---|---|---|---|
+| 20 characters | 0.011287 | 0.011228 | — |
+| 25 | 0.003673 | 0.003428 | — |
+| 30 | 0.001687 | 0.001416 | 0.0000217 |
+| 40 | 0.000457 | 0.000247 | 0.0000197 |
+| **50** | **0.000190** | **0.000046** | **0.0000068** |
+| 60 | 0.000100 | 0.000006 | 0 |
+| 80 | 0.000046 | 0 | 0 |
+| 100 | 0.000015 | 0 | 0 |
 
-So the innocent rate is about one window in twenty thousand, and nearly all of it is furniture: of the 202 windows two works share, 30 are Shakespeare's own words. That is the bar.
+Read down the first column and you can watch Shakespeare's habits run out. One window in ninety at twenty characters, one in five thousand at fifty, one in sixty-five thousand at a hundred. The last column is empty at twenty and twenty-five characters for a dull reason rather than an interesting one: a window has to carry twenty-five letters to count as the poet's, and a window of twenty-five characters cannot, because some of them are spaces.
+
+(*Measured* three times now: by the reviewer who designed it, by me, and a third time by a different program written to produce this curve — one that hashes every window and confirms each hit against the text, against one that indexes every window by the text itself. All three agree at fifty characters to the digit: 916 shared windows of 4,809,425, and 202 of 4,425,256 once the five reprinting works are set aside.) The five exceptions are real: *The Passionate Pilgrim* reprints sonnets that also appear in *The Sonnets* and *Love's Labour's Lost*, and *Venus and Adonis* and *The Rape of Lucrece* share their dedication to Henry Wriothesley. Take those away and what is left is mostly the editor, not the poet: "Dramatis Personæ" headers, "ACT I / SCENE I. London. An ante-chamber", and the like.
+
+So the innocent rate is about one window in twenty thousand, and nearly all of it is furniture: of the 202 shared windows left once those five works are set aside, 30 are Shakespeare's own words. That is the bar.
 
 ## What counts as reciting
 
@@ -40,7 +49,7 @@ Three decisions, all made before the model was measured and written into [the bu
 
 **A copy is raw characters, and the whole curve is reported.** Fifty characters is the unit part 2 promised, but fifty on its own is a near-certain zero for the model and for an innocent writer alike, so it cannot show how close either came. The counts at twenty, twenty-five, thirty, forty, fifty, sixty, eighty and a hundred characters are all published together, and so is the longest match.
 
-**The poet and the editor are counted separately, and neither is a footnote.** Most of what a Shakespeare text file contains was not written by Shakespeare: cast lists, act and scene headings, entrances and exits, and the speaker label before every single line. That text is short, formulaic and repeated across works, which makes it the easiest thing in the corpus to reproduce and the least interesting. About a tenth of the corpus is editorial furniture by the rule we published (*measured*: 10.3% of the training works, 10.1% of the validation plays, which is a reassuring symmetry). A passage also has to carry at least twenty-five letters to count, or a run of indentation scores as a copy.
+**The poet and the editor are counted separately, and neither is a footnote.** Most of what a Shakespeare text file contains was not written by Shakespeare: cast lists, act and scene headings, entrances and exits, and the speaker label before every single line. That text is short, formulaic and repeated across works, which makes it the easiest thing in the corpus to reproduce and the least interesting. About a tenth of the corpus is editorial furniture by the rule I published (*measured*: 10.3% of the training works, 10.1% of the validation plays, which is a reassuring symmetry). A passage also has to carry at least twenty-five letters to count, or a run of indentation scores as a copy.
 
 This split is not a technicality. It decides the headline. With the results in front of you it would be possible to write "it reproduces sixty-six characters of its training text word for word" and equally possible to write "the longest complete line of Shakespeare it reproduces is eighteen characters", and both would be true.
 
@@ -65,7 +74,8 @@ Here is the scan, over every character of both texts.
 | | The 39 works it trained on | The 2 plays it never read |
 |---|---|---|
 | Its first guess is the right character | 69.72% of the time | 63.63% |
-| Runs of 40 characters or more it could continue | 52 | 1 |
+| Candidate runs of 40 characters or more | 52 | 1 |
+| Runs of 40 or more that survived being written out | 34 | 1 |
 | Longest, once it had to write it out | **66 characters** | 40 |
 | Runs of 50 characters or more, confirmed | 9 | 0 |
 
@@ -83,7 +93,7 @@ Sixty-six characters is a real extraction: hand the model the 256 characters tha
  50  COND\n\n\n\n\nDramatis Personæ\n\nKING RICHARD THE SECOND
 ```
 
-A title page. A cast list. Scene headings. Entrances. Speaker labels. **Not one line of verse.** *Measured*, character by character: seven of the nine carry nothing of Shakespeare's at all except the blank lines between speeches. The seventh carries three letters, the word `The` that begins a speech it never finishes. The eighth carries one short line, `A thousand pieces!` — eighteen characters, and the most of his own words this model has ever been shown to reproduce in one run.
+A title page. A cast list. Scene headings. Entrances. Speaker labels. **Not one line of verse.** *Measured*, character by character: seven of the nine carry nothing of Shakespeare's at all except the blank lines between speeches. The seventh carries three letters, the word `The` that begins a speech it never finishes. The eighth carries one short line, `A thousand pieces!` — eighteen characters, and the only complete line of his own that this model has ever been shown to reproduce.
 
 Go looking for the longest passage that is mostly the poet's, and you get forty-four characters, which turn out to span two different speeches:
 
@@ -123,19 +133,39 @@ Four of the five were the editor's furniture, counted as Shakespeare's. Two faul
 
 Both errors pushed the same way: they made the model look as though it were reproducing Shakespeare when it was reproducing his editors. That is the direction I would have liked the answer to go, which is exactly why I should not be the last check on it. The rule is fixed, the four passages above are named in a test so they cannot come back, and the whole measurement was run again from scratch.
 
+A second reviewer, reading this draft, caught a quieter failure of the same kind. The rule promised the whole run-length curve and my code asked for two of the eight lengths, so five of the numbers this post claimed to publish did not exist anywhere. Nobody would have noticed; the two published lengths told the same story. That is precisely what makes it worth naming, because a pre-registration you keep only where it is convenient is not one. The curve above, and the grid below, are the full eight.
+
 ### Sampling is the weaker instrument, and here is the proof
 
-Asking the model for text and looking for copies is the obvious way to do this, and it would have badly understated the answer. Prompted with its own training text at temperature 0.8, the model produced **one** copied passage of fifty characters in twenty thousand characters of output. The scan proves there are fifty-two places in the corpus where it could have produced forty or more.
+Asking the model for text and looking for copies is the obvious way to do this, and it would have badly understated the answer.
+
+**Temperature** is how closely the dice follow the model's own odds: at 1.0 they follow them exactly, below 1.0 the model plays safe, and at zero there are no dice at all and it takes its likeliest character every time — which is what the confirmation step does, and what "greedily" means below. The grid ran all four of 0, 0.5, 0.8 and 1.0, against four kinds of prompt.
+
+Prompted with its own training text at temperature 0.8, the model produced **one** copied passage of fifty characters in twenty thousand characters of output. The scan finds thirty-four places in the corpus where the model can be *made* to write forty characters or more, and nine where it writes fifty or more. (Fifty-two candidate runs reach forty characters; eighteen of them do not survive being written out.)
 
 Every copy of fifty characters or more that sampling did find is, again, a scene heading. The longest was fifty-six characters, written greedily from a validation prompt:
 
 ```
-t._]
-
-SCENE III. The same. A Room in the Palace.
-
-Enter 
+t._]\n\nSCENE III. The same. A Room in the Palace.\n\nEnter 
 ```
+
+Still, the grid is worth having for one thing the scan cannot give you: what the model copies when nobody is trying to make it copy. Here is the whole curve over all sixteen cells — 320,112 characters of the model's own writing — against the innocent baseline from the top of this post. The last column is what a writer copying at the innocent rate would have produced in the same amount of text. It is a yardstick, not a null hypothesis: the baseline was measured on Shakespeare's real text, and this is not Shakespeare's real text.
+
+| Run length | Windows the model copied | Its rate | An innocent writer's rate | Expected at that rate |
+|---|---|---|---|---|
+| 20 characters | 11,766 | 0.036791 | 0.011228 | 3,591 |
+| 25 | 3,080 | 0.009633 | 0.003428 | 1,096 |
+| 30 | 1,037 | 0.003244 | 0.001416 | 453 |
+| 40 | 136 | 0.000426 | 0.000247 | 79 |
+| **50** | **14** | **0.000044** | **0.000046** | **14.6** |
+| 60 | 0 | 0 | 0.000006 | 1.9 |
+| 80 and 100 | 0 | 0 | 0 | 0 |
+
+At twenty characters the model copies more than three times as much as an innocent writer, which is not a scandal — it is what a language model trained on this text is *for*, and it is the reassurance that the instrument is not simply printing zeros. Then watch the two columns converge. By fifty characters they have met: fourteen copies observed against fourteen and a half expected. Past sixty the model is at zero where Shakespeare's own works are still repeating each other.
+
+And the column that is not in the table, because it is one number: **of those 320,112 characters, the count of windows that are Shakespeare's own words copied verbatim is zero, at every length.** At thirty and forty characters the innocent rate would have produced about seven and about six.
+
+There is a sensitivity check under all of this, which the rule also asked for: the same counts after lowercasing everything and reducing every run of whitespace to a single space, so that a copy retyped with different layout still counts. Pooled, that gives six copies of fifty characters against fourteen raw. It cuts both ways, which is why it is worth having — normalising collapses the line breaks, so a fifty-character normalised window covers more words than a raw one and is harder to match, and the scene headings the raw count finds are mostly line breaks.
 
 
 
@@ -163,7 +193,7 @@ letter this universe has is 'i'.
 
 Refusing is the point. Silently dropping the character would leave you wondering what the model was really given, and a project that has spent six parts insisting on measurement should not start guessing on the last mile. Every substitution is reported beside the sample, so the text you read is always the text the model saw.
 
-Two rules that are not about spelling. **Trailing spaces are stripped**, because in this project's tokenizers a space belongs to the token *after* it (part 3): a prompt ending in a space is asking the model to continue a word that has not started. And **START is never prepended**. START means "a new work begins here"; an ordinary prompt is the middle of one.
+Two rules that are not about spelling. **Trailing spaces are stripped.** That rule was written in [part 3](03-the-tokenizer.md) for the word-fragment tokenizers, where a space is glued to the word after it, so a prompt ending in one asks the model to continue a word that has not started. For the character model that won part 6 a space is an ordinary token of its own — *measured*: 740,476 of the 4,811,336 training characters, one in six and a half — and asks for nothing unusual. The rule is kept anyway, so that every checkpoint in this project is prompted the same way, and the strip is reported beside the sample like any other change. And **START is never prepended**. START means "a new work begins here"; an ordinary prompt is the middle of one.
 
 ### The ten prompts
 
@@ -213,7 +243,7 @@ I pray you, mark how the catalogue
 May have had broke our heads and have not torn.
 ```
 
-It found the only `cat` it knows. That is the whole model in four lines: it is an in-character autocomplete, not an assistant, and it has never once been asked a question.
+It knows cats perfectly well — "The cat will mew, and dog will have his day" is in there, and twenty-nine more besides — but asked for a poem about one it reached for `catalogue` and got on with the scene. That is the whole model in four lines: it is an in-character autocomplete, not an assistant, and it has never once been asked a question.
 
 ### Speaking as a character
 
@@ -272,10 +302,12 @@ gp-thee/
 ├── src/gp_thee/memorisation.py     finding a copy, telling the poet from the editor, and the scan
 ├── scripts/sample.py               ask the model for text, or run the ten prompts against a checkpoint
 ├── scripts/memorisation.py         does it recite? writes docs/memorisation.json
+├── scripts/baseline_curve.py       what an innocent writer of Shakespeare scores, at every length
 ├── scripts/choose_release.py       which run is GP-Thee-11M, by the rule; writes docs/release.json
 ├── docs/release.json               the released run, the eight excluded ones, and what the choice cost
 ├── docs/memorisation.json          every confirmed passage, the innocent baseline, the sampled grid
-└── docs/candidates.json           every candidate of 50 characters or more, and what it confirmed to
+├── docs/baseline-curve.json        the innocent baseline at all eight lengths, work by work
+└── docs/candidates.json            every candidate of 50 characters or more, and what it confirmed to
 ```
 
 ```bash
@@ -283,10 +315,11 @@ uv run python scripts/sample.py --run sweep-char-seed-1 --prompt $'\n\nHAMLET.\n
 uv run python scripts/sample.py --run sweep-char-seed-1 --suite     # the ten fixed prompts
 uv run python scripts/sample.py --run sweep-char-seed-1 --scene     # speak as a character
 uv run python scripts/choose_release.py
-uv run python scripts/memorisation.py                               # about eighty minutes
+uv run python scripts/baseline_curve.py                             # under a minute
+uv run python scripts/memorisation.py                               # about forty minutes
 ```
 
 Seven parts in, GP-Thee is finished: a tokenizer chosen by a rule, a recipe nobody tuned, eleven runs, one of them named, and a direct answer to the question of whether it is a parrot. What it has never been asked to do is read anything outside the thirty-nine works it trained on and the two it was measured against.
 
-Three works have sat in a locked folder since part 2. *King John*, *The Tempest*, *A Lover's Complaint*. No script has opened them, no number in six parts has come from them, and the code refuses to load them without a password that appears in exactly one place. In part 8 we type it, once.
+Three works have been out of reach since part 2. *King John*, *The Tempest*, *A Lover's Complaint*. No model has read a character of them, no score in seven parts has come from them, and the code refuses to load them without a password that appears in exactly one place. What this series has published about them is their size in the split table, and nothing else. In part 8 we type it, once.
 
