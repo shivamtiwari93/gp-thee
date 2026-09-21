@@ -37,7 +37,12 @@ from gp_thee.train import plan_windows
 # anything it wrongly marks as the editor's is taken away from the model's poet-only score, never added to it.
 DIRECTION = re.compile(r"\[_.*?_\.?\]", re.S)                       # [_Exit._] and [_One knocks_.]: the full stop can fall inside or outside
 HEADING = re.compile(r"^(ACT |SCENE |PROLOGUE|EPILOGUE|INDUCTION|Dramatis Person|THE PROLOGUE|THE EPILOGUE)", re.M)
-ENTRANCE = re.compile(r"^(Enter |Exeunt|Exit |Re-enter |Alarum|Flourish|Sennet|Manet|They fight|Music)", re.M)
+BODY_BEGINS = re.compile(r"^(ACT |SCENE |PROLOGUE|INDUCTION|THE PROLOGUE)", re.M)   # where the cast list ends and the play starts
+# A stage direction is a line that names an entrance, an exit or a noise. The list is not exhaustive and cannot be:
+# "Drum and colours. Enter King Henry" begins with a word no list would hold. Whatever it misses is counted as the
+# poet's, which is the direction that flatters the model least, and every long passage is classified by hand as well.
+ENTRANCE = re.compile(r"^(Enter |Exeunt|Exit |Re-enter |Alarum|Flourish|Sennet|Manet|They fight|Music|Drum|Trumpet|"
+                      r"A march|March|Retreat|Shout|Hautboys|Cornets|Thunder|Storm|Sound|Horns|Knock)", re.M)
 LETTERS = re.compile(r"[^\W\d_]")
 
 
@@ -55,8 +60,8 @@ def apparatus(work: str) -> np.ndarray:
         for found in pattern.finditer(work):
             end = found.end() if pattern is DIRECTION else work.find("\n", found.start()) + 1 or len(work)
             mask[found.start():end] = True
-    first_act = HEADING.search(work)
-    mask[:first_act.start() if first_act else 0] = True             # the title page and the cast list
+    body = BODY_BEGINS.search(work)                                 # the title page and the whole cast list, down to the first ACT
+    mask[:body.start() if body else 0] = True
     return mask
 
 
@@ -84,6 +89,11 @@ class Corpus:
     def holds(self, passage: str) -> bool:
         """Does this exact passage occur in the training works? (Hash first, then read the text: no collisions.)"""
         return bool(len(passage) and np.isin(hash(passage), self.table(len(passage))) and passage in self.text)
+
+    def mostly_the_editors(self, passage: str) -> bool:
+        """Where this passage occurs in the training works, was it the editor who wrote it?"""
+        at = self.text.find(passage)
+        return at < 0 or bool(self.editor[at:at + len(passage)].mean() > 0.5)
 
     def matching(self, text: str, width: int) -> np.ndarray:
         """For every window of `width` characters in `text`: is it in the training works?"""
@@ -113,9 +123,11 @@ def curve(corpus: Corpus, text: str, widths=(20, 25, 30, 40, 50, 60, 80, 100), p
     out = {}
     for width in widths:
         found = corpus.matching(text, width)
-        if poet_only and len(found):                                  # a window must carry real words, not indentation
+        if poet_only and len(found):
             letters = np.concatenate([[0], np.cumsum([bool(LETTERS.match(c)) for c in text])])
-            found = found & (letters[width:width + len(found)] - letters[:len(found)] >= 25)
+            found = found & (letters[width:width + len(found)] - letters[:len(found)] >= 25)   # real words, not indentation
+            for i in np.flatnonzero(found):                           # and Shakespeare's words, not the editor's furniture
+                found[i] = not corpus.mostly_the_editors(text[i:i + width])
         inside = np.zeros(len(text), dtype=bool)
         for i in np.flatnonzero(found):
             inside[i:i + width] = True

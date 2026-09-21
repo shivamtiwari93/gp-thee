@@ -87,9 +87,21 @@ def test_poet_only_counting_drops_windows_of_furniture(corpus):
     assert corpus.holds(furniture) and not enough_letters(furniture[:50]) or True
     whole, poet = curve(corpus, furniture, widths=(50,)), curve(corpus, furniture, widths=(50,), poet_only=True)
     assert whole[50]["windows"] > 0                                              # the editor's text is verbatim in the corpus
-    assert poet[50]["windows"] <= whole[50]["windows"]
-    indentation = " " * 60                                                       # and a run of spaces is never a copy worth counting
+    assert poet[50]["windows"] == 0                                              # and none of it is Shakespeare's
+    indentation = " " * 60                                                       # a run of spaces is never a copy worth counting
     assert curve(corpus, indentation, widths=(50,), poet_only=True)[50]["windows"] == 0
+    verse = corpus.text[corpus.text.find("or he hath done me wrong.") + 30:][:200]   # a stretch of ordinary dialogue
+    assert curve(corpus, verse, widths=(50,), poet_only=True)[50]["windows"] > 0     # counts in full, as the poet's
+
+
+def test_the_cast_list_and_the_noises_off_belong_to_the_editor(corpus):
+    # Both were missed by the first version of this rule, and both inflated the model's score, which is the
+    # direction that flatters it. Named here so that they cannot quietly come back.
+    for furniture in ("DUKE OF GLOUCESTER, brother to the King.", "METELLUS CIMBER, Conspirator against Caesar.",
+                      "Drum and colours. Enter King Henry", "LUCIUS, servant of Timon’s creditors"):
+        assert corpus.mostly_the_editors(furniture), furniture
+    for poetry in ("or he hath done me wrong.", "To be, or not to be"):
+        assert not corpus.mostly_the_editors(poetry) or poetry not in corpus.text, poetry
 
 
 # ------------------------------------------------------------------------------------------ the scan

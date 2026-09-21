@@ -904,7 +904,7 @@ I measured, first-hand, that no 50-character window of the two validation plays 
 
 It is worthless for that. `scripts/make_split.py` **chose** the held-out works by exactly this test: a 50-character window after the same normalisation, asserted to be empty but for one accepted scene heading (entry 10). The validation plays score zero because a zero was the condition of their being validation plays. A reader could not have seen that, and neither did I until a designer said so.
 
-**The honest baseline is leave-one-out over the 39 training works**, which were selected for nothing: for each work, the share of its 50-character windows that occur in the other 38. *Measured*, by the designer and again by me, to the same digits: **0.000190** over all 39 works, and **0.000046** without the five works that genuinely reprint one another (The Passionate Pilgrim, The Sonnets, Love's Labour's Lost, Venus and Adonis, The Rape of Lucrece). What is left is dominated by the editor, not the poet: dedications to Henry Wriothesley, "Dramatis Personæ" headers, "ACT I / SCENE I. London. An ante-chamber". Poet-only it is 0.000003, about three windows in a million.
+**The honest baseline is leave-one-out over the 39 training works**, which were selected for nothing: for each work, the share of its 50-character windows that occur in the other 38. *Measured*, by the designer and again by me, to the same digits: **0.000190** over all 39 works, and **0.000046** without the five works that genuinely reprint one another (The Passionate Pilgrim, The Sonnets, Love's Labour's Lost, Venus and Adonis, The Rape of Lucrece). What is left is dominated by the editor, not the poet: dedications to Henry Wriothesley, "Dramatis Personæ" headers, "ACT I / SCENE I. London. An ante-chamber". Poet-only it is 0.0000068 (*measured by me*: of the 202 shared windows, 30 are the poet's), about seven windows in a million.
 
 ### Memorisation: the measurement, fixed now
 
@@ -950,10 +950,100 @@ New: `src/gp_thee/sampling.py`, `scripts/sample.py`, `tests/test_sampling.py`. *
 
 ### The retrain on all 44 works: revoked
 
-Entry 11 promised that the released model would be retrained on all 44 works. **That promise is withdrawn here, with the reason.** The whole series argues that an unmeasured claim is not a claim; making the headline artifact the one model that can never be measured would invert that on the last page. The gain is 4.8% more text, which is the size of the noise this project spent two entries measuring, and the cost is permanent.
+Entry 11 promised that the released model would be retrained on all 44 works. **That promise is withdrawn here, with the reason.** The whole series argues that an unmeasured claim is not a claim; making the headline artifact the one model that can never be measured would invert that on the last page. The gain is 10.6% more text (*measured*: 507,888 characters on top of 4,811,336 — the 44-work model absorbs the 2 validation plays as well as the 3 test works, and an earlier draft of this entry said 4.8%, having counted only the test works), what that gain buys cannot be measured once the works that would measure it are eaten, and the cost is permanent.
 
 **GP-Thee-11M is the 39-work model with a real test score, and it is the only model in the Hugging Face repository.** If a 44-work model is wanted later it is a separate artifact, trained only after part 8 is published, named `GP-Thee-11M-all44` and never `GP-Thee-11M`, with everything it inherits fixed now: the same tokenizer file unchanged (*measured*: `char.json`'s 97 characters are exactly the whole-corpus alphabet recorded before the split existed, so a refit on 44 works changes nothing), seed 1, the recipe unchanged, 34 passes (about 11,038 steps on 5,319,268 tokens), and no best checkpoint, because there is no validation text: the last checkpoint is released and the card says that no moment of the run was chosen. Its first paragraph must say that it has no held-out score and never can have one.
 
 ### Part 8's protocol, fixed now
 
 One script, `scripts/final_evaluation.py`, committed before it is ever run, taking no arguments. It refuses to start unless `docs/release.json` exists and is committed, the tree is clean for `src/`, `scripts/` and `data/`, and `docs/final-evaluation.json` does not already exist. It writes that file once. Every invocation gets a line in this log with its timestamp and outcome. The unlock string `this is the final evaluation` appears in that script and nowhere else.
+
+## Entry 18. Part 7 measured: it does not recite Shakespeare, it recites his editors (2026-09-21)
+
+The measurement of entry 17, run at full scale on the released model, `sweep-char-seed-1/best.pt` (step 9,236), on the GPU. *All measured.* The record is [docs/memorisation.json](memorisation.json).
+
+### The scan, which is the instrument the verdict rests on
+
+Walk the model along the true text and ask at every position whether the character that really comes next is the one it would have written.
+
+| | Training works (4.8M characters) | Validation plays (274,727) |
+|---|---|---|
+| Its first guess is right | 69.72% of characters | 63.63% |
+| Candidate runs of 40 characters or more | 52 | 1 |
+| Longest candidate | 99 characters | 40 |
+| **Longest confirmed** | **66** | **40** |
+| Confirmed runs of 50 or more | 9 | 0 |
+
+The confirmation stage earns its place. *Measured*, every candidate of 50 characters or more, screened → confirmed: 99→27, 68→34, 66→66, 65→15, 60→15, 59→59, 58→58, 57→57, 56→56, 54→54, 52→5, 51→51, 51→51, 50→50. So 14 candidates of 50 or more become 9 confirmed, and the longest confirmed passage comes from a candidate of exactly 66, not from the 99-character candidate, which collapses to 27 once the model must write it from a full 256-character run-up. (An earlier draft of this entry said the 99 "becomes 66", conflating two different candidates. Corrected against a fresh measurement, [docs/candidates.json](candidates.json).) A candidate is not an extraction.
+
+**Every one of the nine confirmed passages of 50 characters or more is the editor's furniture.** In full, longest first:
+
+```
+ 66  'IRD PART OF KING HENRY THE SIXTH\n\n\n\n\nDramatis Personæ\n\nKING HENRY '
+ 59  'exandria. A Room in the Palace.\n\nEnter Antony and Cleopatra'
+ 58  '_Exeunt Antipholus of Syracuse and Dromio of Syracuse._]\n\n'
+ 57  'andarus’ house.\n\nEnter Pandarus and Cressida.\n\nPANDARUS.\n'
+ 56  '\nEnter Antipholus of Syracuse.\n\nANTIPHOLUS OF SYRACUSE.\n'
+ 54  '_]\n\nSCENE III. The same. A Room in the Palace.\n\nEnter '
+ 51  'ntipholus of Syracuse.\n\nANTIPHOLUS OF SYRACUSE.\nThe'
+ 51  '\n\nSECOND FRIEND.\nA thousand pieces!\n\nFIRST FRIEND.\n'
+ 50  'COND\n\n\n\n\nDramatis Personæ\n\nKING RICHARD THE SECOND'
+```
+
+Title pages, cast lists, scene headings, entrances and speaker labels. *Measured* character by character against the editor mask, the poet's share of each, longest first: 0, 1, 2, 2, 2, 3, 4, 22, 0 characters. Seven of the nine carry nothing but the blank lines between speeches; the seventh carries `\nThe`; only the eighth carries a line, `A thousand pieces!`, eighteen characters.
+
+**The longest confirmed passage that is mostly the poet's is 44 characters**, and it spans two speeches:
+
+```
+'or he hath done me wrong.\n\nKING HENRY.\nWhat '
+```
+
+Thirty-two of those characters are Shakespeare's (the end of one line and the first word of the next); the twelve in the middle are `KING HENRY.` and its line break. (An earlier draft of this entry said thirty and thirteen, by eye rather than by the mask.) The longest unbroken stretch of his verse the model reproduces anywhere is **"or he hath done me wrong.", twenty-five characters.**
+
+On the two plays it never read, the model's single candidate of 40 characters or more confirms at 40, and it is a scene heading. Its longest poet-only confirmed passage there is zero.
+
+### The verdict: between the two, as the rule allowed
+
+Entry 17 fixed it: recites if the longest confirmed poet-only passage from the training works reaches 50 characters and is at least twice the validation figure; does not recite if it is under 50 and exceeds the validation figure by no more than 10.
+
+**It is 44 against 0.** Under 50, so not "recites". But 44 exceeds 0 by more than 10, so not "does not recite" either. The rule lands in the middle and says: report it as it stands, with every passage printed, which is what this entry does.
+
+The middle case is not an accident of the model, it is a weakness of the rule that is worth recording: the validation ceiling came out at 0, and the second clause asks the training figure to be within 10 of it, which almost nothing could satisfy. A rule written after seeing that 0 would have said something else. This one was written before, so it stands as written.
+
+### A bug in my own rule, in the direction that flattered the model
+
+The first run of this measurement reported five confirmed passages as "mostly the poet's". Looking at them one by one, as entry 17 requires, four were nothing of the kind:
+
+```
+'um and colours. Enter King Henry, Gloucester'      ("Drum and colours. Enter King Henry...")
+'LOUCESTER, brother to the King.\nDUKE OF '          (a cast list)
+'UCIUS, servant of Timon’s creditors\n'              (a cast list)
+'BER, Conspirator against Caesar.\nC'                (a cast list)
+```
+
+Two faults, both mine. The front-matter cut-off was written as "everything before the first heading", and `Dramatis Person` was itself in the list of headings, so the cut-off landed on the cast list's own title and left the whole cast list unmarked. And the list of words that open a stage direction had no `Drum`. Both made the model look as though it were reproducing Shakespeare when it was reproducing his editors: **the direction that flatters it.**
+
+Fixed: the front matter now runs to the first `ACT`, `SCENE`, `PROLOGUE` or `INDUCTION` line, and the direction list is longer. The editor's share of the text moves from 9.6% to 10.3% of the training works and 9.3% to 10.1% of the validation plays, which stays symmetric. A second fault of the same kind: the poet-only counting in the sampled grid tested only that a window held 25 letters, so a scene heading with enough letters in it counted as the poet's. It now also asks whether the editor wrote that passage where it occurs in the corpus. Both are pinned by tests that name the four passages above, so they cannot quietly come back. The measurement was re-run from scratch with the corrected rule.
+
+Two of entry 17's figures were also re-measured here rather than taken on trust. The cost of selection: *measured* by simulation over 400,000 draws against both spreads this project has published, the best of 3 sits 0.0046 (sd 0.0054) to 0.0060 (sd 0.0071) below the mean, and the best of 11 sits 0.0086 to 0.0112 below it, so entry 17's "about 0.005 and about 0.010" stands. The best of 41 stops: `log.csv` carries exactly 41 scored stops, as claimed.
+
+The lesson is the one from parts 3 to 6, in a new place: a rule I wrote to protect a measurement had a hole in it, and the hole leaned the way I would have liked the answer to lean.
+
+### What it copies when simply asked to write
+
+20,007 characters per cell, four kinds of prompt, four temperatures, seeds fixed. (Entry 17 said 200,000 characters per cell. **That is a deviation, and the reason is speed:** the sampler re-reads its whole window for every character, so the grid at full size would take nine hours. The scan above, which is the primary instrument, is at full scale over every one of the 4.8 million characters. The sampled grid is secondary and is reported at a tenth of the promised size.)
+
+Copies of 50 characters or more, out of 20,007 characters written, by the corrected rule, with the poet-only count beside it:
+
+| Prompt | t=0 | t=0.5 | t=0.8 | t=1.0 |
+|---|---|---|---|---|
+| unprompted | 0 | 0 | 0 | 5 (0 of the poet's) |
+| from the training works | 0 | 1 (0) | 1 (0) | 0 |
+| from the validation plays | 7 (0) | 0 | 0 | 0 |
+| the ten-prompt suite | 0 | 0 | 0 | 0 |
+
+Every copy of 50 characters or more that sampling found is a scene heading, such as `'t._]\n\nSCENE III. The same. A Room in the Palace.\n\nEnter '` (56 characters, written greedily from a validation prompt). **Not one is a line of verse.** Sampling also demonstrates why it is the weaker instrument: prompted with its own training text at temperature 0.8, the model produced one copy in 20,007 characters, while the scan proves there are 52 places in the corpus where it could have produced 40 or more.
+
+### How this answers part 5
+
+Part 5 found a gap between the score on text the model had trained on (1.37 bits per character) and on the validation plays (1.75), retracted the claim that the gap shows memorisation, and promised a direct measurement in a later part. This is it. The scan opens the gap up and shows what is inside: 69.72% next-character agreement on the training works against 63.63% on the plays it never read, six points, and the passages behind those six points are cast lists, scene headings and entrances. The model has learned the *shape* of an edition of Shakespeare very well, and its verse hardly at all, word for word.

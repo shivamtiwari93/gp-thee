@@ -89,6 +89,7 @@ More steps are added here as they are built.
 4. [The model](blog/04-the-model.md): 195 lines of GPT, the four checks that catch a model that is quietly wrong, the planted bug that halved the context while every test stayed green, and what we learned about training on an Apple GPU.
 5. [Training](blog/05-training.md): the six lines that learn, how to score a model honestly, what a zip file says a good score is, why the length of a run has to be chosen by a rule, and a training script whose numbers were right while nearly everything around them was wrong.
 6. [Which tokenizer?](blog/06-which-tokenizer.md): five ways of cutting the text, three runs each, a winner chosen by a rule fixed before the first run, what that rule could and could not have shown, and why the word-fragment models lost on a text this small.
+7. [Does it recite?](blog/07-does-it-recite.md): the memorisation measurement I nearly published and why it was circular, a scan of all 4.8 million positions, the longest passage the model can be made to reproduce, a bug in my own rule that flattered it, a sampler you can talk to, which of eleven runs becomes GP-Thee-11M, and a promise from part 2 withdrawn.
 
 ## Data and licence
 

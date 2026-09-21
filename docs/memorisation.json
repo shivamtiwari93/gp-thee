@@ -236,5 +236,1050 @@
       "passage": ".\n\n[_Exeunt._]\n\nSCENE III. The same. A room in "
     },
     "why_it_is_worthless": "make_split.py chose the held-out works by this very test"
+  },
+  "runs": {
+    "sweep-char-seed-1/best": {
+      "step": 9236,
+      "validation_bpc": 1.749198301521595,
+      "scan": {
+        "training works": {
+          "agreement": 0.6971736140237695,
+          "tokens": 4811374,
+          "candidates_of_40_or_more": 52,
+          "longest_candidate": 99,
+          "confirmed": [
+            {
+              "confirmed_tokens": 66,
+              "characters": 66,
+              "text": "IRD PART OF KING HENRY THE SIXTH\n\n\n\n\nDramatis Personæ\n\nKING HENRY ",
+              "letters": 50,
+              "screened_tokens": 66,
+              "begin": 1689774,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 1.0
+            },
+            {
+              "confirmed_tokens": 59,
+              "characters": 59,
+              "text": "exandria. A Room in the Palace.\n\nEnter Antony and Cleopatra",
+              "letters": 47,
+              "screened_tokens": 59,
+              "begin": 202448,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9830508474576272
+            },
+            {
+              "confirmed_tokens": 58,
+              "characters": 58,
+              "text": "_Exeunt Antipholus of Syracuse and Dromio of Syracuse._]\n\n",
+              "letters": 45,
+              "screened_tokens": 58,
+              "begin": 433222,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9655172413793104
+            },
+            {
+              "confirmed_tokens": 57,
+              "characters": 57,
+              "text": "andarus’ house.\n\nEnter Pandarus and Cressida.\n\nPANDARUS.\n",
+              "letters": 44,
+              "screened_tokens": 57,
+              "begin": 4097714,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9649122807017544
+            },
+            {
+              "confirmed_tokens": 56,
+              "characters": 56,
+              "text": "\nEnter Antipholus of Syracuse.\n\nANTIPHOLUS OF SYRACUSE.\n",
+              "letters": 45,
+              "screened_tokens": 56,
+              "begin": 392919,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9642857142857143
+            },
+            {
+              "confirmed_tokens": 54,
+              "characters": 54,
+              "text": "_]\n\nSCENE III. The same. A Room in the Palace.\n\nEnter ",
+              "letters": 36,
+              "screened_tokens": 54,
+              "begin": 4544742,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9444444444444444
+            },
+            {
+              "confirmed_tokens": 51,
+              "characters": 51,
+              "text": "ntipholus of Syracuse.\n\nANTIPHOLUS OF SYRACUSE.\nThe",
+              "letters": 42,
+              "screened_tokens": 51,
+              "begin": 429326,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9215686274509803
+            },
+            {
+              "confirmed_tokens": 51,
+              "characters": 51,
+              "text": "\n\nSECOND FRIEND.\nA thousand pieces!\n\nFIRST FRIEND.\n",
+              "letters": 38,
+              "screened_tokens": 51,
+              "begin": 3823398,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.5686274509803921
+            },
+            {
+              "confirmed_tokens": 50,
+              "characters": 50,
+              "text": "COND\n\n\n\n\nDramatis Personæ\n\nKING RICHARD THE SECOND",
+              "letters": 39,
+              "screened_tokens": 50,
+              "begin": 3334611,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 1.0
+            },
+            {
+              "confirmed_tokens": 49,
+              "characters": 49,
+              "text": "_Exeunt Rosencrantz and Guildenstern._]\n\nHAMLET.\n",
+              "letters": 38,
+              "screened_tokens": 49,
+              "begin": 871543,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9591836734693877
+            },
+            {
+              "confirmed_tokens": 47,
+              "characters": 47,
+              "text": "omio of Syracuse.\n\nDROMIO OF SYRACUSE.\nMaster, ",
+              "letters": 36,
+              "screened_tokens": 47,
+              "begin": 429827,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.8085106382978723
+            },
+            {
+              "confirmed_tokens": 47,
+              "characters": 47,
+              "text": "XTH\n\n\n\n\nDramatis Personæ\n\nKING HENRY THE SIXTH\n",
+              "letters": 35,
+              "screened_tokens": 47,
+              "begin": 1540127,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 1.0
+            },
+            {
+              "confirmed_tokens": 47,
+              "characters": 47,
+              "text": "OF VENICE\n\n\n\n\nDramatis Personæ\n\nDUKE OF VENICE\n",
+              "letters": 35,
+              "screened_tokens": 47,
+              "begin": 3071941,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 1.0
+            },
+            {
+              "confirmed_tokens": 46,
+              "characters": 46,
+              "text": "exandria. A Room in the Palace.\n\nEnter Antony ",
+              "letters": 35,
+              "screened_tokens": 46,
+              "begin": 182774,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9782608695652174
+            },
+            {
+              "confirmed_tokens": 45,
+              "characters": 45,
+              "text": "ook upon him.\n\n[_Exit Provost._]\n\nESCALUS.\nI ",
+              "letters": 29,
+              "screened_tokens": 45,
+              "begin": 2600256,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.5777777777777777
+            },
+            {
+              "confirmed_tokens": 45,
+              "characters": 45,
+              "text": "Enter Petruchio and Katherina.\n\nPETRUCHIO.\nWh",
+              "letters": 37,
+              "screened_tokens": 45,
+              "begin": 3718687,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9333333333333333
+            },
+            {
+              "confirmed_tokens": 44,
+              "characters": 44,
+              "text": "ntipholus of Syracuse and Dromio of Syracuse",
+              "letters": 38,
+              "screened_tokens": 44,
+              "begin": 444441,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 1.0
+            },
+            {
+              "confirmed_tokens": 44,
+              "characters": 44,
+              "text": "um and colours. Enter King Henry, Gloucester",
+              "letters": 36,
+              "screened_tokens": 44,
+              "begin": 1327449,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 1.0
+            },
+            {
+              "confirmed_tokens": 44,
+              "characters": 44,
+              "text": "or he hath done me wrong.\n\nKING HENRY.\nWhat ",
+              "letters": 32,
+              "screened_tokens": 44,
+              "begin": 1491987,
+              "the_editors_words": false,
+              "share_the_editor_wrote": 0.2727272727272727
+            },
+            {
+              "confirmed_tokens": 43,
+              "characters": 43,
+              "text": ". Alexandria. A Room in the Palace.\n\nEnter ",
+              "letters": 31,
+              "screened_tokens": 43,
+              "begin": 187933,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9767441860465116
+            },
+            {
+              "confirmed_tokens": 43,
+              "characters": 43,
+              "text": "osencrantz and Guildenstern.\n\nROSENCRANTZ.\n",
+              "letters": 36,
+              "screened_tokens": 43,
+              "begin": 904245,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9767441860465116
+            },
+            {
+              "confirmed_tokens": 43,
+              "characters": 43,
+              "text": "nter Shallow and Sir Hugh Evans.\n\nSHALLOW.\n",
+              "letters": 33,
+              "screened_tokens": 43,
+              "begin": 2733466,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9767441860465116
+            },
+            {
+              "confirmed_tokens": 43,
+              "characters": 43,
+              "text": "_Exeunt._]\n\nSCENE III. The same. A room in ",
+              "letters": 28,
+              "screened_tokens": 43,
+              "begin": 4278675,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9534883720930233
+            },
+            {
+              "confirmed_tokens": 42,
+              "characters": 42,
+              "text": "hallow’s house.\n\nEnter Shallow and Silence",
+              "letters": 34,
+              "screened_tokens": 42,
+              "begin": 1177698,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9761904761904762
+            },
+            {
+              "confirmed_tokens": 42,
+              "characters": 42,
+              "text": "istress Ford and Mistress Page.\n\nMISTRESS ",
+              "letters": 34,
+              "screened_tokens": 42,
+              "begin": 2789045,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9761904761904762
+            },
+            {
+              "confirmed_tokens": 42,
+              "characters": 42,
+              "text": "ACT I\n\nSCENE I. Venice. A street.\n\n\nEnter ",
+              "letters": 28,
+              "screened_tokens": 42,
+              "begin": 3072590,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9285714285714286
+            },
+            {
+              "confirmed_tokens": 41,
+              "characters": 41,
+              "text": "arum. Enter King Richard.\n\nKING RICHARD.\n",
+              "letters": 31,
+              "screened_tokens": 41,
+              "begin": 3637509,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.975609756097561
+            },
+            {
+              "confirmed_tokens": 41,
+              "characters": 41,
+              "text": "iron and Demetrius.\n\nDEMETRIUS.\nHow now, ",
+              "letters": 31,
+              "screened_tokens": 41,
+              "begin": 3910203,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.7560975609756098
+            },
+            {
+              "confirmed_tokens": 40,
+              "characters": 40,
+              "text": "_Exit Dromio._]\n\nANTIPHOLUS OF EPHESUS.\n",
+              "letters": 29,
+              "screened_tokens": 40,
+              "begin": 421041,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.95
+            },
+            {
+              "confirmed_tokens": 40,
+              "characters": 40,
+              "text": "NTIPHOLUS OF SYRACUSE.\nI will not stay t",
+              "letters": 32,
+              "screened_tokens": 40,
+              "begin": 442387,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.575
+            },
+            {
+              "confirmed_tokens": 40,
+              "characters": 40,
+              "text": "other Servingman.\n\nSECOND SERVINGMAN.\nWh",
+              "letters": 33,
+              "screened_tokens": 40,
+              "begin": 575733,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.925
+            },
+            {
+              "confirmed_tokens": 40,
+              "characters": 40,
+              "text": "osencrantz and Guildenstern._]\n\nHAMLET.\n",
+              "letters": 31,
+              "screened_tokens": 40,
+              "begin": 857639,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.95
+            },
+            {
+              "confirmed_tokens": 40,
+              "characters": 40,
+              "text": "LOUCESTER, brother to the King.\nDUKE OF ",
+              "letters": 31,
+              "screened_tokens": 40,
+              "begin": 1258155,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 1.0
+            },
+            {
+              "confirmed_tokens": 40,
+              "characters": 40,
+              "text": "se.\n\nCARDINAL.\n[_Aside to Gloucester_.] ",
+              "letters": 27,
+              "screened_tokens": 40,
+              "begin": 1574963,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.85
+            },
+            {
+              "confirmed_tokens": 36,
+              "characters": 36,
+              "text": "ondon. A Room in the Palace.\n\nEnter ",
+              "letters": 26,
+              "screened_tokens": 48,
+              "begin": 1046432,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.9722222222222222
+            },
+            {
+              "confirmed_tokens": 36,
+              "characters": 36,
+              "text": "UCIUS, servant of Timon’s creditors\n",
+              "letters": 29,
+              "screened_tokens": 41,
+              "begin": 3763730,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 1.0
+            },
+            {
+              "confirmed_tokens": 34,
+              "characters": 34,
+              "text": "BER, Conspirator against Caesar.\nC",
+              "letters": 28,
+              "screened_tokens": 68,
+              "begin": 1978342,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 1.0
+            }
+          ],
+          "longest_confirmed": 66,
+          "longest_confirmed_poet_only": 44,
+          "confirmed_of_50_or_more": 9,
+          "poet_only_of_50_or_more": 0,
+          "seconds": 40.1
+        },
+        "validation plays": {
+          "agreement": 0.6362911679916136,
+          "tokens": 274728,
+          "candidates_of_40_or_more": 1,
+          "longest_candidate": 40,
+          "confirmed": [
+            {
+              "confirmed_tokens": 40,
+              "characters": 40,
+              "text": "_]\n\nSCENE III. The same. A room in the C",
+              "letters": 26,
+              "screened_tokens": 40,
+              "begin": 117273,
+              "the_editors_words": true,
+              "share_the_editor_wrote": 0.95
+            }
+          ],
+          "longest_confirmed": 40,
+          "longest_confirmed_poet_only": 0,
+          "confirmed_of_50_or_more": 0,
+          "poet_only_of_50_or_more": 0,
+          "seconds": 2.0
+        }
+      },
+      "sampled": {
+        "unprompted at temperature 0.0": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 311,
+              "of": 19978,
+              "share_of_windows": 0.015567123836219842,
+              "share_of_characters": 0.05113210376368271
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 42,
+              "passage": ".\n\nEnter King Henry, Gloucester, Bedford, "
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 42,
+              "passage": ".\n\nEnter King Henry, Gloucester, Bedford, "
+            }
+          }
+        },
+        "unprompted at temperature 0.5": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 11,
+              "of": 19978,
+              "share_of_windows": 0.0005506056662328561,
+              "share_of_characters": 0.006347778277602839
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 34,
+              "passage": "er Mistress Ford.\n\nMISTRESS FORD.\n"
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 34,
+              "passage": "er Mistress Ford.\n\nMISTRESS FORD.\n"
+            }
+          }
+        },
+        "unprompted at temperature 0.8": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 48,
+              "of": 19978,
+              "share_of_windows": 0.002402642907197918,
+              "share_of_characters": 0.02284200529814565
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 39,
+              "passage": "\n\nEnter Pisanio and Iachimo.\n\nPISANIO.\n"
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 39,
+              "passage": "\n\nEnter Pisanio and Iachimo.\n\nPISANIO.\n"
+            }
+          }
+        },
+        "unprompted at temperature 1.0": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 53,
+              "of": 19978,
+              "share_of_windows": 0.002652918210031034,
+              "share_of_characters": 0.014444944269505672
+            },
+            "50": {
+              "windows": 5,
+              "of": 19958,
+              "share_of_windows": 0.00025052610482012225,
+              "share_of_characters": 0.002699055330634278
+            },
+            "longest": {
+              "characters": 54,
+              "passage": "o.\n\n[_Exeunt._]\n\nSCENE II. The same. A street.\n\nEnter "
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 54,
+              "passage": "o.\n\n[_Exeunt._]\n\nSCENE II. The same. A street.\n\nEnter "
+            }
+          }
+        },
+        "from the training works at temperature 0.0": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 35,
+              "of": 19978,
+              "share_of_windows": 0.001751927119831815,
+              "share_of_characters": 0.00899685110211426
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 37,
+              "passage": "\n\n\n\nDramatis Personæ\n\nKING HENRY THE "
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 37,
+              "passage": "\n\n\n\nDramatis Personæ\n\nKING HENRY THE "
+            }
+          }
+        },
+        "from the training works at temperature 0.5": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 137,
+              "of": 19978,
+              "share_of_windows": 0.00685754329762739,
+              "share_of_characters": 0.03798670465337132
+            },
+            "50": {
+              "windows": 1,
+              "of": 19958,
+              "share_of_windows": 5.010522096402445e-05,
+              "share_of_characters": 0.00249912530614285
+            },
+            "longest": {
+              "characters": 50,
+              "passage": "I. London. A Room in the Palace.\n\nEnter King Henry"
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 50,
+              "passage": "I. London. A Room in the Palace.\n\nEnter King Henry"
+            }
+          }
+        },
+        "from the training works at temperature 0.8": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 55,
+              "of": 19978,
+              "share_of_windows": 0.0027530283311642807,
+              "share_of_characters": 0.01064627380416854
+            },
+            "50": {
+              "windows": 1,
+              "of": 19958,
+              "share_of_windows": 5.010522096402445e-05,
+              "share_of_characters": 0.00249912530614285
+            },
+            "longest": {
+              "characters": 50,
+              "passage": ".\n\n[_Exeunt._]\n\nSCENE II. The same. A room in the "
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 50,
+              "passage": ".\n\n[_Exeunt._]\n\nSCENE II. The same. A room in the "
+            }
+          }
+        },
+        "from the training works at temperature 1.0": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 11,
+              "of": 19978,
+              "share_of_windows": 0.0005506056662328561,
+              "share_of_characters": 0.005398110661268556
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 35,
+              "passage": "\n\n[_Exeunt._]\n\nSCENE IV. A hall in "
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 35,
+              "passage": "\n\n[_Exeunt._]\n\nSCENE IV. A hall in "
+            }
+          }
+        },
+        "from the validation plays at temperature 0.0": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 54,
+              "of": 19978,
+              "share_of_windows": 0.0027029732705976576,
+              "share_of_characters": 0.006547708302094267
+            },
+            "50": {
+              "windows": 7,
+              "of": 19958,
+              "share_of_windows": 0.00035073654674817114,
+              "share_of_characters": 0.002799020342879992
+            },
+            "longest": {
+              "characters": 56,
+              "passage": "t._]\n\nSCENE III. The same. A Room in the Palace.\n\nEnter "
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 56,
+              "passage": "t._]\n\nSCENE III. The same. A Room in the Palace.\n\nEnter "
+            }
+          }
+        },
+        "from the validation plays at temperature 0.5": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 55,
+              "of": 19978,
+              "share_of_windows": 0.0027530283311642807,
+              "share_of_characters": 0.00984655370620283
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 47,
+              "passage": ".\n\n[_Exeunt._]\n\nSCENE III. The same. A room in "
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 47,
+              "passage": ".\n\n[_Exeunt._]\n\nSCENE III. The same. A room in "
+            }
+          }
+        },
+        "from the validation plays at temperature 0.8": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 64,
+              "of": 19978,
+              "share_of_windows": 0.0032035238762638902,
+              "share_of_characters": 0.01584445444094567
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 44,
+              "passage": "._]\n\nSCENE III. A Room in the Palace\n\nEnter "
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 44,
+              "passage": "._]\n\nSCENE III. A Room in the Palace\n\nEnter "
+            }
+          }
+        },
+        "from the validation plays at temperature 1.0": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 34,
+              "of": 19978,
+              "share_of_windows": 0.0017018720592651916,
+              "share_of_characters": 0.016194331983805668
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 40,
+              "passage": "\n\nSCENE I. A Room in the Palace\n\n\nEnter "
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 40,
+              "passage": "\n\nSCENE I. A Room in the Palace\n\n\nEnter "
+            }
+          }
+        },
+        "the ten-prompt suite at temperature 0.0": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 6,
+              "of": 19978,
+              "share_of_windows": 0.00030033036339973974,
+              "share_of_characters": 0.001749387714299995
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 35,
+              "passage": " a Messenger.\n\nMESSENGER.\nMy lord, "
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 35,
+              "passage": " a Messenger.\n\nMESSENGER.\nMy lord, "
+            }
+          }
+        },
+        "the ten-prompt suite at temperature 0.5": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 66,
+              "of": 19978,
+              "share_of_windows": 0.003303633997397137,
+              "share_of_characters": 0.01684410456340281
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 46,
+              "passage": ".\n\n[_Exeunt._]\n\nSCENE II. A Room in the Palace"
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 46,
+              "passage": ".\n\n[_Exeunt._]\n\nSCENE II. A Room in the Palace"
+            }
+          }
+        },
+        "the ten-prompt suite at temperature 0.8": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 51,
+              "of": 19978,
+              "share_of_windows": 0.0025528080888977877,
+              "share_of_characters": 0.016244314489928524
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 46,
+              "passage": ".\n\n[_Exeunt._]\n\nSCENE II. A Room in the Palace"
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 46,
+              "passage": ".\n\n[_Exeunt._]\n\nSCENE II. A Room in the Palace"
+            }
+          }
+        },
+        "the ten-prompt suite at temperature 1.0": {
+          "characters": 20007,
+          "whole": {
+            "30": {
+              "windows": 46,
+              "of": 19978,
+              "share_of_windows": 0.002302532786064671,
+              "share_of_characters": 0.00699755085719998
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 47,
+              "passage": ".\n\n[_Exeunt._]\n\nSCENE VI. Another part of the f"
+            }
+          },
+          "poet_only": {
+            "30": {
+              "windows": 0,
+              "of": 19978,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "50": {
+              "windows": 0,
+              "of": 19958,
+              "share_of_windows": 0.0,
+              "share_of_characters": 0.0
+            },
+            "longest": {
+              "characters": 47,
+              "passage": ".\n\n[_Exeunt._]\n\nSCENE VI. Another part of the f"
+            }
+          }
+        }
+      }
+    }
+  },
+  "verdict": {
+    "longest_poet_only_from_the_training_works": 44,
+    "longest_poet_only_from_the_validation_plays": 0,
+    "verdict": "between the two: report it as it stands"
   }
 }

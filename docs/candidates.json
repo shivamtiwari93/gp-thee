@@ -1,0 +1,83 @@
+{
+  "candidates_by_length": {
+    "40": 52,
+    "50": 14,
+    "60": 5,
+    "70": 1,
+    "80": 1,
+    "90": 1,
+    "99": 1
+  },
+  "screened_to_confirmed": [
+    [
+      99,
+      27,
+      "onspirator against Caesar.\n"
+    ],
+    [
+      68,
+      34,
+      "BER, Conspirator against Caesar.\nC"
+    ],
+    [
+      66,
+      66,
+      "IRD PART OF KING HENRY THE SIXTH\n\n\n\n\nDramatis Personæ\n\nKING HENRY "
+    ],
+    [
+      65,
+      15,
+      "astle.\n\n\nEnter "
+    ],
+    [
+      60,
+      15,
+      "ave of Belarius"
+    ],
+    [
+      59,
+      59,
+      "exandria. A Room in the Palace.\n\nEnter Antony and Cleopatra"
+    ],
+    [
+      58,
+      58,
+      "_Exeunt Antipholus of Syracuse and Dromio of Syracuse._]\n\n"
+    ],
+    [
+      57,
+      57,
+      "andarus’ house.\n\nEnter Pandarus and Cressida.\n\nPANDARUS.\n"
+    ],
+    [
+      56,
+      56,
+      "\nEnter Antipholus of Syracuse.\n\nANTIPHOLUS OF SYRACUSE.\n"
+    ],
+    [
+      54,
+      54,
+      "_]\n\nSCENE III. The same. A Room in the Palace.\n\nEnter "
+    ],
+    [
+      52,
+      5,
+      "ntlem"
+    ],
+    [
+      51,
+      51,
+      "ntipholus of Syracuse.\n\nANTIPHOLUS OF SYRACUSE.\nThe"
+    ],
+    [
+      51,
+      51,
+      "\n\nSECOND FRIEND.\nA thousand pieces!\n\nFIRST FRIEND.\n"
+    ],
+    [
+      50,
+      50,
+      "COND\n\n\n\n\nDramatis Personæ\n\nKING RICHARD THE SECOND"
+    ]
+  ]
+}
