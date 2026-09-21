@@ -721,31 +721,39 @@ All five runs from commit `5c6bd68` with a clean tree, 9,985 steps, 40 stops, ru
 - **Baseline: 1.7535 bits per character, standard deviation over seeds 0.0054** (n = 3; the twins of seed 1 averaged first).
 - **Same seed twice: 0.0027 apart**, and the two had their best moments at different stops.
 - **Where the spread is.** By `scripts/evaluate.py`, per seed: everything else 1.7147 / 1.7135 / 1.7121 (sd 0.0013); speaker-label lines 2.315 / 2.490 / 2.356 (sd 0.09). The twins differ by 0.005 on ordinary text and by 0.125 on labels. Nearly all the noise in the deciding number comes from 6% of the characters. The pre-registered rule decides on the whole text and that does not change; the two-way split is reported beside it, as Entry 12 said it would be. *All's Well* 1.7035 (sd 0.0014), *Romeo and Juliet* 1.8007 (sd 0.0116).
-- **16-bit: not adopted for the sweep.** Item 8's limit was the larger of the twins' difference (0.0027) and the seed spread (0.0054). The 16-bit run is 0.0089 from the twins' mean. It is inside the range of the three 32-bit seeds (seed 2: 1.7597), so this is not evidence that 16-bit learns worse, only a failure to show that it learns the same. The rule was fixed in advance, so the sweep runs in 32-bit.
-- **The rule's decisions hold up, their sizes do not:** see "Seed 0, three times" below.
+- **16-bit: not adopted for the sweep.** Item 8's limit was the larger of the twins' difference (0.0027) and the seed spread (0.0054). The 16-bit run is 0.0088 from the twins' mean. It is inside the range of the three 32-bit seeds (seed 2: 1.7597), so this is not evidence that 16-bit learns worse, only a failure to show that it learns the same. The rule was fixed in advance, so the sweep runs in 32-bit.
+- **The rule's decisions hold up, their sizes do not:** see "A scare" below.
 - Every run ended 0.006 to 0.010 above its best, and the best moments fell at 72% to 97% of the run: over-fitting has just begun at 34 passes.
 - **Speed**, with the machine otherwise idle: 85,400 tokens per second in 32-bit (192 ms per step), 153,800 in 16-bit. The 41 stops cost about four minutes per run.
 - **Clipping:** on about 10% of the first 250 steps in every run (gradient length 0.81 to 0.82 on average there), and on no step after that (0.26 on average late in the run).
 - **`check_model.py --trained runs/char-34-seed-3/best.pt`**, now comparing the loss at every token: no peeking 0.0 in all eight combinations; worst single token 1.2e-5 apart in 32-bit across attentions and devices; with 16-bit, 0.099 at the worst token and 5.3e-4 in the mean. The limits in the script are set from these.
 
-### Seed 0, three times: one run is not a measurement (2026-09-21, 03:26 to 04:40)
+### A scare: does the rewrite train worse? No. An edit re-rolls the dice (2026-09-21, 03:26 to 06:30)
 
-The 34-pass pilot (seed 0, first version of the code) scored 1.7404, below all four new runs. Lucky seed, or had the rewrite changed the training? Two more runs, *measured*:
+The 34-pass pilot (seed 0, first version of the code) scored 1.7404, below all four new runs. Lucky seed, or had the rewrite changed the training? Four more runs, all 34 passes, *measured*. The first-version runs were made from an auditor's scratch copy of the old file (it was never committed) and live in the session scratchpad, not in `runs/`.
 
-| Run | Code | Best | Final | Second-half training loss |
-|---|---|---|---|---|
-| `pilot-char-34` | first version | 1.7404 | 1.7423 | 1.0915 |
-| seed 0 again (in the session scratchpad, not in `runs/`) | first version | 1.7423 | 1.7457 | 1.0913 |
-| `char-34-seed-0` | rewritten, commit `5c6bd68` | 1.7525 | 1.7553 | 1.0916 |
+| Code | Seed | Best | Final | Second-half validation | Second-half training loss |
+|---|---|---|---|---|---|
+| first version (`pilot-char-34`) | 0 | 1.7404 | 1.7423 | 1.7554 | 1.0915 |
+| first version | 0, again | 1.7423 | 1.7457 | 1.7558 | 1.0913 |
+| rewritten (`char-34-seed-0`) | 0 | 1.7525 | 1.7553 | 1.7632 | 1.0916 |
+| rewritten (`char-34-seed-0-again`) | 0, again | 1.7514 | 1.7538 | 1.7612 | 1.0914 |
+| first version | 1 | 1.7571 | 1.7631 | 1.7724 | 1.0925 |
+| rewritten (`char-34-seed-1`) | 1 | 1.7490 | 1.7551 | 1.7605 | 1.0927 |
+| rewritten (`char-34-seed-1-again`) | 1, again | 1.7517 | 1.7614 | 1.7657 | 1.0924 |
 
-Two old-code runs about 0.010 below the new code with the same seed looked like a verdict against the rewrite. It is not:
+How I got there, including the wrong turn. After the first three rows I called it luck ("two coin tosses") and wrote that the seed adds nothing beyond the GPU's last-digit noise. A fact-checking agent pointed out that both old-code runs lay below all five new-code runs, a 1-in-21 event if they were draws from one bag, and that at the runs' best moments the old code's lead was mostly on ordinary text, not labels. So I ran the two direct tests: the rewritten code with seed 0 again (1.7514: it repeats itself), and the first version with seed 1 (1.7571: WORSE than the rewritten code's 1.7490 and 1.7517). Neither version is better.
 
-- **On the CPU the two versions give bit-identical weights, optimizer averages and validation score** from the same seed (78 steps of a small model with dropout on; the first version was kept by an auditor's scratch copy, since it was never committed). They do the same arithmetic.
-- On the GPU the three runs' training loss and seen score agree to four decimals. Only validation differs, by about what the seed-1 twins differ by at single stops (up to 0.015 from mid-run on, either sign; per-stop differences within a same-seed pair have a standard deviation of 0.003 to 0.004 in the second half).
-- At the last step the pilot's lead over `char-34-seed-0` is 0.0130, of which 0.0110 is speaker labels (2.268 against 2.452) and the rest ordinary text (1.7090 against 1.7112, inside the new runs' 1.711 to 1.717).
+- **On the CPU the two versions give bit-identical weights, optimizer averages and validation score** from the same seed (78 steps of a small model with dropout on). They do the same arithmetic.
+- **On the GPU the training loss follows the seed and ignores the version**: 1.0913 to 1.0916 for all four seed-0 runs, 1.0924 to 1.0927 for all three seed-1 runs.
+- **The same program with the same seed repeats to within 0.003** in its best score: three pairs, 0.0019, 0.0011 and 0.0027 apart (pooled sd 0.0014). At single stops a pair can be 0.019 apart, and the seed-1 twins stay 0.005 apart on average over the second half.
+- **A change of program that changes no arithmetic moves the score as far as a change of seed**: +0.010 for seed 0, -0.007 for seed 1. My earlier sentence, that the seed adds nothing we can see, was wrong: within one program the seed is most of the spread (seeds 0 to 3 of the rewritten code: sd 0.0045). What I had mistaken for same-seed noise was the difference between two programs.
+- Mechanism, *a guess, not tested*: the one non-deterministic operation (the token-table gradient, Entry 13) adds up in an order that depends on how the program's work is scheduled on the GPU, which is steady for one program and different for another. The rewrite keeps one more tensor per step and evaluates at other steps; that is all it would take.
 
-**Consequences.** Spread within a seed, pooled over seed 0 (three runs) and seed 1 (two): 0.0054, the same as the spread between seeds 1 to 3. On this GPU the seed adds nothing visible on top of the last-digit noise. All seven 32-bit 34-pass runs: mean 1.7494, sd 0.0065, 1.7404 to 1.7597. The 17-pass pilot (1.7706) is behind all seven, by 0.011 to 0.030, so "longer than 17" stands against the rule's 0.01, with less room than the pilots suggested. The 68-pass pilot (1.7577) beats one of the seven by 0.002, so "no gain from 68" stands and "68 lost 0.017" was mostly one run's luck. The rule picks 34 either way. The pre-registered baseline is unchanged: seeds 1 to 3 with the committed code, 1.7535, sd 0.0054. With `char-34-seed-0` as a fourth seed, which is what `docs/results-char-34.json` now holds: 1.7533, sd 0.0044.
+**Consequences.** All nine 32-bit 34-pass runs: mean 1.7505, sd 0.0062, 1.7404 to 1.7597. The 17-pass pilot (1.7706) is behind all nine, by 0.011 to 0.030, so "longer than 17" stands against the rule's 0.01, with less room than the pilots suggested. The 68-pass pilot (1.7577) beats one of the nine by 0.002, so "no gain from 68" stands and more than half of "68 lost 0.017" was one run's luck. The rule picks 34 either way. The pre-registered baseline is unchanged: seeds 1 to 3 with the committed code, 1.7535, sd 0.0054. With seed 0 as a fourth seed (two runs, averaged), which is what `docs/results-char-34.json` now holds: 1.7531, sd 0.0045.
 
-**16-bit, the quieter evidence.** Second-half training loss of the seven 32-bit runs: 1.0899 to 1.0927 (sd 0.0009). The 16-bit run: 1.0952, above all seven, about 0.003 nats. The validation score could not show that; the training loss can.
+**For every comparison from here on:** all arms are run by the SAME commit of `src/`. An edit re-rolls every score by about 0.006. That is noise and not bias (it went one way for seed 0 and the other for seed 1), so mixing commits would not favour an arm, but it would add spread for nothing. The character arm will therefore be run again with the sweep's commit. Pilots made by an older version are not comparable with runs of a newer one at the third decimal.
 
-**For part 6.** Three seeds per tokenizer give a mean with a standard error of about 0.003 to 0.004. The pre-registered test will therefore call anything under about 0.01 a tie, which is as it should be. The per-line-type split is where a real difference would show first, since ordinary text is ten times quieter than the whole (sd 0.0013 against 0.0054 at the best moments).
+**16-bit, the quieter evidence.** The training loss follows the seed and ignores the program: the three 32-bit runs of seed 1 give 1.0924 to 1.0927. The 16-bit run of seed 1: 1.0952, 0.0027 above them. One run; a hint. The validation score could not show it.
+
+**For part 6.** Three seeds per tokenizer give a mean with a standard error of about 0.003. The pre-registered test will therefore call anything under about 0.01 a tie, which is as it should be. The per-line-type split is where a real difference would show first, since ordinary text is four times quieter than the whole (sd 0.0013 against 0.0054 at the best moments).

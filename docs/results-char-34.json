@@ -20,9 +20,10 @@
         "width": 384
       },
       "seeds": 4,
-      "mean_best_validation_bpc": 1.7532577629371158,
-      "standard_deviation_over_seeds": 0.004418423233086179,
+      "mean_best_validation_bpc": 1.7531156527429632,
+      "standard_deviation_over_seeds": 0.004458036609212889,
       "same_seed_differences": {
+        "0": 0.00113688155322067,
         "1": 0.0027176343967008076
       },
       "runs": [
@@ -44,6 +45,25 @@
           "best_passes": 28.900471902522668,
           "seen_bpc_at_best": 1.390262907510171,
           "final_validation_bpc": 1.7552802359264597
+        },
+        {
+          "name": "char-34-seed-0-again",
+          "seed": 0,
+          "steps": 9985,
+          "parameters": 10757760,
+          "git_commit": "8b3a57f66375eb96630dace0638b31255df56e8f",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730",
+            "training_stream": "dfeb2c1926bda93ad1bef7d169ad37286d879cf47ecd285493a884c172c4561b",
+            "validation_stream": "be97781260d99f6bdf1584f3bb7151356dbb00c6217ea3d6729f3507ece8a076"
+          },
+          "minutes": 34.96,
+          "best_validation_bpc": 1.7514061754960806,
+          "best_step": 7239,
+          "best_passes": 24.650702969525344,
+          "seen_bpc_at_best": 1.4264260260803012,
+          "final_validation_bpc": 1.7538425610673718
         },
         {
           "name": "char-34-seed-1",
@@ -169,7 +189,7 @@
       ]
     }
   ],
-  "pooled_standard_deviation": 0.004418423233086179,
+  "pooled_standard_deviation": 0.004458036609212889,
   "degrees_of_freedom": 3,
   "choice": {
     "settings": {
@@ -190,7 +210,7 @@
       "weight_decay": 0.1,
       "width": 384
     },
-    "mean_best_validation_bpc": 1.7532577629371158,
-    "lowest_mean": 1.7532577629371158
+    "mean_best_validation_bpc": 1.7531156527429632,
+    "lowest_mean": 1.7531156527429632
   }
 }

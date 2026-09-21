@@ -59,7 +59,7 @@ uv run python scripts/benchmark.py           # Mac only: how fast this machine t
 uv run python scripts/smoke_test_gpu.py      # Mac only: GPU answers match the CPU's
 uv run python scripts/count_params.py        # the parameter arithmetic, checked against PyTorch
 
-uv run python scripts/train.py --name my-run --passes 34 --seed 1   # one training run: about 40 minutes on an M5 Max
+uv run python scripts/train.py --name my-run --passes 34 --seed 1   # one training run: about 36 minutes on an M5 Max
 uv run python scripts/evaluate.py --run my-run                      # its score, by play and by kind of line, beside the baselines
 uv run python scripts/check_model.py --trained runs/my-run/best.pt  # the no-peeking check again, on trained weights
 uv run python scripts/summarise_runs.py                             # several seeds gathered into a mean and a spread
