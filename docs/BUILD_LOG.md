@@ -467,3 +467,72 @@ Blog part 3 went through the usual three reviews (fact-check, NLP lens, newcomer
 4. *Reported but not deciding:* the score per play, and separately for speaker-label lines and everything else.
 
 Tests: 51.
+
+## Entry 13. The model, its correctness gate, and a first benchmark (2026-09-20)
+
+**Result:** `src/gp_thee/model.py` is a plain GPT in the nanoGPT arrangement: learned position table, a norm before each step, residual additions, no bias terms, the output layer tied to the token table, GPT-2's starting values. 6 layers, 6 heads, width 384, context 256. With the character tokenizer it has 10,757,760 parameters, the number derived by hand in blog parts 1 and 3, and it refuses to build if the count disagrees. `src/gp_thee/data.py` gained `load_tokens` and `random_batch`. 104 tests. `scripts/check_model.py` is the full-size gate on the GPU: 36 checks, 37 seconds.
+
+### The gate (all *measured*, M5 Max, PyTorch 2.14.0)
+
+| Check | Result |
+|---|---|
+| Size | 10,757,760 (characters) and 11,506,560 (bpe-2048), and the output table *is* the input table |
+| First loss, random tokens | 4.674 against a predicted 4.662; 7.700 against 7.701. The prediction is ln(V) + 0.02² × width / 2: scores with a spread of 0.02 × √384 cost 0.077 nats |
+| No peeking | 0.0 change in the past at all 255 cut points, in all 8 combinations of attention (hand-written, built-in), number format (32-bit, 16-bit) and mode (gradients off, gradients on) |
+| Two attentions agree | to 2.1e-6 |
+| GPU = CPU | predictions to 2.3e-6, gradients to 7.3e-7 of their size; with memorised weights 1.8e-5 and 2.6e-6 |
+| Memorises one batch | loss 4.64 → 0.0054 in 200 steps, 2 seconds |
+| Same loss everywhere | with memorised weights, 32-bit results agree to 4e-9 (memorised rows) and 1e-6 (unseen rows) across both attentions, CPU and GPU; 16-bit within 1.4e-4 |
+
+### The audit
+
+Four independent auditors. **The model is correct:** a NumPy float64 reference written from the description alone matches it to 3.8e-15 on predictions at full size on real text; gradients match finite differences at 1,548 sampled entries across every tensor; the tied table's gradient is exactly the sum of its two uses; measured starting values match the recipe; none of the three known PyTorch MPS bugs (Entry 8) reproduces at full size. They also confirmed by measurement the comment about why the residual-writing matrices start smaller: with the 1/√(2 × layers) factor the variance of x stays near 0.018 from 1 to 48 layers, and without it grows from 0.03 to 2.26.
+
+**The safety net was the weak part, again.** Of 61 single faults planted in a copy of the code, 17 passed all 26 tests *and* the whole gate. The worst:
+
+- **Heads split and merged without the transpose.** Still perfectly causal, so no-peeking passed; first loss fine; memorised fine. But position 255 could read only positions 213 to 255: the context had silently shrunk to 43 tokens. Invisible because both attention paths share that code, and every attention test compared the two paths *with each other*.
+- **`load_tokens("train")` returning the validation stream.** All 77 tests passed. Nothing compared a saved stream with the works it claims to be.
+- **Anything that only goes wrong on text shorter than the context.** Every test ran at full length. Prompts will be short.
+- **Hand-written attention dropping values during evaluation.** The one dropout test covered one path and asked only whether anything at all was random.
+- **A numeric fault that exists only in 16-bit.** The gate checked 16-bit for leaks, never for answers.
+
+Three of the gate's own checks were faulty. The memorise check used a learning rate of 1e-3 and failed the *correct* model for 4 or 5 of 10 batches, so its "catches" were partly luck. The first-loss check asserted `loss >= ln(V)` on real text, which is a theorem only for uniformly random tokens: the correct model violated it for 6 of 40 seeds, and passed only because the seed was fixed. And the size check repeated a comparison the constructor had already made, so it could not fail.
+
+**Fixes.** A second implementation of the whole forward pass in NumPy, 64-bit, sharing no code with the model, compared on weights pushed well away from their starting values (`tests/test_reference.py`); attention checked against its definition one position at a time, on a short text; short-text-equals-start-of-long-text; every dropout site tested alone, on both paths; GELU, the block, the starting values and the position table each pinned to their definitions; saved streams compared with the works; a test that no code but the loader opens the works. In the gate: the no-peeking check now sweeps every cut point, with gradients on as well as off; first loss is checked against theory on random tokens; the memorise check uses 3e-4; a new check 7 compares answers across every combination of attention, number format and device with sharp, memorised weights; tolerances tightened from 1e-3 to 1e-4; and the gate runs the unit tests first.
+
+Then I planted 32 faults myself, including every earlier survivor: all 32 are caught by the unit tests, and the three that exist only in 16-bit on the GPU are caught by the gate. (My first version of one mutant, the "parallel block", simplified back to the correct code and so "survived". A mutant has to be a real fault.)
+
+### Three things the audit found that I did not know
+
+1. **PyTorch's built-in attention is not fused during training on Apple GPUs.** With gradients on, `scaled_dot_product_attention` runs the same separate steps as the hand-written path (a matrix multiply, a softmax, another multiply). The fast fused kernel is used only with gradients off. So the original no-peeking check, which ran with gradients off, never tested the code that training runs. It also explains the benchmark: the two attentions take the same time and memory in 32-bit, and in 16-bit the built-in one is *slower*, because it quietly does its attention in 32-bit. **Decision: train with the hand-written attention.** Same speed or better, the same code runs in training, evaluation and sampling, and it is the code the blog teaches. The built-in one stays as a cross-check. The flag is renamed `builtin_attention`, default off.
+2. **Two runs from the same seed are not bit-identical on this GPU.** The only cause is the backward pass of the token-table lookup (`nn.Embedding`), which adds up gradients in a varying order; every other operation, dropout included, is repeatable. The difference starts at 2e-7 of one tensor's gradient and grows: by step 300 two same-seed runs differ by 0.013 to 0.016 nats of validation loss. Writing the lookup as a one-hot matrix multiply would make runs bit-identical. **Decision: keep the ordinary lookup**, say plainly that a seed fixes the starting weights, the batches and the dropout masks but not the last digits, and report the same-seed spread next to the between-seed spread.
+3. **16-bit is not yet shown to learn the same way.** Over 300 steps it trails 32-bit by 0.02 to 0.03 nats of validation loss, about twice the same-seed spread. **Decision: the first real runs are 32-bit.** At 13 minutes per 5,000 steps the saving is not worth an unexplained difference.
+
+### Benchmark (first run, on battery power)
+
+Batch 64 × 256 = 16,384 tokens per step, one full training step, *measured*:
+
+| | ms per step | Tokens per second | 5,000 steps |
+|---|---|---|---|
+| GPU, 32-bit | 158 to 165 | about 100,000 | 13 to 14 minutes |
+| GPU, 16-bit, hand-written attention | 96 | 171,000 | 8 minutes |
+| GPU, 16-bit, built-in attention | 105 | 156,000 | 9 minutes |
+| CPU, 32-bit | 1,795 | 9,100 | 2.5 hours |
+
+An auditor re-timed the four GPU rows in fresh processes and got 160.6, 94.1, 105.7 and 160.0 ms. The estimate in Entry 2 (10 to 30 minutes per run) was right at its fast end. Memory in use at the peak, measured properly by the auditor: 4.79 GB in 32-bit, 3.33 GB in 16-bit with hand-written attention. (The script's first memory column used a driver figure that moves in 1 GiB steps and reported both as equal.)
+
+The benchmark script has since been rewritten: three interleaved rounds with the median and range, the power source recorded, memory measured at its peak, the optimizer's decay groups as training will have them, and the 32-bit against 16-bit comparison run for 300 steps with a learning-rate warm-up (without one, a rate of 1e-3 from the first step sends the loss from 3.4 to 7.2 at step 5 in every run). **It has not been re-run yet: the audit's GPU jobs took the laptop's battery from 100% to 28%, and the numbers to publish should be measured on mains power.** `docs/benchmark.json` still holds the first run.
+
+### Decided now, for the training step
+
+- **Attention:** hand-written. **Number format:** 32-bit.
+- **Weight decay:** every matrix and table decays; norm scales do not (`GPT.parameter_groups`). Decaying a scale pulls it towards 0, not towards its neutral value of 1: at a rate of 1e-3 and decay 0.1 an idle scale would fall from 1.0 to 0.61 in 5,000 steps.
+- **Count passes, not steps or epochs.** With random windows there are no epochs. One pass is 294 steps for characters and 92 to 118 for the BPE sizes, so 5,000 steps is 17 passes over the characters and 42 to 54 over the BPE streams. Budgets and the learning-rate schedule will be stated in passes.
+- **Schedule:** a short warm-up, then cosine decay; gradients clipped at 1.0.
+- **Evaluation:** `model.eval()`, no gradients, 32-bit, one deterministic pass over the *whole* validation stream with overlapping windows so every token is scored once with at least 128 tokens of context; sum the nats, never average batch averages; bits per character = total / ln 2 / 274,727.
+- **Checkpoints** carry the model and optimizer state, the config, the tokenizer's name and checksum, the step, the random generators' states and the git commit.
+- **Add dropout 0.0 to the sweep** as the control, so the write-up can show what dropout buys.
+
+Housekeeping: an auditor's script was shadowed by a stale scratch file named `numbers.py` from the pre-lock days, which read every work from disk and printed one line naming a test work. Nothing was used. The stale scripts are quarantined, and `test_only_the_loader_opens_the_works` now fails if any code in the repo opens the works except through the loader.
+
+Lesson: two implementations that share code cannot check each other. Both attention paths split the heads with the same line, so comparing them proved nothing about that line. What caught it was a reference that shares nothing.

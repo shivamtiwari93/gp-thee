@@ -11,7 +11,11 @@ import hashlib
 import json
 from pathlib import Path
 
-PROCESSED = Path(__file__).resolve().parent.parent.parent / "data" / "processed"
+import numpy as np
+import torch
+
+DATA = Path(__file__).resolve().parent.parent.parent / "data"
+PROCESSED = DATA / "processed"
 UNLOCK = "this is the final evaluation"
 
 
@@ -41,3 +45,29 @@ def corpus_alphabet() -> list[str]:
     """
     manifest = json.loads((PROCESSED / "manifest.json").read_text(encoding="utf-8"))
     return sorted(entry["char"] for entry in manifest["alphabet"])
+
+
+def load_tokens(tokenizer_name: str, which: str) -> np.ndarray:
+    """One set of works as a single stream of token ids, as written by scripts/build_tokenizers.py.
+
+    Only "train" and "validation" exist on disk. The test works are never saved as tokens.
+    """
+    if which not in ("train", "validation"):
+        raise PermissionError(f"there is no saved token stream for {which!r}, on purpose")
+    stream = np.load(DATA / "tokens" / tokenizer_name / f"{which}.npy", mmap_mode="r")
+    start_id = json.loads((DATA / "tokenizers" / f"{tokenizer_name}.json").read_text(encoding="utf-8"))["start_id"]
+    if stream[0] != start_id:  # every stream begins with START, and START's id differs between tokenizers
+        raise ValueError(f"data/tokens/{tokenizer_name}/{which}.npy was not written by the {tokenizer_name} tokenizer; re-run build_tokenizers.py")
+    return stream
+
+
+def random_batch(stream: np.ndarray, batch: int, context: int, rng: np.random.Generator, device: str):
+    """`batch` windows of `context` tokens cut from random places in the stream, and their targets.
+
+    The target for every position is simply the next token, so `targets` is the same window moved along by one.
+    Windows may straddle two works. START sits between them, so the model can tell.
+    """
+    begins = rng.integers(0, len(stream) - context, size=batch)  # the last window's last target is the stream's last token
+    tokens = np.stack([stream[b:b + context] for b in begins]).astype(np.int64)
+    targets = np.stack([stream[b + 1:b + context + 1] for b in begins]).astype(np.int64)
+    return torch.from_numpy(tokens).to(device), torch.from_numpy(targets).to(device)
