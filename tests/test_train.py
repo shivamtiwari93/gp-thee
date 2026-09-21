@@ -245,6 +245,23 @@ def test_sampling_restores_the_mode_even_if_the_model_fails_midway(monkeypatch):
     assert model.training
 
 
+def test_start_is_banned_by_its_own_id_whatever_the_tokenizer():
+    # START is id 97 for characters and 1,023 to 4,095 for word fragments, and every other sampling test uses a character tokenizer.
+    # decode() hides START, so a sampler that let it through would show up only as text that is too short. A stand-in model that wants
+    # nothing but START makes it plain.
+    tokenizer = load(DATA / "tokenizers/bpe-1024.json")
+    class WantsStart(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.config, self.nothing = types.SimpleNamespace(context=8), torch.nn.Parameter(torch.zeros(1))
+        def forward(self, window):
+            scores = torch.zeros(1, window.shape[1], tokenizer.vocab_size)
+            scores[..., tokenizer.start_id] = 50.0
+            return scores, None
+    text = generate(WantsStart(), tokenizer, T.PROMPT, 20)
+    assert text.startswith(T.PROMPT) and len(text) >= len(T.PROMPT) + 20                           # 20 pieces of text, not 20 silent STARTs
+
+
 # ------------------------------------------------------------------------------------------ a whole run, tiny, on the CPU
 @pytest.fixture()
 def tiny_run(tmp_path, monkeypatch):
@@ -691,6 +708,23 @@ def test_a_run_killed_inside_an_evaluation_resumes_into_the_same_log_and_samples
     assert logs[0] == logs[1] and [row["step"] for row in logs[1]] == ["0", "26", "52", "78"]
     assert (tmp_path / "runs/t/samples.txt").read_text() == (tmp_path / "runs/whole/samples.txt").read_text()
     assert resumed["best"] == whole["best"] and torch.load(tmp_path / "runs/t/best.pt", weights_only=True)["step"] == whole["best"]["step"]
+
+
+def test_a_word_fragment_run_samples_80_tokens_whether_the_run_is_whole_or_resumed(tiny_run, tmp_path, monkeypatch):
+    # Every other test that samples runs the character tokenizer, so the "else 80" (twice in train(): for a stop's sample, and for the
+    # sample a resumed run owes) was never reached. 80 word fragments are about as much text as 200 characters.
+    run = dataclasses.replace(tiny_run, tokenizer="bpe-1024", passes=0.2, evaluations=2)
+    real, asked = T.generate, []
+    def listen(model, tokenizer, prompt, tokens, **more):
+        asked.append(tokens)
+        if len(asked) == 2:
+            raise KeyboardInterrupt                                                                # dies after the log row of the second stop, before its sample
+        return real(model, tokenizer, prompt, tokens, **more)
+    monkeypatch.setattr(T, "generate", listen)
+    with pytest.raises(KeyboardInterrupt):
+        T.train(run, say=QUIET)
+    T.train(run, resume=True, say=QUIET)                                                           # the resume writes the missing sample first, then the run's last
+    assert asked == [80, 80, 80, 80]
 
 
 def test_a_run_whose_best_file_is_not_its_best_moment_does_not_report_a_result(tiny_run, tmp_path, monkeypatch):

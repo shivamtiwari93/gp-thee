@@ -22,10 +22,16 @@ repairs that, because the learning rate is still high when the best moment comes
 Every run is an ordinary training run, started through scripts/train.py in a process of its own, so a pilot is
 made exactly the way a real run is. Finished pilots are not repeated, and an interrupted one is resumed.
 
-Writes docs/run_lengths.json.
+Only the lengths the rule itself asks for can count (5,000 doubled or halved), and only pilots made with seed 0
+and the default settings. A pilot of some other length, made by hand after a look at the curves, would be a way
+of steering the rule, so it is ignored. A pilot whose loss stops being a number is kept, marked DIVERGED, and made
+again with seed 1000 (the one ground for discarding a run: entry 14).
+
+Writes docs/run_lengths.json, once the search is complete. With --dry it writes nothing.
 """
 
 import argparse
+import dataclasses
 import json
 import subprocess
 import sys
@@ -62,20 +68,35 @@ def choose(tried: dict[int, dict]) -> int:
     return min(steps for steps, run in tried.items() if run["best"] <= lowest + ENOUGH)
 
 
-def pilot(tokenizer: str, steps: int, training_tokens: int) -> dict:
-    """Make (or finish, or just read) the pilot run of this length, and say how it went."""
-    name = f"pilot-{tokenizer}-{steps}"
-    folder = ROOT / "runs" / name
-    if not (folder / "result.json").exists():
-        passes = steps * BATCH * CONTEXT / training_tokens     # RunConfig counts in passes; this many passes IS this many steps
-        command = [sys.executable, str(ROOT / "scripts" / "train.py"), "--name", name]
-        command += ["--resume"] if (folder / "last.pt").exists() else ["--tokenizer", tokenizer, "--seed", str(SEED), "--passes", repr(passes)]
-        subprocess.run(command, check=True)
-    result = json.loads((folder / "result.json").read_text())
-    if result["steps"] != steps:
-        raise ValueError(f"{name} ran for {result['steps']} steps, not {steps}")
-    return {"best": result["best"]["validation_bpc"], "best_step": result["best"]["step"], "final": result["final_validation_bpc"],
-            "minutes": result["minutes"], "run": name}
+def pilot(tokenizer: str, steps: int, training_tokens: int, make: bool = True) -> dict | None:
+    """Make (or finish, or just read) the pilot run of this length, and say how it went. None if it does not exist and `make` is off."""
+    seed = SEED
+    while True:                                                    # comes round again only if a pilot diverges
+        name = f"pilot-{tokenizer}-{steps}" + (f"-seed-{seed}" if seed != SEED else "")
+        folder = ROOT / "runs" / name
+        if (folder / "DIVERGED").exists():
+            seed += 1000
+            continue
+        if not (folder / "result.json").exists():
+            if not make:
+                return None
+            passes = steps * BATCH * CONTEXT / training_tokens     # RunConfig counts in passes; this many passes IS this many steps
+            command = [sys.executable, str(ROOT / "scripts" / "train.py"), "--name", name]
+            command += ["--resume"] if (folder / "last.pt").exists() else ["--tokenizer", tokenizer, "--seed", str(seed), "--passes", repr(passes)]
+            child = subprocess.run(command, stderr=subprocess.PIPE, text=True)
+            sys.stderr.write(child.stderr)
+            if child.returncode and "FloatingPointError" in child.stderr:
+                (folder / "DIVERGED").write_text(child.stderr)
+                continue
+            if child.returncode:
+                sys.exit(f"{name} stopped with exit status {child.returncode} (see above). Give the command again to resume it.")
+        result, made = json.loads((folder / "result.json").read_text()), json.loads((folder / "config.json").read_text())
+        from gp_thee.train import RunConfig                        # every setting but these five must be the default: the search changes nothing but the length
+        defaults = {k: v for k, v in dataclasses.asdict(RunConfig(name=name)).items() if k not in ("name", "tokenizer", "seed", "passes", "device")}
+        if (result["steps"], made["tokenizer"], made["seed"]) != (steps, tokenizer, seed) or any(made.get(k) != v for k, v in defaults.items()):
+            sys.exit(f"{name} is not a pilot this search could have made (its length, tokenizer, seed or settings differ). Move it out of runs/.")
+        return {"best": result["best"]["validation_bpc"], "best_step": result["best"]["step"], "final": result["final_validation_bpc"],
+                "minutes": result["minutes"], "run": name}
 
 
 def main() -> None:
@@ -83,17 +104,18 @@ def main() -> None:
     parser.add_argument("--tokenizer", required=True)
     parser.add_argument("--dry", action="store_true", help="read the pilots that exist, say what would run next, and stop")
     args = parser.parse_args()
+    if args.tokenizer == "char":
+        sys.exit("the character length was found before this script existed (docs/BUILD_LOG.md, entry 14) and is recorded in docs/run_lengths.json by hand")
     sys.path.insert(0, str(ROOT / "src"))
     from gp_thee.data import load_tokens
     training_tokens = len(load_tokens(args.tokenizer, "train"))
 
     tried = {}
-    for folder in sorted((ROOT / "runs").glob(f"pilot-{args.tokenizer}-*")):   # pilots already made count, whoever made them
-        length = folder.name.rsplit("-", 1)[1]
-        if (folder / "result.json").exists() and length.isdigit() and json.loads((folder / "result.json").read_text())["steps"] == int(length):
-            tried[int(length)] = pilot(args.tokenizer, int(length), training_tokens)
-    while (pending := next_to_try(tried)) is not None and not args.dry:
-        tried[pending] = pilot(args.tokenizer, pending, training_tokens)
+    while (pending := next_to_try(tried)) is not None:             # walk the rule from the start: only lengths it asks for are ever read
+        done = pilot(args.tokenizer, pending, training_tokens, make=not args.dry)
+        if done is None:
+            break
+        tried[pending] = done
 
     print(f"\n{args.tokenizer}: one pass is {training_tokens / (BATCH * CONTEXT):.1f} steps")
     print(f"{'steps':>8}{'passes':>8}{'best':>9}{'at step':>9}{'that is':>9}{'final':>9}{'minutes':>9}")
@@ -105,6 +127,10 @@ def main() -> None:
         return
     chosen = choose(tried)
     print(f"\nthe rule picks {chosen:,} steps = {chosen * BATCH * CONTEXT / training_tokens:.1f} passes")
+    if tried[chosen]["best_step"] == chosen:
+        print("  (that run's best moment was its last step. The rule's choice stands; the write-up will call this arm possibly under-trained.)")
+    if args.dry:
+        return
     record = ROOT / "docs" / "run_lengths.json"
     lengths = json.loads(record.read_text()) if record.exists() else {}
     lengths[args.tokenizer] = {"steps": chosen, "passes": chosen * BATCH * CONTEXT / training_tokens, "found_by": "scripts/find_length.py, seed 0",

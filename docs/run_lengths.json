@@ -3,5 +3,61 @@
     "steps": 9985,
     "passes": 34.0,
     "found_by": "three pilots with seed 0, made by the first version of the training code before scripts/find_length.py existed (docs/BUILD_LOG.md, entry 14): 17 passes 1.7706 (best at the last step), 34 passes 1.7404, 68 passes 1.7577 (best at 54% of the run). Doubling from 17 gained more than 0.01; doubling again gained nothing."
+  },
+  "bpe-1024": {
+    "steps": 2500,
+    "passes": 21.150000283996587,
+    "found_by": "scripts/find_length.py, seed 0",
+    "tried": {
+      "2500": {
+        "best": 1.808505786742706,
+        "best_step": 2438,
+        "final": 1.810428224817007,
+        "minutes": 10.38,
+        "run": "pilot-bpe-1024-2500"
+      },
+      "5000": {
+        "best": 1.8001099857099823,
+        "best_step": 2875,
+        "final": 1.8107807254037487,
+        "minutes": 18.51,
+        "run": "pilot-bpe-1024-5000"
+      },
+      "10000": {
+        "best": 1.8045232782885288,
+        "best_step": 3000,
+        "final": 1.9202699294293268,
+        "minutes": 37.09,
+        "run": "pilot-bpe-1024-10000"
+      }
+    }
+  },
+  "bpe-4096": {
+    "steps": 2500,
+    "passes": 27.1766535560545,
+    "found_by": "scripts/find_length.py, seed 0",
+    "tried": {
+      "2500": {
+        "best": 1.8514886878617307,
+        "best_step": 2250,
+        "final": 1.8538249641987052,
+        "minutes": 10.59,
+        "run": "pilot-bpe-4096-2500"
+      },
+      "5000": {
+        "best": 1.8733259483846272,
+        "best_step": 1500,
+        "final": 1.9791851648150123,
+        "minutes": 19.25,
+        "run": "pilot-bpe-4096-5000"
+      },
+      "10000": {
+        "best": 1.8758774746549163,
+        "best_step": 1500,
+        "final": 2.221784493824326,
+        "minutes": 36.82,
+        "run": "pilot-bpe-4096-10000"
+      }
+    }
   }
 }
