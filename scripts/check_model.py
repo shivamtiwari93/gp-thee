@@ -20,9 +20,10 @@ from-scratch model goes wrong without announcing it:
                      attention, number format and device gives the same loss, on rows it memorised and rows it
                      never saw. This is the check that would catch a fault that exists only in 16-bit.
 
-With --trained runs/<name>/best.pt it instead repeats checks 3, 4, 5 and 7 on TRAINED weights and text the model
-has never seen. A fresh model attends to everything about equally, which hides some faults. A trained one has
-learned sharp habits of attention, so if the future can leak anywhere, this is where it shows.
+With --trained runs/<name>/best.pt it instead repeats check 3 on TRAINED weights and text the model has never seen,
+and then compares the loss at every token between every combination of attention, device and number format. A
+fresh model attends to everything about equally, which hides some faults. A trained one has learned sharp habits
+of attention, so if the future can leak anywhere, this is where it shows.
 
 Nothing is written. Any failure exits with an error.
 """
@@ -38,6 +39,7 @@ import torch
 
 from gp_thee.data import load_tokens, random_batch
 from gp_thee.model import GPT, Config
+from gp_thee.train import load_checkpoint
 
 GPU = "mps"
 EXPECTED_PARAMETERS = {"char": 10_757_760, "bpe-2048": 11_506_560}  # derived by hand in blog parts 1 and 3
@@ -69,7 +71,8 @@ def largest_leak(model: GPT, row: torch.Tensor, vocab_size: int, rng, sixteen_bi
         chunk = cuts[begin:begin + 63]
         rows = row.repeat(len(chunk) + 1, 1)
         for i, k in enumerate(chunk, start=1):
-            rows[i, k:] = torch.from_numpy(rng.integers(0, vocab_size - 1, size=length - k))
+            # every scrambled token is moved by 1 to V-2 places round the vocabulary (START left out), so it is certain to differ
+            rows[i, k:] = (row[k:] + torch.from_numpy(rng.integers(1, vocab_size - 1, size=length - k))) % (vocab_size - 1)
         with torch.set_grad_enabled(training), torch.autocast(GPU, dtype=torch.bfloat16, enabled=sixteen_bit):
             scores = model(rows.to(GPU))[0].detach().float().cpu()
         for i, k in enumerate(chunk, start=1):
@@ -79,12 +82,12 @@ def largest_leak(model: GPT, row: torch.Tensor, vocab_size: int, rng, sixteen_bi
 
 
 def check_trained(path: str) -> None:
-    saved = torch.load(path, map_location="cpu", weights_only=False)  # our own file; never do this with a stranger's
+    _, saved = load_checkpoint(path, "cpu")
     name, context = saved["run_config"]["tokenizer"], saved["model_config"]["context"]
     stream = load_tokens(name, "validation")
     vocab_size, rng = saved["model_config"]["vocab_size"], np.random.default_rng(0)
     tokens, targets = random_batch(stream, 8, context, rng, "cpu")
-    print(f"{path}: step {saved['step']:,}, {name} tokenizer, on 8 windows of the validation works\n")
+    print(f"{path}: step {saved['step']:,}, {name} tokenizer. No peeking: one window of the validation works. Same answers: eight.\n")
 
     def trained(device: str, builtin: bool) -> GPT:
         # dropout off: with it on, two copies of the same row would differ by chance and hide a real leak
@@ -92,7 +95,7 @@ def check_trained(path: str) -> None:
         model.load_state_dict(saved["model"])
         return model
 
-    losses = {}
+    losses = {}  # for each combination, the loss at every one of the 8 x 256 tokens
     for builtin in (False, True):
         model = trained(GPU, builtin)
         for sixteen_bit in (False, True):
@@ -104,11 +107,17 @@ def check_trained(path: str) -> None:
             for sixteen_bit in ((False,) if device == "cpu" else (False, True)):
                 candidate = trained(device, builtin).eval()
                 with torch.no_grad(), torch.autocast(device, dtype=torch.bfloat16, enabled=sixteen_bit):
-                    losses[(builtin, device, sixteen_bit)] = candidate(tokens.to(device), targets.to(device))[1].item()
-    gap_32 = max(v for k, v in losses.items() if not k[2]) - min(v for k, v in losses.items() if not k[2])
-    gap_16 = max(losses.values()) - min(losses.values())
-    report("4, 5, 7. same loss, both attentions, GPU and CPU", gap_32 < 1e-4 and gap_16 < 0.02,
-           f"loss {losses[(False, GPU, False)]:.4f}; 32-bit spread {gap_32:.1e}, with 16-bit {gap_16:.1e}")
+                    scores = candidate(tokens.to(device))[0].float().cpu()
+                losses[(builtin, device, sixteen_bit)] = torch.nn.functional.cross_entropy(scores.view(-1, vocab_size), targets.view(-1), reduction="none")
+    reference = losses[(False, GPU, False)]  # what training and evaluation use: hand-written attention, GPU, 32-bit
+    gap_32 = max((losses[k] - reference).abs().max().item() for k in losses if not k[2])
+    gap_16 = max((losses[k] - reference).abs().max().item() for k in losses)
+    mean_16 = max(abs(losses[k].mean().item() - reference.mean().item()) for k in losses)
+    # A mean over 2,048 tokens would hide one token that moved by 0.2 nats, so the 32-bit limit is on the worst single token.
+    # 16-bit rounds differently at every token, so there the limit on a single token is loose and the limit on the mean is tight.
+    # Measured on a 34-pass character model: 1.2e-5 at the worst token in 32-bit; 0.099 at the worst token and 5.3e-4 in the mean with 16-bit.
+    report("same loss at every token, both attentions, GPU, CPU", gap_32 < 1e-4 and gap_16 < 0.5 and mean_16 < 2e-3,
+           f"mean loss {reference.mean():.4f}; largest difference at any one token {gap_32:.1e} in 32-bit, {gap_16:.1e} with 16-bit (means within {mean_16:.1e})")
 
 
 parser = argparse.ArgumentParser(description="The correctness gate.")

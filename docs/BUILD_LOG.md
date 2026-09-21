@@ -677,3 +677,75 @@ The 17-pass pilot, taken apart by `scripts/evaluate.py`: All's Well 1.715, Romeo
 - A docstring of mine said ROMEO has to be spelled out "thirty times a scene". Measured: 162 times in the play, 6.8 per scene, never more than 26. The same sentence was in the blog draft.
 
 Still owed when this was written: a test for `scripts/summarise_runs.py`, which applies the rule of item 6 and has none; tighter limits in `check_model.py --trained`; the third auditor's report (a second mutation round).
+
+### Addendum to Entry 14: what reviewing blog part 5 caught (2026-09-21)
+
+Three reviews of the draft of [blog/05-training.md](../blog/05-training.md) (fact-check, ML expert, newcomer), 93 issues. Every table matched its log or JSON file to the digit. The errors were all in sentences that said more than the data does, and every new number the reviewers produced was measured again by me before it went in.
+
+| The draft said | Measured |
+|---|---|
+| The sample shown "after 1,000 steps" of the 17-pass run | It was the 34-pass run's sample at that step. Same seed, but a different run length, so a different learning rate at every step after the warm-up. |
+| The opening sample shows what the model writes "by the end" | Step 3,000 of 9,985 of the 34-pass pilot, picked from 143 samples because Polonius walks in. The post now says so. |
+| "At every matching step the long run is BEHIND" | Level to 0.002 up to step 1,000; the two trade places between 1,000 and 2,000 (the long run is 0.012 *ahead* at step 1,250); behind at all twelve stops from 2,000 to 4,750, by 0.005 to 0.022. This entry had it right ("from step 2,000"); the post did not. |
+| After its best moment the 68-pass run's validation "climbed steadily" | It hovered between 1.761 and 1.777 for 4,000 steps and then drifted up: it rose at 21 of the 37 later stops and fell at 15. Its seen score did fall at every one of the 80 stops. |
+| "With a look-back of seven, almost everything in a new play is unseen" | 19.2% of validation characters follow a run of seven that never occurs in the training works (4.9% for five, 2.1% for four). The 8-gram loses because thin counts are over-trusted by Witten-Bell, a weak smoother. |
+| 6.60 bits "is the ceiling" | The untrained model scores 6.71, two sections later in the same post. |
+| "Bit for bit" resume | On the CPU. The post now says what holds on the GPU. |
+| The two attentions agree "to seven decimal places" | The difference is 2.4e-7: six places. |
+| Clipping stops "one enormous step", and a fresh model's gradients "point in wild directions" | Both are the plain-gradient-descent story. Under AdamW the size of a step does not follow the size of the gradient; the benchmark's jump to 7.2 happened with the clip on; and in the first baseline run the clip fired on 9.6% of the first 250 steps and on none after. At the first step AdamW's update is exactly plus or minus the learning rate for every parameter, which is why a full rate from step one overshoots. |
+
+**New measurements made for the post** (*measured*, CPU, validation and training works only; script in the session scratchpad, `blog5/measure.py`):
+
+- Of the 1,773 speaker labels in the validation plays, 915 carry a name that also heads a speech somewhere in the training works and 858 do not. The first kind costs 0.92 bits per character, the second 3.45 (17-pass pilot).
+- From 17 to 34 passes, label lines went from 2.179 to 2.310 while everything else improved from 1.745 to 1.704. All of the damage is in the letters after the first letter of an unknown name: 4.04 to 4.62 bits each (known names: 0.66 to 0.76). First letters (3.90 to 3.68) and full stops (2.57 to 1.16) improved. One pair of runs, one seed.
+- In *Hamlet*, a training work, the 34-pass pilot scores 0.34 on label lines and 1.44 on everything else.
+- 45% of validation characters cost under half a bit and 15% over 4 bits; the first letter of a word costs 3.76 bits, later letters 1.43.
+- Scored in windows that do not overlap, as nanoGPT does, the 34-pass pilot gets 1.243 nats per character against 1.206 with 128 tokens of run-up: 0.037 of any comparison with the tutorial's 1.47 is the ruler.
+- Block bootstrap over 55 blocks of 5,000 characters: one score is uncertain by 0.013 bits from the choice of text alone (more with longer blocks, per the first audit); the difference between the 17- and 34-pass pilots is 0.030 ± 0.003.
+- bzip2's primed figure: 2.299, 2.380, 2.473 and 2.266 with the first 0, 200, 400 and 700 kB of training text dropped; xz 2.390 and 2.396.
+
+The post is the longest of the series by half (about 8,000 words). The newcomer's review said so. It stays whole for now; splitting it is the owner's call.
+
+### The baseline (2026-09-21, 00:38 to 03:20): characters, 34 passes, 32-bit, seeds 1 to 3
+
+All five runs from commit `5c6bd68` with a clean tree, 9,985 steps, 40 stops, run one after another on mains power. *Measured*; gathered by `scripts/summarise_runs.py char-34-` into [docs/results-char-34.json](results-char-34.json).
+
+| Run | Best validation bpc | At step | Final | Seen at best | Minutes |
+|---|---|---|---|---|---|
+| `char-34-seed-1` | 1.7490 | 7,239 | 1.7551 | 1.4276 | 37.7 (audits were using the CPU) |
+| `char-34-seed-1-again` | 1.7517 | 8,986 | 1.7614 | 1.3794 | 35.8 |
+| `char-34-seed-2` | 1.7597 | 8,986 | 1.7663 | 1.3744 | 35.8 |
+| `char-34-seed-3` | 1.7504 | 9,735 | 1.7584 | 1.3633 | 36.0 |
+| `char-34-seed-1-16bit` | 1.7592 | 8,238 | 1.7685 | 1.4032 | 21.7 |
+
+- **Baseline: 1.7535 bits per character, standard deviation over seeds 0.0054** (n = 3; the twins of seed 1 averaged first).
+- **Same seed twice: 0.0027 apart**, and the two had their best moments at different stops.
+- **Where the spread is.** By `scripts/evaluate.py`, per seed: everything else 1.7147 / 1.7135 / 1.7121 (sd 0.0013); speaker-label lines 2.315 / 2.490 / 2.356 (sd 0.09). The twins differ by 0.005 on ordinary text and by 0.125 on labels. Nearly all the noise in the deciding number comes from 6% of the characters. The pre-registered rule decides on the whole text and that does not change; the two-way split is reported beside it, as Entry 12 said it would be. *All's Well* 1.7035 (sd 0.0014), *Romeo and Juliet* 1.8007 (sd 0.0116).
+- **16-bit: not adopted for the sweep.** Item 8's limit was the larger of the twins' difference (0.0027) and the seed spread (0.0054). The 16-bit run is 0.0089 from the twins' mean. It is inside the range of the three 32-bit seeds (seed 2: 1.7597), so this is not evidence that 16-bit learns worse, only a failure to show that it learns the same. The rule was fixed in advance, so the sweep runs in 32-bit.
+- **The rule's decisions hold up, their sizes do not:** see "Seed 0, three times" below.
+- Every run ended 0.006 to 0.010 above its best, and the best moments fell at 72% to 97% of the run: over-fitting has just begun at 34 passes.
+- **Speed**, with the machine otherwise idle: 85,400 tokens per second in 32-bit (192 ms per step), 153,800 in 16-bit. The 41 stops cost about four minutes per run.
+- **Clipping:** on about 10% of the first 250 steps in every run (gradient length 0.81 to 0.82 on average there), and on no step after that (0.26 on average late in the run).
+- **`check_model.py --trained runs/char-34-seed-3/best.pt`**, now comparing the loss at every token: no peeking 0.0 in all eight combinations; worst single token 1.2e-5 apart in 32-bit across attentions and devices; with 16-bit, 0.099 at the worst token and 5.3e-4 in the mean. The limits in the script are set from these.
+
+### Seed 0, three times: one run is not a measurement (2026-09-21, 03:26 to 04:40)
+
+The 34-pass pilot (seed 0, first version of the code) scored 1.7404, below all four new runs. Lucky seed, or had the rewrite changed the training? Two more runs, *measured*:
+
+| Run | Code | Best | Final | Second-half training loss |
+|---|---|---|---|---|
+| `pilot-char-34` | first version | 1.7404 | 1.7423 | 1.0915 |
+| seed 0 again (in the session scratchpad, not in `runs/`) | first version | 1.7423 | 1.7457 | 1.0913 |
+| `char-34-seed-0` | rewritten, commit `5c6bd68` | 1.7525 | 1.7553 | 1.0916 |
+
+Two old-code runs about 0.010 below the new code with the same seed looked like a verdict against the rewrite. It is not:
+
+- **On the CPU the two versions give bit-identical weights, optimizer averages and validation score** from the same seed (78 steps of a small model with dropout on; the first version was kept by an auditor's scratch copy, since it was never committed). They do the same arithmetic.
+- On the GPU the three runs' training loss and seen score agree to four decimals. Only validation differs, by about what the seed-1 twins differ by at single stops (up to 0.015 from mid-run on, either sign; per-stop differences within a same-seed pair have a standard deviation of 0.003 to 0.004 in the second half).
+- At the last step the pilot's lead over `char-34-seed-0` is 0.0130, of which 0.0110 is speaker labels (2.268 against 2.452) and the rest ordinary text (1.7090 against 1.7112, inside the new runs' 1.711 to 1.717).
+
+**Consequences.** Spread within a seed, pooled over seed 0 (three runs) and seed 1 (two): 0.0054, the same as the spread between seeds 1 to 3. On this GPU the seed adds nothing visible on top of the last-digit noise. All seven 32-bit 34-pass runs: mean 1.7494, sd 0.0065, 1.7404 to 1.7597. The 17-pass pilot (1.7706) is behind all seven, by 0.011 to 0.030, so "longer than 17" stands against the rule's 0.01, with less room than the pilots suggested. The 68-pass pilot (1.7577) beats one of the seven by 0.002, so "no gain from 68" stands and "68 lost 0.017" was mostly one run's luck. The rule picks 34 either way. The pre-registered baseline is unchanged: seeds 1 to 3 with the committed code, 1.7535, sd 0.0054. With `char-34-seed-0` as a fourth seed, which is what `docs/results-char-34.json` now holds: 1.7533, sd 0.0044.
+
+**16-bit, the quieter evidence.** Second-half training loss of the seven 32-bit runs: 1.0899 to 1.0927 (sd 0.0009). The 16-bit run: 1.0952, above all seven, about 0.003 nats. The validation score could not show that; the training loss can.
+
+**For part 6.** Three seeds per tokenizer give a mean with a standard error of about 0.003 to 0.004. The pre-registered test will therefore call anything under about 0.01 a tie, which is as it should be. The per-line-type split is where a real difference would show first, since ordinary text is ten times quieter than the whole (sd 0.0013 against 0.0054 at the best moments).

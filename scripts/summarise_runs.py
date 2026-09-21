@@ -16,9 +16,16 @@ Each run is judged at its best validation checkpoint, as decided before any run 
 When there are several groups, the rule for calling two of them different (fixed in BUILD_LOG entry 14, before
 the runs): pool the seed-to-seed standard deviation over all groups; two groups differ only if their means are
 further apart than t x pooled sd x sqrt(1/n1 + 1/n2), with t the usual 95% value for the pooled degrees of
-freedom. For five groups of three seeds that is 1.82 x the pooled sd. Anything closer is a tie.
+freedom. For five groups of three seeds that is 1.82 x the pooled sd. Anything closer is a tie, and a tie goes
+to the smaller model. So the choice is: the smallest model whose mean is within that distance of the best mean.
 
-Writes docs/results.json. (The runs themselves are too big for git; this file is the record.)
+The table of all pairs is information, not the decision. Each of its verdicts has a 5% chance of a false alarm, so
+among the ten pairs of five truly equal groups, one sweep in four shows at least one "DIFFERENT".
+
+Use a prefix that selects exactly the groups being compared: the pooled spread is taken over every run it finds.
+
+Writes docs/results.json, or docs/results-<prefix>.json when a prefix is given. (The runs themselves are too big
+for git; these files are the record.)
 """
 
 import json
@@ -39,7 +46,8 @@ for folder in sorted((ROOT / "runs").glob(f"{prefix}*")):
     config, result = json.loads((folder / "config.json").read_text()), json.loads((folder / "result.json").read_text())
     settings = json.dumps({k: v for k, v in config.items() if k not in NOT_A_SETTING}, sort_keys=True)
     groups.setdefault(settings, []).append({"name": config["name"], "seed": config["seed"], "steps": config["steps"], "parameters": config["parameters"],
-                                            "git_commit": config["git_commit"], "minutes": result["minutes"],
+                                            "git_commit": config["git_commit"], "torch": config.get("torch"), "fingerprints": config.get("fingerprints"),
+                                            "minutes": result["minutes"],
                                             "best_validation_bpc": result["best"]["validation_bpc"], "best_step": result["best"]["step"],
                                             "best_passes": result["best"]["passes"], "seen_bpc_at_best": result["best"]["seen_bpc"],
                                             "final_validation_bpc": result["final_validation_bpc"]})
@@ -47,7 +55,7 @@ if not groups:
     sys.exit("no finished runs found")
 
 everything = [json.loads(settings) for settings in groups]
-varying = sorted(k for k in everything[0] if len({json.dumps(s.get(k)) for s in everything}) > 1)
+varying = sorted(k for k in set().union(*everything) if len({json.dumps(s.get(k)) for s in everything}) > 1)
 out, squares, freedom = [], 0.0, 0
 for settings, runs in groups.items():
     settings = json.loads(settings)
@@ -69,6 +77,9 @@ for settings, runs in groups.items():
     print(f"    mean over {len(seed_means)} seed(s): {mean:.4f} bits per character" + (f", standard deviation {deviation:.4f}" if deviation is not None else ""))
     for seed, gap in repeats.items():
         print(f"    seed {seed} was run {len(by_seed[seed])} times: those runs differ by {gap:.4f}")
+    for what in ("git_commit", "torch", "fingerprints"):
+        if len({json.dumps(run[what], sort_keys=True) for run in runs}) > 1:
+            print(f"    WARNING: these runs do not share the same {what}. They may not be the same experiment.")
     print()
     out.append({"settings": settings, "seeds": len(seed_means), "mean_best_validation_bpc": mean, "standard_deviation_over_seeds": deviation,
                 "same_seed_differences": {str(seed): gap for seed, gap in repeats.items()}, "runs": runs})
@@ -85,6 +96,13 @@ if len(out) > 1 and freedom:
             gap = abs(a["mean_best_validation_bpc"] - b["mean_best_validation_bpc"])
             name = lambda group: ", ".join(f"{k} {group['settings'].get(k)}" for k in varying)
             print(f"    {name(a)}  against  {name(b)}:  {gap:.4f} apart, {needed:.4f} needed  ->  {'DIFFERENT' if gap > needed else 'a tie'}")
+    print("    (each verdict above has a 5% false-alarm rate of its own; the choice below is what the rule decides)")
+    best = min(out, key=lambda group: group["mean_best_validation_bpc"])
+    within = [g for g in out if g["mean_best_validation_bpc"] - best["mean_best_validation_bpc"] <= t * pooled * math.sqrt(1 / g["seeds"] + 1 / best["seeds"])]
+    choice = min(within, key=lambda group: group["runs"][0]["parameters"])
+    summary["choice"] = {"settings": choice["settings"], "mean_best_validation_bpc": choice["mean_best_validation_bpc"], "lowest_mean": best["mean_best_validation_bpc"]}
+    print(f"\nlowest mean: {name(best)} at {best['mean_best_validation_bpc']:.4f}. The smallest model within reach of it: {name(choice)} at {choice['mean_best_validation_bpc']:.4f}")
 
-(ROOT / "docs" / "results.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
-print("\nwrote docs/results.json")
+record = ROOT / "docs" / (f"results-{prefix.strip('-_.')}.json" if prefix else "results.json")
+record.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+print(f"\nwrote docs/{record.name}")

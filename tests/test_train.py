@@ -11,9 +11,11 @@ import hashlib
 import json
 import math
 import pickle
+import re
 import runpy
 import subprocess
 import sys
+import types
 from pathlib import Path
 
 import numpy as np
@@ -112,8 +114,22 @@ def test_the_default_stride_is_half_the_context():
 
 @pytest.mark.parametrize("stride", [0, -1, 17, 20])
 def test_evaluation_refuses_a_stride_that_makes_no_sense(stride):
-    with pytest.raises(ValueError):
+    # `match`, because with a stride of 20 numpy raises a ValueError of its own further down ("could not broadcast"),
+    # and any ValueError would do: the check could be deleted and that case would still pass.
+    with pytest.raises(ValueError, match="makes no sense"):
         evaluate(tiny_model(), np.arange(120) % 30, "cpu", stride=stride)
+
+
+def test_evaluation_refuses_a_plan_that_scores_a_token_twice_or_not_at_all(monkeypatch):
+    # The guard behind plan_windows. Without it a token scored twice would quietly keep the later window's number, and one
+    # never scored would count as no surprise at all: a wrong sum either way, and no error.
+    model, stream = tiny_model(), np.arange(41) % 30                               # 40 targets, context 16
+    monkeypatch.setattr(T, "plan_windows", lambda targets, context, stride: [(0, 0), (8, 7), (16, 8), (24, 8)])   # target 15 twice
+    with pytest.raises(AssertionError, match="exactly once"):
+        evaluate(model, stream, "cpu")
+    monkeypatch.setattr(T, "plan_windows", lambda targets, context, stride: [(0, 0), (8, 9), (16, 8), (24, 8)])   # target 16 never
+    with pytest.raises(AssertionError, match="exactly once"):
+        evaluate(model, stream, "cpu")
 
 
 def test_evaluation_leaves_the_model_in_the_mode_it_found_it_even_after_an_error():
@@ -213,6 +229,22 @@ def test_sampling_leaves_the_model_in_the_mode_it_found_it_and_refuses_nonsense(
     assert model.training
 
 
+def test_sampling_restores_the_mode_even_if_the_model_fails_midway(monkeypatch):
+    # Every error in the test above is raised before the model is touched. This one strikes after eval(), in the middle of the loop.
+    # Whoever catches such an error (in a notebook, say) and trains on would otherwise do so with dropout switched off, unannounced.
+    model, calls = tiny_model().train(), []
+    real = model.forward
+    def fails_on_the_third_token(*a, **k):
+        calls.append(1)
+        if len(calls) == 3:
+            raise RuntimeError("out of memory, say")
+        return real(*a, **k)
+    monkeypatch.setattr(model, "forward", fails_on_the_third_token)
+    with pytest.raises(RuntimeError):
+        generate(model, LETTERS, "to be", 5)
+    assert model.training
+
+
 # ------------------------------------------------------------------------------------------ a whole run, tiny, on the CPU
 @pytest.fixture()
 def tiny_run(tmp_path, monkeypatch):
@@ -257,7 +289,16 @@ def test_a_checkpoint_says_what_made_it_and_holds_nothing_that_can_run(tiny_run,
     assert type(saved["torch"]) is str
     config = json.loads((tmp_path / "runs/t/config.json").read_text())
     assert config["fingerprints"] == saved["fingerprints"] and config["git_commit"] == saved["git_commit"] and config["steps"] == 78
-    assert not list((tmp_path / "runs/t").glob("*.tmp"))                                  # saved under another name, then renamed
+    assert not list((tmp_path / "runs/t").glob("*.tmp"))                                  # no half-made file is left lying about (that a save goes through one
+                                                                                          # at all is shown among the killed runs, further down)
+
+
+def test_config_json_counts_the_parameters(tiny_run, tmp_path):
+    # Counted here from the tensors themselves, the tied table once. scripts/summarise_runs.py publishes this number, and breaks
+    # ties between settings with it ("the smallest model within reach of the best").
+    T.train(tiny_run, stop_at=0, say=QUIET)
+    model, _ = T.load_checkpoint(tmp_path / "runs/t/last.pt", "cpu")
+    assert json.loads((tmp_path / "runs/t/config.json").read_text())["parameters"] == sum(p.numel() for p in model.parameters()) > 10_000
 
 
 def test_best_means_lowest_validation_even_when_later_is_worse_seen_is_better_or_the_run_was_resumed(tiny_run, tmp_path, monkeypatch):
@@ -276,8 +317,17 @@ def test_best_means_lowest_validation_even_when_later_is_worse_seen_is_better_or
         [("0", "5.0", "5.0"), ("26", "3.0", "2.5"), ("52", "4.0", "2.0"), ("78", "3.5", "1.5")]
 
 
+def test_a_tie_for_best_keeps_the_earlier_checkpoint(tiny_run, tmp_path, monkeypatch):
+    # Of two equally good moments the earlier one has read the training text fewer times. "Better" means strictly better.
+    script = iter([5.0, 5.0, 3.0, 3.0, 3.0, 3.0, 3.5, 3.5])                                # validation and seen alike, at steps 0, 26, 52, 78
+    monkeypatch.setattr(T, "bits_per_character", lambda surprise, characters: next(script))
+    assert T.train(tiny_run, say=QUIET)["best"]["step"] == 26
+    assert torch.load(tmp_path / "runs/t/best.pt", weights_only=True)["step"] == 26
+
+
 def test_the_loop_matches_the_same_loop_written_out_by_hand(tiny_run, tmp_path):
-    # Every setting differs from its default, and the tokens are word fragments, so tokens are not characters.
+    # Every setting but one differs from its default (16-bit stays off: it has a test of its own), and the tokens are word
+    # fragments, so tokens are not characters.
     # If any setting failed to reach the optimizer, or the loop did its six lines in another order, the weights would differ.
     run = dataclasses.replace(tiny_run, name="byhand", tokenizer="bpe-1024", passes=0.1, seed=3, peak_rate=2e-3, floor_rate=3e-4, warm_up=4,
                               weight_decay=0.05, beta_2=0.95, clip=0.25, evaluations=2)
@@ -345,16 +395,27 @@ def test_dropout_is_on_while_training(tiny_run, tmp_path):
     assert not all(torch.equal(a[k], b[k]) for k in a)
 
 
-def test_sixteen_bit_is_used_when_asked_for_and_only_then(tiny_run, monkeypatch):
+def test_sixteen_bit_means_bfloat16_on_the_runs_device_and_is_used_only_when_asked_for(tiny_run, monkeypatch):
     asked, real = [], torch.autocast
     def spy(*a, **k):
         if "dtype" in k:                                   # the training loop's block; evaluate() opens its own, always switched off
-            asked.append(k["enabled"])
+            asked.append((a, k["dtype"], k["enabled"]))
         return real(*a, **k)
     monkeypatch.setattr(torch, "autocast", spy)
     T.train(dataclasses.replace(tiny_run, name="32", passes=0.05, evaluations=1), say=QUIET)      # 8 steps
     T.train(dataclasses.replace(tiny_run, name="16", passes=0.05, evaluations=1, sixteen_bit=True), say=QUIET)
-    assert asked == [False] * 8 + [True] * 8
+    # bfloat16, not float16: float16 runs out of range unless the loss is scaled up first, which this loop does not do
+    assert asked == [(("cpu",), torch.bfloat16, False)] * 8 + [(("cpu",), torch.bfloat16, True)] * 8
+
+
+def test_every_evaluation_leaves_a_sample_from_the_same_prompt(tiny_run, tmp_path):
+    # The resume tests only compare one run's samples.txt with another's, and two empty files are equal too.
+    T.train(tiny_run, say=QUIET)
+    text = (tmp_path / "runs/t/samples.txt").read_text(encoding="utf-8")
+    assert [int(step) for step in re.findall(r"^===== step (\d+), ", text, re.M)] == [0, 26, 52, 78]
+    samples = re.split(r"^===== step .*=====\n", text, flags=re.M)[1:]
+    assert all(sample.startswith(T.PROMPT) and len(sample) == len(T.PROMPT) + 200 + 2 for sample in samples)   # the prompt, 200 new characters, a blank line
+    assert len(set(samples)) == 4                                                                  # same prompt, same dice: they differ because the model does
 
 
 def test_a_different_seed_is_a_different_start_and_different_batches(tiny_run, tmp_path, monkeypatch):
@@ -387,33 +448,70 @@ def test_a_run_that_is_cut_off_and_resumed_is_the_same_run(tiny_run, tmp_path, m
     assert logs[0] == logs[1] and [row["step"] for row in logs[1]] == ["0", "26", "52", "78"]       # each step logged once
     assert (tmp_path / "runs/halves/samples.txt").read_text() == (tmp_path / "runs/whole/samples.txt").read_text()
     minutes = [float(row["minutes"]) for row in log_of(tmp_path / "runs/halves")]
-    assert minutes == sorted(minutes) and resumed["minutes"] >= minutes[2]                         # the clock carries on; it does not start again
+    # The clock carries on; it does not start again. (A real clock can only show this roughly. The exact check, with a clock we
+    # control, is among the log's other columns.)
+    assert minutes == sorted(minutes) and resumed["minutes"] >= minutes[2]
 
 
-def test_a_run_that_died_between_saving_and_logging_scores_that_step_again(tiny_run, tmp_path):
+def test_a_run_that_died_between_saving_and_logging_gets_the_lost_row_back_from_its_checkpoint(tiny_run, tmp_path):
     T.train(tiny_run, stop_at=52, say=QUIET)
     log = tmp_path / "runs/t/log.csv"
-    log.write_text("".join(log.read_text().splitlines(keepends=True)[:-1]))                        # the row for step 52 never made it to disk
+    rows = log.read_bytes().splitlines(keepends=True)
+    log.write_bytes(b"".join(rows[:-1]))                                                           # the row for step 52 never made it to disk
     T.train(tiny_run, resume=True, say=QUIET)
     assert [row["step"] for row in log_of(tmp_path / "runs/t")] == ["0", "26", "52", "78"]
+    # The very row that was lost, to the byte. Scoring the step again could not bring back its training loss, gradient length,
+    # share clipped or speed: the steps they were measured over are gone.
+    assert log.read_bytes().splitlines(keepends=True)[:4] == rows and b"nan" not in rows[3]
 
 
-@pytest.mark.parametrize("change", [{"seed": 9}, {"tokenizer": "bpe-1024"}, {"passes": 0.25}, {"dropout": 0.5}, {"peak_rate": 5e-3}, {"evaluations": 6}])
-def test_a_resumed_run_keeps_its_settings(tiny_run, tmp_path, change):
+# One other value for every setting of a run. The test below refuses to run if a setting is missing here, so a new field of RunConfig cannot be forgotten.
+OTHER_SETTINGS = {"tokenizer": "bpe-1024", "seed": 9, "passes": 0.25, "batch": 4, "peak_rate": 5e-3, "floor_rate": 5e-5, "warm_up": 7, "weight_decay": 0.0,
+                  "beta_2": 0.95, "clip": 0.5, "dropout": 0.5, "layers": 1, "heads": 4, "width": 64, "context": 16, "evaluations": 6, "sixteen_bit": True}
+
+
+def test_every_setting_but_the_device_is_kept_on_resume(tiny_run, tmp_path):
+    # Some settings steer the rest of the run (batch, context, the rates, the clip, 16-bit): changed, the run becomes another run half way.
+    # Others are ignored by the loaded weights and optimizer (layers, heads, width, weight decay, beta_2): changed, every later
+    # checkpoint would record a setting that made nothing. The device is the one exception, and has a test of its own further down.
+    settings = [field.name for field in dataclasses.fields(RunConfig) if field.name not in ("name", "device")]
+    assert sorted(settings) == sorted(OTHER_SETTINGS) and all(getattr(tiny_run, setting) != OTHER_SETTINGS[setting] for setting in settings)
     T.train(tiny_run, stop_at=26, say=QUIET)
     before = (tmp_path / "runs/t/last.pt").read_bytes()
-    with pytest.raises(ValueError, match="other settings"):
-        T.train(dataclasses.replace(tiny_run, **change), resume=True, say=QUIET)
+    def answer_to(setting):
+        try:
+            T.train(dataclasses.replace(tiny_run, **{setting: OTHER_SETTINGS[setting]}), resume=True, stop_at=26, say=QUIET)
+        except ValueError as refusal:
+            return str(refusal)
+        return "resumed"
+    answers = {setting: answer_to(setting) for setting in settings}
+    assert [setting for setting in settings if not re.search(f"other settings.*'{setting}'", answers[setting])] == []   # each refused, and by name
     assert (tmp_path / "runs/t/last.pt").read_bytes() == before                                    # refused before anything was touched
-    assert T.train(dataclasses.replace(tiny_run, device="cpu"), resume=True, say=QUIET)["steps"] == 78
+    assert T.train(tiny_run, resume=True, say=QUIET)["steps"] == 78                                # and with its own settings the run carries on
 
 
-def test_a_run_is_not_resumed_on_other_tokens(tiny_run, monkeypatch):
+@pytest.mark.parametrize("changed", ["the training stream", "the validation stream", "the tokenizer file"])
+def test_a_run_is_not_resumed_if_any_one_of_the_three_things_it_reads_has_changed(tiny_run, tmp_path, monkeypatch, changed):
+    # One thing at a time, the other two untouched, so each of the three checksums has to do its own work.
     T.train(tiny_run, stop_at=26, say=QUIET)
-    real = T.load_tokens                                                              # already the first 40,000 tokens; now a different 40,000
-    monkeypatch.setattr(T, "load_tokens", lambda name, which: real(name, which) if which == "validation" else np.roll(real(name, which), 1))
+    before, real = (tmp_path / "runs/t/last.pt").read_bytes(), T.load_tokens
+    if changed == "the tokenizer file":
+        (tmp_path / "tokenizers").mkdir()                                                          # the same tokenizer to the last id, another file by one byte
+        (tmp_path / "tokenizers/char.json").write_bytes((DATA / "tokenizers/char.json").read_bytes() + b"\n")
+        monkeypatch.setattr(T, "DATA", tmp_path)
+    else:
+        shorter = "train" if changed == "the training stream" else "validation"                   # the same stream, one token shorter
+        monkeypatch.setattr(T, "load_tokens", lambda name, which: real(name, which)[:-1] if which == shorter else real(name, which))
     with pytest.raises(ValueError, match="have changed"):
         T.train(tiny_run, resume=True, say=QUIET)
+    assert (tmp_path / "runs/t/last.pt").read_bytes() == before
+
+
+def test_nothing_to_resume_is_said_so_and_leaves_no_folder_behind(tiny_run, tmp_path):
+    # A mistyped name with --resume must not leave an empty runs/<mistyped>/ behind to be mistaken for a run.
+    with pytest.raises(FileNotFoundError, match="nothing to resume"):
+        T.train(dataclasses.replace(tiny_run, name="never-started"), resume=True, say=QUIET)
+    assert list(tmp_path.iterdir()) == []
 
 
 def test_resuming_a_finished_run_changes_nothing(tiny_run, tmp_path):
@@ -432,11 +530,23 @@ def test_a_new_run_does_not_silently_replace_an_old_one(tiny_run, tmp_path):
     (tmp_path / "runs/t/evaluation-best.json").write_text("{}")                                    # what scripts/evaluate.py leaves behind
     T.train(dataclasses.replace(tiny_run, seed=1), overwrite=True, stop_at=26, say=QUIET)          # asked for: allowed
     assert sorted(f.name for f in (tmp_path / "runs/t").iterdir()) == ["best.pt", "config.json", "last.pt", "log.csv", "samples.txt"]   # nothing of the old run lingers
-    with pytest.raises(FileNotFoundError):
-        T.train(dataclasses.replace(tiny_run, name="never-started"), resume=True, say=QUIET)
 
 
-@pytest.mark.parametrize("bad", [{"name": "../outside"}, {"name": ""}, {"name": ".."}, {"name": "."}, {"name": "seed-1 --seed 1"}, {"name": "-x"}, {"evaluations": 0}, {"warm_up": 78}, {"warm_up": -5},
+def test_overwriting_clears_the_old_checkpoints_before_the_new_run_has_any(tiny_run, tmp_path):
+    # The test above looks once the new run has saved checkpoints of its own, which would have replaced the old ones anyway. If the
+    # new run dies before its first save, the old last.pt must not be lying beside the new config.json for a --resume to pick up.
+    T.train(tiny_run, say=QUIET)
+    class Stop(Exception):
+        pass
+    def dies_at_the_first_line(line):
+        raise Stop
+    with pytest.raises(Stop):
+        T.train(dataclasses.replace(tiny_run, seed=1), overwrite=True, say=dies_at_the_first_line)   # the folder is ready, step 0 is not yet scored
+    assert sorted(f.name for f in (tmp_path / "runs/t").iterdir()) == ["config.json", "log.csv", "samples.txt"]
+    assert json.loads((tmp_path / "runs/t/config.json").read_text())["seed"] == 1 and log_of(tmp_path / "runs/t") == []
+
+
+@pytest.mark.parametrize("bad", [{"name": "../outside"}, {"name": ""}, {"name": ".."}, {"name": "."}, {"name": "seed-1 --seed 1"}, {"name": "-x"}, {"evaluations": 0}, {"warm_up": 78}, {"warm_up": -5}, {"passes": -1.0}, {"passes": 0.0}, {"peak_rate": 0.0}, {"clip": 0.0}, {"floor_rate": -1e-4},
                                  {"batch": 0}, {"context": 0}, {"heads": 3}, {"tokenizer": "no-such-tokenizer"}])
 def test_settings_that_make_no_sense_are_refused_before_anything_is_written(tiny_run, tmp_path, bad):
     with pytest.raises((ValueError, FileNotFoundError)):
@@ -446,13 +556,47 @@ def test_settings_that_make_no_sense_are_refused_before_anything_is_written(tiny
         T.train(tiny_run, resume=True, overwrite=True, say=QUIET)
 
 
+@pytest.mark.parametrize("stream", ["train", "validation"])
+def test_token_ids_outside_the_vocabulary_are_refused_before_anything_is_written(tiny_run, tmp_path, monkeypatch, stream):
+    # A stream built by another tokenizer. On the CPU the embedding table would complain later, at the first batch that holds
+    # the id; the GPU may look up a row that is not there and say nothing at all.
+    real, size = T.load_tokens, load(DATA / "tokenizers/char.json").vocab_size
+    def one_bad_id(name, which):
+        tokens = np.array(real(name, which))
+        if which == stream:
+            tokens[-1] = size                                                                      # ids run from 0 to size - 1: the first one that does not exist
+        return tokens
+    monkeypatch.setattr(T, "load_tokens", one_bad_id)
+    with pytest.raises(ValueError, match="outside the vocabulary"):
+        T.train(tiny_run, say=QUIET)
+    assert list(tmp_path.iterdir()) == []
+
+
 @pytest.mark.skipif(not torch.backends.mps.is_available(), reason="needs the Mac's GPU")
 def test_the_gpu_dice_can_be_put_back():
-    # The two lines of save_checkpoint and train() that no CPU test can reach: dropout's dice live on the GPU.
+    # PyTorch's promise, not ours: dropout's dice live on the GPU, and they can be read and put back. This test runs no line of
+    # gp_thee. The two lines of ours that lean on the promise, one in train() and one in save_checkpoint, are tested on the CPU
+    # (the two tests about "the dice of the gpu" below). It is also the only test here that touches the GPU, so while a training
+    # run has the GPU leave it out:  -k "not gpu_dice"
     state = torch.mps.get_rng_state()
     first = F.dropout(torch.ones(1000, device="mps"), 0.5)
     torch.mps.set_rng_state(state)
     assert torch.equal(first, F.dropout(torch.ones(1000, device="mps"), 0.5))
+
+
+def test_a_resumed_run_puts_the_dice_of_the_gpu_back(tiny_run, tmp_path, monkeypatch):
+    # Without this line a run resumed on the GPU would draw other dropout masks than the run that was never stopped, and nothing
+    # would say so. No CPU run reaches the line, so the checkpoint is doctored and torch.mps is only listened to: the GPU is not touched.
+    T.train(tiny_run, stop_at=26, say=QUIET)
+    path, dice = tmp_path / "runs/t/last.pt", torch.arange(7, dtype=torch.uint8)
+    saved = torch.load(path, weights_only=True)
+    assert saved["random"]["gpu"] is None                                                          # a CPU run has none to save
+    saved["random"]["gpu"] = dice                                                                  # as if it had been running on the GPU
+    torch.save(saved, path)
+    put_back = []
+    monkeypatch.setattr(torch.mps, "set_rng_state", lambda state: put_back.append(state))
+    T.train(tiny_run, resume=True, stop_at=26, say=QUIET)                                          # resumes, and stops again at once
+    assert len(put_back) == 1 and torch.equal(put_back[0], dice)
 
 
 def test_an_unfinished_run_and_a_finished_one_without_its_last_checkpoint_are_protected_too(tiny_run, tmp_path):
@@ -480,6 +624,45 @@ def test_a_save_that_dies_half_way_leaves_both_good_checkpoints_alone(tiny_run, 
     assert list((tmp_path / "runs/t").glob("*.tmp"))                                               # half a file is lying about...
     assert [torch.load(tmp_path / f"runs/t/{name}.pt", weights_only=True)["step"] for name in ("best", "last")] == [26, 26]   # ...and both good ones are untouched
     assert T.train(tiny_run, resume=True, say=QUIET)["steps"] == 78 and not list((tmp_path / "runs/t").glob("*.tmp"))
+
+
+def test_a_run_killed_between_the_two_renames_of_its_best_moment_still_ends_with_the_right_best(tiny_run, tmp_path, monkeypatch):
+    # The narrowest moment of all: step 52 is the best so far, best.pt already holds it, and last.pt still says "step 26, best so far 26".
+    # best.pt is renamed first on purpose. The other way round, last.pt would say "the best was step 52" beside a best.pt that holds
+    # step 26; the resumed run would find nothing better at step 78, best.pt would never be put right, and the run could only end
+    # by refusing to report a result.
+    def script(*scores):                                                                           # validation and seen alike, in the order they are asked for
+        scores = iter(scores)
+        monkeypatch.setattr(T, "bits_per_character", lambda surprise, characters: next(scores))
+    script(5.0, 5.0, 4.0, 4.0, 3.0, 3.0, 3.5, 3.5)                                                 # scored at 0, 26, 52 and 78: the best is step 52
+    whole = T.train(dataclasses.replace(tiny_run, name="whole"), say=QUIET)
+    real, renames = T.os.replace, []
+    def dies_at_the_sixth_rename(source, target):
+        renames.append(Path(target).name)
+        if len(renames) == 6:                                                                      # steps 0, 26 and 52 were each the best so far: two renames
+            raise KeyboardInterrupt                                                                # apiece, and this is the second one at step 52
+        real(source, target)
+    monkeypatch.setattr(T.os, "replace", dies_at_the_sixth_rename)
+    script(5.0, 5.0, 4.0, 4.0, 3.0, 3.0)
+    with pytest.raises(KeyboardInterrupt):
+        T.train(tiny_run, say=QUIET)
+    monkeypatch.setattr(T.os, "replace", real)
+    assert sorted(torch.load(tmp_path / f"runs/t/{name}.pt", weights_only=True)["step"] for name in ("best", "last")) == [26, 52]   # the two files disagree
+    script(3.0, 3.0, 3.5, 3.5)                                                                     # step 52 again, then step 78
+    resumed = T.train(tiny_run, resume=True, say=QUIET)
+    assert {**resumed, "name": "", "minutes": 0} == {**whole, "name": "", "minutes": 0} and resumed["best"]["step"] == 52
+    assert [torch.load(tmp_path / f"runs/t/{name}.pt", weights_only=True)["step"] for name in ("best", "last")] == [52, 78]
+    assert [row["step"] for row in log_of(tmp_path / "runs/t")] == ["0", "26", "52", "78"] and not list((tmp_path / "runs/t").glob("*.tmp"))
+
+
+def test_half_a_checkpoint_left_by_a_killed_run_is_swept_away_when_the_run_is_picked_up(tiny_run, tmp_path):
+    # The two tests above end without a .tmp file whether train() sweeps or not: their resumed runs come to the same stop again, write
+    # the same two names again, and rename them. A leftover can outlive that: on the GPU, where a moment that was the best by a hair
+    # need not be the best when it is scored again, half a best.pt (129 MB at full size) would lie there for good.
+    T.train(tiny_run, stop_at=26, say=QUIET)
+    (tmp_path / "runs/t/best.pt.tmp").write_bytes(b"half a checkpoint")
+    T.train(tiny_run, resume=True, stop_at=26, say=QUIET)                                          # picks the run up and stops again at once: nothing is saved
+    assert sorted(f.name for f in (tmp_path / "runs/t").iterdir()) == ["best.pt", "config.json", "last.pt", "log.csv", "samples.txt"]
 
 
 @pytest.mark.parametrize("dies", ["before the checkpoint", "after the checkpoint, before the log row", "after the log row, before the sample"])
@@ -559,6 +742,37 @@ def test_loading_a_checkpoint_runs_nothing_and_lands_on_the_cpu(tiny_run, tmp_pa
     assert asked["map_location"] == "cpu" and asked["weights_only"] is True
 
 
+@pytest.mark.filterwarnings("ignore:for .*copying from a non-meta")
+def test_a_loaded_checkpoint_keeps_the_optimizer_counters_and_the_dice_on_the_cpu(tiny_run, tmp_path):
+    # The test above checks how torch.load is asked; this one checks what comes back, whichever way it was made. AdamW reads its
+    # step counters as plain numbers at every step. Counters on the GPU would stop Python once per tensor per step to fetch them,
+    # and a resumed run would crawl. The state of PyTorch's own dice belongs on the CPU too, where those dice live.
+    T.train(tiny_run, stop_at=26, say=QUIET)                    # 26 steps, so the optimizer has counters to keep
+    model, saved = T.load_checkpoint(tmp_path / "runs/t/last.pt", "meta")
+    assert next(model.parameters()).device.type == "meta"       # the model goes where it was asked to go...
+    counters = [state["step"] for state in saved["optimizer"]["state"].values()]
+    assert len(counters) == sum(len(group["params"]) for group in saved["optimizer"]["param_groups"]) == 15   # (one counter for every tensor of weights)
+    assert {counter.device.type for counter in counters} == {"cpu"} and saved["random"]["torch"].device.type == "cpu"   # ...and these stay behind
+
+
+def test_a_checkpoint_made_on_the_gpu_holds_the_dice_of_the_gpu(tmp_path, monkeypatch):
+    # The other line no CPU run reaches. A stand-in model that only SAYS it is on the GPU, and a torch.mps that is only listened to.
+    model, dice = tiny_model(), torch.arange(5, dtype=torch.uint8)
+    on_the_gpu = types.SimpleNamespace(parameters=lambda: iter([types.SimpleNamespace(device=torch.device("mps"))]), state_dict=model.state_dict, config=model.config)
+    monkeypatch.setattr(torch.mps, "get_rng_state", lambda: dice)
+    T.save_checkpoint([tmp_path / "x.pt"], on_the_gpu, torch.optim.AdamW(model.parameters()), RunConfig(name="x"), 0, np.random.default_rng(0), {}, {})
+    kept = torch.load(tmp_path / "x.pt", weights_only=True)["random"]["gpu"]
+    assert kept is not None and torch.equal(kept, dice)
+
+
+def test_a_run_whose_folder_was_renamed_can_still_be_resumed(tiny_run, tmp_path):
+    whole = T.train(dataclasses.replace(tiny_run, name="whole"), say=QUIET)
+    T.train(tiny_run, stop_at=26, say=QUIET)
+    (tmp_path / "runs/t").rename(tmp_path / "runs/a-better-name")                                  # the name does not steer a run; everything else does
+    resumed = T.train(dataclasses.replace(tiny_run, name="a-better-name"), resume=True, say=QUIET)
+    assert {**resumed, "name": "", "minutes": 0} == {**whole, "name": "", "minutes": 0}
+
+
 def test_a_run_begun_on_one_device_may_be_resumed_on_another(tiny_run, tmp_path):
     T.train(tiny_run, stop_at=26, say=QUIET)
     saved = torch.load(tmp_path / "runs/t/last.pt", weights_only=True)
@@ -611,6 +825,16 @@ def test_share_clipped_is_the_share_of_steps_whose_gradients_were_longer_than_th
     T.train(tiny_run, say=QUIET)
     shares = [float(row["share_clipped"]) for row in log_of(tmp_path / "runs/t")[1:]]
     assert shares == [round(float(np.mean(np.array(lengths[i:i + 26]) > 1.0)), 4) for i in (0, 26, 52)] and 0 < shares[-1] < 1
+
+
+def test_the_first_row_of_the_log_claims_nothing_about_steps_that_were_never_taken(tiny_run, tmp_path):
+    # Before the first step no learning rate has been used, and there is no training loss, no gradient and no speed to report.
+    # "nan" says so. The optimizer's 0.001, or a speed of 0, would be a claim about steps that did not happen.
+    T.train(tiny_run, stop_at=0, say=QUIET)
+    first = log_of(tmp_path / "runs/t")[0]
+    no_steps_yet = ("learning_rate", "training_loss", "gradient_length", "share_clipped", "tokens_per_second")
+    assert {column: first[column] for column in no_steps_yet} == dict.fromkeys(no_steps_yet, "nan")
+    assert all(math.isfinite(float(first[column])) for column in T.LOG_COLUMNS if column not in no_steps_yet)   # what CAN be known at step 0 is there
 
 
 # ------------------------------------------------------------------------------------------ the command line

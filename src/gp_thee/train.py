@@ -295,8 +295,8 @@ def train(run: RunConfig, resume: bool = False, overwrite: bool = False, stop_at
         raise ValueError(f"a run's name must be a plain folder name of letters, digits, dots, dashes and underscores, not {run.name!r}")
     if resume and overwrite:
         raise ValueError("resume and overwrite contradict each other")
-    if min(run.batch, run.context, run.evaluations) < 1 or run.warm_up < 0:
-        raise ValueError("batch, context and evaluations must be at least 1, and the warm-up cannot be negative")
+    if min(run.batch, run.context, run.evaluations) < 1 or run.warm_up < 0 or min(run.passes, run.peak_rate, run.clip) <= 0 or run.floor_rate < 0:
+        raise ValueError("batch, context and evaluations must be at least 1; passes, the peak rate and the clip above zero; the warm-up and the floor rate not negative")
     tokenizer = load_tokenizer(DATA / "tokenizers" / f"{run.tokenizer}.json")
     training, validation = load_tokens(run.tokenizer, "train"), load_tokens(run.tokenizer, "validation")
     if max(int(training.max()), int(validation.max())) >= tokenizer.vocab_size:
@@ -325,18 +325,18 @@ def train(run: RunConfig, resume: bool = False, overwrite: bool = False, stop_at
                        width=run.width, dropout=run.dropout)).to(run.device)
     optimizer = torch.optim.AdamW(model.parameter_groups(run.weight_decay), lr=run.peak_rate, betas=(0.9, run.beta_2))
     step, best, facts, minutes_before, skip_evaluation_at = 0, {"validation_bpc": float("inf")}, None, 0.0, None
-    folder.mkdir(parents=True, exist_ok=True)  # nothing is written before this line: settings that make no sense have been refused by now
-    for leftover in folder.glob("*.tmp"):
-        leftover.unlink()  # half a checkpoint, from a run that was killed while saving
     if resume:
         model, saved = load_checkpoint(folder / "last.pt", run.device)
         if "fingerprints" not in saved or "row" not in saved["facts"]:
             raise ValueError(f"runs/{run.name} was written by an older train.py. It can still be scored (scripts/evaluate.py), but not resumed.")
-        changed = {k: (saved["run_config"].get(k), v) for k, v in dataclasses.asdict(run).items() if k != "device" and saved["run_config"].get(k) != v}
+        free = ("device", "name")  # a run may move to another device, and its folder may be renamed; nothing else about it may change
+        changed = {k: (saved["run_config"].get(k), v) for k, v in dataclasses.asdict(run).items() if k not in free and saved["run_config"].get(k) != v}
         if changed:
             raise ValueError(f"runs/{run.name} was started with other settings (then, now): {changed}. A resumed run keeps its settings.")
         if saved["fingerprints"] != stamp["fingerprints"]:
             raise ValueError("the tokenizer or the token streams have changed since this run began")
+        for leftover in folder.glob("*.tmp"):
+            leftover.unlink()  # half a checkpoint, from a run that was killed while saving
         optimizer = torch.optim.AdamW(model.parameter_groups(run.weight_decay), lr=run.peak_rate, betas=(0.9, run.beta_2))
         optimizer.load_state_dict(saved["optimizer"])
         torch.set_rng_state(saved["random"]["torch"])
@@ -357,7 +357,8 @@ def train(run: RunConfig, resume: bool = False, overwrite: bool = False, stop_at
                 f.write(f"{facts['heading']}\n{generate(model, tokenizer, PROMPT, 200 if run.tokenizer == 'char' else 80)}\n\n")
         skip_evaluation_at = step
     else:
-        for stale in [folder / "last.pt", folder / "best.pt", folder / "result.json", *folder.glob("evaluation-*.json")]:
+        folder.mkdir(parents=True, exist_ok=True)  # nothing is written before this line: settings that make no sense have been refused by now
+        for stale in [folder / "last.pt", folder / "best.pt", folder / "result.json", *folder.glob("evaluation-*.json"), *folder.glob("*.tmp")]:
             stale.unlink(missing_ok=True)  # only reached with `overwrite`: nothing of the old run may outlive it
         (folder / "config.json").write_text(json.dumps({**dataclasses.asdict(run), "steps": last_step, "parameters": model.config.parameter_count(),
                                                         **stamp}, indent=2) + "\n")

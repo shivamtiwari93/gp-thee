@@ -1,0 +1,196 @@
+{
+  "groups": [
+    {
+      "settings": {
+        "batch": 64,
+        "beta_2": 0.99,
+        "clip": 1.0,
+        "context": 256,
+        "dropout": 0.2,
+        "evaluations": 40,
+        "floor_rate": 0.0001,
+        "heads": 6,
+        "layers": 6,
+        "passes": 34.0,
+        "peak_rate": 0.001,
+        "sixteen_bit": false,
+        "tokenizer": "char",
+        "warm_up": 100,
+        "weight_decay": 0.1,
+        "width": 384
+      },
+      "seeds": 4,
+      "mean_best_validation_bpc": 1.7532577629371158,
+      "standard_deviation_over_seeds": 0.004418423233086179,
+      "same_seed_differences": {
+        "1": 0.0027176343967008076
+      },
+      "runs": [
+        {
+          "name": "char-34-seed-0",
+          "seed": 0,
+          "steps": 9985,
+          "parameters": 10757760,
+          "git_commit": "5c6bd6840d8161f619858e63de47039d5196e494",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730",
+            "training_stream": "dfeb2c1926bda93ad1bef7d169ad37286d879cf47ecd285493a884c172c4561b",
+            "validation_stream": "be97781260d99f6bdf1584f3bb7151356dbb00c6217ea3d6729f3507ece8a076"
+          },
+          "minutes": 35.49,
+          "best_validation_bpc": 1.7525430570493012,
+          "best_step": 8487,
+          "best_passes": 28.900471902522668,
+          "seen_bpc_at_best": 1.390262907510171,
+          "final_validation_bpc": 1.7552802359264597
+        },
+        {
+          "name": "char-34-seed-1",
+          "seed": 1,
+          "steps": 9985,
+          "parameters": 10757760,
+          "git_commit": "5c6bd6840d8161f619858e63de47039d5196e494",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730",
+            "training_stream": "dfeb2c1926bda93ad1bef7d169ad37286d879cf47ecd285493a884c172c4561b",
+            "validation_stream": "be97781260d99f6bdf1584f3bb7151356dbb00c6217ea3d6729f3507ece8a076"
+          },
+          "minutes": 37.72,
+          "best_validation_bpc": 1.7490173229664687,
+          "best_step": 7239,
+          "best_passes": 24.650702969525344,
+          "seen_bpc_at_best": 1.4276254172524032,
+          "final_validation_bpc": 1.7550822918794444
+        },
+        {
+          "name": "char-34-seed-1-again",
+          "seed": 1,
+          "steps": 9985,
+          "parameters": 10757760,
+          "git_commit": "5c6bd6840d8161f619858e63de47039d5196e494",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730",
+            "training_stream": "dfeb2c1926bda93ad1bef7d169ad37286d879cf47ecd285493a884c172c4561b",
+            "validation_stream": "be97781260d99f6bdf1584f3bb7151356dbb00c6217ea3d6729f3507ece8a076"
+          },
+          "minutes": 35.81,
+          "best_validation_bpc": 1.7517349573631695,
+          "best_step": 8986,
+          "best_passes": 30.599698423007975,
+          "seen_bpc_at_best": 1.3794485855469942,
+          "final_validation_bpc": 1.7614263652230067
+        },
+        {
+          "name": "char-34-seed-2",
+          "seed": 2,
+          "steps": 9985,
+          "parameters": 10757760,
+          "git_commit": "5c6bd6840d8161f619858e63de47039d5196e494",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730",
+            "training_stream": "dfeb2c1926bda93ad1bef7d169ad37286d879cf47ecd285493a884c172c4561b",
+            "validation_stream": "be97781260d99f6bdf1584f3bb7151356dbb00c6217ea3d6729f3507ece8a076"
+          },
+          "minutes": 35.75,
+          "best_validation_bpc": 1.7597081335919362,
+          "best_step": 8986,
+          "best_passes": 30.599698423007975,
+          "seen_bpc_at_best": 1.3743712619345587,
+          "final_validation_bpc": 1.7663416325970238
+        },
+        {
+          "name": "char-34-seed-3",
+          "seed": 3,
+          "steps": 9985,
+          "parameters": 10757760,
+          "git_commit": "5c6bd6840d8161f619858e63de47039d5196e494",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730",
+            "training_stream": "dfeb2c1926bda93ad1bef7d169ad37286d879cf47ecd285493a884c172c4561b",
+            "validation_stream": "be97781260d99f6bdf1584f3bb7151356dbb00c6217ea3d6729f3507ece8a076"
+          },
+          "minutes": 36.04,
+          "best_validation_bpc": 1.7504037209424068,
+          "best_step": 9735,
+          "best_passes": 33.150240835519995,
+          "seen_bpc_at_best": 1.3632875045948303,
+          "final_validation_bpc": 1.7584229722548983
+        }
+      ]
+    },
+    {
+      "settings": {
+        "batch": 64,
+        "beta_2": 0.99,
+        "clip": 1.0,
+        "context": 256,
+        "dropout": 0.2,
+        "evaluations": 40,
+        "floor_rate": 0.0001,
+        "heads": 6,
+        "layers": 6,
+        "passes": 34.0,
+        "peak_rate": 0.001,
+        "sixteen_bit": true,
+        "tokenizer": "char",
+        "warm_up": 100,
+        "weight_decay": 0.1,
+        "width": 384
+      },
+      "seeds": 1,
+      "mean_best_validation_bpc": 1.7592132845069919,
+      "standard_deviation_over_seeds": null,
+      "same_seed_differences": {},
+      "runs": [
+        {
+          "name": "char-34-seed-1-16bit",
+          "seed": 1,
+          "steps": 9985,
+          "parameters": 10757760,
+          "git_commit": "5c6bd6840d8161f619858e63de47039d5196e494",
+          "torch": "2.14.0",
+          "fingerprints": {
+            "tokenizer": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730",
+            "training_stream": "dfeb2c1926bda93ad1bef7d169ad37286d879cf47ecd285493a884c172c4561b",
+            "validation_stream": "be97781260d99f6bdf1584f3bb7151356dbb00c6217ea3d6729f3507ece8a076"
+          },
+          "minutes": 21.67,
+          "best_validation_bpc": 1.7592132845069919,
+          "best_step": 8238,
+          "best_passes": 28.052561274064068,
+          "seen_bpc_at_best": 1.4032298178198135,
+          "final_validation_bpc": 1.768526941427899
+        }
+      ]
+    }
+  ],
+  "pooled_standard_deviation": 0.004418423233086179,
+  "degrees_of_freedom": 3,
+  "choice": {
+    "settings": {
+      "batch": 64,
+      "beta_2": 0.99,
+      "clip": 1.0,
+      "context": 256,
+      "dropout": 0.2,
+      "evaluations": 40,
+      "floor_rate": 0.0001,
+      "heads": 6,
+      "layers": 6,
+      "passes": 34.0,
+      "peak_rate": 0.001,
+      "sixteen_bit": false,
+      "tokenizer": "char",
+      "warm_up": 100,
+      "weight_decay": 0.1,
+      "width": 384
+    },
+    "mean_best_validation_bpc": 1.7532577629371158,
+    "lowest_mean": 1.7532577629371158
+  }
+}
