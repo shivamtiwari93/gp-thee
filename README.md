@@ -25,8 +25,9 @@ GP-Thee is an in-character autocomplete, not an assistant. It should write convi
 - [x] Training: the loop, honest evaluation, checkpoints that survive a kill, and rules for comparing runs fixed before the runs ([src/gp_thee/train.py](src/gp_thee/train.py))
 - [x] Baselines without a neural network: character n-grams, bzip2, xz ([docs/baselines.json](docs/baselines.json))
 - [x] Tokenizer comparison, by the rule written down in advance: characters win, 1.7546 against 1.8012 for the nearest vocabulary ([docs/results-sweep.json](docs/results-sweep.json))
+- [x] The sampler: a prompt normaliser that refuses what this universe cannot spell, and a "speak as a character" wrapper ([src/gp_thee/sampling.py](src/gp_thee/sampling.py))
+- [x] Which run is released, by a rule fixed in advance ([docs/release.json](docs/release.json)): GP-Thee-11M is `sweep-char-seed-1`
 - [ ] Memorisation report, and the final evaluation on the test works
-- [ ] Sampling and the "speak as a character" wrapper
 - [ ] Weights on Hugging Face
 - [ ] Blog post
 
@@ -52,7 +53,7 @@ uv run python scripts/download_data.py       # confirms the corpus checksum
 uv run python scripts/prepare_data.py        # rebuilds data/processed/ from the raw file, byte for byte
 uv run python scripts/make_split.py          # re-checks the split: held-out works share no text with training
 uv run python scripts/build_tokenizers.py    # fits the tokenizers on the training works; writes data/tokens/
-uv run pytest                                # 336 tests, about a minute
+uv run pytest                                # 409 tests, about four minutes
 uv run python scripts/baselines.py           # how well Shakespeare can be predicted WITHOUT a neural network
 uv run python scripts/check_model.py         # Mac only: the full-size correctness gate, on the GPU
 uv run python scripts/benchmark.py           # Mac only: how fast this machine trains (plug it in first)
@@ -69,6 +70,11 @@ uv run python scripts/sweep.py                                      # the tokeni
 uv run python scripts/summarise_runs.py sweep-                      # its verdict
 uv run python scripts/compare_finalists.py                          # the two finalists on the same text
 uv run python scripts/where_they_differ.py                          # where the models differ, chunk by chunk
+
+uv run python scripts/sample.py --run my-run --prompt $'\n\nHAMLET.\n'   # ask the model for text
+uv run python scripts/sample.py --run my-run --suite                # the ten fixed prompts, written to runs/my-run/
+uv run python scripts/choose_release.py                             # which run is GP-Thee-11M, by the rule
+uv run python scripts/memorisation.py                               # does it recite its training works?
 ```
 
 `--device cpu` works for every script that takes a device, about eight times slower.

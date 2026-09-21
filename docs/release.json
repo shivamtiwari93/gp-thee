@@ -1,0 +1,116 @@
+{
+  "model": "GP-Thee-11M",
+  "run": "sweep-char-seed-1",
+  "checkpoint": "best.pt",
+  "step": 9236,
+  "checkpoint_sha256": "58f563f826cc6cd8cf9eff1cac34215ce8088554c9bcb519401307968b146a8d",
+  "validation_bpc": 1.749198301521595,
+  "parameters": 10757760,
+  "tokenizer": "char",
+  "fingerprints": {
+    "tokenizer": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730",
+    "training_stream": "dfeb2c1926bda93ad1bef7d169ad37286d879cf47ecd285493a884c172c4561b",
+    "validation_stream": "be97781260d99f6bdf1584f3bb7151356dbb00c6217ea3d6729f3507ece8a076"
+  },
+  "trained_by_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+  "chosen_by": "docs/BUILD_LOG.md entry 17: the lowest best-validation score among the runs from the tokenizer commit, seeds 1 to 3, 32-bit, default settings",
+  "eligible": [
+    {
+      "run": "sweep-char-seed-1",
+      "seed": 1,
+      "commit": "0f72600",
+      "validation_bpc": 1.749198301521595,
+      "best_step": 9236
+    },
+    {
+      "run": "sweep-char-seed-2",
+      "seed": 2,
+      "commit": "0f72600",
+      "validation_bpc": 1.7571115551113816,
+      "best_step": 8986
+    },
+    {
+      "run": "sweep-char-seed-3",
+      "seed": 3,
+      "commit": "0f72600",
+      "validation_bpc": 1.7575298066550764,
+      "best_step": 9735
+    }
+  ],
+  "excluded": [
+    {
+      "run": "char-34-seed-0",
+      "seed": 0,
+      "commit": "5c6bd68",
+      "validation_bpc": 1.7525430570493012,
+      "best_step": 8487,
+      "excluded_because": "made by 5c6bd68, not the tokenizer commit 0f72600"
+    },
+    {
+      "run": "char-34-seed-0-again",
+      "seed": 0,
+      "commit": "8b3a57f",
+      "validation_bpc": 1.7514061754960806,
+      "best_step": 7239,
+      "excluded_because": "made by 8b3a57f, not the tokenizer commit 0f72600"
+    },
+    {
+      "run": "char-34-seed-1",
+      "seed": 1,
+      "commit": "5c6bd68",
+      "validation_bpc": 1.7490173229664687,
+      "best_step": 7239,
+      "excluded_because": "made by 5c6bd68, not the tokenizer commit 0f72600"
+    },
+    {
+      "run": "char-34-seed-1-16bit",
+      "seed": 1,
+      "commit": "5c6bd68",
+      "validation_bpc": 1.7592132845069919,
+      "best_step": 8238,
+      "excluded_because": "made by 5c6bd68, not the tokenizer commit 0f72600"
+    },
+    {
+      "run": "char-34-seed-1-again",
+      "seed": 1,
+      "commit": "5c6bd68",
+      "validation_bpc": 1.7517349573631695,
+      "best_step": 8986,
+      "excluded_because": "made by 5c6bd68, not the tokenizer commit 0f72600"
+    },
+    {
+      "run": "char-34-seed-2",
+      "seed": 2,
+      "commit": "5c6bd68",
+      "validation_bpc": 1.7597081335919362,
+      "best_step": 8986,
+      "excluded_because": "made by 5c6bd68, not the tokenizer commit 0f72600"
+    },
+    {
+      "run": "char-34-seed-3",
+      "seed": 3,
+      "commit": "5c6bd68",
+      "validation_bpc": 1.7504037209424068,
+      "best_step": 9735,
+      "excluded_because": "made by 5c6bd68, not the tokenizer commit 0f72600"
+    },
+    {
+      "run": "pilot-char-34",
+      "seed": 0,
+      "commit": "8895c2c",
+      "validation_bpc": 1.7403703008802653,
+      "best_step": 9750,
+      "excluded_because": "made by 8895c2c, not the tokenizer commit 0f72600"
+    }
+  ],
+  "what_the_choice_costs": {
+    "the_three_eligible_runs": {
+      "mean": 1.7546132210960177,
+      "spread": 0.008331505133481354,
+      "the_rule_calls_them": "a tie: the sweep's own pooled test needed 0.0130 to call two arms different"
+    },
+    "the_released_run_is_below_their_mean_by": 0.005414919574422639,
+    "note": "Two layers of selection sit on this validation score and neither sits on the test score: the best of 41 stops within the run, and the best of three runs. Simulated with this project's own run-to-run spread, picking the best of three flatters a score by about 0.005. The test works chose nothing, so the test score is not flattered."
+  },
+  "chosen_at_commit": "139244ff5c17b13473a4d2ef214445e82047f5e0"
+}

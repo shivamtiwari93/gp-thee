@@ -1,0 +1,240 @@
+{
+  "about": {
+    "device": "mps",
+    "rule": "docs/BUILD_LOG.md entry 17, committed before this was run"
+  },
+  "innocent_baseline": {
+    "all_39_works": {
+      "windows": 916,
+      "of": 4809425,
+      "share": 0.00019045935844721562
+    },
+    "without_the_five_that_reprint_one_another": {
+      "windows": 202,
+      "of": 4425256,
+      "share": 4.564707668889664e-05
+    },
+    "per_work": {
+      "THE SONNETS": {
+        "windows": 120,
+        "of": 98270,
+        "example": "\n\nWhen my love swears that she is made of truth,\nI"
+      },
+      "THE TRAGEDY OF ANTONY AND CLEOPATRA": {
+        "windows": 0,
+        "of": 150286,
+        "example": null
+      },
+      "AS YOU LIKE IT": {
+        "windows": 4,
+        "of": 126120,
+        "example": "\n\n[_Exeunt._]\n\nSCENE II. A Room in the Palace\n\nEnt"
+      },
+      "THE COMEDY OF ERRORS": {
+        "windows": 0,
+        "of": 87914,
+        "example": null
+      },
+      "THE TRAGEDY OF CORIOLANUS": {
+        "windows": 5,
+        "of": 164747,
+        "example": "\n\n[_Exeunt._]\n\n\n\n\nACT III\n\nSCENE I. Rome. A street"
+      },
+      "CYMBELINE": {
+        "windows": 6,
+        "of": 159695,
+        "example": ".\n\n[_Exeunt._]\n\nSCENE III. Another part of the fie"
+      },
+      "THE TRAGEDY OF HAMLET, PRINCE OF DENMARK": {
+        "windows": 2,
+        "of": 177093,
+        "example": "t._]\n\nSCENE IV. Another room in the Castle.\n\nEnter"
+      },
+      "THE FIRST PART OF KING HENRY THE FOURTH": {
+        "windows": 4,
+        "of": 140807,
+        "example": " PART OF KING HENRY THE FOURTH\n\n\n\n\nDramatis Person"
+      },
+      "THE SECOND PART OF KING HENRY THE FOURTH": {
+        "windows": 9,
+        "of": 152618,
+        "example": " PART OF KING HENRY THE FOURTH\n\n\n\n\nDramatis Person"
+      },
+      "THE LIFE OF KING HENRY THE FIFTH": {
+        "windows": 23,
+        "of": 152120,
+        "example": "ay.\n\n[_Exit._]\n\n\n\n\nACT I\n\nSCENE I. London. An ante"
+      },
+      "THE FIRST PART OF HENRY THE SIXTH": {
+        "windows": 17,
+        "of": 129871,
+        "example": " HENRY THE SIXTH\n\n\n\n\nDramatis Personæ\n\nKING HENRY "
+      },
+      "THE SECOND PART OF KING HENRY THE SIXTH": {
+        "windows": 18,
+        "of": 149627,
+        "example": "D PART OF KING HENRY THE SIXTH\n\n\n\n\nDramatis Person"
+      },
+      "THE THIRD PART OF KING HENRY THE SIXTH": {
+        "windows": 28,
+        "of": 144913,
+        "example": "D PART OF KING HENRY THE SIXTH\n\n\n\n\nDramatis Person"
+      },
+      "KING HENRY THE EIGHTH": {
+        "windows": 17,
+        "of": 143073,
+        "example": "ay.\n\n[_Exit._]\n\n\n\n\nACT I\n\nSCENE I. London. An ante"
+      },
+      "THE TRAGEDY OF JULIUS CAESAR": {
+        "windows": 6,
+        "of": 115795,
+        "example": ".\n\n[_Exeunt._]\n\nSCENE III. Another part of the fie"
+      },
+      "THE TRAGEDY OF KING LEAR": {
+        "windows": 0,
+        "of": 153971,
+        "example": null
+      },
+      "LOVE’S LABOUR’S LOST": {
+        "windows": 193,
+        "of": 127034,
+        "example": "If love make me forsworn, how shall I swear to lov"
+      },
+      "THE TRAGEDY OF MACBETH": {
+        "windows": 0,
+        "of": 103034,
+        "example": null
+      },
+      "MEASURE FOR MEASURE": {
+        "windows": 0,
+        "of": 125594,
+        "example": null
+      },
+      "THE MERCHANT OF VENICE": {
+        "windows": 0,
+        "of": 120327,
+        "example": null
+      },
+      "THE MERRY WIVES OF WINDSOR": {
+        "windows": 0,
+        "of": 129631,
+        "example": null
+      },
+      "A MIDSUMMER NIGHT’S DREAM": {
+        "windows": 10,
+        "of": 96175,
+        "example": "\n\nTHESEUS, Duke of Athens\nHIPPOLYTA, Queen of the "
+      },
+      "MUCH ADO ABOUT NOTHING": {
+        "windows": 0,
+        "of": 122043,
+        "example": null
+      },
+      "THE TRAGEDY OF OTHELLO, THE MOOR OF VENICE": {
+        "windows": 5,
+        "of": 153559,
+        "example": "’ll wait upon your lordship.\n\n[_Exeunt._]\n\nSCENE I"
+      },
+      "PERICLES, PRINCE OF TYRE": {
+        "windows": 0,
+        "of": 109003,
+        "example": null
+      },
+      "THE LIFE AND DEATH OF KING RICHARD THE SECOND": {
+        "windows": 17,
+        "of": 129942,
+        "example": ".\n\n[_Exeunt._]\n\nSCENE II. The same. A room in the "
+      },
+      "KING RICHARD THE THIRD": {
+        "windows": 5,
+        "of": 175436,
+        "example": "’ll wait upon your lordship.\n\n[_Exeunt._]\n\nSCENE I"
+      },
+      "THE TAMING OF THE SHREW": {
+        "windows": 0,
+        "of": 123054,
+        "example": null
+      },
+      "THE LIFE OF TIMON OF ATHENS": {
+        "windows": 0,
+        "of": 110835,
+        "example": null
+      },
+      "THE TRAGEDY OF TITUS ANDRONICUS": {
+        "windows": 5,
+        "of": 119803,
+        "example": "\n\n[_Exeunt._]\n\n\n\n\nACT III\n\nSCENE I. Rome. A street"
+      },
+      "TROILUS AND CRESSIDA": {
+        "windows": 0,
+        "of": 156116,
+        "example": null
+      },
+      "TWELFTH NIGHT; OR, WHAT YOU WILL": {
+        "windows": 0,
+        "of": 114630,
+        "example": null
+      },
+      "THE TWO GENTLEMEN OF VERONA": {
+        "windows": 6,
+        "of": 101023,
+        "example": ".\n\n[_Exeunt._]\n\nSCENE II. The same. A room in the "
+      },
+      "THE TWO NOBLE KINSMEN": {
+        "windows": 15,
+        "of": 141251,
+        "example": "\n\nTHESEUS, Duke of Athens\nHIPPOLYTA, Queen of the "
+      },
+      "THE WINTER’S TALE": {
+        "windows": 0,
+        "of": 143128,
+        "example": null
+      },
+      "THE PASSIONATE PILGRIM": {
+        "windows": 313,
+        "of": 16952,
+        "example": "\n\nWhen my love swears that she is made of truth,\nI"
+      },
+      "THE PHOENIX AND THE TURTLE": {
+        "windows": 0,
+        "of": 2022,
+        "example": null
+      },
+      "THE RAPE OF LUCRECE": {
+        "windows": 44,
+        "of": 86757,
+        "example": "\n\n\nTO THE RIGHT HONOURABLE\nHENRY WRIOTHESLEY, EARL"
+      },
+      "VENUS AND ADONIS": {
+        "windows": 44,
+        "of": 55156,
+        "example": "\n\n\nTO THE RIGHT HONOURABLE\nHENRY WRIOTHESLEY, EARL"
+      }
+    }
+  },
+  "circular_baseline_the_validation_plays": {
+    "30": {
+      "windows": 229,
+      "of": 274699,
+      "share_of_windows": 0.0008336397293037106,
+      "share_of_characters": 0.005328907137241198
+    },
+    "40": {
+      "windows": 8,
+      "of": 274689,
+      "share_of_windows": 2.912384551256148e-05,
+      "share_of_characters": 0.0001710783029032352
+    },
+    "50": {
+      "windows": 0,
+      "of": 274679,
+      "share_of_windows": 0.0,
+      "share_of_characters": 0.0
+    },
+    "longest": {
+      "characters": 47,
+      "passage": ".\n\n[_Exeunt._]\n\nSCENE III. The same. A room in "
+    },
+    "why_it_is_worthless": "make_split.py chose the held-out works by this very test"
+  }
+}
