@@ -490,17 +490,17 @@ Four independent auditors. **The model is correct:** a NumPy float64 reference w
 
 **The safety net was the weak part, again.** Of 61 single faults planted in a copy of the code, 17 passed all 26 tests *and* the whole gate. The worst:
 
-- **Heads split and merged without the transpose.** Still perfectly causal, so no-peeking passed; first loss fine; memorised fine. But position 255 could read only positions 213 to 255: the context had silently shrunk to 43 tokens. Invisible because both attention paths share that code, and every attention test compared the two paths *with each other*.
+- **Heads split and merged without the transpose.** Still perfectly causal, so no-peeking passed; first loss fine; memorised fine. But in each attention layer the last position could read only positions 213 to 255, 43 of 256. *(Corrected in the addendum below: across six layers the reach is 128 positions, half the window, not 43.)* Invisible because both attention paths share that code, and every attention test compared the two paths *with each other*.
 - **`load_tokens("train")` returning the validation stream.** All 77 tests passed. Nothing compared a saved stream with the works it claims to be.
 - **Anything that only goes wrong on text shorter than the context.** Every test ran at full length. Prompts will be short.
 - **Hand-written attention dropping values during evaluation.** The one dropout test covered one path and asked only whether anything at all was random.
 - **A numeric fault that exists only in 16-bit.** The gate checked 16-bit for leaks, never for answers.
 
-Three of the gate's own checks were faulty. The memorise check used a learning rate of 1e-3 and failed the *correct* model for 4 or 5 of 10 batches, so its "catches" were partly luck. The first-loss check asserted `loss >= ln(V)` on real text, which is a theorem only for uniformly random tokens: the correct model violated it for 6 of 40 seeds, and passed only because the seed was fixed. And the size check repeated a comparison the constructor had already made, so it could not fail.
+Three of the gate's own checks were faulty. The memorise check used a learning rate of 1e-3 and failed the *correct* model for 4 or 5 of 10 batches, so its "catches" were partly luck. The first-loss check asserted `loss >= ln(V)` on real text, which is a theorem only for uniformly random tokens: the correct model failed the check for 6 of 40 seeds (5 by falling below ln(V), 1 by exceeding the upper limit), and passed only because the seed was fixed. And the size check repeated a comparison the constructor had already made, so it could not fail.
 
 **Fixes.** A second implementation of the whole forward pass in NumPy, 64-bit, sharing no code with the model, compared on weights pushed well away from their starting values (`tests/test_reference.py`); attention checked against its definition one position at a time, on a short text; short-text-equals-start-of-long-text; every dropout site tested alone, on both paths; GELU, the block, the starting values and the position table each pinned to their definitions; saved streams compared with the works; a test that no code but the loader opens the works. In the gate: the no-peeking check now sweeps every cut point, with gradients on as well as off; first loss is checked against theory on random tokens; the memorise check uses 3e-4; a new check 7 compares answers across every combination of attention, number format and device with sharp, memorised weights; tolerances tightened from 1e-3 to 1e-4; and the gate runs the unit tests first.
 
-Then I planted 32 faults myself, including every earlier survivor: all 32 are caught by the unit tests, and the three that exist only in 16-bit on the GPU are caught by the gate. (My first version of one mutant, the "parallel block", simplified back to the correct code and so "survived". A mutant has to be a real fault.)
+Then I planted 34 faults myself, including every earlier survivor: the 31 that can show up on a small model are all caught by the unit tests, and the 3 that exist only in 16-bit on the GPU are caught by the gate (one of them by the GPU unit tests the gate runs first). *(This line first said 32; see the addendum.)* (My first version of one mutant, the "parallel block", simplified back to the correct code and so "survived". A mutant has to be a real fault.)
 
 ### Three things the audit found that I did not know
 
@@ -536,3 +536,22 @@ The benchmark script has since been rewritten: three interleaved rounds with the
 Housekeeping: an auditor's script was shadowed by a stale scratch file named `numbers.py` from the pre-lock days, which read every work from disk and printed one line naming a test work. Nothing was used. The stale scripts are quarantined, and `test_only_the_loader_opens_the_works` now fails if any code in the repo opens the works except through the loader.
 
 Lesson: two implementations that share code cannot check each other. Both attention paths split the heads with the same line, so comparing them proved nothing about that line. What caught it was a reference that shares nothing.
+
+### Addendum to Entry 13: what reviewing blog part 4 caught (2026-09-20)
+
+Three reviews of [blog/04-the-model.md](../blog/04-the-model.md), 91 issues. Most were missing definitions (softmax, targets, seed, learning rate, "gradients off", kernel). Six were errors, and the disputed technical ones were re-measured on the CPU, since the laptop was at 23% battery.
+
+| The draft, and Entry 13, said | Measured |
+|---|---|
+| The head-reshape fault shrank "the model's context" to 43 tokens | 43 is the reach of ONE attention layer from the last position (213 to 255). Through six layers information relays further: the last position reaches back to position 128, half the window, and no further. Position 128 (the 129th) sees only itself at any depth; position 100 sees 16 positions through one layer and everything before it through three. (*measured*, autograd on the full-size config with the fault planted.) The fault also needs BOTH rearrangements wrong: either alone leaks at every cut point and is caught at once. |
+| A benchmark table with "GPU, 32-bit: 158 ms" and "GPU, 16-bit: 96 ms", and "1.6 times faster" | 158 ms is the built-in attention and 96 ms the hand-written one. Like for like, hand-written: 164.8 against 95.5 ms, 1.7 times. The table now has all four GPU rows, labelled. |
+| "So we predicted 4.662" | An auditor derived the 0.077 correction after the gate had run, to explain an offset it had observed. The first gate checked real text against a window. The post now says so. |
+| "32 faults ... all 32 are caught by the unit tests, and the three ... by the gate" | Self-contradictory, and miscounted. 30 faults in the first harness (one of them invalid: it simplified back to the correct code), 2 more valid ones in the second, and 3 that exist only in 16-bit on the GPU: 34 valid faults, 31 caught by the unit tests and 3 by the gate. |
+| "Part 1 counted ... 10,757,760" | Part 1 counted 10,758,528 (100 characters). 10,757,760 arrives in part 3. |
+| "the shortest file we have written so far" | Nine files are shorter. |
+
+Also measured for the post (CPU, random tokens): a correct untrained model scores 4.678; with targets not moved along by one, 3.52 (the residual line carries each token's own table row to the output, where it matches itself: about three times the probability of any other piece); with every matrix ten times too large at the start, 10.5. An idle norm scale under decay 0.1 falls to 0.607 at a constant rate of 1e-3 over 5,000 steps, and to 0.760 with a warm-up and a cosine decay to a tenth.
+
+One commitment made in the post: every check in the gate ran on a model that knows nothing. **The no-peeking check will be run again on the first trained model.**
+
+The commit message for the model (ef75834) says "All 32 faults I then planted are caught"; the count there is wrong in the same way, and a commit message cannot be edited after the fact without rewriting public history, so the correction lives here.
