@@ -19,7 +19,7 @@ The rule is also what makes this a good project to learn from. The whole corpus 
 
 This series documents every step, including the mistakes. There are several in this part alone. It was built with Claude Code as a pair programmer. Everything is in the repo: [github.com/shivamtiwari93/gp-thee](https://github.com/shivamtiwari93/gp-thee).
 
-One expectation to set now. The result will be an in-character autocomplete, not an assistant. It should write convincing pseudo-Shakespeare with proper speaker turns and stage directions. It will not answer questions, and it will never have heard of anything that is not in the plays.
+One expectation to set now. The result will be an in-character autocomplete, not an assistant. It should write convincing pseudo-Shakespeare with proper speaker turns and stage directions. It will not answer questions, and it will never have heard of anything that is not in the corpus.
 
 ## Where we started
 
@@ -108,7 +108,7 @@ PyTorch's support for Apple GPUs is younger than its support for NVIDIA's, and d
 - **Attention that can see the future.** In 16-bit arithmetic, the operation that is supposed to stop each token from looking at later tokens let three out of every four positions peek ahead. Affected 2.12.1 and earlier, fixed in 2.13 ([#195910](https://github.com/pytorch/pytorch/issues/195910)). For a model whose whole job is predicting the next token, seeing the next token is the worst possible bug: training would look spectacular and the model would be useless.
 - **Different answers on repeated calls**, specific to M5 chips, in 16-bit arithmetic. The report shows a difference of 123.5 between two identical calls. PyTorch 2.13 added a workaround ([#180776](https://github.com/pytorch/pytorch/issues/180776)).
 
-So we want 2.14.0 and nothing else. The lockfile already freezes every package at an exact version, NumPy included. The `==` in `pyproject.toml` is a second guard: it stops a later `uv add` or `uv lock --upgrade` from quietly moving PyTorch. We will not update macOS or PyTorch until the project is finished, and we check the GPU's answers against the CPU's in the smoke test below.
+So we want 2.14.0 and nothing else. The lockfile already freezes every package at an exact version, NumPy included. The `==` in `pyproject.toml` is a second guard: it stops a later `uv add` or `uv lock --upgrade` from quietly moving PyTorch. We will not update macOS or PyTorch until the project is finished, and we check the GPU's 32-bit answers against the CPU's in the smoke test below.
 
 ### What we deliberately did not install
 
@@ -162,7 +162,7 @@ uv sync
 
 ## Does the GPU work? A smoke test, and a check on the check
 
-Given the bug reports above, we checked that the operations a GPT is made of give the same answers on the GPU as on the CPU before building anything on top of them. The script is [scripts/smoke_test_gpu.py](../scripts/smoke_test_gpu.py):
+Given the bug reports above, we checked that the 32-bit operations a GPT is made of give the same answers on the GPU as on the CPU before building anything on top of them. The script is [scripts/smoke_test_gpu.py](../scripts/smoke_test_gpu.py):
 
 ```bash
 uv run python scripts/smoke_test_gpu.py
@@ -192,7 +192,7 @@ The multiply really is bit-identical on this machine, and we can say why. [scrip
 
 The test was fine. It took a few minutes to find that out, and it was worth it: a test that cannot fail tells you nothing.
 
-This is a smoke test, not proof. The full check, one real training batch through the whole model on both devices, comes once there is a model.
+This script uses 32-bit arithmetic throughout. It covers the transposed-matrix case and the arithmetic we plan to use first, but it does not reproduce the two 16-bit failures cited above. Those reports are reasons to pin the version, not results this smoke test verifies. The full check, one real training batch through the whole model on both devices, comes once there is a model.
 
 ## The dataset, briefly
 
@@ -257,7 +257,7 @@ So each block has `12d²` parameters in its matrices, plus `2d` for its two laye
 
 **The output layer costs nothing.** To predict the next character, the model has to turn its final `d` numbers into one score for each of the `V` possible characters. That takes a `d×V` matrix, the same shape as the token embedding turned on its side. A standard trick called weight tying uses the same matrix for both jobs. Here it saves only 38,400 parameters (0.4% of the model), but it will save 786,432 once the vocabulary grows to 2048. In published experiments on word-level models it also improved quality (Press and Wolf, 2017). Nobody has shown that for a 100-character vocabulary, so we adopt it because GPT-2 and nanoGPT do, and list it as something to test.
 
-**One detail makes the layer-norm rows `d` and not `2d`.** A standard layer norm learns two lists of `d` numbers, a scale and a shift, and a standard matrix layer has an extra learned list called a bias. We leave out every shift and bias. That is a common modern simplification (nanoGPT's training script turns them off by default) and it keeps the formula short. With them the count would still be plain arithmetic, just longer: 25,728 more parameters, a 0.24% difference. In PyTorch this means writing `bias=False` on every `nn.Linear` and `nn.LayerNorm`, because the defaults include them.
+**One detail makes the layer-norm rows `d` and not `2d`.** A standard layer norm learns two lists of `d` numbers, a scale and a shift, and a standard matrix layer has an extra learned list called a bias. We leave out every shift and bias. That is a common modern simplification (nanoGPT's training script turns them off by default) and it keeps the formula short. For the 100-character configuration above, enabling all those shifts and biases, including the output layer's 100-number bias, would add 25,828 parameters, a 0.24% difference. In PyTorch this means writing `bias=False` on every `nn.Linear` and `nn.LayerNorm`, because the defaults include them.
 
 ```
 parameters = 12·d²·L  +  (2L + 1)·d  +  V·d  +  T·d
@@ -280,7 +280,7 @@ Because the count moves with choices like this, the repository is just `gp-thee`
 
 ### Checking the arithmetic against PyTorch
 
-A formula is a claim, so we tested it. [scripts/count_params.py](../scripts/count_params.py) builds the model's skeleton in PyTorch, with the real matrix shapes but no training, and asks PyTorch to count:
+A formula is a claim, so we tested it. [scripts/count_params.py](../scripts/count_params.py) builds the model's skeleton in PyTorch, with the real matrix shapes but no training, and asks PyTorch to count. The table, and the script's rows labelled `Part 1`, preserve the 100-character raw-file vocabulary known at this point in the project:
 
 ```bash
 uv run python scripts/count_params.py

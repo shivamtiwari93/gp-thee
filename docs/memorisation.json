@@ -1,7 +1,16 @@
 {
   "about": {
     "device": "mps",
-    "rule": "docs/BUILD_LOG.md entry 17, committed before this was run"
+    "rule": "docs/BUILD_LOG.md entry 17, committed before this was run",
+    "sampling_grid_deviations": {
+      "characters_per_cell_preregistered": 200000,
+      "characters_per_cell_generated": 20000,
+      "characters_per_cell_measured_with_separators": 20007,
+      "suite_prompts_preregistered": 10,
+      "suite_prompts_used": 8,
+      "prompt_positions_preregistered": "arithmetic placement",
+      "prompt_positions_used": "fixed draws from default_rng(0)"
+    }
   },
   "innocent_baseline": {
     "all_39_works": {
@@ -2714,7 +2723,7 @@
             }
           }
         },
-        "the ten-prompt suite at temperature 0.0": {
+        "the first eight prompts of the ten-prompt suite at temperature 0.0": {
           "characters": 20007,
           "whole": {
             "20": {
@@ -2879,7 +2888,7 @@
             }
           }
         },
-        "the ten-prompt suite at temperature 0.5": {
+        "the first eight prompts of the ten-prompt suite at temperature 0.5": {
           "characters": 20007,
           "whole": {
             "20": {
@@ -3044,7 +3053,7 @@
             }
           }
         },
-        "the ten-prompt suite at temperature 0.8": {
+        "the first eight prompts of the ten-prompt suite at temperature 0.8": {
           "characters": 20007,
           "whole": {
             "20": {
@@ -3209,7 +3218,7 @@
             }
           }
         },
-        "the ten-prompt suite at temperature 1.0": {
+        "the first eight prompts of the ten-prompt suite at temperature 1.0": {
           "characters": 20007,
           "whole": {
             "20": {

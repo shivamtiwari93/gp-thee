@@ -52,9 +52,9 @@ git clone https://github.com/shivamtiwari93/gp-thee && cd gp-thee
 uv sync                                      # Python 3.14 + PyTorch 2.14, from the lockfile
 uv run python scripts/download_data.py       # confirms the corpus checksum
 uv run python scripts/prepare_data.py        # rebuilds data/processed/ from the raw file, byte for byte
-uv run python scripts/make_split.py          # re-checks the split: held-out works share no text with training
+uv run python scripts/make_split.py          # re-checks the split and permits only the documented editorial overlap
 uv run python scripts/build_tokenizers.py    # fits the tokenizers on the training works; writes data/tokens/
-uv run pytest                                # 409 tests, about four minutes
+uv run pytest                                # full suite; checkpoint-backed checks skip in a fresh clone
 uv run python scripts/baselines.py           # how well Shakespeare can be predicted WITHOUT a neural network
 uv run python scripts/check_model.py         # Mac only: the full-size correctness gate, on the GPU
 uv run python scripts/benchmark.py           # Mac only: how fast this machine trains (plug it in first)

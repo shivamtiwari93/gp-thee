@@ -10340,7 +10340,7 @@ Sweet and worthily. O Imogen! it is my boy,
 I know not thou hast partly supscrib’d thy maid
 So haply shortly itself. Two
 
-=== the ten-prompt suite at temperature 0.0 ===
+=== the first eight prompts of the ten-prompt suite at temperature 0.0 ===
 I will not see thee another man in the world.
 
 KING.
@@ -11329,7 +11329,7 @@ I will not stay there.
 
 MA
 
-=== the ten-prompt suite at temperature 0.5 ===
+=== the first eight prompts of the ten-prompt suite at temperature 0.5 ===
 The more being a more hard than she was a man of the whole world, and
 the more that she was wont to say she was a man of an end.
 
@@ -12264,7 +12264,7 @@ I have set my son, my lords, and they are all scourged.
 KING HENRY.
 Why, then, what are we
 
-=== the ten-prompt suite at temperature 0.8 ===
+=== the first eight prompts of the ten-prompt suite at temperature 0.8 ===
 The most brief may report all our loves; the court will be the
 prisoner, and the fool be nothing but so weight in the villainy. I will infringe
 to this action.
@@ -13058,7 +13058,7 @@ I could kill him in the business.
 VIOLA.
 I would he wo
 
-=== the ten-prompt suite at temperature 1.0 ===
+=== the first eight prompts of the ten-prompt suite at temperature 1.0 ===
 Then his brows devour, and let us take weather
 For the devil of his name; but from the pullion
 He is so wise. Pill out him with chokes,

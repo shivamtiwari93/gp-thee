@@ -61,7 +61,7 @@ mixed = shares @ value
 
 **Line 4** is dropout. During training it zeroes a random 20% of the shares and scales the rest up to keep the average the same, so the model cannot lean on any one of them. The same dropout is applied in three other places in the model. All four are switched off whenever the model is not training, and every check below runs with them off.
 
-Notice what is *not* in those five lines: any idea of order. Hand a position the same earlier keys and values in a different order, and its mix comes out the same. The position row added at the very start is the only thing that lets the model tell "the king" from "king the".
+Notice what is *not* in those five lines: an explicit place in the order. Hand a position the same already-made keys and values in a different order, and its mix comes out the same. The position row added at the very start gives every place an address, so order is available from the first block. It is not quite the only order signal: the causal mask also means that earlier positions were built from shorter prefixes, and deeper blocks can recover some order from that. The position rows make it direct instead of making the model reconstruct it.
 
 **Line 2** is the one this whole post is about.
 
@@ -103,7 +103,7 @@ Before training, the model has no idea what comes next, so each of the 98 pieces
 
 One of the auditors worked out that "about" more exactly. Each score is a sum of 384 products: one of the position's numbers (the last norm leaves those with a spread of about 1) times one of the table's starting values (random, with a spread of 0.02). So the scores scatter around zero with a variance of 0.02² × 384 = 0.15. Scattered scores mean the model is slightly, and wrongly, confident, and for a small scatter the cost is half the variance: 0.077. Theory says **4.662**. The model's first loss on random tokens is **4.674**, and the gate allows 0.03 either way.
 
-(The check uses random tokens, not Shakespeare, because on random tokens no guess can be right by luck. The first version used real text, and that was a mistake we will come to.)
+(The check uses random tokens, not Shakespeare, because the next random token is independent of the ones before it. A guess can still line up by luck, but there is no pattern that lets the model do better systematically. The first version used real text, and that was a mistake we will come to.)
 
 This check costs nothing and catches a surprising amount. Starting values ten times too large give a first loss of 10.5. Targets that are not moved along by one, so that the model is asked to "predict" the token it was just given, give 3.5, far *below* 4.585: the residual line carries each token's own table row straight through to the output, the output scores are made by comparing with that same table, and a row matches itself better than it matches any other. Even an untrained model gives the token it has just read about three times the probability of any other.
 
@@ -214,7 +214,7 @@ Until now, how long a training run takes has been an estimate. Part 1 guessed 10
 
 The estimate was right, at its fast end. The GPU is 11 times faster than the CPU. The two 32-bit rows are the same operations, and an auditor who re-timed them in fresh processes got 160 ms for each, so the 7 ms between them is noise. With the 2,048-piece vocabulary a 32-bit step takes 190 ms.
 
-At its peak a training step holds 4.8 GB of memory in 32-bit, nearly all of it the intermediate results part 1 described, not the model. (That figure is an auditor's. The memory column in our first [docs/benchmark.json](../docs/benchmark.json) says 5.5 GB, because the first version of the script read a driver counter that moves in steps of 1 GB.)
+At its peak a training step holds 4.8 GB of memory in 32-bit, nearly all of it the intermediate results part 1 described, not the model. (That figure is an auditor's. The first version of the script said 5.5 GB because it read a driver counter that moves in steps of 1 GB; the [build log](../docs/BUILD_LOG.md) preserves that first reading. The [benchmark record](../docs/benchmark.json) in the current repo is the later mains-power rerun promised below, and records 4.79 GB.)
 
 A caution about these numbers, in the spirit of the rest of the post: they were measured on battery power, in a single pass. A single pass in a fixed order cannot tell a real 5% difference from the machine warming up. The benchmark script now times every GPU configuration three times in rotation, reports the median and the range, measures memory at its peak, and records whether the laptop was plugged in. We will re-measure on mains power before training, and part 5 will carry those numbers. (The audit itself took the battery from 100% to 28%, which is its own kind of benchmark.)
 
@@ -241,7 +241,7 @@ gp-thee/
 ├── tests/test_reference.py    2 more: the whole model again, in NumPy, sharing no code
 ├── scripts/check_model.py     the gate: 36 checks at full size on the GPU
 ├── scripts/benchmark.py       how fast this machine trains
-└── docs/benchmark.json        the first measurements
+└── docs/benchmark.json        the benchmark record; part 5 later replaces its first measurements
 ```
 
 ```bash

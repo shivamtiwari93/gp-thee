@@ -7,8 +7,10 @@ character of them and no number in seven parts has come from them. This script i
 permitted to open them, it may do so once, and what it fails to capture in that one pass is lost: a second run
 would be a second look, which is the one thing seven parts of pre-registration were for.
 
-Everything it does was fixed in docs/BUILD_LOG.md entry 19 BEFORE this file existed. Read that entry; this
-docstring is a summary of it, not a substitute.
+The measurement protocol was fixed in docs/BUILD_LOG.md entry 19 BEFORE this file existed. The spent result names
+the exact commit and script hash that ran. A later audit moved each primary arm's array save ahead of its summary
+arithmetic and pinned that order with a unit test; that hardening is recorded in the build log and cannot authorise
+another look at the test works.
 
 THE SHAPE is three phases with a one-way door in the middle.
 
@@ -20,10 +22,13 @@ THE SHAPE is three phases with a one-way door in the middle.
       progress, BEFORE load_works("test", ...) is called. A second invocation then refuses however the first
       ended. A crash after this point leaves the stub, which is the honest record that the measurement is spent.
 
-  Phase B, door open. Every forward pass this script will ever be allowed, then the raw arrays to disk at once.
-      Each block is caught, not raised: a failure records itself and the next block runs.
+  Phase B, door open. Everything that needs the test works, each in a caught block. For every primary model arm,
+      the current hardened code saves the raw per-token array immediately after its forward pass and before its
+      summary arithmetic. Auxiliary analyses capture their reusable arrays where applicable. A failure records
+      itself and the next block runs.
 
-  Phase C, door shut again. Statistics, from the saved arrays.
+  Phase C, door shut again. Assemble and persist the final JSON and headline from what phase B captured, with no
+      new model pass or access to the test works.
 
 THE GATE refuses cleanly, in this order: the output file must not exist; docs/release.json must exist, be
 committed and be unchanged; src/, scripts/ and data/ must be clean; every named checkpoint must exist and the
@@ -293,7 +298,7 @@ def measure(device: str, dropped: list[str], failures: dict) -> dict:
             arms[f"{name}/{which}"] = got
     out["arms"] = arms
 
-    # The masks, written before any statistic is computed.
+    # These masks make the already-scored arrays independently re-sliceable by work and kind of text.
     block("arrays", _save_arrays, arms, streams, works, titles)
 
     released = f"{RELEASED[0]}/{RELEASED[1]}"
@@ -334,11 +339,13 @@ def _stream_for(name, works, tokenizers, streams) -> str:
 def _one_arm(name, which, stream, tokenizer, works, characters, device) -> dict:
     kind_of = lambda n: "char" if "char" in n else n.split("-")[1] + "-" + n.split("-")[2]
     model, saved = load_checkpoint(ROOT / "runs" / name / f"{which}.pt", device)
-    surprise, bpc = score(model, stream, characters, device)
+    surprise = evaluate(model, stream, device)
+    surprise_path = ARRAYS / f"{name}--{which}.npy"
+    np.save(surprise_path, surprise)                            # save the irreplaceable evidence before reducing it
+    bpc = bits_per_character(surprise, characters)
     row = {"test_bpc": bpc, "validation_bpc": recorded(name, which), "step": saved.get("step"),
            "tokenizer": kind_of(name), "nats": float(surprise.sum()),
            "surprise_file": f"final-evaluation/{name}--{which}.npy"}
-    np.save(ARRAYS / f"{name}--{which}.npy", surprise)
     if kind_of(name) == "char":                                 # entry 19: breakdown for the character arms only
         row["taken_apart"] = breakdown(surprise, stream, tokenizer, works)
     return row
@@ -468,8 +475,8 @@ def main() -> None:
                                   "sha256": chosen["checkpoint_sha256"]}},
            "rehearsal": rehearsal, "failures": failures, **measured}
 
-    # Phase C is guarded the way phase B is. Everything the works cost is already in `out`, so the file is written
-    # first; the headline and the report are then computed inside a net, and a bug in either records itself as a
+    # Phase C is guarded the way phase B is. Everything the works cost is already in `out`; the headline is
+    # computed inside a net, and the complete record is written before the report. A bug in either records itself as a
     # failure and rewrites the file rather than dying with only the stub on disk. Entry 19 fixed this discipline
     # for the blocks after the door; it simply never extended past them until an audit found a phase-C crash.
     def commit_out() -> None:

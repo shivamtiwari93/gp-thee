@@ -35,7 +35,7 @@ If a single digit were off, the pipeline would have drifted since the models wer
 
 **The door itself** is one line: the result file is created, holding a stub that says "in progress", *before* the test works are opened. If the run dies halfway, that stub is what remains — an honest record that the measurement was spent and did not finish, rather than a clean slate inviting a second try.
 
-**After the door**, every measurement is wrapped so that a failure in one costs only that one, and the raw per-token numbers are written to disk the instant they exist, before any statistic is computed on them. The reasoning is the same throughout: a forward pass over the test works can never be redone, but arithmetic on a saved array can be redone forever. So the irreplaceable thing is captured first, and everything derived comes after.
+**After the door**, every measurement is wrapped so that a failure in one costs only that one. In the run that actually happened, each model's guarded block computed bits per character and total surprise from its fresh per-token array, saved that array, and only then built the detailed per-work breakdown; all twenty-one blocks succeeded and every array is present. A final audit caught that this order was weaker than the prose had promised: a failure in either first reduction would have lost that arm's raw evidence. The code now saves the array immediately when the forward pass returns, before either reduction, and a test deliberately breaks the reduction and checks that the array survives. That is a post-run hardening, not a rewrite of history or permission to run the spent evaluation again. The result file records the exact commit and script hash that produced it.
 
 ### The measurement I would have shipped
 
@@ -85,7 +85,9 @@ The number is one line. The reason the run computes a dozen other things is that
 
 **Do characters still beat word-fragments? — yes, on new kinds of text.** [Part 6](06-which-tokenizer.md) decided single characters beat every word-fragment vocabulary, but it decided that on two plays. The test set adds a history, a romance and a poem, and the character model beats every fragment model on them too — 1.80 against the best fragment model's 1.89. The conclusion survives text it was not decided on.
 
-**What did all that selecting actually buy?** Two layers of selection sit on the validation score — the best checkpoint within the run, and the best run of three. Part 7 priced the between-run choice by simulation (best of three flatters a score by about 0.005, best of eleven by about 0.010) and the within-run best-of-stops layer by direct measurement (about 0.006 to 0.008). The test works let me look directly. On validation the released run sits 0.0054 below the three-run mean; on test, 0.0034. The edge that selection gave the number does not fully carry to text that chose nothing — which is exactly what "the number is a little optimistic" is supposed to mean, now measured rather than simulated.
+**What did all that selecting actually buy?** Two layers of selection sit on the validation score — the best checkpoint within the run, and the best run of three. The final evaluation scored both `best` and `last` for all three eligible runs, so the within-run layer can be read directly. On validation, their `best`/`last` scores were 1.7492/1.7569, 1.7571/1.7681 and 1.7575/1.7621 bits per character for seeds 1, 2 and 3: edges of 0.0077, 0.0110 and 0.0045, or 0.0078 on average. On test the pairs were 1.7958/1.8038, 1.7971/1.7948 and 1.8046/1.8033. As `last` minus `best`, those differences are +0.0080, −0.0023 and −0.0013; the mean edge shrank to 0.0014, and reversed for two of the three runs.
+
+The between-run layer shrank too. On validation the released run sits 0.0054 below the three-run mean; on test, 0.0034. Neither selection edge fully carries to text that chose nothing — which is exactly what "the number is a little optimistic" is supposed to mean, now measured rather than simulated.
 
 Two small honesty checks rode along on the same single pass. Re-scored on the CPU instead of the GPU, the headline moves by less than one part in a hundred million. And the scoring window, the one knob nobody tunes, moves it by about 0.05 at its extremes — held fixed everywhere, so it biases no comparison. Both are in the record; neither changes anything.
 
@@ -356,8 +358,8 @@ have said?
 ```
 
 Nobody cast `ROMAN`. With no answerer named, the model picks the speaker itself and we report who it chose — it
-wanted a Roman, presumably because "Roman" is a word it has seen at the head of many lines. It ignored the
-headache and the money entirely, because it has never encountered either complaint, but it knew a line of
+wanted a Roman, presumably because "Roman" is a word it has seen at the head of many lines. Headaches and lack
+of money both occur in the corpus; what it ignored was that Juliet had made either complaint. It knew a line of
 dialogue was owed and roughly what one sounds like.
 
 Name the answerer and it obliges:
@@ -483,8 +485,10 @@ beside `the tender of it` and beside `r` for `breach` in fourth place, and the p
 of the three comes back from the probe that should retrieve it most easily.**
 
 Read that for exactly what it is. Three prompts, decoded once each, cannot prove a line is absent — and the table
-at the top of this section says so itself, because `r` at 14.6% means that sampled rather than taken greedily,
-`breach` does come up, roughly one draw in seven. The systematic version of the question is part 7's scan, which
+at the top of this section says so itself. At temperature 1, `r` is about one draw in seven after the final `b`.
+That is only the first letter: multiplying the model's conditional chances for `r`, `e`, `a`, `c` and `h` gives
+1.10% for the complete continuation `reach`, about one draw in ninety-one. The systematic version of the question
+is part 7's scan, which
 walks all 4.8 million training positions instead of trying three, and there the longest unbroken stretch of the
 poet's verse the model reproduces anywhere is twenty-five characters. What GP-Thee holds is not the line; it is
 the language the line is made of.
@@ -494,10 +498,10 @@ Not a table of whole plays — that one is already dead, because the model share
 characters with these three works, so a replayer would have nothing to reach for. The strong version is a table of
 *fragments* with a fallback, and the table at the top of this post already contains one: the 6-gram is nothing
 but counts of every five-character context in the training works, plus a rule for what to do when a context is
-new. Fitted on the same 39 works and turned loose on the same three, it scores 2.32 — and no order does better;
-5 through 8 land between 2.32 and 2.53. That is the ceiling on lookup, the best table anyone can build out of this
-training text. GP-Thee scores 1.80 against it. Those 0.52 bits are what you only get by learning how Elizabethan
-English *works*.
+new. Fitted on the same 39 works and turned loose on the same three, it scores 2.32. Among the Witten–Bell
+character n-grams this project tested — orders 1 through 8 — no order does better; orders 5 through 8 land between
+2.32 and 2.53. That is not a ceiling on every lookup method anyone could build. It is a measured comparison with
+this particular family of fragment tables, and GP-Thee's 1.80 is 0.52 bits better.
 
 ## What it cannot do
 
@@ -511,7 +515,7 @@ half:
 3. **It has no memory of who is on stage.** `JULIET` became `SILVIA` became `JULIA` within four lines; Caesar
    greeted Caesar. It tracks the *shape* of turn-taking, not the participants.
 4. **It cannot hold a thought across two sentences.** Every sample is locally fluent and globally meaningless.
-   Its context is 256 characters — about three lines of verse — and it has no plot, no goal and no state.
+   Its context is 256 characters — about six median non-blank lines in this corpus — and it has no plot, no goal and no state.
 5. **It knows nothing outside Shakespeare.** No facts, no arithmetic, no modern world. Ask about a budget and you
    get battle gates.
 6. **It cannot spell outside 97 characters.** No `ï`, no `ñ`, no emoji — and by design it refuses rather than
@@ -531,7 +535,7 @@ measuring honestly should say when its own instrument was misread.)*
 
 ## What the number is, and what it is not
 
-GP-Thee-11M predicts a held-out page of Shakespeare at 1.80 bits per character. A fair coin per character would be 1 bit; the raw alphabet is 6.6; a good general-purpose compressor is 2.6. So the model has learned a great deal about how Shakespeare's characters follow one another — enough to halve the compressor's surprise above that one-bit floor — from five megabytes of text and eleven million parameters, with no pretraining, no outside data, and a tokenizer, model and training loop all built from nothing across this series.
+GP-Thee-11M predicts a held-out page of Shakespeare at 1.80 bits per character. A fair binary choice per character would cost 1 bit — a familiar reference point, not a floor — while a blind guess over the raw alphabet costs 6.6 and a good general-purpose compressor scores 2.6. So the model has learned a great deal about how Shakespeare's characters follow one another: its excess over that one-bit reference is about half the compressor's. It did that from five megabytes of text and eleven million parameters, with no pretraining, no outside data, and a tokenizer, model and training loop all built from nothing across this series.
 
 It is also, cheerfully, not much of anything else. It cannot follow an instruction, it has never been asked a question, and it reproduces not one line of the verse it was trained on. It is an in-character autocomplete for a universe that contains only Shakespeare, and now we know precisely how well it autocompletes: 1.80 bits per character, on a history, a romance and a poem it had never met, beating every predictor that came before it and reciting none of them.
 
@@ -543,4 +547,4 @@ Eight parts, and GP-Thee is complete: a corpus cleaned and audited, a split froz
 
 The model itself, GP-Thee-11M, is [on Hugging Face](https://huggingface.co/shivamtiwari93/gp-thee-11m); the entire project, including every training log, every score, and the per-character arrays behind this final number, is on GitHub. It was built for no reason other than to see whether it could be done honestly, start to finish, on a laptop. It could.
 
-*The complete build log, with all twenty entries and every measurement, is in [docs/BUILD_LOG.md](../docs/BUILD_LOG.md). The final evaluation's full record, including the per-token surprise of every model on every test work, is in [docs/final-evaluation.json](../docs/final-evaluation.json) and [docs/final-evaluation/](../docs/final-evaluation/).*
+*The complete build log, with the full chronology and every measurement, is in [docs/BUILD_LOG.md](../docs/BUILD_LOG.md). The final evaluation's full record, including the per-token surprise of every model on every test work, is in [docs/final-evaluation.json](../docs/final-evaluation.json) and [docs/final-evaluation/](../docs/final-evaluation/).*

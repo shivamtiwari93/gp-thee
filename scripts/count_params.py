@@ -23,12 +23,19 @@ def build(V, T, d, L):
     m["head"].weight = m["tok"].weight  # weight tying: the output layer reuses the token embedding
     return m
 
-# The size experiment changes ONE thing, the model's shape; tokenizer and context stay fixed.
-# V=100 was the raw file (blog part 1). Cleaning removed three characters (part 2): 97. The tokenizer adds
-# one START token (part 3): 98. Every change is 384 parameters, one row of the embedding table.
-for name, V, T, d, L in [("GP-Thee-11M: 6L/384d, chars V=98", 98, 256, 384, 6), ("same, raw-file alphabet V=100", 100, 256, 384, 6), ("same, BPE vocabulary V=2048", 2048, 256, 384, 6),
-                         ("smaller: 6L/256d, chars V=98", 98, 256, 256, 6), ("larger: 12L/512d, chars V=98", 98, 256, 512, 12)]:
+# V=100 is the historical raw-file alphabet used for every character-model row in blog part 1.
+# Cleaning later removed three characters (part 2), and START added one (part 3), giving the current
+# character vocabulary V=98. Both are printed, but the `Part 1` labels reproduce that post's table.
+cases = [
+    ("current char model: 6L/384d, V=98", 98, 256, 384, 6),
+    ("Part 1 base: 6L/384d, V=100", 100, 256, 384, 6),
+    ("Part 1 BPE comparison: 6L/384d, V=2048", 2048, 256, 384, 6),
+    ("Part 1 smaller: 6L/256d, V=100", 100, 256, 256, 6),
+    ("Part 1 larger: 12L/512d, V=100", 100, 256, 512, 12),
+]
+
+for name, V, T, d, L in cases:
     m = build(V, T, d, L)
     pytorch = sum(p.numel() for p in m.parameters())   # .parameters() de-duplicates the tied weight
     hand = 12 * d * d * L + (2 * L + 1) * d + V * d + T * d
-    print(f"{name:34s} pytorch={pytorch:>11,}  hand={hand:>11,}  match={pytorch == hand}")
+    print(f"{name:44s} pytorch={pytorch:>11,}  hand={hand:>11,}  match={pytorch == hand}")

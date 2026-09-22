@@ -1,6 +1,6 @@
 # Building GP-Thee, part 3: teaching a computer to read
 
-*A model cannot read letters. This part builds the thing that turns Shakespeare into numbers and back: first one character at a time, then in fragments of words, learned from the plays themselves.*
+*A model cannot read letters. This part builds the thing that turns Shakespeare into numbers and back: first one character at a time, then in fragments of words, learned from the works themselves.*
 
 [Part 2](02-the-data.md) ended with 44 clean works and a rule: from here on, anything learned from text is learned from the 39 training works only. The first thing that learns from text is not the model. It is the tokenizer.
 
@@ -10,7 +10,7 @@ A neural network does arithmetic. It cannot be handed the letter `T`. It can be 
 
 So before any training, we need a fixed, reversible agreement: this piece of text is this number. A **tokenizer** is that agreement. The list of pieces it knows is the **vocabulary**. Turning text into numbers is **encoding**, and going back is **decoding**.
 
-One distinction to hold on to, because the rest of the post depends on it. An entry in the vocabulary is a **piece**. Each time a piece occurs in a text, that occurrence is a **token**. The word ` the` is one piece and, in our training works, 22,693 tokens.
+One distinction to hold on to, because the rest of the post depends on it. An entry in the vocabulary is a **piece**. Each time a piece occurs in a text, that occurrence is a **token**. The standalone word ` the` occurs 22,693 times in the training works. BPE also emits that same piece 31 times inside longer words, so under each BPE vocabulary we build below it accounts for 22,724 tokens.
 
 The rule of the project applies here with full force. Many people building a small model borrow a tokenizer, often GPT-2's, whose 50,257 pieces were learned from millions of web pages. Ours may only know what is in the training works.
 
@@ -228,7 +228,7 @@ Part 2 set the rule that the test works are not examined until the very end. The
 
 I removed the figures, wrote the confession, and then did it again, twice, in the first draft of this very post. To show that our leak test is sensitive, I fitted a tokenizer on all 44 works, which means on the test works, and published two numbers that depend on their text. And I quoted the number of apostrophes in the whole corpus a few paragraphs away from the number in the training works, so that the test works' share fell out by subtraction. A reviewer caught both. Neither number influenced anything, and no model exists yet. But three slips is a pattern, and the pattern is that good intentions are not a control.
 
-So the rule is now enforced by code instead of by me. Every script and test loads works through one function ([src/gp_thee/data.py](../src/gp_thee/data.py)), and asking it for the test works raises an error unless the caller states that this is the final evaluation. The tokenizer build no longer opens the test works at all. It does not need to: the alphabet of the whole corpus was recorded when it was cleaned, before the split existed, so the script can prove that every work is encodable without reading it. No token files are saved for the test works, since a file's size would give away its token count. And the sensitivity check above uses the validation works as its stand-in for a leak.
+So the rule is now enforced by code instead of by me. Every downstream script and test that reads a work loads it through one function ([src/gp_thee/data.py](../src/gp_thee/data.py)), and asking it for the test works raises an error unless the caller states that this is the final evaluation. The two deliberate exceptions sit before that boundary: `prepare_data.py` creates the cleaned work files, and `make_split.py` must read all 44 to define and verify the split. The tokenizer build no longer opens the test works at all. It does not need to: the alphabet of the whole corpus was recorded when it was cleaned, before the split existed, so the script can prove that every work is encodable without reading it. No token files are saved for the test works, since a file's size would give away its token count. And the sensitivity check above uses the validation works as its stand-in for a leak.
 
 ## Two things that will bite later
 

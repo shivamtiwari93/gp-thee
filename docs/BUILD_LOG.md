@@ -439,7 +439,7 @@ Blog part 3 went through the usual three reviews (fact-check, NLP lens, newcomer
 
 **The test works, a third time.** The first draft of part 3, a few paragraphs after confessing to the part 2 mistake, did it twice more. (1) To show the leak test is sensitive, I fitted a tokenizer on all 44 works, that is, on the test works, and quoted two numbers that depend on their text; the same numbers were in this log and in a test comment. (2) I quoted a whole-corpus apostrophe count near the training-works count, so the test works' share fell out by subtraction. Nothing was influenced and no model exists. But a rule kept by intention had now failed three times, so it is enforced in code:
 
-- `src/gp_thee/data.py`: every script and test loads works through `load_works(set)`. Asking for `"test"` raises `PermissionError` unless the caller passes the phrase that says this is the final evaluation.
+- `src/gp_thee/data.py`: every downstream training or analysis script and test that reads a work does so through `load_works(set)`. Corpus preparation and `make_split.py` are the deliberate earlier exceptions. Asking for `"test"` through the loader raises `PermissionError` unless the caller passes the phrase that says this is the final evaluation.
 - `scripts/build_tokenizers.py` no longer opens the test works at all. The alphabet of the whole corpus was recorded in `manifest.json` at cleaning time, before the split existed; the script checks the training works contain all of it, and the tests establish that any string over that alphabet round-trips. So every work is provably encodable, unread.
 - The sensitivity check uses the validation works as the stand-in leak (`test_a_leak_would_be_noticed`).
 - (`scripts/make_split.py` still reads all 44 works, because comparing held-out works with the rest is what defines the split. It reports nothing about them except overlaps.)
@@ -692,7 +692,7 @@ Three reviews of the draft of [blog/05-training.md](../blog/05-training.md) (fac
 | 6.60 bits "is the ceiling" | The untrained model scores 6.71, two sections later in the same post. |
 | "Bit for bit" resume | On the CPU. The post now says what holds on the GPU. |
 | The two attentions agree "to seven decimal places" | The difference is 2.4e-7: six places. |
-| Clipping stops "one enormous step", and a fresh model's gradients "point in wild directions" | Both are the plain-gradient-descent story. Under AdamW the size of a step does not follow the size of the gradient; the benchmark's jump to 7.2 happened with the clip on; and in the first baseline run the clip fired on 9.6% of the first 250 steps and on none after. At the first step AdamW's update is exactly plus or minus the learning rate for every parameter, which is why a full rate from step one overshoots. |
+| Clipping stops "one enormous step", and a fresh model's gradients "point in wild directions" | Both are the plain-gradient-descent story. Under AdamW the size of a step does not follow the raw size of the gradient; the benchmark's jump to 7.2 happened with the clip on; and in the first baseline run the clip fired on 9.6% of the first 250 steps and on none after. At the first step the adaptive ratio is `g/(abs(g)+eps)`: close to plus or minus one for ordinary nonzero gradients, smaller for tiny or zero gradients, with weight decay separate. A full rate from step one therefore moves millions of parameters by roughly that scale at once, which is why it overshoots. |
 
 **New measurements made for the post** (*measured*, CPU, validation and training works only; script in the session scratchpad, `blog5/measure.py`):
 
@@ -960,7 +960,9 @@ One script, `scripts/final_evaluation.py`, committed before it is ever run, taki
 
 ## Entry 18. Part 7 measured: it does not recite Shakespeare, it recites his editors (2026-09-21)
 
-The measurement of entry 17, run at full scale on the released model, `sweep-char-seed-1/best.pt` (step 9,236), on the GPU. *All measured.* The record is [docs/memorisation.json](memorisation.json).
+The measurement of entry 17 on the released model, `sweep-char-seed-1/best.pt` (step 9,236), on the GPU. The
+primary exhaustive scan ran at full scale; the secondary sampled grid's three deviations are recorded below.
+*All measured.* The record is [docs/memorisation.json](memorisation.json).
 
 ### The scan, which is the instrument the verdict rests on
 
@@ -1058,7 +1060,14 @@ The lesson is the one from parts 3 to 6, in a new place: a rule I wrote to prote
 
 ### What it copies when simply asked to write
 
-20,007 characters per cell, four kinds of prompt, four temperatures, seeds fixed. (Entry 17 said 200,000 characters per cell. **That is a deviation, and the reason is speed:** the sampler re-reads its whole window for every character, so the grid at full size would take nine hours. The scan above, which is the primary instrument, is at full scale over every one of the 4.8 million characters. The sampled grid is secondary and is reported at a tenth of the promised size.)
+20,007 characters per cell, four kinds of prompt, four temperatures, seeds fixed. Three deviations from Entry 17
+are recorded here. It said 200,000 characters per cell; the sampler re-reads its whole window for every character,
+and the measured 34 min 24 s smaller run scales to roughly five to six hours at full size, so the secondary grid
+ran at a tenth of the promised size. The
+cell originally labelled "the ten-prompt suite" used its first eight prompts, omitting the instruction and blank
+line, so it is relabelled below. And the training/validation excerpts began at positions from `default_rng(0)`, not
+the promised arithmetic placement; they remain fixed and were not hand-picked. The primary scan above is
+unaffected and ran at full scale over every one of the 4.8 million characters.
 
 The whole run-length curve, pooled over all sixteen cells (320,112 characters the model wrote, about 319,808
 windows at each width), beside the innocent baseline from the table above. "Expected" is what a writer copying at
@@ -1091,7 +1100,7 @@ Per cell, copies of 50 characters or more out of 20,007 characters written, raw 
 | unprompted | 0 | 0 | 0 | 5 / 0 / 0 |
 | from the training works | 0 / 0 / 3 | 1 / 0 / 0 | 1 / 0 / 0 | 0 |
 | from the validation plays | 7 / 0 / 3 | 0 | 0 | 0 |
-| the ten-prompt suite | 0 | 0 | 0 | 0 |
+| first eight prompts of the ten-prompt suite | 0 | 0 | 0 | 0 |
 
 **The normalised figure is the sensitivity check entry 17 promised** and it cuts both ways, which is why it is
 worth having: pooled, 6 copies of 50 against 14 raw. Normalising collapses the line breaks, so a 50-character
@@ -1159,11 +1168,23 @@ progress, **before** `load_works("test", ...)` is called. A second invocation th
 ended. A crash after this point leaves the stub, which is the honest record that the works were opened and the
 measurement was spent.
 
-**Phase B, door open.** Every forward pass the script will ever be allowed, then the raw arrays to disk
+**Phase B, door open — the plan fixed before the run.** Every forward pass the script will ever be allowed, then the raw arrays to disk
 immediately. Each measurement block is caught, not raised: a failure records itself in `failures` and the next
 block runs. No arithmetic here that is not needed to produce an array.
 
-**Phase C, door shut again.** Statistics, from the saved arrays only.
+**Phase C, door shut again — the plan fixed before the run.** Statistics, from the saved arrays only.
+
+**Post-run correction (2026-09-22).** The implementation that took the one measurement did not keep those phases
+as strictly separate as the description above promised. In each primary arm it computed bits per character and
+total surprise from the in-memory array, saved the array, then computed the per-work breakdown; other auxiliary
+statistics also ran in Phase B. Nothing failed, so all twenty-one primary arrays and every reported result were
+captured, but a failure in either early reduction could have lost that arm's raw evidence. After the result was
+sealed, `_one_arm` was hardened to save immediately after `evaluate` and before either reduction, with a regression
+test that makes the reduction fail and checks the file still exists. Phase C is accurately described as assembling
+and persisting the headline and JSON from the captured Phase-B results; it does not re-read every statistic from
+disk. This cannot change or reopen the evaluation: `docs/final-evaluation.json` records the original commit
+`69a8297cfcd81bdcad7559be503844a7563b0820` and script SHA-256
+`f5c6802c2366b5a49625ad09b0afcb9ef9f93d6b8414d5bf9af11fadb21b6f58`.
 
 ### The gate, in order, each refusing cleanly
 
@@ -1322,7 +1343,7 @@ overlap, including the accepted *King John* / *Winter's Tale* scene heading. The
 
 **2. PLAN step 9 — met, on test.** GP-Thee-11M (1.7958) is below every non-neural baseline on the test text: the
 best of them, the 6-gram, is 2.3180, and the compressors are 2.58 (bzip2) and 2.91 (xz). The margin over the bar is
-0.52 bits, wider than the 0.46 measured on validation. **Step 9 closes as met on the held-out works.**
+0.52 bits, wider than the 0.48 measured on validation. **Step 9 closes as met on the held-out works.**
 
 **3. The released run's rank — 1 of 3, as on validation.** No surprise to narrate: the rule's pick is also the best
 of the three on the works that chose nothing, by a margin (0.0088 spread) the project's own test calls a tie.
@@ -1408,13 +1429,14 @@ finding then put to an independent verifier. 30 findings, **14 upheld**, all app
 - **Osric and Horatio are real characters**, not inventions of the model; the draft implied otherwise. What the
   model rebuilt is the *shape* of their scene.
 - **The lookup-table argument was too easy.** "A lookup table would score near the blind guess" beats only the
-  weakest version of the objection. Replaced with the strong version: the 6-gram *is* a fragment table with a
-  fallback, fitted on the same 39 works, and it scores 2.32 on the same three. That is the ceiling on lookup;
-  GP-Thee is 0.52 bits below it.
+  weakest version of the objection. Replaced with a measured comparison: the 6-gram *is* a fragment table with a
+  fallback, fitted on the same 39 works, and it scores 2.32 on the same three. It is the best of the Witten–Bell
+  character n-grams tested here at orders 1 through 8, not a ceiling on every possible lookup method; GP-Thee is
+  0.52 bits below this one.
 - **"The three most quotable lines are not in this model in any retrievable form" was too strong** — three greedy
-  probes cannot prove absence, and the post's own table shows `breach` at 14.6%, which would surface roughly one
-  sampled draw in seven. Narrowed to what the probes show, with part 7's exhaustive scan named as the systematic
-  version.
+  probes cannot prove absence. The post's own table gives the first `r` of `reach` 14.6%, about one draw in seven,
+  but the full five-character continuation 1.10%, about one in ninety-one. Narrowed to what the probes show, with
+  part 7's exhaustive scan named as the systematic version.
 - Truncated samples now end in `…` and point at `docs/demonstrations.txt`; the stage-direction sample is printed
   in full, because `dismalled` was cited with no source on the page.
 
@@ -1465,5 +1487,8 @@ test in this repository was positioned to see. The lesson is the one from entry 
 runs only where the code lives cannot tell you what happens where the code is used. The fix is to simulate the
 foreign environment, and that simulation is now in the suite.
 
-**The Hub still holds the old loader and the stray file**; a re-upload of the corrected folder is the owner's to
-make, and the repository is ready for it.
+That was the state immediately after the audit. The corrected loader was then uploaded and checked through the
+Hub's symlink layout. On 22 September 2026 the remaining
+[`__pycache__`](https://huggingface.co/shivamtiwari93/gp-thee-11m/commit/4bd6773352a7be65e76e1c893b2c6aaacb9ac4d9)
+was deleted from the public repository. Its live file list now contains the five intended release assets, plus the
+Hub's own `.gitattributes`; the stray bytecode and the unusable loader are both gone.

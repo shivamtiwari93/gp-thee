@@ -4,7 +4,8 @@ Run:  uv run python scripts/memorisation.py                        (the released
       uv run python scripts/memorisation.py --runs pilot-char-17 pilot-char-34 pilot-char-68 --scan-only
       uv run python scripts/memorisation.py --baseline-only        (no model at all: what an innocent writer scores)
 
-Everything here was fixed in docs/BUILD_LOG.md entry 17, before it was run. In short:
+The protocol was fixed in docs/BUILD_LOG.md entry 17 before it was run; entry 18 and the JSON record disclose
+the sampled grid's three deviations. In short:
 
   * A COPY is a run of characters occurring verbatim in the 39 training works. Raw characters are the headline,
     because "word for word" is a claim about what the model emitted; the normalised figure (lowercase letters and
@@ -25,7 +26,7 @@ reproduces from the training works reaches 50 characters AND is at least twice t
 reproduces from the two validation plays it never read. It does not recite if that figure is under 50 characters
 and exceeds the validation figure by no more than 10. Anything between is reported as it stands.
 
-Writes docs/memorisation.json, and everything the model wrote to runs/<name>/sampled-grid.txt, so that the
+Writes docs/memorisation.json, and everything the model wrote to docs/sampled-grid-<name>.txt, so that the
 curve can be recomputed at any width later without generating it all again.
 
     uv run python scripts/memorisation.py --sampled-only          (re-do the grid, keep the scan already recorded)
@@ -144,7 +145,9 @@ def sampled(model, tokenizer, corpus: Corpus, device: str, plain: Corpus, keep: 
     prompts = {"unprompted": ["\n\n"] * 8,
                "from the training works": [training[i:i + 256] for i in rng.integers(0, len(training) - 256, 8)],
                "from the validation plays": [validation[i:i + 256] for i in rng.integers(0, len(validation) - 256, 8)],
-               "the ten-prompt suite": [p for _, p in SUITE][:8]}
+               # The recorded grid used eight equally sized blocks in every cell. Preserve that run exactly,
+               # but name this subset honestly: the instruction and blank-line prompts were not part of it.
+               "the first eight prompts of the ten-prompt suite": [p for _, p in SUITE][:8]}
     out, kept = {}, []
     for kind, these in prompts.items():
         for temperature in TEMPERATURES:
@@ -187,6 +190,15 @@ def main() -> None:
     out = json.loads(record.read_text()) if record.exists() else {}
     out.setdefault("about", {})["device"] = args.device
     out["about"]["rule"] = "docs/BUILD_LOG.md entry 17, committed before this was run"
+    out["about"]["sampling_grid_deviations"] = {
+        "characters_per_cell_preregistered": 200_000,
+        "characters_per_cell_generated": PER_CELL,
+        "characters_per_cell_measured_with_separators": 20_007,
+        "suite_prompts_preregistered": 10,
+        "suite_prompts_used": 8,
+        "prompt_positions_preregistered": "arithmetic placement",
+        "prompt_positions_used": "fixed draws from default_rng(0)",
+    }
 
     if "innocent_baseline" not in out:
         print("the innocent baseline: each training work against the other 38")

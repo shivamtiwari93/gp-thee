@@ -3,8 +3,10 @@
 The rule of this project is that the three test works are not examined until the final evaluation: no
 statistics, no examples, no fitting, not even "just to check". That rule was broken three times by
 well-meaning one-off measurements while this project was being built (see docs/BUILD_LOG.md). Good
-intentions did not hold, so the rule is now enforced here. Every script and test loads works through
-this function, and asking for the test works without saying why is an error.
+intentions did not hold, so the rule is now enforced here. Every downstream training or analysis script
+and test that reads a work uses this function; corpus preparation and split construction are the deliberate
+exceptions that create and assign the files in the first place. Asking for the test works without saying why
+is an error.
 """
 
 import hashlib

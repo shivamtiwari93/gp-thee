@@ -151,7 +151,9 @@ Every copy of fifty characters or more that sampling did find is, again, a scene
 t._]\n\nSCENE III. The same. A Room in the Palace.\n\nEnter 
 ```
 
-Still, the grid is worth having for one thing the scan cannot give you: what the model copies when nobody is trying to make it copy. Here is the whole curve over all sixteen cells — 320,112 characters of the model's own writing — against the innocent baseline from the top of this post. The last column is what a writer copying at the innocent rate would have produced in the same amount of text. It is a yardstick, not a null hypothesis: the baseline was measured on Shakespeare's real text, and this is not Shakespeare's real text.
+Still, the grid is worth having for one thing the scan cannot give you: what the model copies when nobody is trying to make it copy. Three deviations have to be stated first. The written rule asked for 200,000 characters in each of the sixteen cells. The run generated 20,000 in eight blocks per cell; the seven separator line breaks make 20,007 measured characters per cell, or 320,112 altogether. The smaller grid took 34 minutes 24 seconds, including five minutes when the test suite was running beside it, so the promised size would have taken roughly five to six hours. The grid is therefore one tenth of the size fixed in advance. Its suite cells used the first eight of the ten fixed prompts, omitting the instruction and blank-line prompts, and its training and validation excerpts began at positions from a fixed seeded draw rather than the promised arithmetic placement. The positions were still reproducible and not hand-picked. The exhaustive scan above — the primary instrument — is unaffected: it still examined every position in all 4.8 million training characters and both validation plays.
+
+Here is the whole sampled curve against the innocent baseline from the top of this post. The last column is what a writer copying at the innocent rate would have produced in the same amount of text. It is a yardstick, not a null hypothesis: the baseline was measured on Shakespeare's real text, and this is not Shakespeare's real text.
 
 | Run length | Windows the model copied | Its rate | An innocent writer's rate | Expected at that rate |
 |---|---|---|---|---|
@@ -263,7 +265,7 @@ No, but ’tis a gentleman that we are all advanced; and what would you
 have said?
 ```
 
-Nobody cast ROMAN. With no answerer named, the model writes the speaker label itself and we report who it picked. It did not care for Juliet's headache, and it has never heard of money problems, but it knew that a line of dialogue was owed and roughly what one sounds like.
+Nobody cast ROMAN. With no answerer named, the model writes the speaker label itself and we report who it picked. Headaches and lack of money both occur in the corpus; what the model failed to do was treat Juliet's sentence as a complaint that called for a relevant answer. It knew only that a line of dialogue was owed and roughly what one sounds like.
 
 ## Which run becomes GP-Thee-11M
 
@@ -325,4 +327,3 @@ uv run python scripts/memorisation.py                               # about fort
 Seven parts in, GP-Thee is finished: a tokenizer chosen by a rule, a recipe nobody tuned, eleven runs, one of them named, and a direct answer to the question of whether it is a parrot. What it has never been asked to do is read anything outside the thirty-nine works it trained on and the two it was measured against.
 
 Three works have been out of reach since part 2. *King John*, *The Tempest*, *A Lover's Complaint*. No model has read a character of them, no score in seven parts has come from them, and the code refuses to load them without a password that appears in exactly one place. What this series has published about them is their size in the split table, and nothing else. In part 8 we type it, once.
-

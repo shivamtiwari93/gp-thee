@@ -194,8 +194,8 @@ repository.
 This model lives at **https://huggingface.co/shivamtiwari93/gp-thee-11m**.
 
 Released run `{config["provenance"]["source_checkpoint"]}` at step {config["provenance"]["step"]}, chosen by a rule
-fixed before the runs (`docs/release.json`) and scored on the held-out works exactly once (`docs/final-evaluation
-.json`). Trained by commit `{config["trained_by_commit"][:12]}`. Built and documented step by step at
+fixed before the runs (`docs/release.json`) and scored on the held-out works exactly once
+(`docs/final-evaluation.json`). Trained by commit `{config["trained_by_commit"][:12]}`. Built and documented step by step at
 **{config["repository"]}**.
 
 ## License

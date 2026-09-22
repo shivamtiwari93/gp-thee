@@ -42,8 +42,9 @@ From the criteria to five titles (they leave 11 comedies, 9 tragedies, 6 histori
   * The Tempest over Cymbeline (both passed that search) was a judgement call: the shorter one.
   The choice was made once, before any model existed.
 
-The model we MEASURE never reads Romeo and Juliet. The model we RELEASE is retrained on all 44 works,
-for the number of steps the measured run found best, so it knows every play.
+The model we measure and release, GP-Thee-11M, reads only the 39 training works. An earlier plan to retrain the
+release on all 44 works was revoked before publication: that would erase every honest held-out score. If an
+all-44 model is ever made, it is a separate artifact with a different name and an explicit lack of evaluation.
 
 Changing this file's lists after any model has been trained would make earlier results incomparable.
 """
