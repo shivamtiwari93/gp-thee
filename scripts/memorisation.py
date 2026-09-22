@@ -82,36 +82,49 @@ def where_the_editor_wrote(works: list[str], stream: np.ndarray) -> np.ndarray:
     return editor[np.minimum(at, len(editor) - 1)]
 
 
+def scan_one(model, tokenizer, works: list[str], stream: np.ndarray, device: str, name: str = "", which: str = "",
+             keep_mask: Path | None = None) -> dict:
+    """The primary instrument, over one text: screen it all, then confirm every long candidate by making the model write it.
+
+    Split out of scan() so that the final evaluation can point the SAME instrument at the test works. Part 7's two
+    arms and part 8's third arm must differ in nothing but which text they are given; a hand-rolled variant that
+    differed by one predicate would not be a third arm of the same measurement.
+    """
+    editor_at = where_the_editor_wrote(works, stream)
+    started = time.perf_counter()
+    agreed = agreement(model, stream, device)
+    if keep_mask is not None:
+        np.save(keep_mask, agreed)     # the sufficient statistic for any later question about run lengths
+    found = candidates(agreed, least=40)
+    confirmed = []
+    for begin, length in found[:400]:
+        got = confirm(model, tokenizer, stream, begin, length, device)
+        if got["characters"] >= 30:
+            run = editor_at[begin + 1:begin + 1 + got["confirmed_tokens"]]
+            editor = bool(run.mean() > 0.5) or not enough_letters(got["text"])
+            confirmed.append({**got, "begin": begin, "the_editors_words": editor,
+                              "share_the_editor_wrote": float(run.mean()) if len(run) else 1.0})
+    confirmed.sort(key=lambda c: -c["characters"])
+    poet = [c for c in confirmed if not c["the_editors_words"]]
+    out = {"agreement": float(agreed.mean()), "tokens": int(len(agreed)),
+           "candidates_of_40_or_more": len(found), "longest_candidate": found[0][1] if found else 0,
+           "confirmed": confirmed[:40],
+           "longest_confirmed": confirmed[0]["characters"] if confirmed else 0,
+           "longest_confirmed_poet_only": poet[0]["characters"] if poet else 0,
+           "confirmed_of_50_or_more": sum(c["characters"] >= 50 for c in confirmed),
+           "poet_only_of_50_or_more": sum(c["characters"] >= 50 for c in poet),
+           "seconds": round(time.perf_counter() - started, 1)}
+    print(f"  {name} on the {which}: {out['agreement']:.2%} of next characters are its own first guess; "
+          f"{len(found)} candidates, longest confirmed {out['longest_confirmed']} characters "
+          f"({out['longest_confirmed_poet_only']} of the poet's)")
+    return out
+
+
 def scan(model, tokenizer, corpus: Corpus, name: str, device: str) -> dict:
-    """The primary instrument: screen the whole of both texts, then confirm every long candidate by making the model write it."""
+    """Part 7's two arms: the works it trained on, and the two plays it never read."""
     out = {}
-    for which, works in (("training works", corpus.works), ("validation plays", load_works("validation"))):
-        stream = np.asarray(load_tokens("char", "train" if which == "training works" else "validation"))
-        editor_at = where_the_editor_wrote(works, stream)
-        started = time.perf_counter()
-        agreed = agreement(model, stream, device)
-        found = candidates(agreed, least=40)
-        confirmed = []
-        for begin, length in found[:400]:
-            got = confirm(model, tokenizer, stream, begin, length, device)
-            if got["characters"] >= 30:
-                run = editor_at[begin + 1:begin + 1 + got["confirmed_tokens"]]
-                editor = bool(run.mean() > 0.5) or not enough_letters(got["text"])
-                confirmed.append({**got, "begin": begin, "the_editors_words": editor,
-                                  "share_the_editor_wrote": float(run.mean()) if len(run) else 1.0})
-        confirmed.sort(key=lambda c: -c["characters"])
-        poet = [c for c in confirmed if not c["the_editors_words"]]
-        out[which] = {"agreement": float(agreed.mean()), "tokens": int(len(agreed)),
-                      "candidates_of_40_or_more": len(found), "longest_candidate": found[0][1] if found else 0,
-                      "confirmed": confirmed[:40],
-                      "longest_confirmed": confirmed[0]["characters"] if confirmed else 0,
-                      "longest_confirmed_poet_only": poet[0]["characters"] if poet else 0,
-                      "confirmed_of_50_or_more": sum(c["characters"] >= 50 for c in confirmed),
-                      "poet_only_of_50_or_more": sum(c["characters"] >= 50 for c in poet),
-                      "seconds": round(time.perf_counter() - started, 1)}
-        print(f"  {name} on the {which}: {out[which]['agreement']:.2%} of next characters are its own first guess; "
-              f"{len(found)} candidates, longest confirmed {out[which]['longest_confirmed']} characters "
-              f"({out[which]['longest_confirmed_poet_only']} of the poet's)")
+    for which, works, split in (("training works", corpus.works, "train"), ("validation plays", load_works("validation"), "validation")):
+        out[which] = scan_one(model, tokenizer, works, np.asarray(load_tokens("char", split)), device, name, which)
     return out
 
 
