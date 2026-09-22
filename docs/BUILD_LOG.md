@@ -1268,3 +1268,72 @@ replicate, and leaves the reader to weigh it.
 The two headlines in one table; the model card and the Hugging Face upload of `sweep-char-seed-1/best.pt` as
 safetensors with a JSON config, never a `.pt`; and the sentence that after this entry the test works are spent,
 because they have now taken part in something.
+
+## Entry 20. Part 8: the test works, opened once, and what they said (2026-09-21)
+
+`scripts/final_evaluation.py` ran once, on the M5 Max GPU, in nine minutes, with no failed blocks. The door is
+shut again and `docs/final-evaluation.json` holds the whole of it, with every per-token array in
+`docs/final-evaluation/`. The gate passed, the dress rehearsal reproduced all 21 arms' validation scores to the
+digit, and only then were *King John*, *The Tempest* and *A Lover's Complaint* opened.
+
+### The two headlines entry 17 fixed
+
+**The artifact.** GP-Thee-11M scores **1.7958 bits per character** on the three works it never read, against
+1.7492 on the validation plays it was selected on. Higher — worse — but on different works: a history, a late
+romance and a narrative poem, against a comedy and a tragedy.
+
+| | test bits per character |
+|---|---|
+| *The Life and Death of King John* (120,615 chars) | 1.6921 |
+| *The Tempest* (98,186) | 1.9044 |
+| *A Lover's Complaint* (14,360) | 1.9240 |
+| **whole** | **1.7958** |
+| speaker labels | 2.5299 |
+| everything else | 1.7568 |
+
+The poem is the hardest and the history the easiest; the spread across the three works (0.23 bpc) dwarfs every
+between-model difference the project ever measured. Leave any one work out and the whole-set figure moves between
+1.717 and 1.907, which is the honest width of a three-work sample.
+
+**The recipe.** The three eligible runs on test: **1.7958, 1.7971, 1.8046**, mean 1.7992, spread 0.0088 — the same
+0.008-ish spread the sweep showed on validation, which its own pooled threshold (0.0130) calls a tie. The released
+run is the best of the three on test (rank 1 of 3), as it was on validation. One draw agreeing with another, no
+more: the release is the rule's output, not a demonstrated best.
+
+**What selection bought, isolated.** On validation the three-run mean sits 0.0054 above the released run; on test,
+0.0034. The difference-in-differences is small and in the expected direction: the edge selection gave the released
+number on validation does not fully carry to text that chose nothing.
+
+**Cross-device.** Re-scored on the CPU the released model gives 1.795787 against the GPU's 1.795787 — a difference
+of 7.5e-9. **Stride sensitivity**, disclosed: at stride 64 the figure is 1.7896, at 256 it is 1.8390, at the
+project's default 128 it is 1.7958. The windowing is worth about 0.05 at the extremes and was held fixed
+throughout, so it biases nothing in the comparisons.
+
+### The four sentences, written in entry 19, now adjudicated
+
+**1. The memorisation third arm — part 7's verdict stands, and hardens.** On the three works it never read the
+model's scan found **zero** runs of 40 agreed characters (against 52 on the training works and 1 on the validation
+plays); the longest confirmed passage is **0 characters**, poet's-own-words and all. Part 7 measured 44 characters
+of the poet's own words reproduced from the works it trained on; the honest ceiling from works it never read is now
+**0**, not the validation plays' 0 that entry 18 warned was guaranteed too clean. The verdict — *it does not recite
+Shakespeare, it recites his editors* — is confirmed on a control that was not selected for the answer. (Note: the
+test works themselves share 26 fifty-character windows with the training works, longest 75 — real editorial
+overlap, including the accepted *King John* / *Winter's Tale* scene heading. The model reproduces none of it.)
+
+**2. PLAN step 9 — met, on test.** GP-Thee-11M (1.7958) is below every non-neural baseline on the test text: the
+best of them, the 6-gram, is 2.3180, and the compressors are 2.58 (bzip2) and 2.91 (xz). The margin over the bar is
+0.52 bits, wider than the 0.46 measured on validation. **Step 9 closes as met on the held-out works.**
+
+**3. The released run's rank — 1 of 3, as on validation.** No surprise to narrate: the rule's pick is also the best
+of the three on the works that chose nothing, by a margin (0.0088 spread) the project's own test calls a tie.
+
+**4. Part 6 on a history, a romance and a poem — the verdict replicates.** The character arm (1.7958) beats every
+word-fragment arm on test: bpe-1024 is 1.8916 at best, and it only gets worse with more pieces (1536: 1.8917;
+2048: 1.9047; 4096: 1.9146). Entry 16's conclusion — characters win on a text this small — survives a text it was
+not decided on, by 0.10 bits.
+
+### What is left of part 8
+
+The write-up (blog part 7 is published; part 8 is the last), the model card and the Hugging Face upload of
+`sweep-char-seed-1/best.pt` as safetensors, and the LinkedIn deliverables. The measurement itself is done and can
+never be redone. The test works have taken part in something.

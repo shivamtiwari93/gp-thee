@@ -1,0 +1,1183 @@
+{
+  "about": {
+    "what": "The final evaluation. The three test works, opened once.",
+    "rule": "docs/BUILD_LOG.md entry 19, committed before this script existed",
+    "began_at": "2026-09-22T01:28:59+00:00",
+    "finished_at": "2026-09-22T01:32:23+00:00",
+    "minutes": 9.0,
+    "device": "mps",
+    "torch": "2.14.0",
+    "python": "3.14.7",
+    "machine": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "commit": "69a8297cfcd81bdcad7559be503844a7563b0820",
+    "script_sha256": "f5c6802c2366b5a49625ad09b0afcb9ef9f93d6b8414d5bf9af11fadb21b6f58",
+    "tokenizer_sha256": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730",
+    "split_sha256": "7095c396779d438d23fb4c3220719a33d3fc1b575f5b8404c6b5306c17a8c03c",
+    "released": {
+      "run": "sweep-char-seed-1",
+      "checkpoint": "best",
+      "step": 9236,
+      "sha256": "58f563f826cc6cd8cf9eff1cac34215ce8088554c9bcb519401307968b146a8d"
+    }
+  },
+  "rehearsal": {
+    "checked": {
+      "sweep-char-seed-1/best": {
+        "recorded": 1.749198301521595,
+        "rescored": 1.749198301521595,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-char-seed-2/best": {
+        "recorded": 1.7571115551113816,
+        "rescored": 1.7571115551113816,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-char-seed-3/best": {
+        "recorded": 1.7575298066550764,
+        "rescored": 1.7575298066550764,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-char-seed-1/last": {
+        "recorded": 1.756946541287713,
+        "rescored": 1.756946541287713,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-char-seed-2/last": {
+        "recorded": 1.7681212867057723,
+        "rescored": 1.7681212867057723,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-char-seed-3/last": {
+        "recorded": 1.762050821057279,
+        "rescored": 1.762050821057279,
+        "delta": 0.0,
+        "exact": true
+      },
+      "pilot-char-34/best": {
+        "recorded": 1.7403703008802653,
+        "rescored": 1.7403703008802653,
+        "delta": 0.0,
+        "exact": true
+      },
+      "pilot-char-17/best": {
+        "recorded": 1.7705674117013224,
+        "rescored": 1.7705674117013224,
+        "delta": 0.0,
+        "exact": true
+      },
+      "pilot-char-68/best": {
+        "recorded": 1.757677039170184,
+        "rescored": 1.757677039170184,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-bpe-1024-seed-1/best": {
+        "recorded": 1.7895227058627574,
+        "rescored": 1.7895227058627574,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-bpe-1024-seed-2/best": {
+        "recorded": 1.8006075355326365,
+        "rescored": 1.8006075355326365,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-bpe-1024-seed-3/best": {
+        "recorded": 1.8136087798288392,
+        "rescored": 1.8136087798288392,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-bpe-1536-seed-1/best": {
+        "recorded": 1.831337027193566,
+        "rescored": 1.831337027193566,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-bpe-1536-seed-2/best": {
+        "recorded": 1.8219331825437586,
+        "rescored": 1.8219331825437586,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-bpe-1536-seed-3/best": {
+        "recorded": 1.8186241972927601,
+        "rescored": 1.8186241972927601,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-bpe-2048-seed-1/best": {
+        "recorded": 1.8226791825968138,
+        "rescored": 1.8226791825968138,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-bpe-2048-seed-2/best": {
+        "recorded": 1.8291399335680985,
+        "rescored": 1.8291399335680985,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-bpe-2048-seed-3/best": {
+        "recorded": 1.8197617482066801,
+        "rescored": 1.8197617482066801,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-bpe-4096-seed-1/best": {
+        "recorded": 1.84598391400525,
+        "rescored": 1.84598391400525,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-bpe-4096-seed-2/best": {
+        "recorded": 1.853910900353527,
+        "rescored": 1.853910900353527,
+        "delta": 0.0,
+        "exact": true
+      },
+      "sweep-bpe-4096-seed-3/best": {
+        "recorded": 1.8533144609742331,
+        "rescored": 1.8533144609742331,
+        "delta": 0.0,
+        "exact": true
+      }
+    },
+    "dropped": [],
+    "arms_scored": 21,
+    "the_bar_reproduces_part_5": {
+      "blind guess": {
+        "published": 6.599912842187128,
+        "recomputed": 6.599912842187128,
+        "close": true
+      },
+      "character counts": {
+        "published": 4.783188385093234,
+        "recomputed": 4.783188385093234,
+        "close": true
+      },
+      "2-gram (looks back 1)": {
+        "published": 3.584288371531159,
+        "recomputed": 3.584288371531159,
+        "close": true
+      },
+      "3-gram (looks back 2)": {
+        "published": 2.901536758561394,
+        "recomputed": 2.901536758561394,
+        "close": true
+      },
+      "4-gram (looks back 3)": {
+        "published": 2.4534530698609887,
+        "recomputed": 2.4534530698609887,
+        "close": true
+      },
+      "5-gram (looks back 4)": {
+        "published": 2.257712563686475,
+        "recomputed": 2.257712563686475,
+        "close": true
+      },
+      "6-gram (looks back 5)": {
+        "published": 2.231483793147907,
+        "recomputed": 2.231483793147907,
+        "close": true
+      },
+      "7-gram (looks back 6)": {
+        "published": 2.2952639115474205,
+        "recomputed": 2.2952639115474205,
+        "close": true
+      },
+      "8-gram (looks back 7)": {
+        "published": 2.40770419253914,
+        "recomputed": 2.40770419253914,
+        "close": true
+      },
+      "bzip2 -9": {
+        "published": 2.4827847281119073,
+        "recomputed": 2.4827847281119073,
+        "close": true
+      },
+      "xz -9e": {
+        "published": 2.8019088040127107,
+        "recomputed": 2.8019088040127107,
+        "close": true
+      }
+    },
+    "stride_sensitivity_on_validation": {
+      "64": 1.7389609450318313,
+      "256": 1.8021048903508845
+    },
+    "the_scan_on_validation": {
+      "agreement": 0.6362911679916136,
+      "tokens": 274728,
+      "candidates_of_40_or_more": 1,
+      "longest_candidate": 40,
+      "longest_confirmed": 40,
+      "longest_confirmed_poet_only": 0,
+      "confirmed_of_50_or_more": 0,
+      "poet_only_of_50_or_more": 0,
+      "seconds": 2.0
+    },
+    "cross_device_on_validation": {
+      "bits_per_character": {
+        "cpu": 1.7491982948402287,
+        "gpu": 1.749198301521595,
+        "difference": -6.681366349070572e-09
+      },
+      "the_longest_confirmed_passage": {
+        "on the gpu": {
+          "characters": 40,
+          "text": "_]\n\nSCENE III. The same. A room in the C"
+        },
+        "on the cpu": {
+          "characters": 40,
+          "text": "_]\n\nSCENE III. The same. A room in the C"
+        },
+        "unchanged": true
+      }
+    }
+  },
+  "failures": {},
+  "works": [
+    {
+      "title": "THE LIFE AND DEATH OF KING JOHN",
+      "characters": 120615
+    },
+    {
+      "title": "THE TEMPEST",
+      "characters": 98186
+    },
+    {
+      "title": "A LOVER’S COMPLAINT",
+      "characters": 14360
+    }
+  ],
+  "characters": 233161,
+  "arms": {
+    "sweep-char-seed-1/best": {
+      "test_bpc": 1.795786796476007,
+      "validation_bpc": 1.749198301521595,
+      "step": 9236,
+      "tokenizer": "char",
+      "nats": 290225.8851566732,
+      "surprise_file": "final-evaluation/sweep-char-seed-1--best.npy",
+      "taken_apart": {
+        "all": {
+          "characters": 233161,
+          "tokens": 233163,
+          "bits": 418707.4452531423,
+          "bits_per_character": 1.795786796476007
+        },
+        "works": [
+          {
+            "title": "THE LIFE AND DEATH OF KING JOHN",
+            "characters": 120615,
+            "tokens": 120615,
+            "bits": 204096.06324831198,
+            "bits_per_character": 1.6921283691772333
+          },
+          {
+            "title": "THE TEMPEST",
+            "characters": 98186,
+            "tokens": 98187,
+            "bits": 186982.2218560414,
+            "bits_per_character": 1.9043674439944738
+          },
+          {
+            "title": "A LOVER’S COMPLAINT",
+            "characters": 14360,
+            "tokens": 14361,
+            "bits": 27629.16014878889,
+            "bits_per_character": 1.9240362220605078
+          }
+        ],
+        "speaker_labels": {
+          "characters": 11768,
+          "tokens": 11768,
+          "bits": 29772.322223105824,
+          "bits_per_character": 2.5299390060423033
+        },
+        "everything_else": {
+          "characters": 221393,
+          "tokens": 221395,
+          "bits": 388935.1230300364,
+          "bits_per_character": 1.7567634163231738
+        }
+      }
+    },
+    "sweep-char-seed-2/best": {
+      "test_bpc": 1.7971302290354503,
+      "validation_bpc": 1.7571115551113816,
+      "step": 8986,
+      "tokenizer": "char",
+      "nats": 290443.00386167644,
+      "surprise_file": "final-evaluation/sweep-char-seed-2--best.npy",
+      "taken_apart": {
+        "all": {
+          "characters": 233161,
+          "tokens": 233163,
+          "bits": 419020.68133213464,
+          "bits_per_character": 1.7971302290354503
+        },
+        "works": [
+          {
+            "title": "THE LIFE AND DEATH OF KING JOHN",
+            "characters": 120615,
+            "tokens": 120615,
+            "bits": 203631.67355008028,
+            "bits_per_character": 1.6882781872078951
+          },
+          {
+            "title": "THE TEMPEST",
+            "characters": 98186,
+            "tokens": 98187,
+            "bits": 187618.53002781764,
+            "bits_per_character": 1.9108480845315794
+          },
+          {
+            "title": "A LOVER’S COMPLAINT",
+            "characters": 14360,
+            "tokens": 14361,
+            "bits": 27770.4777542368,
+            "bits_per_character": 1.9338772809357103
+          }
+        ],
+        "speaker_labels": {
+          "characters": 11768,
+          "tokens": 11768,
+          "bits": 29703.354166414632,
+          "bits_per_character": 2.5240783622038268
+        },
+        "everything_else": {
+          "characters": 221393,
+          "tokens": 221395,
+          "bits": 389317.3271657201,
+          "bits_per_character": 1.758489776848049
+        }
+      }
+    },
+    "sweep-char-seed-3/best": {
+      "test_bpc": 1.8045693010287893,
+      "validation_bpc": 1.7575298066550764,
+      "step": 9735,
+      "tokenizer": "char",
+      "nats": 291645.26866184524,
+      "surprise_file": "final-evaluation/sweep-char-seed-3--best.npy",
+      "taken_apart": {
+        "all": {
+          "characters": 233161,
+          "tokens": 233163,
+          "bits": 420755.18279717356,
+          "bits_per_character": 1.8045693010287893
+        },
+        "works": [
+          {
+            "title": "THE LIFE AND DEATH OF KING JOHN",
+            "characters": 120615,
+            "tokens": 120615,
+            "bits": 205978.0490776695,
+            "bits_per_character": 1.7077316177728268
+          },
+          {
+            "title": "THE TEMPEST",
+            "characters": 98186,
+            "tokens": 98187,
+            "bits": 186889.73068241315,
+            "bits_per_character": 1.9034254443852805
+          },
+          {
+            "title": "A LOVER’S COMPLAINT",
+            "characters": 14360,
+            "tokens": 14361,
+            "bits": 27887.403037090902,
+            "bits_per_character": 1.9420197101038232
+          }
+        ],
+        "speaker_labels": {
+          "characters": 11768,
+          "tokens": 11768,
+          "bits": 30132.230186695044,
+          "bits_per_character": 2.560522619535609
+        },
+        "everything_else": {
+          "characters": 221393,
+          "tokens": 221395,
+          "bits": 390622.95261047845,
+          "bits_per_character": 1.7643870972003561
+        }
+      }
+    },
+    "sweep-char-seed-1/last": {
+      "test_bpc": 1.8037588551151356,
+      "validation_bpc": 1.756946541287713,
+      "step": 9985,
+      "tokenizer": "char",
+      "nats": 291514.28853484837,
+      "surprise_file": "final-evaluation/sweep-char-seed-1--last.npy",
+      "taken_apart": {
+        "all": {
+          "characters": 233161,
+          "tokens": 233163,
+          "bits": 420566.21841750015,
+          "bits_per_character": 1.8037588551151356
+        },
+        "works": [
+          {
+            "title": "THE LIFE AND DEATH OF KING JOHN",
+            "characters": 120615,
+            "tokens": 120615,
+            "bits": 205194.47541670254,
+            "bits_per_character": 1.701235131755607
+          },
+          {
+            "title": "THE TEMPEST",
+            "characters": 98186,
+            "tokens": 98187,
+            "bits": 187667.01571511084,
+            "bits_per_character": 1.9113418992026443
+          },
+          {
+            "title": "A LOVER’S COMPLAINT",
+            "characters": 14360,
+            "tokens": 14361,
+            "bits": 27704.727285686855,
+            "bits_per_character": 1.9292985574990846
+          }
+        ],
+        "speaker_labels": {
+          "characters": 11768,
+          "tokens": 11768,
+          "bits": 30047.72662664104,
+          "bits_per_character": 2.5533418275527735
+        },
+        "everything_else": {
+          "characters": 221393,
+          "tokens": 221395,
+          "bits": 390518.4917908592,
+          "bits_per_character": 1.7639152628622368
+        }
+      }
+    },
+    "sweep-char-seed-2/last": {
+      "test_bpc": 1.7948057296642612,
+      "validation_bpc": 1.7681212867057723,
+      "step": 9985,
+      "tokenizer": "char",
+      "nats": 290067.3301520393,
+      "surprise_file": "final-evaluation/sweep-char-seed-2--last.npy",
+      "taken_apart": {
+        "all": {
+          "characters": 233161,
+          "tokens": 233163,
+          "bits": 418478.6987342488,
+          "bits_per_character": 1.7948057296642612
+        },
+        "works": [
+          {
+            "title": "THE LIFE AND DEATH OF KING JOHN",
+            "characters": 120615,
+            "tokens": 120615,
+            "bits": 203649.22958762042,
+            "bits_per_character": 1.6884237415547023
+          },
+          {
+            "title": "THE TEMPEST",
+            "characters": 98186,
+            "tokens": 98187,
+            "bits": 187105.1320254593,
+            "bits_per_character": 1.9056192535133245
+          },
+          {
+            "title": "A LOVER’S COMPLAINT",
+            "characters": 14360,
+            "tokens": 14361,
+            "bits": 27724.337121169112,
+            "bits_per_character": 1.9306641449282111
+          }
+        ],
+        "speaker_labels": {
+          "characters": 11768,
+          "tokens": 11768,
+          "bits": 29560.138145954672,
+          "bits_per_character": 2.5119084080518927
+        },
+        "everything_else": {
+          "characters": 221393,
+          "tokens": 221395,
+          "bits": 388918.5605882941,
+          "bits_per_character": 1.756688606181289
+        }
+      }
+    },
+    "sweep-char-seed-3/last": {
+      "test_bpc": 1.803266141944354,
+      "validation_bpc": 1.762050821057279,
+      "step": 9985,
+      "tokenizer": "char",
+      "nats": 291434.65875006595,
+      "surprise_file": "final-evaluation/sweep-char-seed-3--last.npy",
+      "taken_apart": {
+        "all": {
+          "characters": 233161,
+          "tokens": 233163,
+          "bits": 420451.33692188753,
+          "bits_per_character": 1.803266141944354
+        },
+        "works": [
+          {
+            "title": "THE LIFE AND DEATH OF KING JOHN",
+            "characters": 120615,
+            "tokens": 120615,
+            "bits": 205923.67437460055,
+            "bits_per_character": 1.7072808056593338
+          },
+          {
+            "title": "THE TEMPEST",
+            "characters": 98186,
+            "tokens": 98187,
+            "bits": 186670.39126414407,
+            "bits_per_character": 1.9011915269401347
+          },
+          {
+            "title": "A LOVER’S COMPLAINT",
+            "characters": 14360,
+            "tokens": 14361,
+            "bits": 27857.27128314294,
+            "bits_per_character": 1.9399213985475585
+          }
+        ],
+        "speaker_labels": {
+          "characters": 11768,
+          "tokens": 11768,
+          "bits": 30151.446593509445,
+          "bits_per_character": 2.562155556892373
+        },
+        "everything_else": {
+          "characters": 221393,
+          "tokens": 221395,
+          "bits": 390299.8903283782,
+          "bits_per_character": 1.762927871831441
+        }
+      }
+    },
+    "pilot-char-34/best": {
+      "test_bpc": 1.7955843602031225,
+      "validation_bpc": 1.7403703008802653,
+      "step": 9750,
+      "tokenizer": "char",
+      "nats": 290193.16844074626,
+      "surprise_file": "final-evaluation/pilot-char-34--best.npy",
+      "taken_apart": {
+        "all": {
+          "characters": 233161,
+          "tokens": 233163,
+          "bits": 418660.24500932026,
+          "bits_per_character": 1.7955843602031225
+        },
+        "works": [
+          {
+            "title": "THE LIFE AND DEATH OF KING JOHN",
+            "characters": 120615,
+            "tokens": 120615,
+            "bits": 204338.64854381676,
+            "bits_per_character": 1.6941396057191622
+          },
+          {
+            "title": "THE TEMPEST",
+            "characters": 98186,
+            "tokens": 98187,
+            "bits": 186675.26397704676,
+            "bits_per_character": 1.9012411543096446
+          },
+          {
+            "title": "A LOVER’S COMPLAINT",
+            "characters": 14360,
+            "tokens": 14361,
+            "bits": 27646.332488456825,
+            "bits_per_character": 1.925232067441283
+          }
+        ],
+        "speaker_labels": {
+          "characters": 11768,
+          "tokens": 11768,
+          "bits": 29301.61508206042,
+          "bits_per_character": 2.4899400987474865
+        },
+        "everything_else": {
+          "characters": 221393,
+          "tokens": 221395,
+          "bits": 389358.62992725987,
+          "bits_per_character": 1.7586763354182828
+        }
+      }
+    },
+    "pilot-char-17/best": {
+      "test_bpc": 1.831294945782289,
+      "validation_bpc": 1.7705674117013224,
+      "step": 4992,
+      "tokenizer": "char",
+      "nats": 295964.5307926217,
+      "surprise_file": "final-evaluation/pilot-char-17--best.npy",
+      "taken_apart": {
+        "all": {
+          "characters": 233161,
+          "tokens": 233163,
+          "bits": 426986.5608535443,
+          "bits_per_character": 1.831294945782289
+        },
+        "works": [
+          {
+            "title": "THE LIFE AND DEATH OF KING JOHN",
+            "characters": 120615,
+            "tokens": 120615,
+            "bits": 209060.3108671883,
+            "bits_per_character": 1.733286165627727
+          },
+          {
+            "title": "THE TEMPEST",
+            "characters": 98186,
+            "tokens": 98187,
+            "bits": 189727.79914356789,
+            "bits_per_character": 1.9323304660905616
+          },
+          {
+            "title": "A LOVER’S COMPLAINT",
+            "characters": 14360,
+            "tokens": 14361,
+            "bits": 28198.450842788054,
+            "bits_per_character": 1.9636804208069676
+          }
+        ],
+        "speaker_labels": {
+          "characters": 11768,
+          "tokens": 11768,
+          "bits": 29165.535498987425,
+          "bits_per_character": 2.4783765719737785
+        },
+        "everything_else": {
+          "characters": 221393,
+          "tokens": 221395,
+          "bits": 397821.02535455674,
+          "bits_per_character": 1.796899745495823
+        }
+      }
+    },
+    "pilot-char-68/best": {
+      "test_bpc": 1.8024551650445824,
+      "validation_bpc": 1.757677039170184,
+      "step": 10750,
+      "tokenizer": "char",
+      "nats": 291303.59280780616,
+      "surprise_file": "final-evaluation/pilot-char-68--best.npy",
+      "taken_apart": {
+        "all": {
+          "characters": 233161,
+          "tokens": 233163,
+          "bits": 420262.2487369599,
+          "bits_per_character": 1.8024551650445824
+        },
+        "works": [
+          {
+            "title": "THE LIFE AND DEATH OF KING JOHN",
+            "characters": 120615,
+            "tokens": 120615,
+            "bits": 204680.2962115239,
+            "bits_per_character": 1.6969721528128665
+          },
+          {
+            "title": "THE TEMPEST",
+            "characters": 98186,
+            "tokens": 98187,
+            "bits": 187655.62843577014,
+            "bits_per_character": 1.9112259225935484
+          },
+          {
+            "title": "A LOVER’S COMPLAINT",
+            "characters": 14360,
+            "tokens": 14361,
+            "bits": 27926.32408966575,
+            "bits_per_character": 1.9447300898095927
+          }
+        ],
+        "speaker_labels": {
+          "characters": 11768,
+          "tokens": 11768,
+          "bits": 28380.445383679278,
+          "bits_per_character": 2.4116625920869543
+        },
+        "everything_else": {
+          "characters": 221393,
+          "tokens": 221395,
+          "bits": 391881.8033532806,
+          "bits_per_character": 1.7700731430229528
+        }
+      }
+    },
+    "sweep-bpe-1024-seed-1/best": {
+      "test_bpc": 1.894626321612656,
+      "validation_bpc": 1.7895227058627574,
+      "step": 2438,
+      "tokenizer": "bpe-1024",
+      "nats": 306199.82411620964,
+      "surprise_file": "final-evaluation/sweep-bpe-1024-seed-1--best.npy"
+    },
+    "sweep-bpe-1024-seed-2/best": {
+      "test_bpc": 1.8916498054873798,
+      "validation_bpc": 1.8006075355326365,
+      "step": 2500,
+      "tokenizer": "bpe-1024",
+      "nats": 305718.7747907348,
+      "surprise_file": "final-evaluation/sweep-bpe-1024-seed-2--best.npy"
+    },
+    "sweep-bpe-1024-seed-3/best": {
+      "test_bpc": 1.8987247661719064,
+      "validation_bpc": 1.8136087798288392,
+      "step": 2500,
+      "tokenizer": "bpe-1024",
+      "nats": 306862.19378186716,
+      "surprise_file": "final-evaluation/sweep-bpe-1024-seed-3--best.npy"
+    },
+    "sweep-bpe-1536-seed-1/best": {
+      "test_bpc": 1.9095923339627703,
+      "validation_bpc": 1.831337027193566,
+      "step": 2375,
+      "tokenizer": "bpe-1536",
+      "nats": 308618.554552418,
+      "surprise_file": "final-evaluation/sweep-bpe-1536-seed-1--best.npy"
+    },
+    "sweep-bpe-1536-seed-2/best": {
+      "test_bpc": 1.8916963584199835,
+      "validation_bpc": 1.8219331825437586,
+      "step": 2438,
+      "tokenizer": "bpe-1536",
+      "nats": 305726.29843780585,
+      "surprise_file": "final-evaluation/sweep-bpe-1536-seed-2--best.npy"
+    },
+    "sweep-bpe-1536-seed-3/best": {
+      "test_bpc": 1.9035522397722178,
+      "validation_bpc": 1.8186241972927601,
+      "step": 2500,
+      "tokenizer": "bpe-1536",
+      "nats": 307642.38539563236,
+      "surprise_file": "final-evaluation/sweep-bpe-1536-seed-3--best.npy"
+    },
+    "sweep-bpe-2048-seed-1/best": {
+      "test_bpc": 1.9131009520398992,
+      "validation_bpc": 1.8226791825968138,
+      "step": 2438,
+      "tokenizer": "bpe-2048",
+      "nats": 309185.5994761861,
+      "surprise_file": "final-evaluation/sweep-bpe-2048-seed-1--best.npy"
+    },
+    "sweep-bpe-2048-seed-2/best": {
+      "test_bpc": 1.9065193201609443,
+      "validation_bpc": 1.8291399335680985,
+      "step": 2125,
+      "tokenizer": "bpe-2048",
+      "nats": 308121.90976558486,
+      "surprise_file": "final-evaluation/sweep-bpe-2048-seed-2--best.npy"
+    },
+    "sweep-bpe-2048-seed-3/best": {
+      "test_bpc": 1.9047208335811667,
+      "validation_bpc": 1.8197617482066801,
+      "step": 2312,
+      "tokenizer": "bpe-2048",
+      "nats": 307831.2475552475,
+      "surprise_file": "final-evaluation/sweep-bpe-2048-seed-3--best.npy"
+    },
+    "sweep-bpe-4096-seed-1/best": {
+      "test_bpc": 1.914614630414181,
+      "validation_bpc": 1.84598391400525,
+      "step": 2188,
+      "tokenizer": "bpe-4096",
+      "nats": 309430.2324397876,
+      "surprise_file": "final-evaluation/sweep-bpe-4096-seed-1--best.npy"
+    },
+    "sweep-bpe-4096-seed-2/best": {
+      "test_bpc": 1.9223482119758526,
+      "validation_bpc": 1.853910900353527,
+      "step": 1938,
+      "tokenizer": "bpe-4096",
+      "nats": 310680.09437137767,
+      "surprise_file": "final-evaluation/sweep-bpe-4096-seed-2--best.npy"
+    },
+    "sweep-bpe-4096-seed-3/best": {
+      "test_bpc": 1.919760703813304,
+      "validation_bpc": 1.8533144609742331,
+      "step": 2312,
+      "tokenizer": "bpe-4096",
+      "nats": 310261.9145249174,
+      "surprise_file": "final-evaluation/sweep-bpe-4096-seed-3--best.npy"
+    }
+  },
+  "memorisation": {
+    "scan": {
+      "agreement": 0.6240784343999691,
+      "tokens": 233163,
+      "candidates_of_40_or_more": 0,
+      "longest_candidate": 0,
+      "confirmed": [],
+      "longest_confirmed": 0,
+      "longest_confirmed_poet_only": 0,
+      "confirmed_of_50_or_more": 0,
+      "poet_only_of_50_or_more": 0,
+      "seconds": 1.7
+    },
+    "the_test_works_against_the_39": {
+      "20": {
+        "windows": 1707,
+        "of": 233144,
+        "share_of_windows": 0.0073216552860035,
+        "share_of_characters": 0.036575271376676405
+      },
+      "25": {
+        "windows": 589,
+        "of": 233139,
+        "share_of_windows": 0.0025263898361063573,
+        "share_of_characters": 0.009877210363565403
+      },
+      "30": {
+        "windows": 272,
+        "of": 233134,
+        "share_of_windows": 0.001166710990245953,
+        "share_of_characters": 0.004859261546643336
+      },
+      "40": {
+        "windows": 56,
+        "of": 233124,
+        "share_of_windows": 0.00024021550762684237,
+        "share_of_characters": 0.0014110300519379147
+      },
+      "50": {
+        "windows": 26,
+        "of": 233114,
+        "share_of_windows": 0.00011153341283663787,
+        "share_of_characters": 0.0003216633857001325
+      },
+      "60": {
+        "windows": 16,
+        "of": 233104,
+        "share_of_windows": 6.863889079552475e-05,
+        "share_of_characters": 0.0003216633857001325
+      },
+      "80": {
+        "windows": 0,
+        "of": 233084,
+        "share_of_windows": 0.0,
+        "share_of_characters": 0.0
+      },
+      "100": {
+        "windows": 0,
+        "of": 233064,
+        "share_of_windows": 0.0,
+        "share_of_characters": 0.0
+      },
+      "longest": {
+        "characters": 75,
+        "passage": "e.\n\n[_Exeunt._]\n\nSCENE II. The same. A Room of State in the Palace.\n\nEnter "
+      }
+    },
+    "normalised": {
+      "20": {
+        "windows": 1593,
+        "of": 219873,
+        "share_of_windows": 0.007245091484629764,
+        "share_of_characters": 0.04689574882214906
+      },
+      "25": {
+        "windows": 329,
+        "of": 219868,
+        "share_of_windows": 0.0014963523568686666,
+        "share_of_characters": 0.008172193622323687
+      },
+      "30": {
+        "windows": 122,
+        "of": 219863,
+        "share_of_windows": 0.0005548910003047353,
+        "share_of_characters": 0.002533061684827097
+      },
+      "40": {
+        "windows": 29,
+        "of": 219853,
+        "share_of_windows": 0.0001319063192223895,
+        "share_of_characters": 0.0006639623087697597
+      },
+      "50": {
+        "windows": 14,
+        "of": 219843,
+        "share_of_windows": 6.368180929117597e-05,
+        "share_of_characters": 0.0002865042839211977
+      },
+      "60": {
+        "windows": 4,
+        "of": 219833,
+        "share_of_windows": 1.8195630319378802e-05,
+        "share_of_characters": 0.0002865042839211977
+      },
+      "80": {
+        "windows": 0,
+        "of": 219813,
+        "share_of_windows": 0.0,
+        "share_of_characters": 0.0
+      },
+      "100": {
+        "windows": 0,
+        "of": 219793,
+        "share_of_windows": 0.0,
+        "share_of_characters": 0.0
+      },
+      "longest": {
+        "characters": 63,
+        "passage": "e exeunt scene ii the same a room of state in the palace enter "
+      }
+    },
+    "poet_only": {
+      "20": {
+        "windows": 0,
+        "of": 233144,
+        "share_of_windows": 0.0,
+        "share_of_characters": 0.0
+      },
+      "25": {
+        "windows": 0,
+        "of": 233139,
+        "share_of_windows": 0.0,
+        "share_of_characters": 0.0
+      },
+      "30": {
+        "windows": 0,
+        "of": 233134,
+        "share_of_windows": 0.0,
+        "share_of_characters": 0.0
+      },
+      "40": {
+        "windows": 0,
+        "of": 233124,
+        "share_of_windows": 0.0,
+        "share_of_characters": 0.0
+      },
+      "50": {
+        "windows": 0,
+        "of": 233114,
+        "share_of_windows": 0.0,
+        "share_of_characters": 0.0
+      },
+      "60": {
+        "windows": 0,
+        "of": 233104,
+        "share_of_windows": 0.0,
+        "share_of_characters": 0.0
+      },
+      "80": {
+        "windows": 0,
+        "of": 233084,
+        "share_of_windows": 0.0,
+        "share_of_characters": 0.0
+      },
+      "100": {
+        "windows": 0,
+        "of": 233064,
+        "share_of_windows": 0.0,
+        "share_of_characters": 0.0
+      },
+      "longest": {
+        "characters": 75,
+        "passage": "e.\n\n[_Exeunt._]\n\nSCENE II. The same. A Room of State in the Palace.\n\nEnter "
+      }
+    },
+    "editor_share": {
+      "THE LIFE AND DEATH OF KING JOHN": 0.08552004311238237,
+      "THE TEMPEST": 0.10655286904446662,
+      "A LOVER’S COMPLAINT": 0.003342618384401114
+    },
+    "part_7_for_comparison": {
+      "training works": 44,
+      "validation plays": 0,
+      "what": "longest confirmed passage of the poet's own words, entry 18"
+    }
+  },
+  "stride_sensitivity": {
+    "64": 1.7895884262801127,
+    "256": 1.8390353470954108
+  },
+  "cross_device": {
+    "bits_per_character": {
+      "cpu": 1.7957868039838913,
+      "gpu": 1.795786796476007,
+      "difference": 7.507884314250646e-09
+    }
+  },
+  "the_bar_on_this_text": {
+    "blind guess": {
+      "bits_per_character": 6.599912842187128
+    },
+    "character counts": {
+      "bits_per_character": 4.786629784256986,
+      "speaker_labels": 7.29225347319605,
+      "everything_else": 4.653444997152448,
+      "per_work": {
+        "THE LIFE AND DEATH OF KING JOHN": 4.76498681003737,
+        "THE TEMPEST": 4.835804782066222,
+        "A LOVER’S COMPLAINT": 4.63218486786432
+      }
+    },
+    "2-gram (looks back 1)": {
+      "bits_per_character": 3.589539179559659,
+      "speaker_labels": 3.979965719100108,
+      "everything_else": 3.568786312407978,
+      "per_work": {
+        "THE LIFE AND DEATH OF KING JOHN": 3.5753382648320384,
+        "THE TEMPEST": 3.6051261372901426,
+        "A LOVER’S COMPLAINT": 3.6022426822161107
+      }
+    },
+    "3-gram (looks back 2)": {
+      "bits_per_character": 2.9433158902838374,
+      "speaker_labels": 3.7102409360600674,
+      "everything_else": 2.9025504914740528,
+      "per_work": {
+        "THE LIFE AND DEATH OF KING JOHN": 2.8864925164946045,
+        "THE TEMPEST": 3.007704404809012,
+        "A LOVER’S COMPLAINT": 2.980342390452328
+      }
+    },
+    "4-gram (looks back 3)": {
+      "bits_per_character": 2.5253922804209106,
+      "speaker_labels": 4.048885186422398,
+      "everything_else": 2.4444120122199036,
+      "per_work": {
+        "THE LIFE AND DEATH OF KING JOHN": 2.4316513871477814,
+        "THE TEMPEST": 2.6353049571878038,
+        "A LOVER’S COMPLAINT": 2.5612329323083967
+      }
+    },
+    "5-gram (looks back 4)": {
+      "bits_per_character": 2.329433216448329,
+      "speaker_labels": 4.363822669214078,
+      "everything_else": 2.221296576716507,
+      "per_work": {
+        "THE LIFE AND DEATH OF KING JOHN": 2.2072173286325985,
+        "THE TEMPEST": 2.470890739076677,
+        "A LOVER’S COMPLAINT": 2.3887591908290635
+      }
+    },
+    "6-gram (looks back 5)": {
+      "bits_per_character": 2.3179844655699724,
+      "speaker_labels": 4.726860036478243,
+      "everything_else": 2.189942261351914,
+      "per_work": {
+        "THE LIFE AND DEATH OF KING JOHN": 2.173332328763246,
+        "THE TEMPEST": 2.4842374086689163,
+        "A LOVER’S COMPLAINT": 2.3962230456417286
+      }
+    },
+    "7-gram (looks back 6)": {
+      "bits_per_character": 2.3993431453765153,
+      "speaker_labels": 5.078995006775663,
+      "everything_else": 2.2569080046767405,
+      "per_work": {
+        "THE LIFE AND DEATH OF KING JOHN": 2.2423051981434527,
+        "THE TEMPEST": 2.576584317783372,
+        "A LOVER’S COMPLAINT": 2.5064831350406034
+      }
+    },
+    "8-gram (looks back 7)": {
+      "bits_per_character": 2.525290560049351,
+      "speaker_labels": 5.366876927344778,
+      "everything_else": 2.3742478966845084,
+      "per_work": {
+        "THE LIFE AND DEATH OF KING JOHN": 2.3599456166798825,
+        "THE TEMPEST": 2.7086668862975785,
+        "A LOVER’S COMPLAINT": 2.66025521015381
+      }
+    },
+    "bzip2 -9": {
+      "bits_per_character": 2.5842057633995394,
+      "after_reading_the_training_works": 2.3700361552746814
+    },
+    "xz -9e": {
+      "bits_per_character": 2.909989234906352,
+      "after_reading_the_training_works": 2.4710822135777426
+    },
+    "per_work_compressors": {
+      "THE LIFE AND DEATH OF KING JOHN": {
+        "bzip2 -9": 2.6311155328939186,
+        "xz -9e": 2.9541930937279774
+      },
+      "THE TEMPEST": {
+        "bzip2 -9": 2.732609537001202,
+        "xz -9e": 3.068461898845049
+      },
+      "A LOVER’S COMPLAINT": {
+        "bzip2 -9": 3.395543175487465,
+        "xz -9e": 3.774930362116992
+      }
+    }
+  },
+  "arrays": {
+    "files": [
+      "agreement-released.npy",
+      "editor-mask.npy",
+      "pilot-char-17--best.npy",
+      "pilot-char-34--best.npy",
+      "pilot-char-68--best.npy",
+      "speaker-label-mask.npy",
+      "sweep-bpe-1024-seed-1--best.npy",
+      "sweep-bpe-1024-seed-2--best.npy",
+      "sweep-bpe-1024-seed-3--best.npy",
+      "sweep-bpe-1536-seed-1--best.npy",
+      "sweep-bpe-1536-seed-2--best.npy",
+      "sweep-bpe-1536-seed-3--best.npy",
+      "sweep-bpe-2048-seed-1--best.npy",
+      "sweep-bpe-2048-seed-2--best.npy",
+      "sweep-bpe-2048-seed-3--best.npy",
+      "sweep-bpe-4096-seed-1--best.npy",
+      "sweep-bpe-4096-seed-2--best.npy",
+      "sweep-bpe-4096-seed-3--best.npy",
+      "sweep-char-seed-1--best.npy",
+      "sweep-char-seed-1--last.npy",
+      "sweep-char-seed-2--best.npy",
+      "sweep-char-seed-2--last.npy",
+      "sweep-char-seed-3--best.npy",
+      "sweep-char-seed-3--last.npy",
+      "token-stream-char.npy",
+      "work-index.npy"
+    ]
+  },
+  "headline": {
+    "the_artifact": {
+      "model": "GP-Thee-11M",
+      "run": "sweep-char-seed-1",
+      "step": 9236,
+      "test_bits_per_character": 1.795786796476007,
+      "its_validation_bits_per_character": 1.749198301521595,
+      "leave_one_work_out": {
+        "without THE LIFE AND DEATH OF KING JOHN": 1.9068770281025562,
+        "without THE TEMPEST": 1.7168010623974874,
+        "without A LOVER’S COMPLAINT": 1.787369733704843
+      }
+    },
+    "the_recipe": {
+      "runs": [
+        "sweep-char-seed-1",
+        "sweep-char-seed-2",
+        "sweep-char-seed-3"
+      ],
+      "runs_that_failed_and_are_not_in_this_mean": [],
+      "test": [
+        1.795786796476007,
+        1.7971302290354503,
+        1.8045693010287893
+      ],
+      "mean": 1.7991621088467487,
+      "spread": 0.008782504552782289,
+      "released_rank_on_test": 1,
+      "note": "Entry 17 pre-registered two headlines: what the artifact scores, and what the recipe produces. The three eligible runs were a tie on validation by the sweep's own threshold, and the release is the rule's output, not the best model."
+    }
+  }
+}
