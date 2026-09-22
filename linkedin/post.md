@@ -31,6 +31,6 @@ I built it for one reason: to see whether a language model could be made, and me
 Everything is public: the code, every training log, the weights, and an eight-part write-up of every step (including the mistakes, which there were several of, all corrected in the open).
 
 🔗 Code & write-up: github.com/shivamtiwari93/gp-thee
-🤖 Weights: Hugging Face — GP-Thee-11M
+🤖 Weights: huggingface.co/shivamtiwari93/gp-thee-11m
 
 #MachineLearning #LLM #DeepLearning #AI #NLP #Shakespeare #BuildInPublic

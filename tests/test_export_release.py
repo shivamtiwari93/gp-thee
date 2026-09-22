@@ -19,9 +19,15 @@ pytestmark = pytest.mark.skipif(not (RELEASE / "model.safetensors").exists(),
 
 
 def _loaded():
-    sys.path.insert(0, str(RELEASE))
-    from load_release import load
-    return load("cpu")
+    # dont_write_bytecode: importing the loader would otherwise leave a __pycache__ inside the folder that
+    # `hf upload` publishes verbatim. One reached the Hub exactly that way.
+    was, sys.dont_write_bytecode = sys.dont_write_bytecode, True
+    try:
+        sys.path.insert(0, str(RELEASE))
+        from load_release import load
+        return load("cpu")
+    finally:
+        sys.dont_write_bytecode = was
 
 
 def test_the_export_reloads_bit_identical_to_the_checkpoint():
@@ -59,3 +65,41 @@ def test_the_card_and_config_quote_the_committed_scores():
     assert config["provenance"]["source_checkpoint_sha256"] == release["checkpoint_sha256"]
     card = (RELEASE / "README.md").read_text()
     assert f"{release['validation_bpc']:.4f}" in card and "safetensors" in card
+
+
+def test_the_loader_survives_hugging_faces_symlink_layout(tmp_path):
+    """huggingface_hub lays a download out as symlinks into a shared blobs/ store.
+
+    The first published loader used Path(__file__).resolve(), which follows that symlink into blobs/ and then
+    looks for config.json beside hash-named objects, where it is not. Anyone using snapshot_download -- the
+    normal way -- got FileNotFoundError. Pinned here, because the repository cannot see the Hub's layout.
+    """
+    import shutil
+    import sys
+    blobs, snapshot = tmp_path / "blobs", tmp_path / "snapshots" / "abc123"
+    blobs.mkdir(parents=True)
+    snapshot.mkdir(parents=True)
+    for i, source in enumerate(sorted(f for f in RELEASE.iterdir() if f.is_file())):
+        blob = blobs / f"{i:040x}"
+        shutil.copy(source, blob)
+        (snapshot / source.name).symlink_to(blob)
+    assert all(p.is_symlink() for p in snapshot.iterdir())
+
+    was, sys.dont_write_bytecode = sys.dont_write_bytecode, True
+    sys.path.insert(0, str(snapshot))
+    sys.modules.pop("load_release", None)
+    try:
+        import load_release
+        model, _ = load_release.load("cpu")
+    finally:
+        sys.path.remove(str(snapshot))
+        sys.modules.pop("load_release", None)
+        sys.dont_write_bytecode = was
+    assert sum(p.numel() for p in model.parameters()) == 10_757_760
+    assert model.token_embedding.weight is model.to_scores.weight
+
+
+def test_the_published_folder_holds_exactly_the_five_files():
+    # A stray __pycache__ from importing the loader reached the Hub once; hf upload publishes whatever is there.
+    assert {f.name for f in RELEASE.iterdir()} == {
+        "model.safetensors", "config.json", "tokenizer.json", "load_release.py", "README.md"}

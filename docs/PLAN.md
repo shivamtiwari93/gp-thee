@@ -36,7 +36,7 @@ Optional later: a port to Apple's MLX, modern architecture tweaks (RoPE, RMSNorm
 
 - GitHub: this repo, public from day one.
 - **Which run is released is settled (entry 17, `scripts/choose_release.py`, `docs/release.json`): GP-Thee-11M is `sweep-char-seed-1` at step 9,236. Entry 11's promise to retrain on all 44 works is withdrawn; that would be a separate artifact with a different name.**
-- Hugging Face: weights as safetensors (never a `.pt`, which is a program; the tied output table is dropped on export and re-tied on load, and the loaded model must reproduce the checkpoint's validation score), tokenizer files, a model card that states plainly what the model can and cannot do, a loader script. Possibly a small live demo.
+- Hugging Face: weights as safetensors (never a `.pt`, which is a program; the tied output table is dropped on export and re-tied on load, and the loaded model must reproduce the checkpoint's validation score), tokenizer files, a model card that states plainly what the model can and cannot do, a loader script. Possibly a small live demo.  **Done 2026-09-22: https://huggingface.co/shivamtiwari93/gp-thee-11m**
 
 ## Phase 3: blog post
 

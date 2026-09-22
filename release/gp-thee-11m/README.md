@@ -46,6 +46,8 @@ repository.
 
 ## Provenance
 
+This model lives at **https://huggingface.co/shivamtiwari93/gp-thee-11m**.
+
 Released run `runs/sweep-char-seed-1/best.pt` at step 9236, chosen by a rule
 fixed before the runs (`docs/release.json`) and scored on the held-out works exactly once (`docs/final-evaluation
 .json`). Trained by commit `0f726008af74`. Built and documented step by step at

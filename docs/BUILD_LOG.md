@@ -1417,3 +1417,53 @@ finding then put to an independent verifier. 30 findings, **14 upheld**, all app
   version.
 - Truncated samples now end in `…` and point at `docs/demonstrations.txt`; the stage-direction sample is printed
   in full, because `dismalled` was cited with no source on the page.
+
+## Entry 22. Released, and two bugs the release check caught (2026-09-22)
+
+**GP-Thee-11M is published: https://huggingface.co/shivamtiwari93/gp-thee-11m** (commit `1fd36dbc7a77`, public).
+The owner uploaded it; I could not, and should not, log in as them. Goal 2 of the four is met, and with it the
+last open item in `docs/PLAN.md`.
+
+Then I did the check that mattered: downloaded the model from the Hub the way a stranger would
+(`snapshot_download`) and loaded it with the loader shipped beside it. **It failed**, and the failure was mine.
+
+### 1. The published loader could not load the published model
+
+`load_release.py` computed its own folder with `Path(__file__).resolve().parent`. `huggingface_hub` does not lay a
+download out as plain files: it stores each object once under `blobs/`, named by hash, and builds the snapshot
+folder out of **symlinks**. `.resolve()` follows the symlink, so `HERE` became `blobs/`, and the loader looked for
+`config.json` beside hash-named objects where no such name exists:
+
+```
+FileNotFoundError: .../blobs/config.json
+```
+
+Everyone using the normal download path would have hit this. `tests/test_export_release.py` passed throughout,
+because in the repository the folder is plain files and `.resolve()` is harmless there — **the test could not see
+the layout the artifact would actually be used in.**
+
+Fixed with `Path(__file__).absolute().parent`, which makes the path absolute without following the link, plus an
+optional `folder=` argument. *Measured*: a test now builds a `blobs/` + `snapshots/` symlink tree exactly as the
+Hub does, loads through it, and asserts the forward pass is bit-identical to `runs/sweep-char-seed-1/best.pt`.
+
+### 2. A `__pycache__` was published along with the weights
+
+Importing `load_release.py` to test it leaves a `__pycache__` beside it, and `hf upload` publishes whatever is in
+the folder — so `__pycache__/load_release.cpython-314.pyc` is sitting in the Hub repo. `.gitignore` hid it from
+git and therefore from me; git-ignored is not the same as not-there.
+
+Two fixes, because one was not enough. `scripts/export_release.py` now deletes anything in the output folder that
+is not one of the five files it means to publish. And the tests set `sys.dont_write_bytecode` while importing the
+loader, so running the suite can no longer dirty the folder between an export and an upload. A test asserts the
+folder holds exactly those five names.
+
+### What this cost, and what it is worth
+
+Nothing published was wrong — the weights are bit-identical and every number in the model card matches
+`docs/release.json` and `docs/final-evaluation.json`. What was wrong was the *usability* of the artifact, which no
+test in this repository was positioned to see. The lesson is the one from entry 19 in a new place: a check that
+runs only where the code lives cannot tell you what happens where the code is used. The fix is to simulate the
+foreign environment, and that simulation is now in the suite.
+
+**The Hub still holds the old loader and the stray file**; a re-upload of the corrected folder is the owner's to
+make, and the repository is ready for it.

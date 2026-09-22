@@ -79,6 +79,15 @@ def main() -> None:
     _write_loader(OUT / "load_release.py")
     _write_card(OUT / "README.md", config)
 
+    # Importing load_release.py (to test it) leaves a __pycache__ beside it, and `hf upload` would publish that
+    # directory along with everything else -- it reached the Hub once already. The folder must hold exactly the
+    # files meant to be published, so anything not written above is removed here.
+    published = {"model.safetensors", "config.json", "tokenizer.json", "load_release.py", "README.md"}
+    for stray in OUT.iterdir():
+        if stray.name not in published:
+            shutil.rmtree(stray) if stray.is_dir() else stray.unlink()
+            print(f"  removed stray {stray.name}")
+
     print(f"wrote {OUT.relative_to(ROOT)}/")
     for path in sorted(OUT.iterdir()):
         print(f"  {path.name:20} {path.stat().st_size:>10,} bytes")
@@ -104,20 +113,25 @@ from pathlib import Path
 import torch
 from safetensors.torch import load_file
 
-HERE = Path(__file__).resolve().parent
+# .absolute(), NOT .resolve(): huggingface_hub's snapshot_download lays a folder out as symlinks into a shared
+# blobs/ store, so resolving would follow this file's link into blobs/ and look for config.json beside the hashed
+# objects, where it does not exist. .absolute() keeps us in the snapshot folder the caller actually downloaded.
+HERE = Path(__file__).absolute().parent
 
 
-def load(device: str = "cpu"):
+def load(device: str = "cpu", folder: "Path | str | None" = None):
+    """Load the model and the tokenizer description. `folder` defaults to the one this file sits in."""
     from gp_thee.model import GPT, Config
-    config = json.loads((HERE / "config.json").read_text())
+    here = Path(folder).absolute() if folder is not None else HERE
+    config = json.loads((here / "config.json").read_text())
     architecture = {k: v for k, v in config["architecture"].items()
                     if k in Config.__dataclass_fields__}
     model = GPT(Config(**architecture))
-    weights = load_file(HERE / "model.safetensors")
+    weights = load_file(here / "model.safetensors")
     weights["to_scores.weight"] = weights["token_embedding.weight"]     # re-tie the dropped output copy
     model.load_state_dict(weights)
     model.to(device).eval()
-    return model, json.loads((HERE / "tokenizer.json").read_text())
+    return model, json.loads((here / "tokenizer.json").read_text())
 
 
 if __name__ == "__main__":
@@ -176,6 +190,8 @@ re-ties it. The full sampler, the tokenizer code, every training log and the com
 repository.
 
 ## Provenance
+
+This model lives at **https://huggingface.co/shivamtiwari93/gp-thee-11m**.
 
 Released run `{config["provenance"]["source_checkpoint"]}` at step {config["provenance"]["step"]}, chosen by a rule
 fixed before the runs (`docs/release.json`) and scored on the held-out works exactly once (`docs/final-evaluation

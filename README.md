@@ -6,7 +6,7 @@ Imagine the only text that ever existed was Shakespeare: 38 plays, 154 sonnets, 
 
 This is an educational project. The point is to show every step of building a language model, small enough that you can read all the code and re-run all of it yourself.
 
-> **Status: the build is done; the weights upload is the last step.** GP-Thee-11M is chosen, measured and written up across eight parts. On the three works it was never trained on and never selected against, it scores **1.80 bits per character** — against 2.32 for the best predictor we could build without a neural network — and it reproduces none of Shakespeare's verse, only his editors' scene headings. Every number was measured before it was written; the full record is in [docs/BUILD_LOG.md](docs/BUILD_LOG.md), and the final test's per-token evidence is in [docs/final-evaluation.json](docs/final-evaluation.json).
+> **Status: finished, and released.** GP-Thee-11M is chosen, measured and written up across eight parts. On the three works it was never trained on and never selected against, it scores **1.80 bits per character** — against 2.32 for the best predictor we could build without a neural network — and it reproduces none of Shakespeare's verse, only his editors' scene headings. Every number was measured before it was written; the full record is in [docs/BUILD_LOG.md](docs/BUILD_LOG.md), and the final test's per-token evidence is in [docs/final-evaluation.json](docs/final-evaluation.json).
 
 ## What it will and will not be
 
@@ -29,7 +29,7 @@ GP-Thee is an in-character autocomplete, not an assistant. It should write convi
 - [x] Which run is released, by a rule fixed in advance ([docs/release.json](docs/release.json)): GP-Thee-11M is `sweep-char-seed-1`
 - [x] Memorisation report: it recites its editors, not Shakespeare — 44 characters of the poet's own words from the training works, 0 from works it never read ([docs/memorisation.json](docs/memorisation.json))
 - [x] The final evaluation on the test works, opened once: **1.80 bits per character**, beating every baseline by 0.52 ([docs/final-evaluation.json](docs/final-evaluation.json))
-- [ ] Weights on Hugging Face
+- [x] Weights on Hugging Face: **[shivamtiwari93/gp-thee-11m](https://huggingface.co/shivamtiwari93/gp-thee-11m)** — safetensors, with a model card and a loader
 - [x] Blog: eight parts, one per milestone ([blog/](blog/))
 
 ## Layout
