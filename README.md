@@ -76,6 +76,7 @@ uv run python scripts/sample.py --run my-run --prompt $'\n\nHAMLET.\n'   # ask t
 uv run python scripts/sample.py --run my-run --suite                # the ten fixed prompts, written to runs/my-run/
 uv run python scripts/choose_release.py                             # which run is GP-Thee-11M, by the rule
 uv run python scripts/memorisation.py                               # does it recite its training works?
+uv run python scripts/demonstrate.py                                # every example in blog part 8, generated and measured
 ```
 
 `--device cpu` works for every script that takes a device, about eight times slower.

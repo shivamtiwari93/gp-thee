@@ -1,0 +1,429 @@
+{
+  "about": {
+    "run": "sweep-char-seed-1",
+    "checkpoint": "best.pt",
+    "step": 9236,
+    "device": "mps",
+    "alphabet": 97,
+    "note": "every example in blog part 8 comes from this file"
+  },
+  "what_it_predicts": [
+    {
+      "context": "\n\nHAMLET.\nTo be, or not to b",
+      "top": [
+        {
+          "character": "e",
+          "probability": 0.973150372505188
+        },
+        {
+          "character": "r",
+          "probability": 0.01191397849470377
+        },
+        {
+          "character": "l",
+          "probability": 0.005275800824165344
+        },
+        {
+          "character": "a",
+          "probability": 0.0029625017195940018
+        },
+        {
+          "character": "o",
+          "probability": 0.0028120740316808224
+        },
+        {
+          "character": "u",
+          "probability": 0.0018806057050824165
+        }
+      ]
+    },
+    {
+      "context": "SCENE III. Rome. The Capit",
+      "top": [
+        {
+          "character": "o",
+          "probability": 0.9990666508674622
+        },
+        {
+          "character": "i",
+          "probability": 0.0003466533962637186
+        },
+        {
+          "character": "u",
+          "probability": 0.00027601426700130105
+        },
+        {
+          "character": "a",
+          "probability": 0.00016081493231467903
+        },
+        {
+          "character": "l",
+          "probability": 6.388680048985407e-05
+        },
+        {
+          "character": "n",
+          "probability": 2.2992338926997036e-05
+        }
+      ]
+    },
+    {
+      "context": "\n\nROMEO.\nBut soft, what li",
+      "top": [
+        {
+          "character": "k",
+          "probability": 0.6157758831977844
+        },
+        {
+          "character": "e",
+          "probability": 0.15384739637374878
+        },
+        {
+          "character": "f",
+          "probability": 0.07838442176580429
+        },
+        {
+          "character": "g",
+          "probability": 0.06972932070493698
+        },
+        {
+          "character": "t",
+          "probability": 0.042016562074422836
+        },
+        {
+          "character": "v",
+          "probability": 0.01705358549952507
+        }
+      ]
+    },
+    {
+      "context": "\n\nKING HENRY.\nOnce more unto the b",
+      "top": [
+        {
+          "character": "o",
+          "probability": 0.2379925698041916
+        },
+        {
+          "character": "a",
+          "probability": 0.23680803179740906
+        },
+        {
+          "character": "e",
+          "probability": 0.18563856184482574
+        },
+        {
+          "character": "r",
+          "probability": 0.14609068632125854
+        },
+        {
+          "character": "l",
+          "probability": 0.08271042257547379
+        },
+        {
+          "character": "u",
+          "probability": 0.07866810262203217
+        }
+      ]
+    }
+  ],
+  "what_it_writes": [
+    {
+      "label": "a speaker label",
+      "prompt": "\n\nHAMLET.\n",
+      "continuation": "The most brief may report all our loves; the court will be the\nprisoner, and the fool be nothing but so weight in the villainy. I will infringe\nto this action.\n\nOSRIC.\nSir, I am in my called the likeness of your injuries for the\nperil of your eye.\n\nHAMLET.\nI will, my lord.\n\nOSRIC.\nWill you go?\n\nHORA",
+      "why_it_stopped": "wrote 300 characters",
+      "notes": [],
+      "settings": {
+        "temperature": 0.8,
+        "seed": 0,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      },
+      "longest_verbatim": {
+        "characters": 22,
+        "passage": " the likeness of your ",
+        "of": 300
+      }
+    },
+    {
+      "label": "a scene heading",
+      "prompt": "SCENE III. Rome. The Capitol.\n\nEnter CAESAR and the Conspirators.\n\nCAESAR.\n",
+      "continuation": "Now, where now? Come, get you gone;\nBid them by the marks them readily.\n\n[_Exeunt._]\n\nSCENE VI. Rome. A Street\n\nEnter Caesar, Caesar, Agrippa and a Capitol; Lepidus and Agrippa.\n\nCAESAR.\nHail! How now, my noble lord! Where’s Caesar call’d?\n\nCAESAR.\nHail, hail! Lord Antony of Caesar!\nI grieved my father, that you must be king,\nBe",
+      "why_it_stopped": "wrote 330 characters",
+      "notes": [],
+      "settings": {
+        "temperature": 0.8,
+        "seed": 7,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      },
+      "longest_verbatim": {
+        "characters": 34,
+        "passage": ".\n\n[_Exeunt._]\n\nSCENE VI. Rome. A ",
+        "of": 330
+      }
+    },
+    {
+      "label": "a famous opening",
+      "prompt": "\n\nHAMLET.\nTo be, or not to be, that is the",
+      "continuation": " tender of it. I have heard\nOf love to wear a burden for it at all.\n\nOSRIC.\nAnd thou art not here, my lord. Farewell.\n\nHAMLET.\nGod be with you, for love of your love.\n\nOSRIC.\nAy, love of your love. I fear you love me, I am not assur’d of yo",
+      "why_it_stopped": "wrote 240 characters",
+      "notes": [],
+      "settings": {
+        "temperature": 0.8,
+        "seed": 0,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      },
+      "longest_verbatim": {
+        "characters": 19,
+        "passage": ".\nGod be with you, ",
+        "of": 240
+      }
+    },
+    {
+      "label": "a sonnet number that does not exist",
+      "prompt": "\n\n\n                    155\n\nWhen first I looked upon thy",
+      "continuation": " tender company,\nComes in perfect thoughts that makes haste more wiser hold;\nAnd I, for well I see thou art a cold rotten for some monarch.\nHere in the altar trials he lies,\nAnd in the way of the commonwealth lies;\nAnon he will subscribe thee for his part;\nAnd",
+      "why_it_stopped": "wrote 260 characters",
+      "notes": [],
+      "settings": {
+        "temperature": 0.8,
+        "seed": 0,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      },
+      "longest_verbatim": {
+        "characters": 20,
+        "passage": " of the commonwealth",
+        "of": 260
+      }
+    },
+    {
+      "label": "a modern sentence",
+      "prompt": "The meeting is at nine o’clock, and the budget",
+      "continuation": " that begin between the\nold buds and twenty can make the valour. He shall be thrown forth.\nAh, that can win their wings through the naked battle gates, and all\nthese jollities are without a piece of b",
+      "why_it_stopped": "wrote 200 characters",
+      "notes": [],
+      "settings": {
+        "temperature": 0.8,
+        "seed": 0,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      },
+      "longest_verbatim": {
+        "characters": 19,
+        "passage": "He shall be thrown ",
+        "of": 200
+      }
+    },
+    {
+      "label": "an instruction it cannot follow",
+      "prompt": "Write me a poem about a cat.",
+      "continuation": " I will use it a cure, and let\nthe most excellent lady to hear a curer of my mirth, for well I see it,\nso it is a woman that could be a thing so good a more a woman. He\nwould not live a little woman o",
+      "why_it_stopped": "wrote 200 characters",
+      "notes": [],
+      "settings": {
+        "temperature": 0.8,
+        "seed": 0,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      },
+      "longest_verbatim": {
+        "characters": 16,
+        "passage": " most excellent ",
+        "of": 200
+      }
+    },
+    {
+      "label": "a stage direction",
+      "prompt": "\n\n[_Enter a Messenger._]\n\nMESSENGER.\n",
+      "continuation": "And yet so please you.\nIn the way I dismalled myself, to fight\nAgainst contempt, and may be buried.\n\n[_Exit, gives him a letter._]\n\nROSS.\nBelieve me, and let me have night.\n[_To Theseus._] You must have them much chase in your rule and see.",
+      "why_it_stopped": "wrote 240 characters",
+      "notes": [],
+      "settings": {
+        "temperature": 0.8,
+        "seed": 3,
+        "top_k": null,
+        "top_p": null,
+        "on_start": "stop"
+      },
+      "longest_verbatim": {
+        "characters": 18,
+        "passage": " to fight\nAgainst ",
+        "of": 240
+      }
+    }
+  ],
+  "the_temperature_dial": [
+    {
+      "temperature": 0.0,
+      "continuation": "I will not see thee another man in the world.\n\nJULIET.\nI will not see thee another man in the world.\n\nJULIET.\nI will not see thee another man in the world.\n\nJULIET.\nI will not see thee another man in ",
+      "why_it_stopped": "wrote 200 characters",
+      "longest_verbatim": {
+        "characters": 17,
+        "passage": " man in the world",
+        "of": 200
+      }
+    },
+    {
+      "temperature": 0.5,
+      "continuation": "Is not this the matter?\n\nSILVIUS.\nAy, indeed.\n\nJULIET.\nAy, but the truth is the matter of the matter in the laws.\n\nSILVIUS.\nWhy, then the laws is most strangely bound.\n\nJULIET.\nI would they were with ",
+      "why_it_stopped": "wrote 200 characters",
+      "longest_verbatim": {
+        "characters": 20,
+        "passage": ".\nI would they were ",
+        "of": 200
+      }
+    },
+    {
+      "temperature": 0.8,
+      "continuation": "Thy good will, and princes!\n\nSILVIA.\nWhat dost thou think of me, my friend, thy country’s by the mother’s\nbelly.\n\nJULIA.\nI think he hath not so much past so flat as thou wouldst weep.\nI have no wind t",
+      "why_it_stopped": "wrote 200 characters",
+      "longest_verbatim": {
+        "characters": 23,
+        "passage": ".\nWhat dost thou think ",
+        "of": 200
+      }
+    },
+    {
+      "temperature": 1.2,
+      "continuation": "Thyself!\n\nHOLOFERNES.\nNow, they are, their properest, go your trespass;\nBe not in every errand of other life,\nDivide what it could.\n\nLUCETTA.\nNot more sorrow, an ’tre shower,\nAn adoxing Clown is waste",
+      "why_it_stopped": "wrote 200 characters",
+      "longest_verbatim": {
+        "characters": 17,
+        "passage": "!\n\nHOLOFERNES.\nNo",
+        "of": 200
+      }
+    }
+  ],
+  "speaking_as_a_character": [
+    {
+      "answerer_asked_for": null,
+      "answerer": "ROMAN",
+      "cast_by_the_model": true,
+      "reply": "No, but ’tis a gentleman that we are all advanced; and what would you\nhave said?",
+      "transcript": "\n\nROMEO.\nBut soft, what light through yonder window breaks?\n\nJULIET.\nI have a headache and no money.\n\nROMAN.\nNo, but ’tis a gentleman that we are all advanced; and what would you\nhave said?",
+      "longest_verbatim": {
+        "characters": 19,
+        "passage": "s a gentleman that ",
+        "of": 80
+      }
+    },
+    {
+      "answerer_asked_for": "MACBETH",
+      "answerer": "MACBETH",
+      "cast_by_the_model": false,
+      "reply": "Then liv’d me, and pale and made me think\nThat to be dream’d or butt for thee I cannot\nBe thought of my life, as my uncle Suffolk,\nBut gives some money for thy comforts, whom\nA happy beauty’s down with thy strength tonight.",
+      "transcript": "\n\nROMEO.\nBut soft, what light through yonder window breaks?\n\nJULIET.\nI have a headache and no money.\n\nMACBETH.\nThen liv’d me, and pale and made me think\nThat to be dream’d or butt for thee I cannot\nBe thought of my life, as my uncle Suffolk,\nBut gives some money for thy comforts, whom\nA happy beauty’s down with thy strength tonight.",
+      "longest_verbatim": {
+        "characters": 21,
+        "passage": " with thy strength to",
+        "of": 223
+      }
+    }
+  ],
+  "the_famous_line": {
+    "run_up": "and at last by Marcus\nBrutus._]\n\nCAESAR.\n",
+    "what_really_follows": "_Et tu, Brute?_—Then fall, Caesar!\n\n[_Dies. The Senators and",
+    "what_the_model_wrote": "I am sorry for you.\n\nANTONY.\nI am sorry for you.\n\nCAESAR.\nI am sorry for you.\n\nANTONY.\nI am sorry for you.\n\nCAESAR.\nI am",
+    "it_reproduced_the_line": false,
+    "longest_verbatim": {
+      "characters": 22,
+      "passage": ".\n\nANTONY.\nI am sorry ",
+      "of": 120
+    }
+  },
+  "words_it_invented": {
+    "checked": 76,
+    "absent_from_the_corpus": [
+      "adoxing",
+      "dismalled",
+      "jollities"
+    ],
+    "note": "lowercased comparison against the whole of the 39 training works"
+  },
+  "the_normaliser": [
+    {
+      "typed": "naïve",
+      "refused": true,
+      "because": "'ï' (latin small letter i with diaeresis, U+00EF) is not one of the 97 characters in the complete works, so the model has never seen it and cannot be asked about it. The nearest letter this universe has is 'i'."
+    },
+    {
+      "typed": "I'll not be \"quoted\"",
+      "refused": false,
+      "fed": "I’ll not be “quoted”",
+      "notes": [
+        "\"'\" (apostrophe, U+0027) became '’' (right single quotation mark, U+2019)",
+        "a straight double quote became “",
+        "a straight double quote became ”"
+      ]
+    },
+    {
+      "typed": "Señor",
+      "refused": true,
+      "because": "'ñ' (latin small letter n with tilde, U+00F1) is not one of the 97 characters in the complete works, so the model has never seen it and cannot be asked about it. The nearest letter this universe has is 'n'."
+    },
+    {
+      "typed": "a\ttab",
+      "refused": false,
+      "fed": "a tab",
+      "notes": [
+        "a tab became a space"
+      ]
+    },
+    {
+      "typed": "plain english",
+      "refused": false,
+      "fed": "plain english",
+      "notes": []
+    }
+  ],
+  "the_ten_prompts": [
+    {
+      "name": "speaker label",
+      "prompt": "\n\nHAMLET.\n"
+    },
+    {
+      "name": "a name the training works never contain",
+      "prompt": "\n\nROMEO.\n"
+    },
+    {
+      "name": "stage direction",
+      "prompt": "\n\nEnter "
+    },
+    {
+      "name": "a sonnet that does not exist",
+      "prompt": "\n\n\n                    155\n\nWhen first I looked upon thy "
+    },
+    {
+      "name": "prose, typed with a straight apostrophe",
+      "prompt": "\n\nFALSTAFF.\nI'll be sworn upon all the books in England, "
+    },
+    {
+      "name": "a famous line, cut off",
+      "prompt": "To be, or not to be, that is the "
+    },
+    {
+      "name": "cut off inside a word",
+      "prompt": "Good morrow, gentle cousin. Whith"
+    },
+    {
+      "name": "a modern sentence",
+      "prompt": "The meeting is at nine o'clock, and the budget "
+    },
+    {
+      "name": "an instruction, which this model cannot follow",
+      "prompt": "Write me a poem about a cat."
+    },
+    {
+      "name": "nothing but a blank line",
+      "prompt": "\n\n"
+    }
+  ]
+}

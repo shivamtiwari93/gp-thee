@@ -1337,3 +1337,57 @@ not decided on, by 0.10 bits.
 The write-up (blog part 7 is published; part 8 is the last), the model card and the Hugging Face upload of
 `sweep-char-seed-1/best.pt` as safetensors, and the LinkedIn deliverables. The measurement itself is done and can
 never be redone. The test works have taken part in something.
+
+## Entry 21. Part 8 expanded: showing the model rather than asserting it (2026-09-22)
+
+A reader of the draft asked the question the whole post exists to answer — *is this really a language model, or is
+it just replaying the plays verbatim?* — and the draft answered it with two sentences and a number. Not enough.
+Part 8 now carries about 3,400 extra words of demonstration, and **not one example in it is typed by hand**:
+everything comes out of [scripts/demonstrate.py](../scripts/demonstrate.py) into
+[docs/demonstrations.json](demonstrations.json) and [docs/demonstrations.txt](demonstrations.txt), which are
+committed so that a reader can re-run the lot.
+
+### What the script measures
+
+| section | what it shows |
+|---|---|
+| what it predicts | the real next-character distribution over the 97-character alphabet, for 4 contexts |
+| what it writes | 7 prompt kinds (speaker label, scene heading, famous opening, sonnet, modern sentence, instruction, stage direction), each with its seed and temperature |
+| the temperature dial | one prompt at t = 0, 0.5, 0.8, 1.2 |
+| speaking as a character | the scene wrapper, model-cast and explicitly cast |
+| the verbatim test | for EVERY sample, the longest stretch occurring anywhere in the 39 training works |
+| what it invents | every word over 5 letters looked up in the corpus |
+| the normaliser | substitutions and refusals |
+
+### The verbatim objection, answered by measurement
+
+**Longest verbatim run, per sample of 200–330 characters: 16, 18, 19, 19, 20, 22, 34.** Every one of the longest
+is either stage furniture (`[_Exeunt._]`, a scene heading) or a four-word commonplace. Not one is a line of verse.
+This is part 7's result reached from the opposite end: what it memorised is the *printing conventions*.
+
+**It invents.** Of 76 words over five letters in its own output, 3 occur nowhere in the corpus: `jollities`
+(`jollity` occurs 6×, so it formed an unseen plural), `dismalled` (from `dismal`), and `adoxing` (not a word in
+any language). Generalising morphology to an unseen form is what a lookup table cannot do.
+
+**It does not know the famous lines.** *Measured*, three ways: `Once more unto the b` puts `r` for **breach**
+FOURTH at 14.6%, behind `o`/`a`/`e`; `To be, or not to be, that is the` continues *"the tender of it"*, not
+`question`; and given the exact 40-character run-up to `_Et tu, Brute?_` at temperature 0 it writes *"I am sorry
+for you."* on a loop. `it_reproduced_the_line: false`.
+
+Also recorded: seven named limitations, each with its example (no instructions, no questions, no memory of who is
+on stage, 256 characters of context, nothing outside Shakespeare, 97 characters only, loops at temperature 0).
+
+### Two of my own mistakes, caught before publication
+
+1. **The probability probe ran with dropout live.** `train.load_checkpoint` does not set eval mode, and the probe
+   called the model directly rather than through `generate()` (which sets it itself). So 20% of the network was
+   being zeroed at random *while I measured its confidence*: the first run reported `e` at 81.1% after `not to b`
+   where the true figure is 97.3%, and `o` at 97.7% after `Capit` where it is 99.9%. Only the probe was affected;
+   `generate()` and `evaluate()` set eval mode themselves, so no generated sample and no published score was ever
+   touched. `model.eval()` added, with a comment naming the symptom.
+2. **A truncating pipe silently killed the corrected run.** I re-ran the script piped through `head -12`, read the
+   corrected numbers off the screen, and did not notice that SIGPIPE had killed the process before it wrote the
+   file — so `docs/demonstrations.json` still held the dropout figures while the blog quoted the right ones. Found
+   by a verifier that checks every quoted sample and every quoted percentage against the committed record, which
+   is now the standing check for this post: **17 of 18 quoted samples matched, and the 18th was a sample I had
+   measured and forgotten to use** (the `tender of it` failure, now the third famous line in the post).
