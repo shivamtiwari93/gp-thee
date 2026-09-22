@@ -6,7 +6,7 @@ Imagine the only text that ever existed was Shakespeare: 38 plays, 154 sonnets, 
 
 This is an educational project. The point is to show every step of building a language model, small enough that you can read all the code and re-run all of it yourself.
 
-> **Status: work in progress.** The model trains. On two plays it has never read it scores 1.75 bits per character, against 2.23 for the best predictor we could build without a neural network. A comparison whose rules were fixed in advance chose the character tokenizer over four word-fragment vocabularies. The memorisation report, the final test and the released weights are still to come. Progress is tracked below and written up step by step in [docs/BUILD_LOG.md](docs/BUILD_LOG.md).
+> **Status: the build is done; the weights upload is the last step.** GP-Thee-11M is chosen, measured and written up across eight parts. On the three works it was never trained on and never selected against, it scores **1.80 bits per character** — against 2.32 for the best predictor we could build without a neural network — and it reproduces none of Shakespeare's verse, only his editors' scene headings. Every number was measured before it was written; the full record is in [docs/BUILD_LOG.md](docs/BUILD_LOG.md), and the final test's per-token evidence is in [docs/final-evaluation.json](docs/final-evaluation.json).
 
 ## What it will and will not be
 
@@ -27,9 +27,10 @@ GP-Thee is an in-character autocomplete, not an assistant. It should write convi
 - [x] Tokenizer comparison, by the rule written down in advance: characters win, 1.7546 against 1.8012 for the nearest vocabulary ([docs/results-sweep.json](docs/results-sweep.json))
 - [x] The sampler: a prompt normaliser that refuses what this universe cannot spell, and a "speak as a character" wrapper ([src/gp_thee/sampling.py](src/gp_thee/sampling.py))
 - [x] Which run is released, by a rule fixed in advance ([docs/release.json](docs/release.json)): GP-Thee-11M is `sweep-char-seed-1`
-- [ ] Memorisation report, and the final evaluation on the test works
+- [x] Memorisation report: it recites its editors, not Shakespeare — 44 characters of the poet's own words from the training works, 0 from works it never read ([docs/memorisation.json](docs/memorisation.json))
+- [x] The final evaluation on the test works, opened once: **1.80 bits per character**, beating every baseline by 0.52 ([docs/final-evaluation.json](docs/final-evaluation.json))
 - [ ] Weights on Hugging Face
-- [ ] Blog post
+- [x] Blog: eight parts, one per milestone ([blog/](blog/))
 
 ## Layout
 
@@ -39,7 +40,7 @@ blog/        the write-up, one section per milestone
 docs/        PLAN.md (roadmap) and BUILD_LOG.md (the detailed step-by-step record)
 scripts/     one-off commands such as the dataset download
 src/gp_thee/ the library: tokenizer, data loading, the model, training and evaluation
-runs/        training runs land here (not committed: checkpoints are 129 MB each)
+runs/        training runs land here (only the weights are gitignored: 43-141 MB each; everything else is committed)
 tests/       run with `uv run pytest`
 ```
 
@@ -90,6 +91,7 @@ More steps are added here as they are built.
 5. [Training](blog/05-training.md): the six lines that learn, how to score a model honestly, what a zip file says a good score is, why the length of a run has to be chosen by a rule, and a training script whose numbers were right while nearly everything around them was wrong.
 6. [Which tokenizer?](blog/06-which-tokenizer.md): five ways of cutting the text, three runs each, a winner chosen by a rule fixed before the first run, what that rule could and could not have shown, and why the word-fragment models lost on a text this small.
 7. [Does it recite?](blog/07-does-it-recite.md): the memorisation measurement I nearly published and why it was circular, a scan of all 4.8 million positions, the longest passage the model can be made to reproduce, a bug in my own rule that flattered it, a sampler you can talk to, which of eleven runs becomes GP-Thee-11M, and a promise from part 2 withdrawn.
+8. [The final test](blog/08-the-final-test.md): the three works held out since part 2, opened once; the one-way door and the dress rehearsal that earn a held-out score; GP-Thee-11M at 1.80 bits per character on Shakespeare it never read, beating every baseline and reciting none of it; and the four pre-registered questions the test works settled.
 
 ## Data and licence
 

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @page { size: 1080px 1080px; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --ink: #201b16;
+    --paper: #f7f1e6;
+    --paper2: #efe6d4;
+    --muted: #6b6154;
+    --accent: #8a2b2b;    /* deep folio red */
+    --gold: #9a7b32;
+    --rule: #d8ccb4;
+  }
+  html { -webkit-font-smoothing: antialiased; }
+  body { font-family: "Iowan Old Style", Georgia, "Times New Roman", serif; color: var(--ink); }
+  .slide {
+    width: 1080px; height: 1080px; position: relative;
+    background: var(--paper); padding: 96px 100px;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .slide + .slide { page-break-before: always; }
+  .kicker { font-family: -apple-system, "Helvetica Neue", sans-serif; font-size: 22px; letter-spacing: 4px;
+            text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  .foot { position: absolute; left: 100px; right: 100px; bottom: 60px;
+          display: flex; justify-content: space-between; align-items: baseline;
+          font-family: -apple-system, "Helvetica Neue", sans-serif; font-size: 20px; color: var(--muted);
+          border-top: 1.5px solid var(--rule); padding-top: 20px; }
+  .foot b { color: var(--ink); font-weight: 600; letter-spacing: 0.5px; }
+  h1 { font-size: 92px; line-height: 1.02; font-weight: 700; letter-spacing: -1px; }
+  h2 { font-size: 60px; line-height: 1.08; font-weight: 700; letter-spacing: -0.5px; }
+  .lead { font-size: 34px; line-height: 1.4; color: var(--muted); }
+  .body { font-size: 33px; line-height: 1.5; }
+  .sans { font-family: -apple-system, "Helvetica Neue", sans-serif; }
+  .center { justify-content: center; }
+  .spacer { flex: 1; }
+  .accent { color: var(--accent); }
+  .gold { color: var(--gold); }
+  em { font-style: italic; }
+  .big-num { font-size: 150px; font-weight: 700; letter-spacing: -3px; line-height: 1; }
+  .unit { font-size: 34px; color: var(--muted); }
+
+  /* slide 1 */
+  .title-wrap { margin-top: 40px; }
+  .title-wrap h1 { margin-bottom: 36px; }
+  .quill { font-size: 40px; color: var(--gold); letter-spacing: 3px; }
+
+  /* lists */
+  ul { list-style: none; margin-top: 30px; }
+  li { font-size: 33px; line-height: 1.35; padding: 18px 0 18px 46px; position: relative; border-bottom: 1px solid var(--rule); }
+  li:last-child { border-bottom: none; }
+  li::before { content: ""; position: absolute; left: 6px; top: 30px; width: 14px; height: 14px;
+               background: var(--accent); border-radius: 50%; }
+  li b { font-weight: 700; }
+  li .s { color: var(--muted); font-size: 28px; }
+
+  /* results table */
+  .rows { margin-top: 26px; }
+  .row { display: flex; align-items: baseline; justify-content: space-between; padding: 16px 0;
+         border-bottom: 1px solid var(--rule); font-size: 31px; }
+  .row .label { color: var(--muted); }
+  .row .val { font-family: -apple-system, "Helvetica Neue", sans-serif; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .row.win { }
+  .row.win .val { color: var(--accent); font-size: 40px; }
+  .row.win .label { color: var(--ink); font-weight: 700; }
+
+  .callout { margin-top: 40px; font-size: 30px; line-height: 1.45; background: var(--paper2);
+             border-left: 6px solid var(--gold); padding: 28px 32px; }
+
+  .links { font-family: -apple-system, "Helvetica Neue", sans-serif; font-size: 30px; line-height: 1.9; margin-top: 20px; }
+  .links b { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1 — hook -->
+<section class="slide">
+  <div class="kicker">An educational build · from scratch</div>
+  <div class="spacer"></div>
+  <div class="title-wrap">
+    <div class="quill">✒</div>
+    <h1>I trained a GPT<br>on nothing but<br><span class="accent">Shakespeare.</span></h1>
+    <p class="lead">No pretraining. No borrowed tokenizer. No outside text.<br>Eleven million parameters, on one laptop.</p>
+  </div>
+  <div class="spacer"></div>
+  <div class="foot"><span><b>GP-Thee-11M</b> · a language model that only knows the Bard</span><span>1 / 5</span></div>
+</section>
+
+<!-- SLIDE 2 — the universe -->
+<section class="slide">
+  <div class="kicker">The rule</div>
+  <div class="spacer" style="flex:0.3"></div>
+  <h2>Pretend the only text<br>that ever existed<br>was Shakespeare.</h2>
+  <ul>
+    <li><b>44 works, ~5 MB, 97 characters.</b> <span class="s">38 plays, 154 sonnets, 5 poems — and not one other word.</span></li>
+    <li><b>Everything built from nothing.</b> <span class="s">The tokenizer, the model, the training loop — no imports from a pretrained world.</span></li>
+    <li><b>It reads one character at a time.</b> <span class="s">A comparison with fixed rules chose characters over word-fragments.</span></li>
+  </ul>
+  <div class="spacer"></div>
+  <div class="foot"><span><b>GP-Thee-11M</b> · a closed universe of language</span><span>2 / 5</span></div>
+</section>
+
+<!-- SLIDE 3 — the discipline -->
+<section class="slide">
+  <div class="kicker">The hard part wasn't the model</div>
+  <div class="spacer" style="flex:0.3"></div>
+  <h2>It was measuring it<br><span class="accent">honestly.</span></h2>
+  <ul>
+    <li><b>Three works locked away on day one.</b> <span class="s">A history, a romance, a poem — never trained on, never looked at.</span></li>
+    <li><b>Every rule written down before the number.</b> <span class="s">Which run to release, what counts as memorising — fixed in advance, in the open.</span></li>
+    <li><b>A one-way door.</b> <span class="s">The held-out works could be scored exactly once. A score is only held out until you use it.</span></li>
+  </ul>
+  <div class="spacer"></div>
+  <div class="foot"><span><b>GP-Thee-11M</b> · pre-registered, start to finish</span><span>3 / 5</span></div>
+</section>
+
+<!-- SLIDE 4 — the result -->
+<section class="slide">
+  <div class="kicker">The one number, on works it never read</div>
+  <div class="spacer" style="flex:0.15"></div>
+  <div style="display:flex; align-items:baseline; gap:24px;">
+    <span class="big-num accent">1.80</span>
+    <span class="unit">bits per character<br>on unseen Shakespeare</span>
+  </div>
+  <div class="rows">
+    <div class="row"><span class="label">a coin-flip per character</span><span class="val">1.00</span></div>
+    <div class="row win"><span class="label">GP-Thee-11M</span><span class="val">1.80</span></div>
+    <div class="row"><span class="label">best n-gram model (no network)</span><span class="val">2.32</span></div>
+    <div class="row"><span class="label">a good file compressor</span><span class="val">2.60</span></div>
+    <div class="row"><span class="label">the raw 97-character alphabet</span><span class="val">6.60</span></div>
+  </div>
+  <div class="callout">It beats every predictor built without a neural network — yet reproduces almost none of the verse it trained on. The longest line of Shakespeare it can be made to recite is <b>25 characters</b>. It learned the <em>shape</em> of an edition, not the poetry.</div>
+  <div class="foot"><span><b>GP-Thee-11M</b> · lower is better</span><span>4 / 5</span></div>
+</section>
+
+<!-- SLIDE 5 — takeaway + links -->
+<section class="slide">
+  <div class="kicker">What it is, and why</div>
+  <div class="spacer" style="flex:0.3"></div>
+  <h2>An in-character autocomplete<br>for a world of only<br>Shakespeare.</h2>
+  <p class="body" style="margin-top:30px;">It can't answer a question or follow an instruction. Give it a speaker and a line and it plays the next part. I built it for one reason: to see whether a language model could be made, and measured, <span class="accent">honestly — every number checked before it was written.</span> It could.</p>
+  <div class="links">
+    Full build, code &amp; logs → <b>github.com/shivamtiwari93/gp-thee</b><br>
+    The weights → <b>Hugging Face: GP-Thee-11M</b><br>
+    Eight-part write-up → <b>in the repo</b>
+  </div>
+  <div class="spacer"></div>
+  <div class="foot"><span><b>GP-Thee-11M</b> · built on a laptop, in the open</span><span>5 / 5</span></div>
+</section>
+
+</body>
+</html>

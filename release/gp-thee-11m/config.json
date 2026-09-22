@@ -1,0 +1,37 @@
+{
+  "model_type": "gp-thee",
+  "name": "GP-Thee-11M",
+  "description": "A GPT trained from scratch on nothing but the works of Shakespeare. Character-level.",
+  "architecture": {
+    "vocab_size": 98,
+    "context": 256,
+    "layers": 6,
+    "heads": 6,
+    "width": 384,
+    "dropout": 0.2,
+    "builtin_attention": false,
+    "parameters": 10757760,
+    "tied_embeddings": true,
+    "note": "to_scores.weight is token_embedding.weight; re-tie on load"
+  },
+  "tokenizer": {
+    "kind": "char",
+    "file": "tokenizer.json",
+    "vocab_size": 98,
+    "sha256": "8ba6aaabe6ef904d59fce612bd8a36d8b9e7fdf37649297301e9a685e96d0730"
+  },
+  "trained_by_commit": "0f726008af749e027022fcc0286ec703c47136fc",
+  "scores_bits_per_character": {
+    "validation": 1.749198301521595,
+    "test": 1.795786796476007,
+    "note": "validation is the set the run was selected on (2 plays); test is 3 works it never saw."
+  },
+  "provenance": {
+    "source_checkpoint": "runs/sweep-char-seed-1/best.pt",
+    "source_checkpoint_sha256": "58f563f826cc6cd8cf9eff1cac34215ce8088554c9bcb519401307968b146a8d",
+    "step": 9236,
+    "torch": "2.14.0"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/shivamtiwari93/gp-thee"
+}
