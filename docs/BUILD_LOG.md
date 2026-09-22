@@ -1110,3 +1110,161 @@ evidence behind a published number. *Checked*: all 16 cells re-counted straight 
 ### How this answers part 5
 
 Part 5 found a gap between the score on text the model had trained on (1.37 bits per character) and on the validation plays (1.75), retracted the claim that the gap shows memorisation, and promised a direct measurement in a later part. This is it. The scan opens the gap up and shows what is inside: 69.72% next-character agreement on the training works against 63.63% on the plays it never read, six points, and the passages behind those six points are cast lists, scene headings and entrances. The model has learned the *shape* of an edition of Shakespeare very well, and its verse hardly at all, word for word.
+
+## Entry 19. Part 8 pre-registered: the one measurement that can only be taken once (2026-09-21)
+
+Written and committed **before `scripts/final_evaluation.py` exists**, and before any of it runs. Entry 17 fixed
+the protocol in one paragraph; four independent designers and four critics were then set on that paragraph, and
+what they found is why this entry is long. Everything below is a decision made while the door is shut.
+
+### Five things established without opening anything
+
+1. **The tokenizer cannot fail on the test works.** `CharTokenizer.encode` raises `ValueError` on any character
+   outside its alphabet, and that alphabet was fitted on the 39 training works alone. If the held-out works held
+   one new character, the single run would crash mid-measurement. It cannot: part 2's `data/processed/manifest.json`
+   records the alphabet of the **whole 44-work corpus** as 97 characters, and `set(manifest alphabet) ==
+   set(char.json alphabet)` exactly (*measured*). The model's universe is big enough to spell its own test set,
+   and that was knowable from a number published in part 2.
+2. **The forward pass is bit-exact on this machine.** Entry 14's non-determinism is a *backward*-pass effect
+   (`nn.Embedding` backward sums in a varying order). *Measured* just now: all six checkpoints of the three
+   eligible runs re-score their recorded validation figure to **all 17 digits, delta exactly 0.0**. So the
+   pre-flight gate below can demand exact equality rather than a tolerance, and it does.
+3. **The test works are not a clean control, and the validation plays are less clean still.** `make_split.py`
+   refuses to write the split if a held-out work shares any 50-character run (normalised) with any other work,
+   except ones accepted by name. Exactly one was accepted, and it is in a *test* work: 63 characters shared
+   between *King John* and *The Winter's Tale*, an editor's scene heading. The validation plays have none. So the
+   test works were held to the same bar but are the only held-out works allowed a documented overlap.
+4. **The lists were never revised.** `git log --follow` on `scripts/make_split.py` shows `VALIDATION`, `TEST` and
+   `KNOWN_OVERLAPS` unchanged since the commit that created the file. The works were chosen on genre, size and
+   collaboration grounds and passed the leak check on the first try. Part 7 said the script "chose the held-out
+   works by exactly this test... and reject it if there is one", which describes an iterate-and-reject loop that
+   does not exist. **Corrected in part 7 today.** The conclusion is unchanged: a zero that was a precondition of
+   the design carries no information about what an innocent writer would score.
+5. **Entry 17's claim that the unlock string "appears in that script and nowhere else" was already false when it
+   was written.** `this is the final evaluation` is in `src/gp_thee/data.py` (where the lock needs it),
+   `docs/BUILD_LOG.md` and `blog/03-the-tokenizer.md`. String scarcity was never the guard. The guard is the file
+   check below, and this entry restates the rule honestly rather than pretending it held.
+
+### The shape: three phases and a one-way door
+
+The door opens once. Everything that needs the works runs on one side of it, everything else on the other.
+
+**Phase A, door shut, nothing at stake.** The guards, then a full dress rehearsal: every code path phase B will
+run -- `evaluate`, `breakdown`, the n-grams, the compressors, the memorisation scan, the copy curve, the array
+dump, the JSON serialisation -- executed against the **validation** works, and every arm's score compared with
+what its own `result.json` recorded. Anything may fail here at no cost. Nothing is written.
+
+**The door.** `docs/final-evaluation.json` is claimed with `open(..., "x")` holding a stub that says the run is in
+progress, **before** `load_works("test", ...)` is called. A second invocation then refuses no matter how the first
+ended. A crash after this point leaves the stub, which is the honest record that the works were opened and the
+measurement was spent.
+
+**Phase B, door open.** Every forward pass the script will ever be allowed, then the raw arrays to disk
+immediately. Each measurement block is caught, not raised: a failure records itself in `failures` and the next
+block runs. No arithmetic here that is not needed to produce an array.
+
+**Phase C, door shut again.** Statistics, from the saved arrays only.
+
+### The gate, in order, each refusing cleanly
+
+1. `docs/final-evaluation.json` does not exist.
+2. `docs/release.json` exists, is committed, and is unchanged in the working tree.
+3. `git status` is clean for `src/`, `scripts/` and `data/`. `docs/` and `blog/` are not required to be clean:
+   the log entry that records the attempt lives there.
+4. Every checkpoint named below exists, and the released one matches `release.json`'s sha256.
+5. The dress rehearsal reproduces **every** headline arm's recorded validation score exactly, to all digits.
+   A non-headline arm that fails is dropped and recorded as dropped; the run continues without it. A headline arm
+   that fails refuses the whole run, and the door stays shut.
+
+Every invocation, including every refusal, appends one line to `docs/final-evaluation-attempts.jsonl` **before**
+anything else happens, and that line is transcribed into this log.
+
+### Exactly which arms are scored, fixed now
+
+| Arm | Checkpoints | Role |
+|---|---|---|
+| `sweep-char-seed-1` | best | **Headline 1, the artifact.** GP-Thee-11M, step 9,236 |
+| `sweep-char-seed-1/2/3` | best | **Headline 2, the recipe.** Mean and spread |
+| `sweep-char-seed-1/2/3` | last | The within-run layer: best-of-41-stops, on text that chose nothing |
+| `pilot-char-34` | best | The excluded run that scored 1.7404 on validation, the best number anyone here produced |
+| `pilot-char-17`, `pilot-char-68` | best | The training-length axis of part 5 |
+| the twelve `sweep-bpe-*` runs | best | **A named secondary that decides nothing.** Pooled bits per character only |
+
+Twenty-one arms, each scored on test and, in the rehearsal, on validation. `breakdown()` is called for the nine
+character arms only: it assumes a character stream in several places and would raise on a fragment stream, and
+nothing in this entry needs it to.
+
+### Exactly what is computed
+
+**For the nine character arms:** bits per character over the whole test text; per work; speaker-label lines
+against everything else. Identical code path, stride and dtype to every validation figure this project has
+published (`train.evaluate`, stride `context // 2` = 128, 32-bit forced, dropout off, every token scored exactly
+once and asserted). Bits per character is total nats over ln 2 over **characters**, START standing for none.
+
+**The bar, on this text:** blind guess, character counts, n-grams of orders 1 to 8 with interpolated Witten-Bell
+smoothing fitted on the 39 training works only, and bzip2 -9 and xz -9e alone and after reading the training
+works. Per work and by slice, as `scripts/baselines.py` does for validation. That script has no `main()` guard, so
+it is not imported; the same library functions are called directly.
+
+**The third arm of part 7:** `scripts/memorisation.py`'s own `scan()`, unchanged, on the test works -- the same
+instrument that produced 44 characters on the training works and 0 on the validation plays -- plus the copy curve
+of the test works against the 39 training works at all eight widths, raw and normalised, and the editor's share
+of the test works.
+
+**Disclosed sensitivities, deciding nothing:** stride 64 and 256 for the released model on test and on validation;
+the released model re-scored on CPU; and the longest confirmed test passage re-confirmed on CPU, because argmax is
+discontinuous and entry 16 measured cross-device agreement only to 1.2e-5 at the worst token.
+
+**Saved to `docs/final-evaluation/`:** the per-token nats of every arm, the released model's agreement boolean,
+the test token stream, and the masks (work index, speaker label, editor/poet) -- so that any later slice is
+arithmetic on committed files rather than a second look. The three test works have been committed in
+`data/processed/works/` since part 2, so none of this publishes anything new; it goes under `docs/` and never
+under `data/tokens/`, so no training glob can sweep it up.
+
+### What is declined, and why
+
+**No new verdict comes out of these numbers.** Entries 16, 17 and 18 were decided by rules applied to validation
+and they stay decided. The BPE arms are reported because hiding them would be worse, and they decide nothing.
+
+**No block bootstrap.** `scripts/compare_finalists.py`'s interval resamples blocks *within* each work and holds
+the mix of works fixed. With three works of three different kinds -- a history, a late romance and a narrative
+poem -- the dominant uncertainty is the choice of works, which that interval cannot express and would silently
+understate. Instead: the per-work scores, and the leave-one-work-out range of the whole-set figure.
+
+**No re-run, ever.** If phase B crashes, part 8 reports what the arrays hold and says what was lost.
+
+### The four sentences that are written before the numbers exist
+
+These are the outcomes that could change something already in print. Both branches are fixed now so that neither
+can be narrated afterwards.
+
+**The memorisation third arm.** If the longest confirmed passage of Shakespeare's own words the released model
+reproduces from the test works is **under 50 characters**, part 7's verdict stands and the third column
+strengthens it, and the blog says: *the model reproduces 44 characters of the works it trained on and N of three
+works it never read, and the second number is the honest ceiling that the validation zero could not be.* If it
+**reaches 50**, then part 7's "does it recite" was answered on a control that was guaranteed too clean, the
+verdict is **retracted in part 8's own text**, and the blog says: *part 7's answer was wrong, and here is the
+measurement that overturns it.* No softening either way.
+
+**PLAN step 9.** Its success criterion is "the model beats the n-grams and the compressors". If GP-Thee-11M's
+test bits per character is below every baseline on this text, step 9 closes as met, with the margin stated. If it
+is not below every baseline, **step 9 closes as NOT met**, the failing baselines are named, and the blog leads
+with that rather than with the headline.
+
+**The released run's rank among the three on test.** If `sweep-char-seed-1` is best of the three on test as it was
+on validation, that is one draw agreeing with another and is worth no more than that; the blog says so and quotes
+the spread. If it is **not** best, the blog says plainly that the rule picked a run that a set which chose nothing
+ranks second or third, that this is exactly what a 0.0083 spread against a 0.0130 threshold predicts, and that the
+release is the rule's output and not the best model.
+
+**Part 6 on a history, a romance and a poem.** If the character arm still beats every BPE arm on test, entry 16's
+verdict has survived a text it was not decided on, and that is a replication worth one sentence. If some BPE arm
+beats it, entry 16 **still stands**, because it was decided by a pre-registered rule on validation and a
+one-shot set does not get to overturn it -- and the blog prints the test table anyway, says the verdict did not
+replicate, and leaves the reader to weigh it.
+
+### What part 8 owes after the measurement
+
+The two headlines in one table; the model card and the Hugging Face upload of `sweep-char-seed-1/best.pt` as
+safetensors with a JSON config, never a `.pt`; and the sentence that after this entry the test works are spent,
+because they have now taken part in something.

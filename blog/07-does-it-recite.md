@@ -20,7 +20,9 @@ I measured it. **Not one fifty-character passage of the two validation plays occ
 
 A beautiful result: the innocent rate at fifty characters is zero, so any fifty-character match from the model is real copying. I had the paragraph written.
 
-It is circular, and worthless. Part 2's own splitting script **chose** the held-out works by exactly this test: for each candidate work, look for any fifty-character run that also appears in another work, and reject it if there is one. The validation plays score zero because scoring zero was the condition of their being the validation plays. A reader could not possibly have known that. I did know it, and did not think of it, until a reviewer did.
+It is circular, and worthless. Part 2's own splitting script **requires** this of the held-out works: it looks for any fifty-character run a held-out work shares with any other work, and refuses to write the split unless the only ones it finds are ones already examined and accepted by name. The five held-out works passed on the first try and the lists were never revised — but had they not passed, they would have been. The validation plays score zero because scoring zero was a condition of their being the validation plays, not a discovery about them. A reader could not possibly have known that. I did know it, and did not think of it, until a reviewer did.
+
+(One overlap *was* found and accepted, and it is not in a validation play: sixty-three characters shared between *King John* and *The Winter's Tale*, an editor's scene heading. Hold that thought until part 8.)
 
 The honest baseline uses works that were selected for nothing: **each of the thirty-nine training works against the other thirty-eight.**
 
