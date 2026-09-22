@@ -348,6 +348,28 @@
     ],
     "note": "lowercased comparison against the whole of the 39 training works"
   },
+  "phrases_it_invented": [
+    {
+      "phrase": "a cold rotten for some monarch",
+      "in_the_training_works": false,
+      "in_a_sample_above": true
+    },
+    {
+      "phrase": "naked battle gates",
+      "in_the_training_works": false,
+      "in_a_sample_above": true
+    },
+    {
+      "phrase": "Caesar, Caesar, Agrippa",
+      "in_the_training_works": false,
+      "in_a_sample_above": true
+    },
+    {
+      "phrase": "I will infringe",
+      "in_the_training_works": false,
+      "in_a_sample_above": true
+    }
+  ],
   "the_normaliser": [
     {
       "typed": "naïve",

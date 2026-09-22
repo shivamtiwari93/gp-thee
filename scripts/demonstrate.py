@@ -50,6 +50,8 @@ PROBE_CONTEXTS = [
 # The line the model ought to know best, and its real run-up, to test the verbatim objection at its strongest.
 FAMOUS = "and at last by Marcus\nBrutus._]\n\nCAESAR.\n"
 NORMALISER = ["naïve", "I'll not be \"quoted\"", "Señor", "a\ttab", "plain english"]
+# Phrases the write-up calls the model's own. Each must be absent from the 39 works AND present in a sample above.
+PHRASES = ["a cold rotten for some monarch", "naked battle gates", "Caesar, Caesar, Agrippa", "I will infringe"]
 
 
 def longest_copy(corpus: Corpus, text: str) -> dict:
@@ -146,6 +148,16 @@ def main() -> None:
     out["words_it_invented"] = {"checked": len(words), "absent_from_the_corpus": invented,
                                 "note": "lowercased comparison against the whole of the 39 training works"}
     print(f"  {len(invented)} of {len(words)} long words appear nowhere in Shakespeare: {invented[:12]}")
+
+    # The blog also claims whole PHRASES are the model's own. Single-word lookup does not cover that, so each
+    # phrase the write-up names is checked here, against the same 39 works, and every one must come from a
+    # sample printed above — nothing in the post may be typed by hand.
+    out["phrases_it_invented"] = []
+    for phrase in PHRASES:
+        out["phrases_it_invented"].append({"phrase": phrase, "in_the_training_works": corpus.holds(phrase),
+                                           "in_a_sample_above": phrase in everything})
+        mark = "in the corpus" if corpus.holds(phrase) else "absent"
+        print(f"  {phrase!r:34} {mark}, from a printed sample: {phrase in everything}")
 
     # ------------------------------------------------------------------ 7. the normaliser
     print("\nthe prompt normaliser")

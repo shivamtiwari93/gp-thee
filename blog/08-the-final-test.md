@@ -95,7 +95,9 @@ A number that small deserves to be shown rather than asserted. Everything below 
 [scripts/demonstrate.py](../scripts/demonstrate.py) and recorded in
 [docs/demonstrations.json](../docs/demonstrations.json), so every sample on this page is real output from the
 released checkpoint, with its prompt, its temperature and its seed. Nothing here is typed by hand or picked from
-a dozen tries.
+a dozen tries. Where a sample runs longer than the page can carry, the block ends with a `…` line; the complete
+text of every one, with its prompt, seed and temperature, is in
+[docs/demonstrations.txt](../docs/demonstrations.txt).
 
 ### It is, literally, a guess about the next character
 
@@ -150,9 +152,12 @@ Will you go?
 HORA
 ```
 
-It gave Hamlet a speech, invented an interlocutor, gave *him* a speech, alternated the turns, kept the blank
-lines and the full stops after the names, and was halfway through introducing `HORATIO` when it ran out of the
-characters I allowed it. It has learned the *form* of a play almost perfectly. It has learned to say nothing.
+It gave Hamlet a speech, brought in Osric, gave *him* a speech, alternated the turns, kept the blank lines and
+the full stops after the names, and was halfway through introducing `HORATIO` when it ran out of the characters
+I allowed it. Neither name is made up: Osric and Horatio are the two courtiers who share Act V with Hamlet, and
+the training text alternates their labels for long stretches in exactly this pattern. The model rebuilt the shape
+of that scene without copying a word of it. It has learned the *form* of a play almost perfectly. It has learned
+to say nothing.
 
 Hand it a scene heading and it builds the furniture too:
 
@@ -178,6 +183,7 @@ Hail! How now, my noble lord! Where’s Caesar call’d?
 
 CAESAR.
 Hail, hail! Lord Antony of Caesar!
+…
 ```
 
 Everything structural is right: the scene ends with `[_Exeunt._]`, a new scene opens with a heading, an entrance
@@ -185,6 +191,29 @@ direction follows, then a speaker. Everything *meaningful* is wrong. It numbered
 It entered "Caesar, Caesar, Agrippa and a Capitol" — the same man twice and a building as a person. Then Caesar
 asks where Caesar is, and answers himself. This is the most honest picture of the model in the whole post: a
 perfect imitation of the shape of a page, with no one home.
+
+Give it an entrance and it invents the exits too:
+
+```
+$ ... --prompt $'\n\n[_Enter a Messenger._]\n\nMESSENGER.\n' --seed 3
+
+[_Enter a Messenger._]
+
+MESSENGER.
+And yet so please you.
+In the way I dismalled myself, to fight
+Against contempt, and may be buried.
+
+[_Exit, gives him a letter._]
+
+ROSS.
+Believe me, and let me have night.
+[_To Theseus._] You must have them much chase in your rule and see.
+```
+
+`[_Exit, gives him a letter._]` is not a direction any edition prints. Then `ROSS`, whom nobody entered, answers a
+messenger who has just left, and aims an aside at Theseus, who is in a different play. Note `dismalled`; we come
+back to it.
 
 And because it is an autocomplete, anything you type gets continued rather than obeyed:
 
@@ -194,6 +223,7 @@ $ ... --prompt "Write me a poem about a cat."
 Write me a poem about a cat. I will use it a cure, and let
 the most excellent lady to hear a curer of my mirth, for well I see it,
 so it is a woman that could be a thing so good a more a woman.
+…
 ```
 
 It does not write a poem about a cat. It treats your sentence as the opening line of a scene and carries on. Same
@@ -225,6 +255,7 @@ And I, for well I see thou art a cold rotten for some monarch.
 Here in the altar trials he lies,
 And in the way of the commonwealth lies;
 Anon he will subscribe thee for his part;
+…
 ```
 
 Line breaks in roughly the right places, a vaguely iambic pulse, sonnet-ish diction, and not one line that means
@@ -247,6 +278,7 @@ I will not see thee another man in the world.
 
 JULIET.
 I will not see thee another man in the world.
+…
 ```
 
 **Temperature 0.5** — coherent, cautious, and slightly obsessed with one word:
@@ -263,6 +295,7 @@ Ay, but the truth is the matter of the matter in the laws.
 
 SILVIUS.
 Why, then the laws is most strangely bound.
+…
 ```
 
 **Temperature 0.8** (the published default) — livelier, and the cast starts sliding:
@@ -277,6 +310,7 @@ belly.
 
 JULIA.
 I think he hath not so much past so flat as thou wouldst weep.
+…
 ```
 
 Note `JULIET` → `SILVIA` → `JULIA`. It is not tracking who is on stage; it is producing plausible-looking names.
@@ -374,18 +408,21 @@ This is the right question to ask, and the honest reason to ask it is that the o
 Shakespeare. Fluent Elizabethan diction with correct play formatting pattern-matches, in a reader's head, to
 "real Shakespeare" — so the obvious suspicion is that the model is a very elaborate lookup table.
 
-It is not, and this is measurable rather than arguable. For every sample above I asked: **what is the longest
+It is not, and this is measurable rather than arguable. For every sample in this post I asked: **what is the longest
 stretch of it that occurs anywhere in the 4.8 million characters it trained on?**
 
 | sample | length | longest verbatim run | and that run is… |
 |---|---|---|---|
 | the HAMLET scene | 300 chars | **22** | `the likeness of your` |
-| the Caesar scene | 330 chars | **34** | `[_Exeunt._]\n\nSCENE VI. Rome. A` |
+| the Caesar scene | 330 chars | **34** | `.\n\n[_Exeunt._]\n\nSCENE VI. Rome. A` |
 | `To be, or not to be…` | 240 chars | **19** | `.\nGod be with you,` |
 | sonnet 155 | 260 chars | **20** | `of the commonwealth` |
 | the modern sentence | 200 chars | **19** | `He shall be thrown` |
 | the cat poem | 200 chars | **16** | `most excellent` |
 | the stage direction | 240 chars | **18** | `to fight\nAgainst` |
+
+(Runs are shown with `\n` for a line break; a space at either boundary is trimmed here, so some read a character
+or two shorter than the count beside them. The counts are the record's.)
 
 Out of two to three hundred characters at a time, the longest copied run is **sixteen to thirty-four characters**
 — and look at *what* those runs are. Either stage furniture (`[_Exeunt._]`, a scene heading) or four-word phrases
@@ -403,9 +440,9 @@ The stronger evidence runs the other way. I took every word longer than five let
 
 That is not copying, and it is not random either: `jollity → jollities` is a correct English plural applied to a
 word the model only ever saw in the singular. Generalising morphology to a form you have never seen is precisely
-what a language model does and precisely what a lookup table cannot. The same goes for whole phrases — `A
-precious wart`, `naked battle gates`, `Caesar, Caesar, Agrippa`, `I will infringe` all occur zero times in
-Shakespeare.
+what a language model does and precisely what a lookup table cannot. The same goes for whole phrases — `naked
+battle gates`, `Caesar, Caesar, Agrippa`, `I will infringe` and `a cold rotten for some monarch` all occur
+zero times in the works it trained on.
 
 ### The three lines it should know best, and doesn't
 
@@ -417,13 +454,22 @@ $ ... --prompt $'\n\nHAMLET.\nTo be, or not to be, that is the'
 HAMLET.
 To be, or not to be, that is the tender of it. I have heard
 Of love to wear a burden for it at all.
+
+OSRIC.
+And thou art not here, my lord. Farewell.
+
+HAMLET.
+God be with you, for love of your love.
+
+OSRIC.
+Ay, love of your love. I fear you love me, I am not assur’d of yo
 ```
 
-*That is the tender of it.* The word is `question`, it is four words into the prompt, and the model reaches
+*That is the tender of it.* The word is `question`, it is the very next one the model had to write, and it reaches
 instead for a phrase that means nothing. Now the same trick on Henry V — recall the probability table at the top
 of this section, where `Once more unto the b` put `r` fourth at 14.6%. And finally, the test the objection
 deserves most. If the model were reciting, the famous lines would be the easiest
-thing in the world for it. So I took the exact 40-character run-up to the single most famous line in *Julius
+thing in the world for it. So I took the exact run-up to the single most famous line in *Julius
 Caesar* and made it write greedily — temperature 0, its single likeliest continuation, no dice:
 
 ```
@@ -433,13 +479,25 @@ what the model wrote: "I am sorry for you."   (and then again, and again)
 ```
 
 It had the cue, it had the speaker, it had read the play, and it produced a polite condolence on a loop. Put that
-beside `the tender of it` and beside `r` for `breach` in fourth place, and the picture is consistent: **the
-three most quotable lines in the corpus are not in this model in any retrievable form.**
+beside `the tender of it` and beside `r` for `breach` in fourth place, and the picture is consistent: **not one
+of the three comes back from the probe that should retrieve it most easily.**
 
-Which is, if you think about it, the same fact as 1.80 bits per character. A lookup table would score
-spectacularly on text it had memorised and catastrophically — near the 6.6-bit blind guess — on the three works
-it had never seen. GP-Thee scores 1.80 on works it never saw. You can only get that number by learning how
-Elizabethan English *works*.
+Read that for exactly what it is. Three prompts, decoded once each, cannot prove a line is absent — and the table
+at the top of this section says so itself, because `r` at 14.6% means that sampled rather than taken greedily,
+`breach` does come up, roughly one draw in seven. The systematic version of the question is part 7's scan, which
+walks all 4.8 million training positions instead of trying three, and there the longest unbroken stretch of the
+poet's verse the model reproduces anywhere is twenty-five characters. What GP-Thee holds is not the line; it is
+the language the line is made of.
+
+Which is, if you think about it, the same fact as 1.80 bits per character. Take the objection at its strongest.
+Not a table of whole plays — that one is already dead, because the model shares not a single run of forty
+characters with these three works, so a replayer would have nothing to reach for. The strong version is a table of
+*fragments* with a fallback, and the table at the top of this post already contains one: the 6-gram is nothing
+but counts of every five-character context in the training works, plus a rule for what to do when a context is
+new. Fitted on the same 39 works and turned loose on the same three, it scores 2.32 — and no order does better;
+5 through 8 land between 2.32 and 2.53. That is the ceiling on lookup, the best table anyone can build out of this
+training text. GP-Thee scores 1.80 against it. Those 0.52 bits are what you only get by learning how Elizabethan
+English *works*.
 
 ## What it cannot do
 

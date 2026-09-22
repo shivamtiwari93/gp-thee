@@ -1371,7 +1371,7 @@ any language). Generalising morphology to an unseen form is what a lookup table 
 
 **It does not know the famous lines.** *Measured*, three ways: `Once more unto the b` puts `r` for **breach**
 FOURTH at 14.6%, behind `o`/`a`/`e`; `To be, or not to be, that is the` continues *"the tender of it"*, not
-`question`; and given the exact 40-character run-up to `_Et tu, Brute?_` at temperature 0 it writes *"I am sorry
+`question`; and given the exact run-up to `_Et tu, Brute?_` at temperature 0 it writes *"I am sorry
 for you."* on a loop. `it_reproduced_the_line: false`.
 
 Also recorded: seven named limitations, each with its example (no instructions, no questions, no memory of who is
@@ -1391,3 +1391,29 @@ on stage, 256 characters of context, nothing outside Shakespeare, 97 characters 
    by a verifier that checks every quoted sample and every quoted percentage against the committed record, which
    is now the standing check for this post: **17 of 18 quoted samples matched, and the 18th was a sample I had
    measured and forgotten to use** (the `tender of it` failure, now the third famous line in the post).
+
+### The demonstration sections, reviewed (same day)
+
+Three lenses — a skeptic told to be the reader who asked the question, a newcomer, and a fact-checker — with every
+finding then put to an independent verifier. 30 findings, **14 upheld**, all applied. The ones that mattered:
+
+- **One phrase in the post was typed by hand.** `A precious wart` was quoted as an example of an invented phrase.
+  It is real output, but from an interactive session, not from `docs/demonstrations.json` — so the one claim a
+  reader could not check was sitting in the middle of a section promising that nothing was typed by hand.
+  Replaced with `a cold rotten for some monarch`, which is printed in the sonnet sample on the same page and
+  *measured* absent from the 39 training works. The three other phrases in that list were verified the same way.
+- **The verbatim table dropped its edge whitespace**, so the cells no longer counted to the figures beside them
+  (the Caesar row lost a leading `.\n\n`). Restored, with a note that the counts are the record's.
+- **`question` is the very next word the model had to write**, not "four words into the prompt".
+- **Osric and Horatio are real characters**, not inventions of the model; the draft implied otherwise. What the
+  model rebuilt is the *shape* of their scene.
+- **The lookup-table argument was too easy.** "A lookup table would score near the blind guess" beats only the
+  weakest version of the objection. Replaced with the strong version: the 6-gram *is* a fragment table with a
+  fallback, fitted on the same 39 works, and it scores 2.32 on the same three. That is the ceiling on lookup;
+  GP-Thee is 0.52 bits below it.
+- **"The three most quotable lines are not in this model in any retrievable form" was too strong** — three greedy
+  probes cannot prove absence, and the post's own table shows `breach` at 14.6%, which would surface roughly one
+  sampled draw in seven. Narrowed to what the probes show, with part 7's exhaustive scan named as the systematic
+  version.
+- Truncated samples now end in `…` and point at `docs/demonstrations.txt`; the stage-direction sample is printed
+  in full, because `dismalled` was cited with no source on the page.
