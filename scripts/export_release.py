@@ -82,10 +82,11 @@ def main() -> None:
     print(f"wrote {OUT.relative_to(ROOT)}/")
     for path in sorted(OUT.iterdir()):
         print(f"  {path.name:20} {path.stat().st_size:>10,} bytes")
-    print("\nNothing was uploaded. To publish (you must be logged in to Hugging Face):")
-    print("  uv run huggingface-cli login          # once, with your own token")
-    print(f"  uv run huggingface-cli upload <your-username>/gp-thee-11m {OUT.relative_to(ROOT)} .")
-    print("\nOr create the model at https://huggingface.co/new and drag the folder in.")
+    print("\nNothing was uploaded. To publish it yourself (the `hf` CLI, logged in as you):")
+    print("  uv run hf auth login                  # once; opens your browser, or takes a token")
+    print(f"  uv run hf upload <your-username>/gp-thee-11m {OUT.relative_to(ROOT)} . --commit-message 'GP-Thee-11M'")
+    print("\n(`huggingface-cli` is deprecated and no longer works; the command is `hf`.)")
+    print("Or create the model at https://huggingface.co/new and drag the folder in.")
 
 
 def _write_loader(path: Path) -> None:
